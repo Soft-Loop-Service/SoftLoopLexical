@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Lexical.hpp"
+#include "LexicalAnalysis.hpp"
 
 using namespace std;
 
@@ -25,6 +25,5 @@ int main()
     loadText(source_code, "sample.txt", size);
 
     std::vector<unsigned char *> *token;
-
     lexSyntax(source_code, token);
 }
