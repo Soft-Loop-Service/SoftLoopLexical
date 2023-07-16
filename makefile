@@ -1,0 +1,1 @@
+g++ -o lexical.exe lexical.cpp

@@ -1,29 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
 
-#include "LexicalAnalysis.hpp"
 
-using namespace std;
+#include "lexical_analysis.hpp"
+#include "definition.hpp"
 
 // プログラム・ファイルを読み込むための関数
-void loadText(unsigned char *text, const char *file_name, int size)
+void loadText(char *text, const char *file_name, int size)
 {
     FILE *fp = fopen(file_name, "rb");
     int read_size = fread(text, 1, size - 1, fp);
+    printf("read_size %d",read_size);
+
     fclose(fp);
     text[read_size] = 0; // 終端マーク
 }
 
 int main()
 {
+    printf("start program");
+
+    
 
     int size = 1000000;
-    unsigned char *source_code;
+    char *source_code;
     loadText(source_code, "sample.txt", size);
 
-    std::vector<unsigned char *> *token;
-    lexSyntax(source_code, token);
+
+
+    vchar *token;
+    vchar *variable;
+
+    lexSyntax(source_code,token,variable);
 }
