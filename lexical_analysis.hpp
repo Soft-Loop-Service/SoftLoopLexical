@@ -25,6 +25,8 @@ int isAlphabetOrNumber(char ch)
 
 int getToken(char *source_code_current, vchar *token, vchar *variable, int token_search_len)
 {
+    printf("getToken : %d\n",token_search_len);
+
     // for (int i = 0; i < token->size(); i++)
     // {
     //     int result = strncmp((char const *)source_code_current, (char const *)&token[i], token_search_len) == 0;
