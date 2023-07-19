@@ -1,7 +1,9 @@
+
 #ifndef __LexicalAnalysis
 #define __LexicalAnalysis
 
 #include "definition.hpp"
+#include "debug.hpp"
 
 void lexSyntax(uchar source_code, vuchar token)
 {
@@ -23,35 +25,42 @@ int isAlphabetOrNumber(char ch)
     return 0;
 }
 
-int getToken(char *source_code_current, vchar *token, vchar *variable, int token_search_len)
+int getToken(char *source_code_current, char **token_string, int *token_progression, int token_search_len)
 {
-    printf("getToken : %d\n", token_search_len);
 
-    // for (int i = 0; i < token->size(); i++)
-    // {
-    //     int result = strncmp((char const *)source_code_current, (char const *)&token[i], token_search_len) == 0;
-    //     // 存在するか否か
+    for (int i = 0; i < token_string_endline; i++)
+    {
+        printf("token_search_len : %s %d\n", token_string[i], token_search_len);
+        int result = strncmp(source_code_current, token_string[i], token_search_len) == 0;
+        // 存在するか否か
 
-    //     if (result)
-    //     {
-    //         variable->push_back(i);
-    //         return i;
-    //     }
-    // }
+        if (result)
+        {
+            token_progression[token_progression_endline] = i;
+            token_progression_endline++;
+            return i;
+        }
+    }
 
-    // printf("%s", source_code_current);-
+    // printf("%s", source_code_current);
 
     // ここから登録
-    char *new_token;
-    // strncpy(new_token, source_code_current, token_search_len);
-    // token->push_back(*new_token); // tokenを新規登録する
-    // variable->push_back(token->size() - 1);
-    return token->size() - 1;
+    char *new_token = new char[100];
+    strncpy(new_token, source_code_current, token_search_len);
+    token_string[token_string_endline] = new_token;
+
+    token_progression[token_progression_endline] = token_string_endline;
+    token_string_endline++;
+    token_progression_endline++;
+    return token_string_endline;
 }
 
-void lexSyntax(char *source_code, vchar *token, vchar *variable)
+void lexSyntax(char *source_code, char **token_string, int *token_progression)
 {
     // source_codeとtokenのポインタを得る
+
+    token_string_endline = 0;
+    token_progression_endline = 0;
 
     int i_s = 0; // 現在地点
     for (;;)
@@ -62,7 +71,7 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
 
         if (source_code[i_s] == 0) // ファイル終端
         {
-            return;
+            break;
         }
 
         if (source_code[i_s] == ' ' || source_code[i_s] == '\t' || source_code[i_s] == '\n' || source_code[i_s] == '\r')
@@ -79,6 +88,7 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
             printf("アルファベット\n");
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
+                printf("アルファベット while : %c\n", source_code[i_s + token_search_len]);
                 token_search_len++;
             }
         }
@@ -94,10 +104,15 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
             exit(1);
         }
 
-        // int current_token_id = getToken(&source_code[i_s], token, variable, token_search_len);
+        printf("sc * * * \n%s\n * * * \n", &source_code[i_s]);
+
+        int current_token_id = getToken(&source_code[i_s], token_string, token_progression, token_search_len);
         // printf("current_token_id : %d", current_token_id);
-        i_s++;
+        i_s += token_search_len;
     }
+
+    output_token_string(token_string);
+    output_token_progression(token_string, token_progression);
 }
 
 #endif

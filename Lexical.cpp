@@ -11,19 +11,21 @@ void loadText(char *text, const char *file_name, int size)
     printf("read_size : %s %d\n", file_name, read_size);
 
     fclose(fp);
-    text[read_size] = 0; // 終端マーク
+    text[read_size] = 0; // 終端マーク 別に配列終端でなくてよい
 }
 
 int main()
 {
     printf("start program\n");
 
-    int size = 1000000;
-    char *source_code = new char[size];
-    loadText(source_code, "sample.txt", size);
+    char *source_code = new char[source_code_size];
+    loadText(source_code, "sample.txt", source_code_size);
 
-    vchar *token;
-    vchar *variable;
+    char **token_string = new char *[token_string_arr_size];
+    int *token_progression = new int[token_progression_arr_size];
 
-    lexSyntax(source_code, token, variable);
+    // vchar token = {};
+    // vchar variable = {};
+
+    lexSyntax(source_code, token_string, token_progression);
 }
