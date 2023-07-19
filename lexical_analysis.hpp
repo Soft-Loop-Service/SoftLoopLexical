@@ -25,7 +25,7 @@ int isAlphabetOrNumber(char ch)
 
 int getToken(char *source_code_current, vchar *token, vchar *variable, int token_search_len)
 {
-    printf("getToken : %d\n",token_search_len);
+    printf("getToken : %d\n", token_search_len);
 
     // for (int i = 0; i < token->size(); i++)
     // {
@@ -39,9 +39,11 @@ int getToken(char *source_code_current, vchar *token, vchar *variable, int token
     //     }
     // }
 
+    // printf("%s", source_code_current);-
+
     // ここから登録
     char *new_token;
-    strncpy(new_token, source_code_current, token_search_len);
+    // strncpy(new_token, source_code_current, token_search_len);
     // token->push_back(*new_token); // tokenを新規登録する
     // variable->push_back(token->size() - 1);
     return token->size() - 1;
@@ -51,12 +53,10 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
 {
     // source_codeとtokenのポインタを得る
 
-    
-
     int i_s = 0; // 現在地点
     for (;;)
     { // 終了コードまで
-        printf("current_text : %d , %c\n",i_s, source_code[i_s]);
+        printf("current_text : %d , %c\n", i_s, source_code[i_s]);
         // return;
         int token_search_len = 0;
 
@@ -67,26 +67,26 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
 
         if (source_code[i_s] == ' ' || source_code[i_s] == '\t' || source_code[i_s] == '\n' || source_code[i_s] == '\r')
         { // スペース、タブ、改行.
-            i_s ++;
+            i_s++;
             continue;
         }
-        if (strchr("(){}[];,", source_code[i_s]) != 0) {	// 1文字記号.
+        if (strchr("(){}[];,", source_code[i_s]) != 0)
+        { // 1文字記号.
             token_search_len = 1;
-        } 
+        }
         else if (isAlphabetOrNumber(source_code[i_s]))
         {
+            printf("アルファベット\n");
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
                 token_search_len++;
             }
-
-            printf("アルファベット\n");
         }
         else if (strchr("=+-*/!%&~|<>?:.#", source_code[i_s]) != 0)
         { // 現在文字が普通の記号.
+            printf("記号\n");
             while (strchr("=+-*/!%&~|<>?:.#", source_code[i_s + token_search_len]) != 0 && source_code[i_s + token_search_len] != 0)
                 token_search_len++;
-            printf("記号\n");
         }
         else
         {
@@ -94,10 +94,8 @@ void lexSyntax(char *source_code, vchar *token, vchar *variable)
             exit(1);
         }
 
-        
-
-        int current_token_id = getToken(&source_code[i_s], token, variable, token_search_len);
-        printf("current_token_id : %d", current_token_id);
+        // int current_token_id = getToken(&source_code[i_s], token, variable, token_search_len);
+        // printf("current_token_id : %d", current_token_id);
         i_s++;
     }
 }
