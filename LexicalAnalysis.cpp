@@ -24,7 +24,9 @@ int main()
     unsigned char *source_code;
     loadText(source_code, "sample.txt", size);
 
-    std::vector<unsigned char *> *token;
+    std::vector<unsigned char *> *tokens;
 
-    lexSyntax(source_code, token);
+    lexSyntax(source_code, tokens);
+
+    std::cout << tokens << std::endl;
 }
