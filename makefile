@@ -1,1 +1,3 @@
-g++ -o lexical.exe lexical.cpp
+build:
+	g++ ./src/main.cpp
+

@@ -1,3 +1,4 @@
+// 字句解析定義ファイル
 
 #ifndef __LexicalAnalysis
 #define __LexicalAnalysis
@@ -5,9 +6,6 @@
 #include "definition.hpp"
 #include "debug.hpp"
 
-void lexSyntax(uchar source_code, vuchar token)
-{
-}
 int isAlphabetOrNumber(char ch)
 {
     if ('A' <= ch && ch <= 'Z')
@@ -31,7 +29,7 @@ int getToken(char *source_code_current, char **token_string, int *token_progress
     for (int i = 0; i < token_string_endline; i++)
     {
         printf("token_search_len : %s %d\n", token_string[i], token_search_len);
-        int result = strncmp(source_code_current, token_string[i], token_search_len) == 0;
+        bool result = strncmp(source_code_current, token_string[i], token_search_len) == 0;
         // 存在するか否か
 
         if (result)
@@ -55,6 +53,7 @@ int getToken(char *source_code_current, char **token_string, int *token_progress
     return token_string_endline;
 }
 
+// スキャナ
 void lexSyntax(char *source_code, char **token_string, int *token_progression)
 {
     // source_codeとtokenのポインタを得る
