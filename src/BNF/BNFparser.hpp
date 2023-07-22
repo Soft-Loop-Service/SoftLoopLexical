@@ -36,11 +36,18 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
 
         bool isVerticalLine = strncmp(cts, "|", 3) == 0;
 
-        bool hasEscapeSingle = strncmp(cts, "\'", 1) == 0 && strncmp(token_string[i + 2], "\'", 1) == 0;
-        bool hasEscapeDouble = strncmp(cts, "\"", 1) == 0 && strncmp(token_string[i + 2], "\"", 1) == 0;
+        bool hasEscapeSingle = false;
+        bool hasEscapeDouble = false;
+        if (i + 2 < token_len)
+        {
+            hasEscapeSingle = strncmp(cts, "\'", 1) == 0 && strncmp(token_string[i + 2], "\'", 1) == 0;
+            hasEscapeDouble = strncmp(cts, "\"", 1) == 0 && strncmp(token_string[i + 2], "\"", 1) == 0;
+        }
 
-        // bool isParenthesis = strchr("()", *cts) != 0;
-        // bool isBrackets = strchr("[]", *cts) != 0;
+        bool isParenthesisLeft = strchr("(", *cts) != 0;
+        bool isParenthesisRight = strchr(")", *cts) != 0;
+        bool isBracketsLeft = strchr("[", *cts) != 0;
+        bool isBracketsRight = strchr("]", *cts) != 0;
 
         int work = 1;
 
@@ -72,19 +79,19 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
             token_label[i + 2] = is_id_DoubleQuotation;
             work = 3;
         }
-        else if (strchr("(", *cts) != 0)
+        else if (isParenthesisLeft)
         {
             token_label[i] = is_id_ParenthesisLeft;
         }
-        else if (strchr(")", *cts) != 0)
+        else if (isParenthesisRight)
         {
             token_label[i] = is_id_ParenthesisRight;
         }
-        else if (strchr("[", *cts) != 0)
+        else if (isBracketsLeft)
         {
             token_label[i] = is_id_BracketLeft;
         }
-        else if (strchr("]", *cts) != 0)
+        else if (isBracketsRight)
         {
             token_label[i] = is_id_BracketRight;
         }
@@ -135,6 +142,7 @@ int parseBnf(char *source_code, char **token_string)
             {
                 if (source_code[i_s + token_search_len] == 0) // ファイル終端
                 {
+                    printf("アルファベット探知終了");
                     break;
                 }
 
@@ -157,19 +165,6 @@ int parseBnf(char *source_code, char **token_string)
         loop++;
         /* code */
     }
-    char **resize_token_string = (char **)realloc(*token_string, loop + 10);
-    if (resize_token_string == NULL)
-    {                       /* 失敗時 */
-        free(token_string); // 必要に応じて元オブジェクトを解放
-        return 0;
-    }
-    else
-    {
-        printf("成功 %d %s\n ", loop, &*resize_token_string);
-        token_string = resize_token_string;
-    }
-
-    // 今後の探索の際がやりやすいようにメモリ領域を10程度伸ばしておく
 
     return loop;
 }

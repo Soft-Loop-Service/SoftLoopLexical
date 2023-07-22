@@ -10,7 +10,10 @@ int main()
 
     char **token_string = (char **)calloc(1000, 1);
     int token_len = parseBnf(bnf_source, token_string);
+    printf("token_len\n %d", token_len);
     free(bnf_source);
+
+    // 今後の探索の際がやりやすいようにメモリ領域を10程度伸ばしておく
 
     output_token_string(token_string, token_len);
 
