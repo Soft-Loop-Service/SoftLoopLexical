@@ -3,25 +3,8 @@
 #ifndef __LexicalAnalysis
 #define __LexicalAnalysis
 
-#include "definition.hpp"
-#include "debug.hpp"
-
-int isAlphabetOrNumber(char ch)
-{
-    if ('A' <= ch && ch <= 'Z')
-    {
-        return 1;
-    }
-    if ('a' <= ch && ch <= 'z')
-    {
-        return 1;
-    }
-    if ('0' <= ch && ch <= '9')
-    {
-        return 1;
-    }
-    return 0;
-}
+#include "./../definition.hpp"
+#include "./../debug.hpp"
 
 int getToken(char *source_code_current, char **token_string, int *token_progression, int token_search_len)
 {
@@ -110,8 +93,8 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
         i_s += token_search_len;
     }
 
-    output_token_string(token_string);
-    output_token_progression(token_string, token_progression);
+    output_token_string(token_string, token_progression_arr_size);
+    output_token_progression(token_string, token_progression, token_progression_endline);
 }
 
 #endif

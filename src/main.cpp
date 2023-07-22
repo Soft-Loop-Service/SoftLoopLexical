@@ -1,4 +1,4 @@
-#include "lexical_analysis.hpp"
+#include "./lexical/lexical_analysis.hpp"
 #include "definition.hpp"
 
 int main()
