@@ -33,6 +33,11 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         //<>の記号を持っていたら、非終端記号と認識できる。
 
         bool isDefinitionSymbol = strncmp(cts, "::=", 3) == 0;
+        bool isDefinitionSymbolNext = false;
+        if (i + 1 < token_len)
+        {
+            isDefinitionSymbolNext = strncmp(token_string[i + 1], "::=", 3) == 0;
+        }
 
         bool isVerticalLine = strncmp(cts, "|", 3) == 0;
 
@@ -53,7 +58,15 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
 
         if (isNonterminalSymbol)
         {
-            token_label[i] = is_id_NonterminalSymbol;
+
+            if (isDefinitionSymbolNext)
+            {
+                token_label[i] = is_id_NonterminalSymbolLeft;
+            }
+            else
+            {
+                token_label[i] = is_id_NonterminalSymbolRight;
+            }
         }
         else if (isDefinitionSymbol)
         {
@@ -66,17 +79,17 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         else if (hasEscapeSingle)
         {
 
-            token_label[i] = is_id_SingleQuotation;
+            token_label[i] = is_id_SingleQuotationLeft;
             token_label[i + 1] = is_id_Token;
-            token_label[i + 2] = is_id_SingleQuotation;
+            token_label[i + 2] = is_id_SingleQuotationRight;
             work = 3;
         }
         else if (hasEscapeDouble)
         {
 
-            token_label[i] = is_id_DoubleQuotation;
+            token_label[i] = is_id_DoubleQuotationLeft;
             token_label[i + 1] = is_id_Token;
-            token_label[i + 2] = is_id_DoubleQuotation;
+            token_label[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
         }
         else if (isParenthesisLeft)
