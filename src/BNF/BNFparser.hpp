@@ -3,6 +3,7 @@
 #define __BNFPARSER
 
 #include "./../definition.hpp"
+#include "./BNFdefinition.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,11 +11,97 @@
 #include <iostream>
 #include <vector>
 
+// 記号の読み方
+// https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
+
+int labelingBnf(char **token_string, int *token_label, int token_len)
+{
+    int i = 0;
+    while (i < token_len)
+    {
+
+        char *cts = token_string[i];
+
+        printf("llb while %d %s\n", i, &*cts);
+
+        // current_token_string
+
+        bool hasLess = strchr(cts, '<') != 0;
+        bool hasGreater = strchr(cts, '>') != 0;
+
+        bool isNonterminalSymbol = hasLess && hasGreater;
+        //<>の記号を持っていたら、非終端記号と認識できる。
+
+        bool isDefinitionSymbol = strncmp(cts, "::=", 3) == 0;
+
+        bool isVerticalLine = strncmp(cts, "|", 3) == 0;
+
+        bool hasEscapeSingle = strncmp(cts, "\'", 1) == 0 && strncmp(token_string[i + 2], "\'", 1) == 0;
+        bool hasEscapeDouble = strncmp(cts, "\"", 1) == 0 && strncmp(token_string[i + 2], "\"", 1) == 0;
+
+        // bool isParenthesis = strchr("()", *cts) != 0;
+        // bool isBrackets = strchr("[]", *cts) != 0;
+
+        int work = 1;
+
+        if (isNonterminalSymbol)
+        {
+            token_label[i] = is_id_NonterminalSymbol;
+        }
+        else if (isDefinitionSymbol)
+        {
+            token_label[i] = is_id_DefinitionSymbol;
+        }
+        else if (isVerticalLine)
+        {
+            token_label[i] = is_id_VerticalLine;
+        }
+        else if (hasEscapeSingle)
+        {
+
+            token_label[i] = is_id_SingleQuotation;
+            token_label[i + 1] = is_id_Token;
+            token_label[i + 2] = is_id_SingleQuotation;
+            work = 3;
+        }
+        else if (hasEscapeDouble)
+        {
+
+            token_label[i] = is_id_DoubleQuotation;
+            token_label[i + 1] = is_id_Token;
+            token_label[i + 2] = is_id_DoubleQuotation;
+            work = 3;
+        }
+        else if (strchr("(", *cts) != 0)
+        {
+            token_label[i] = is_id_ParenthesisLeft;
+        }
+        else if (strchr(")", *cts) != 0)
+        {
+            token_label[i] = is_id_ParenthesisRight;
+        }
+        else if (strchr("[", *cts) != 0)
+        {
+            token_label[i] = is_id_BracketLeft;
+        }
+        else if (strchr("]", *cts) != 0)
+        {
+            token_label[i] = is_id_BracketRight;
+        }
+        else
+        {
+            token_label[i] = is_id_Token;
+        }
+        i += work;
+    }
+}
+
 int parseBnf(char *source_code, char **token_string)
 {
     int i_s = 0;
     int state = 0;
     int loop = 0;
+    int tc = 100; // 一つのtokenの長さ
     for (;;)
     {
         int token_search_len = 0;
@@ -30,9 +117,9 @@ int parseBnf(char *source_code, char **token_string)
             continue;
         }
 
-        char *bnf_symbol = "_=+-*/!%&~|<>?:.#^()";
+        char *bnf_symbol = "_=+-*/!%&~<>?:.#^";
 
-        if (strchr("|+*[]", source_code[i_s]) != 0)
+        if (strchr("|+*[]()\'\"", source_code[i_s]) != 0)
         { // or記号
             token_search_len = 1;
         }
@@ -62,7 +149,7 @@ int parseBnf(char *source_code, char **token_string)
             exit(1);
         }
 
-        char *new_token = (char *)calloc(100, 1);
+        char *new_token = (char *)calloc(tc, 1);
         strncpy(new_token, &source_code[i_s], token_search_len);
         token_string[loop] = new_token;
 
@@ -70,6 +157,19 @@ int parseBnf(char *source_code, char **token_string)
         loop++;
         /* code */
     }
+    char **resize_token_string = (char **)realloc(*token_string, loop + 10);
+    if (resize_token_string == NULL)
+    {                       /* 失敗時 */
+        free(token_string); // 必要に応じて元オブジェクトを解放
+        return 0;
+    }
+    else
+    {
+        printf("成功 %d %s\n ", loop, &*resize_token_string);
+        token_string = resize_token_string;
+    }
+
+    // 今後の探索の際がやりやすいようにメモリ領域を10程度伸ばしておく
 
     return loop;
 }
