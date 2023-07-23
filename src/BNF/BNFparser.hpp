@@ -14,6 +14,10 @@
 // 記号の読み方
 // https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
 
+int generateSymbolTable()
+{
+}
+
 int labelingBnf(char **token_string, int *token_label, int token_len)
 {
     int i = 0;
@@ -37,6 +41,7 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         if (i + 1 < token_len)
         {
             isDefinitionSymbolNext = strncmp(token_string[i + 1], "::=", 3) == 0;
+            // その次のトークンが定義記号か調べることによって、左辺なのか右辺なのかを確認する
         }
 
         bool isVerticalLine = strncmp(cts, "|", 3) == 0;
@@ -53,6 +58,11 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         bool isParenthesisRight = strchr(")", *cts) != 0;
         bool isBracketsLeft = strchr("[", *cts) != 0;
         bool isBracketsRight = strchr("]", *cts) != 0;
+
+        bool isAddition = strchr("+", *cts) != 0;
+        bool isSubtraction = strchr("-", *cts) != 0;
+        bool isMultiplication = strchr("*", *cts) != 0;
+        bool isDivision = strchr("/", *cts) != 0;
 
         int work = 1;
 
@@ -78,7 +88,6 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         }
         else if (hasEscapeSingle)
         {
-
             token_label[i] = is_id_SingleQuotationLeft;
             token_label[i + 1] = is_id_Token;
             token_label[i + 2] = is_id_SingleQuotationRight;
@@ -91,6 +100,23 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
             token_label[i + 1] = is_id_Token;
             token_label[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
+        }
+
+        else if (isAddition)
+        {
+            token_label[i] = is_id_Addition;
+        }
+        else if (isSubtraction)
+        {
+            token_label[i] = is_id_Subtraction;
+        }
+        else if (isMultiplication)
+        {
+            token_label[i] = is_id_Multiplication;
+        }
+        else if (isDivision)
+        {
+            token_label[i] = is_id_Division;
         }
         else if (isParenthesisLeft)
         {
@@ -137,9 +163,9 @@ int parseBnf(char *source_code, char **token_string)
             continue;
         }
 
-        char *bnf_symbol = "_=+-*/!%&~<>?:.#^";
+        char *bnf_symbol = "_=+-*/!%&~<>?:.#^|";
 
-        if (strchr("|+*[]()\'\"", source_code[i_s]) != 0)
+        if (strchr("+*[]()\'\"", source_code[i_s]) != 0)
         { // or記号
             token_search_len = 1;
         }

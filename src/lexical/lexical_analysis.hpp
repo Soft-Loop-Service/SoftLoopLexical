@@ -6,43 +6,13 @@
 #include "./../definition.hpp"
 #include "./../debug.hpp"
 
-int getToken(char *source_code_current, char **token_string, int *token_progression, int token_search_len)
-{
-
-    for (int i = 0; i < token_string_endline; i++)
-    {
-        printf("token_search_len : %s %d\n", token_string[i], token_search_len);
-        bool result = strncmp(source_code_current, token_string[i], token_search_len) == 0;
-        // 存在するか否か
-
-        if (result)
-        {
-            token_progression[token_progression_endline] = i;
-            token_progression_endline++;
-            return i;
-        }
-    }
-
-    // printf("%s", source_code_current);
-
-    // ここから登録
-    char *new_token = new char[100];
-    strncpy(new_token, source_code_current, token_search_len);
-    token_string[token_string_endline] = new_token;
-
-    token_progression[token_progression_endline] = token_string_endline;
-    token_string_endline++;
-    token_progression_endline++;
-    return token_string_endline;
-}
-
 // スキャナ
 void lexSyntax(char *source_code, char **token_string, int *token_progression)
 {
     // source_codeとtokenのポインタを得る
 
-    token_string_endline = 0;
-    token_progression_endline = 0;
+    int token_string_endline = 0;
+    int token_progression_endline = 0;
 
     int i_s = 0; // 現在地点
     for (;;)
@@ -88,7 +58,7 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
 
         printf("sc * * * \n%s\n * * * \n", &source_code[i_s]);
 
-        int current_token_id = getToken(&source_code[i_s], token_string, token_progression, token_search_len);
+        int current_token_id = getToken(&source_code[i_s], token_string, token_progression, token_search_len, token_string_endline, token_progression_endline);
         // printf("current_token_id : %d", current_token_id);
         i_s += token_search_len;
     }

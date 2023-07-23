@@ -18,9 +18,6 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 // const int token_size = 50;           // tokenの最大文字数
 // const int variable_size = 50;        // variableの最大文字数
 
-int token_string_endline = 0;
-int token_progression_endline = 0;
-
 int source_code_size = 1000000;
 // 最大ソースコード容量 1MBまで対応
 
@@ -51,5 +48,35 @@ int isAlphabetOrNumber(char ch)
         return 1;
     }
     return 0;
+}
+
+int getToken(char *source_text, char **token_string, int *token_progression, int token_search_len, int &token_string_endline, int &token_progression_endline)
+{
+
+    for (int i = 0; i < token_string_endline; i++)
+    {
+        printf("token_search_len : %s %d\n", token_string[i], token_search_len);
+        bool result = strncmp(source_text, token_string[i], token_search_len) == 0;
+        // 存在するか否か
+
+        if (result)
+        {
+            token_progression[token_progression_endline] = i;
+            token_progression_endline++;
+            return i;
+        }
+    }
+
+    // printf("%s", source_code_current);
+
+    // ここから登録
+    char *new_token = new char[100];
+    strncpy(new_token, source_text, token_search_len);
+    token_string[token_string_endline] = new_token;
+
+    token_progression[token_progression_endline] = token_string_endline;
+    token_string_endline++;
+    token_progression_endline++;
+    return token_string_endline;
 }
 #endif

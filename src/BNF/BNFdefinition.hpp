@@ -12,12 +12,12 @@
 
 #define is_id_Null 0
 #define is_id_Unnecessary 100            // 不必要記号(無視)
-#define is_id_NonterminalSymbol 110      // 末端記号
-#define is_id_NonterminalSymbolLeft 111  // 左辺定義末端記号
-#define is_id_NonterminalSymbolRight 112 // 右辺定義末端記号
-#define is_id_DefinitionSymbol 120       // 非末端記号
-#define is_id_VerticalLine 130
-#define is_id_Token 140
+#define is_id_NonterminalSymbol 110      // 非末端記号
+#define is_id_NonterminalSymbolLeft 111  // 左辺定義 非末端記号
+#define is_id_NonterminalSymbolRight 112 // 右辺定義 非末端記号
+#define is_id_DefinitionSymbol 120       // 定義記号 ::=
+#define is_id_VerticalLine 130           // | この縦棒記号。条件分岐に用いる
+#define is_id_Token 140                  // 通常トークン。末端記号(TerminalSymbol)とも呼べる
 #define is_id_Escape 200
 #define is_id_SingleQuotation 210
 #define is_id_SingleQuotationLeft 211
@@ -31,5 +31,11 @@
 #define is_id_Bracket 240          // しかくかっこ
 #define is_id_BracketLeft 241      // しかくかっこ左
 #define is_id_BracketRight 242     // しかくかっこ右
+
+// 1000番台はそれぞれの記号の優先度を計算するために定義する
+#define is_id_Addition 1100;       // 足し算記号
+#define is_id_Subtraction 1101;    // 引き算記号
+#define is_id_Multiplication 1110; // 掛け算記号
+#define is_id_Division 1111;       // 割り算記号
 
 #endif

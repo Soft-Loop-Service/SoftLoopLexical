@@ -13,8 +13,6 @@ int main()
     printf("token_len\n %d", token_len);
     free(bnf_source);
 
-    // 今後の探索の際がやりやすいようにメモリ領域を10程度伸ばしておく
-
     output_token_string(token_string, token_len);
 
     int *token_label = new int[token_len];
