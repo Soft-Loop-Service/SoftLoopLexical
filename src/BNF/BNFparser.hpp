@@ -14,6 +14,7 @@
 // 記号の読み方
 // https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
 
+// 非終端記号と終端記号の関係をまとめ、
 int generateSymbolTable()
 {
 }
@@ -46,12 +47,15 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
 
         bool isVerticalLine = strncmp(cts, "|", 3) == 0;
 
+        bool isEscapeSingle = strncmp(cts, "\'", 1) == 0;
+        bool isEscapeDouble = strncmp(cts, "\"", 1) == 0;
+
         bool hasEscapeSingle = false;
         bool hasEscapeDouble = false;
         if (i + 2 < token_len)
         {
-            hasEscapeSingle = strncmp(cts, "\'", 1) == 0 && strncmp(token_string[i + 2], "\'", 1) == 0;
-            hasEscapeDouble = strncmp(cts, "\"", 1) == 0 && strncmp(token_string[i + 2], "\"", 1) == 0;
+            hasEscapeSingle = isEscapeSingle && strncmp(token_string[i + 2], "\'", 1) == 0;
+            hasEscapeDouble = isEscapeDouble && strncmp(token_string[i + 2], "\"", 1) == 0;
         }
 
         bool isParenthesisLeft = strchr("(", *cts) != 0;
@@ -82,10 +86,7 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         {
             token_label[i] = is_id_DefinitionSymbol;
         }
-        else if (isVerticalLine)
-        {
-            token_label[i] = is_id_VerticalLine;
-        }
+
         else if (hasEscapeSingle)
         {
             token_label[i] = is_id_SingleQuotationLeft;
@@ -101,7 +102,18 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
             token_label[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
         }
-
+        else if (isEscapeSingle)
+        {
+            token_label[i] = is_id_SingleQuotation;
+        }
+        else if (isEscapeDouble)
+        {
+            token_label[i] = is_id_DoubleQuotation;
+        }
+        else if (isVerticalLine)
+        {
+            token_label[i] = is_id_VerticalLine;
+        }
         else if (isAddition)
         {
             token_label[i] = is_id_Addition;
@@ -185,7 +197,6 @@ int parseBnf(char *source_code, char **token_string)
                     break;
                 }
 
-                // char *c = strchr(bnf_symbol, source_code[i_s + token_search_len]);
                 printf("アルファベット while : %c %d\n", source_code[i_s + token_search_len], i_s + token_search_len);
                 token_search_len++;
             }
