@@ -10,6 +10,8 @@
 #include <iostream>
 #include <vector>
 
+#define bnf_token_len 100 //BNFトークンの最大長
+
 #define is_id_Null 0
 #define is_id_Unnecessary 100            // 不必要記号(無視)
 #define is_id_NonterminalSymbol 110      // 非末端記号
@@ -17,7 +19,8 @@
 #define is_id_NonterminalSymbolRight 112 // 右辺定義 非末端記号
 #define is_id_DefinitionSymbol 120       // 定義記号 ::=
 #define is_id_VerticalLine 130           // | この縦棒記号。条件分岐に用いる
-#define is_id_Token 140                  // 通常トークン。末端記号(TerminalSymbol)とも呼べる
+#define is_id_TerminalSymbol 140         // 末端記号(TerminalSymbol)
+#define is_id_Token 141                  // 通常トークン。原則使わず、末端記号(TerminalSymbol)を使う
 #define is_id_Escape 200
 #define is_id_SingleQuotation 210
 #define is_id_SingleQuotationLeft 211

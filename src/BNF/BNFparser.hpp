@@ -14,12 +14,16 @@
 // 記号の読み方
 // https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
 
-// 非終端記号と終端記号の関係をまとめ、
-int generateSymbolTable()
-{
-}
-
-int labelingBnf(char **token_string, int *token_label, int token_len)
+/*
+labelingBnf
+tokenそれぞれの役割を明確化する
+token_string : 入力token
+token_label  : 役割探索結果
+token_len    : 読み込む入力tokenの量
+nonterminal_symbol_len   : 役割探索の結果、非末端記号の数
+terminal_symbol_len   : 役割探索の結果、末端記号の数
+*/
+int labelingBnf(char **token_string, int token_len , int *token_label, int *nonterminal_symbol_len , int *terminal_symbol_len)
 {
     int i = 0;
     while (i < token_len)
@@ -72,7 +76,7 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
 
         if (isNonterminalSymbol)
         {
-
+            *nonterminal_symbol_len ++;
             if (isDefinitionSymbolNext)
             {
                 token_label[i] = is_id_NonterminalSymbolLeft;
@@ -89,16 +93,17 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
 
         else if (hasEscapeSingle)
         {
+            terminal_symbol_len ++;
             token_label[i] = is_id_SingleQuotationLeft;
-            token_label[i + 1] = is_id_Token;
+            token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_SingleQuotationRight;
             work = 3;
         }
         else if (hasEscapeDouble)
         {
-
+            terminal_symbol_len ++;
             token_label[i] = is_id_DoubleQuotationLeft;
-            token_label[i + 1] = is_id_Token;
+            token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
         }
@@ -148,7 +153,8 @@ int labelingBnf(char **token_string, int *token_label, int token_len)
         }
         else
         {
-            token_label[i] = is_id_Token;
+            terminal_symbol_len ++;
+            token_label[i] = is_id_TerminalSymbol;
         }
         i += work;
     }
@@ -159,7 +165,7 @@ int parseBnf(char *source_code, char **token_string)
     int i_s = 0;
     int state = 0;
     int loop = 0;
-    int tc = 100; // 一つのtokenの長さ
+    int tc = bnf_token_len; // 一つのtokenの長さ
     for (;;)
     {
         int token_search_len = 0;

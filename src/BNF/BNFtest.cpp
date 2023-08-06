@@ -2,6 +2,7 @@
 #include "./../definition.hpp"
 #include "./BNFparser.hpp"
 #include "./../debug.hpp"
+#include "./symbolTable.hpp"
 
 int main()
 {
@@ -16,6 +17,12 @@ int main()
     output_token_string(token_string, token_len);
 
     int *token_label = new int[token_len];
-    labelingBnf(token_string, token_label, token_len);
+    int *nonterminal_symbol_len = 0 , *terminal_symbol_len = 0;
+    labelingBnf(token_string, token_len , token_label,nonterminal_symbol_len ,terminal_symbol_len);
     output_labeling_bnf(token_string, token_label, token_len);
+
+    int symbol_len = *nonterminal_symbol_len + *terminal_symbol_len;
+    int * symbol_table = new int[token_len];
+    char **symbol_string = (char **)calloc(symbol_len, 1);
+    generateSymbolTable(token_string, symbol_table , symbol_string , token_len , token_label,nonterminal_symbol_len ,terminal_symbol_len,symbol_len);
 }
