@@ -11,6 +11,7 @@
 #include <vector>
 
 #define bnf_token_len 100 //BNFトークンの最大長
+#define bnf_token_string_len 1000
 
 #define is_id_Null 0
 #define is_id_Unnecessary 100            // 不必要記号(無視)

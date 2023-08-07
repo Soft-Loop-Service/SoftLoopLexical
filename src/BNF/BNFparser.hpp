@@ -76,7 +76,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
 
         if (isNonterminalSymbol)
         {
-            *nonterminal_symbol_len ++;
+            (*nonterminal_symbol_len) ++;
             if (isDefinitionSymbolNext)
             {
                 token_label[i] = is_id_NonterminalSymbolLeft;
@@ -93,7 +93,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
 
         else if (hasEscapeSingle)
         {
-            terminal_symbol_len ++;
+            (*terminal_symbol_len) ++;
             token_label[i] = is_id_SingleQuotationLeft;
             token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_SingleQuotationRight;
@@ -101,7 +101,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
         }
         else if (hasEscapeDouble)
         {
-            terminal_symbol_len ++;
+            (*terminal_symbol_len) ++;
             token_label[i] = is_id_DoubleQuotationLeft;
             token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_DoubleQuotationRight;
@@ -153,7 +153,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
         }
         else
         {
-            terminal_symbol_len ++;
+            (*terminal_symbol_len) ++;
             token_label[i] = is_id_TerminalSymbol;
         }
         i += work;
@@ -165,7 +165,7 @@ int parseBnf(char *source_code, char **token_string)
     int i_s = 0;
     int state = 0;
     int loop = 0;
-    int tc = bnf_token_len; // 一つのtokenの長さ
+
     for (;;)
     {
         int token_search_len = 0;
@@ -213,7 +213,7 @@ int parseBnf(char *source_code, char **token_string)
             exit(1);
         }
 
-        char *new_token = (char *)calloc(tc, 1);
+        char *new_token = (char *)calloc(bnf_token_len, 1);
         strncpy(new_token, &source_code[i_s], token_search_len);
         token_string[loop] = new_token;
 
