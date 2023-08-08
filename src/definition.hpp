@@ -11,6 +11,7 @@ typedef unsigned char uchar;
 typedef std::vector<char> vchar;
 typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
+typedef std::vector<int> vint;
 using namespace std;
 
 const int token_string_arr_size = 10000;      // tokenの最大数

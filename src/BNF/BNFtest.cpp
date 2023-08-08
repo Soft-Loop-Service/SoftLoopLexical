@@ -3,6 +3,8 @@
 #include "./BNFparser.hpp"
 #include "./../debug.hpp"
 #include "./symbolTable.hpp"
+#include "./automaton.hpp"
+#include "./BNFstruct.hpp"
 
 int main()
 {
@@ -17,6 +19,8 @@ int main()
     output_token_string(token_string, token_len);
 
     int *token_label = new int[token_len];
+
+    BNFToken bnf_token = {token_string ,token_label, token_len};
 
     int np = 0;
     int tp = 0; // ポインタ確保用
@@ -35,5 +39,6 @@ int main()
     int unique_symbol_len = generateSymbolTable(token_string, symbol_string, symbol_table, token_label, token_len,symbol_len);
     output_bnf_tablef(token_string, symbol_string, symbol_table, token_label,token_len, unique_symbol_len);
 
-
+    Automaton *automaton_graph = new Automaton[unique_symbol_len];
+    generateAutomaton(automaton_graph,token_string, symbol_table, token_label, token_len,symbol_len);
 }
