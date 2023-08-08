@@ -19,58 +19,47 @@ SymbolTable
 /*
 insertSymbolTable
 token_stringとsymbol_stringの紐付け。1次元配列(=string)のポインタをもらう
+
+symbol_stringに存在しなければ、末尾に挿入する。戻り値として挿入した場所を伝える
+symbol_stringにすでに存在すれば、存在する場所を戻り値として伝える。
+
 新規挿入する。
 */
 int insertSymbolTable(char *current_token_string, char **symbol_string, int symbol_len)
 {
     // 格納されていないところを探す
 
-    int index = 0;
+    int index = -1;
 
     for (int i = 0; i < symbol_len; i++)
     {
-        printf("istl : %s\n" , (&symbol_string[i])[0]);
-        if ((&symbol_string[i])[0] == 0)
+        printf("istl : %s\n", symbol_string[i]);
+        if ((symbol_string[i]) == NULL)
         {
+            index = i;
             break;
         }
 
+        if (strncmp(symbol_string[i], current_token_string, bnf_token_len) == 0)
+        {
+            return i;
+        }
+    }
+
+    if (index < 0)
+    {
         return -1;
     }
+
+    printf("index : %d", index);
 
     symbol_string[index] = (char *)calloc(bnf_token_len, 1);
     // printf("isto  a: %d %s %s %ld\n" , index,symbol_string[index],current_token_string);
     strncpy(symbol_string[index], current_token_string, bnf_token_len);
-    // printf("isto b: %d %s %s %ld\n" , index,symbol_string[index],current_token_string);
+
+    return index;
 }
 
-/*
-applySymbolTable
-symbol_tableに登録する
-*/
-void applySymbolTable(int *current_symbol_table, int search)
-{
-    *current_symbol_table = search;
-}
-
-/*
-searchSymbolTable
-すでに探索済みではないかどうかを調べる。
-線形探索を用いる。
-*/
-int searchSymbolTable(char *current_token_string, char **symbol_string, int symbol_len)
-{
-    for (int i = 0; i < symbol_len; i++)
-    {
-        printf("sst %d: %s %10s\n", i,current_token_string ,symbol_string[i] );
-        // if (strncmp(current_token_string, symbol_string[i], bnf_token_len) == 0)
-        // {
-        //     return i;
-        // }
-    }
-
-    return -1;
-}
 
 /*
 generateSymbolTable
@@ -95,25 +84,18 @@ void generateSymbolTable(char **token_string, char **symbol_string, int *symbol_
         case is_id_NonterminalSymbolRight: // 112  右辺定義 非末端記号
         case is_id_TerminalSymbol:         // 140 末端記号(TerminalSymbol)
 
-            int s = searchSymbolTable(token_string[si], symbol_string, symbol_len);
-
-            if (s == -1)
-            {
+        {
             int n = insertSymbolTable(token_string[si], symbol_string, symbol_len);
-                if (n > 0)
-                {
-                    applySymbolTable(&symbol_table[si], n);
-                }
-            }
-            else
+            if (n > 0)
             {
-                applySymbolTable(&symbol_table[si], s);
+                symbol_table[si] = n;
             }
+        }
 
+        break;
+        default:
+            symbol_table[si] = -1;
             break;
-
-        // default:
-        //     break;
         }
     }
 }

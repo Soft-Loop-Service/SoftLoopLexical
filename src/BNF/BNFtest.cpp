@@ -27,7 +27,7 @@ int main()
     labelingBnf(token_string, token_len, token_label, nonterminal_symbol_len, terminal_symbol_len);
     output_labeling_bnf(token_string, token_label, token_len);
 
-    printf("sl %d %d\n", *nonterminal_symbol_len, *terminal_symbol_len);
+    printf("sl %d %d %d\n", *nonterminal_symbol_len, *terminal_symbol_len,token_len);
 
     int symbol_len = *nonterminal_symbol_len + *terminal_symbol_len;
     int *symbol_table = new int[token_len];

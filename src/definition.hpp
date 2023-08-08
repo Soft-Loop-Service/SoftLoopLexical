@@ -18,8 +18,9 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 // const int token_size = 50;           // tokenの最大文字数
 // const int variable_size = 50;        // variableの最大文字数
 
-int source_code_size = 1000000;
 // 最大ソースコード容量 1MBまで対応
+
+const int source_code_size = 1000000;
 
 /* プログラム・ファイルを読み込むための関数 text / filename / size(読み込むサイズ)*/
 void loadText(char *text, const char *file_name, int size)
