@@ -6,12 +6,17 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
 
 typedef unsigned char uchar;
 typedef std::vector<char> vchar;
 typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
 typedef std::vector<int> vint;
+typedef std::vector<std::vector<int> > v2int;
+typedef std::stack<int> stint;
+typedef std::queue<int> quint;
 using namespace std;
 
 const int token_string_arr_size = 10000;      // tokenの最大数

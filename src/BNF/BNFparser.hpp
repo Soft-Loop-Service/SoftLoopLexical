@@ -5,6 +5,7 @@
 #include "./../definition.hpp"
 #include "./BNFdefinition.hpp"
 #include "./BNFstruct.hpp"
+#include "./../symbol.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +26,8 @@ terminal_symbol_len   : 役割探索の結果、末端記号の数
 */
 int labelingBnf(BNFToken &bnf_token_p)
 {
+    printf("labelingBnf %d\n",bnf_token_p.token_len);
+    
     int i = 0;
     while (i < bnf_token_p.token_len)
     {
@@ -195,27 +198,38 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
         }
 
         char *bnf_symbol = "_=+-*/!%&~<>?:.#^|";
+        char *bnf_val_symbol = "<>_";
 
         if (strncmp(&source_code[i_s], "::=", 3) == 0)
         {
             token_search_len = 3;
         }
-
-        else if (isAlphabetOrNumber(source_code[i_s]) || strchr(bnf_symbol, source_code[i_s]) != 0)
+        else if (isAlphabetOrNumber(source_code[i_s]) || strchr(bnf_val_symbol, source_code[i_s]) != 0)
         {
-            printf("アルファベット %c\n", source_code[i_s]);
-            while (isAlphabetOrNumber(source_code[i_s + token_search_len]) || strchr(bnf_symbol, source_code[i_s + token_search_len]) != 0)
+            while (isAlphabetOrNumber(source_code[i_s + token_search_len]) || strchr(bnf_val_symbol, source_code[i_s + token_search_len]) != 0)
             {
                 if (source_code[i_s + token_search_len] == 0) // ファイル終端
                 {
-                    printf("アルファベット探知終了");
                     break;
                 }
 
-                printf("アルファベット while : %c %d\n", source_code[i_s + token_search_len], i_s + token_search_len);
                 token_search_len++;
             }
         }
+
+        else if (strchr(bnf_symbol, source_code[i_s]) != 0)
+        {
+            while (strchr(bnf_symbol, source_code[i_s + token_search_len]) != 0)
+            {
+                if (source_code[i_s + token_search_len] == 0) // ファイル終端
+                {
+                    break;
+                }
+
+                token_search_len++;
+            }
+        }
+
         else if (strchr("+*[]()\'\"", source_code[i_s]) != 0)
         { // or記号
             token_search_len = 1;
@@ -226,10 +240,12 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
             exit(1);
         }
 
-        char* new_token = (char *)realloc(bnf_token_p.token_string[loop],token_search_len);
+        char* new_token = (char *)realloc(bnf_token_p.token_string[loop],bnf_token_len);
 
         strncpy(new_token, &source_code[i_s], token_search_len);
         bnf_token_p.token_string[loop] = new_token;
+
+        printf("parseBnf %d %s\n",token_search_len,bnf_token_p.token_string[loop]);
 
         i_s += token_search_len;
         loop++;

@@ -6,6 +6,7 @@
 #include "./../definition.hpp"
 #include "./BNFdefinition.hpp"
 #include "./BNFstruct.hpp"
+#include "./../symbol.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,12 +64,7 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
 /*
 generateSymbolTable
 非終端記号と終端記号の関係をまとめる。ユニークな非終端記号と終端記号の合計値を返す
-token_string    : 入力token
-symbol_string   : 出力symbol
-symbol_table    : token_string と symbol_stringの関連付け。 index番号(token_string) : 要素(symbol_string)の格納位置
-token_label     : 入力token 役割
-token_len       : 読み込む入力tokenの量
-symbol_len      : 非末端記号と末端記号の合計
+
 */
 int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
 {
@@ -79,9 +75,9 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
         int ctl = bnf_token_p.token_label[si];
         switch (ctl)
         {
-        case is_id_NonterminalSymbolLeft:  // 111  左辺定義 非末端記号
-        case is_id_NonterminalSymbolRight: // 112  右辺定義 非末端記号
-        case is_id_TerminalSymbol:         // 140 末端記号(TerminalSymbol)
+        case is_id_NonterminalSymbolLeft:  // 左辺定義 非末端記号
+        case is_id_NonterminalSymbolRight: // 右辺定義 非末端記号
+        case is_id_TerminalSymbol:         // 末端記号(TerminalSymbol)
 
         {
             int n = insertSymbolTable(bnf_token_p.token_string[si], bnf_symbol_p.symbol_string, bnf_symbol_p.symbol_len);

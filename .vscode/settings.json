@@ -71,6 +71,13 @@
     "__string": "cpp",
     "chrono": "cpp",
     "compare": "cpp",
-    "concepts": "cpp"
-  }
+    "concepts": "cpp",
+    "stack": "cpp",
+    "queue": "cpp"
+  },
+
+  "search.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+}
 }
