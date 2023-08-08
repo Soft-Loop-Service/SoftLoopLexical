@@ -22,6 +22,33 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 
 const int source_code_size = 1000000;
 
+int resizeCharNull(char ** str, int len){
+
+    int size = -1;
+
+    for (int i = 0 ; i < len;i++){
+        
+        if((str[i]) ==  NULL){
+            size = i;
+            break;
+        }
+    }
+
+    char** newstr = (char **)realloc(str,size);
+
+    if (newstr == NULL){
+        printf("resize char null error : 再配置できません\n");
+        return len;
+    }
+
+    str = newstr;
+
+    printf("resize char null ok : resize %d -> %d sizeof %ld\n",len,size,sizeof(char**));
+
+
+    return size;
+}
+
 /* プログラム・ファイルを読み込むための関数 text / filename / size(読み込むサイズ)*/
 void loadText(char *text, const char *file_name, int size)
 {

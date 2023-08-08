@@ -51,7 +51,7 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
         return -1;
     }
 
-    printf("index : %d", index);
+    printf("index : %d\n", index);
 
     symbol_string[index] = (char *)calloc(bnf_token_len, 1);
     // printf("isto  a: %d %s %s %ld\n" , index,symbol_string[index],current_token_string);
@@ -63,7 +63,7 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
 
 /*
 generateSymbolTable
-非終端記号と終端記号の関係をまとめる
+非終端記号と終端記号の関係をまとめる。ユニークな非終端記号と終端記号の合計値を返す
 token_string    : 入力token
 symbol_string   : 出力symbol
 symbol_table    : token_string と symbol_stringの関連付け。 index番号(token_string) : 要素(symbol_string)の格納位置
@@ -71,7 +71,7 @@ token_label     : 入力token 役割
 token_len       : 読み込む入力tokenの量
 symbol_len      : 非末端記号と末端記号の合計
 */
-void generateSymbolTable(char **token_string, char **symbol_string, int *symbol_table, int token_len, int *token_label, int symbol_len)
+int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_table, int *token_label, int token_len, int symbol_len)
 {
 
     int csi = 0; // symbol_stringで次に挿入する場所
@@ -98,6 +98,10 @@ void generateSymbolTable(char **token_string, char **symbol_string, int *symbol_
             break;
         }
     }
+
+    symbol_len = resizeCharNull(symbol_string , symbol_len);
+
+    return symbol_len;
 }
 
 #endif

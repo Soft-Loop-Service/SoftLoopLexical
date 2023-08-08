@@ -41,7 +41,7 @@ token_label     : 入力token 役割
 token_len       : 読み込む入力tokenの量
 symbol_len      : 非末端記号と末端記号の合計
 */
-int output_bnf_tablef(char **token_string, char **symbol_string, int *symbol_table, int token_len, int *token_label, int symbol_len)
+void output_bnf_tablef(char **token_string, char **symbol_string, int *symbol_table, int *token_label,int token_len,  int symbol_len)
 {
 
     printf("output_bnf_tablef : token_ken %d symbol_len %d\n", token_len, symbol_len);
@@ -49,7 +49,16 @@ int output_bnf_tablef(char **token_string, char **symbol_string, int *symbol_tab
     for (int i = 0; i < token_len; i++)
     {
         // printf("%s\n", &token[variable[i]]);
-        printf("obt %3d: %25s %3d %s \n", i, token_string[i], symbol_table[i],symbol_string[i]);
+        printf("obt %3d: %25s %3d \n", i, token_string[i], symbol_table[i]);
+    }
+
+    for (int i = 0 ; i < symbol_len;i++){
+        
+        // if(symbol_string[i] ==  NULL){
+        //     return;
+        // }
+
+        printf("obts : %d %s\n",i,symbol_string[i]);
     }
 
     // for (int i = 0; i < symbol_len; i++){
