@@ -4,6 +4,7 @@
 
 #include "./../definition.hpp"
 #include "./BNFdefinition.hpp"
+#include "./BNFstruct.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,13 +23,13 @@ token_len    : 読み込む入力tokenの量
 nonterminal_symbol_len   : 役割探索の結果、非末端記号の数
 terminal_symbol_len   : 役割探索の結果、末端記号の数
 */
-int labelingBnf(char **token_string, int token_len, int *token_label, int *nonterminal_symbol_len, int *terminal_symbol_len)
+int labelingBnf(BNFToken &bnf_token_p)
 {
     int i = 0;
-    while (i < token_len)
+    while (i < bnf_token_p.token_len)
     {
 
-        char *cts = token_string[i];
+        char *cts = bnf_token_p.token_string[i];
 
         printf("llb while %d %s\n", i, &*cts);
 
@@ -42,9 +43,9 @@ int labelingBnf(char **token_string, int token_len, int *token_label, int *nonte
 
         bool isDefinitionSymbol = strncmp(cts, "::=", 3) == 0;
         bool isDefinitionSymbolNext = false;
-        if (i + 1 < token_len)
+        if (i + 1 < bnf_token_p.token_len)
         {
-            isDefinitionSymbolNext = strncmp(token_string[i + 1], "::=", 3) == 0;
+            isDefinitionSymbolNext = strncmp(bnf_token_p.token_string[i + 1], "::=", 3) == 0;
             // その次のトークンが定義記号か調べることによって、左辺なのか右辺なのかを確認する
         }
 
@@ -55,10 +56,10 @@ int labelingBnf(char **token_string, int token_len, int *token_label, int *nonte
 
         bool hasEscapeSingle = false;
         bool hasEscapeDouble = false;
-        if (i + 2 < token_len)
+        if (i + 2 < bnf_token_p.token_len)
         {
-            hasEscapeSingle = isEscapeSingle && strncmp(token_string[i + 2], "\'", 1) == 0;
-            hasEscapeDouble = isEscapeDouble && strncmp(token_string[i + 2], "\"", 1) == 0;
+            hasEscapeSingle = isEscapeSingle && strncmp(bnf_token_p.token_string[i + 2], "\'", 1) == 0;
+            hasEscapeDouble = isEscapeDouble && strncmp(bnf_token_p.token_string[i + 2], "\"", 1) == 0;
         }
 
         bool isParenthesisLeft = strchr("(", *cts) != 0;
@@ -78,104 +79,105 @@ int labelingBnf(char **token_string, int token_len, int *token_label, int *nonte
 
         if (isNonterminalSymbol)
         {
-            (*nonterminal_symbol_len)++;
+            bnf_token_p.nonterminal_symbol_len++;
             if (isDefinitionSymbolNext)
             {
-                token_label[i] = is_id_NonterminalSymbolLeft;
+                bnf_token_p.token_label[i] = is_id_NonterminalSymbolLeft;
             }
             else
             {
-                token_label[i] = is_id_NonterminalSymbolRight;
+                bnf_token_p.token_label[i] = is_id_NonterminalSymbolRight;
             }
         }
         else if (isDefinitionSymbol)
         {
-            token_label[i] = is_id_DefinitionSymbol;
+            bnf_token_p.token_label[i] = is_id_DefinitionSymbol;
         }
 
         else if (hasEscapeSingle)
         {
-            (*terminal_symbol_len)++;
-            token_label[i] = is_id_SingleQuotationLeft;
-            token_label[i + 1] = is_id_TerminalSymbol;
-            token_label[i + 2] = is_id_SingleQuotationRight;
+            bnf_token_p.terminal_symbol_len++;
+            bnf_token_p.token_label[i] = is_id_SingleQuotationLeft;
+            bnf_token_p.token_label[i + 1] = is_id_TerminalSymbol;
+            bnf_token_p.token_label[i + 2] = is_id_SingleQuotationRight;
             work = 3;
         }
         else if (hasEscapeDouble)
         {
-            (*terminal_symbol_len)++;
-            token_label[i] = is_id_DoubleQuotationLeft;
-            token_label[i + 1] = is_id_TerminalSymbol;
-            token_label[i + 2] = is_id_DoubleQuotationRight;
+            bnf_token_p.terminal_symbol_len++;
+            bnf_token_p.token_label[i] = is_id_DoubleQuotationLeft;
+            bnf_token_p.token_label[i + 1] = is_id_TerminalSymbol;
+            bnf_token_p.token_label[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
         }
         else if (isEscapeSingle)
         {
-            token_label[i] = is_id_SingleQuotation;
+            bnf_token_p.token_label[i] = is_id_SingleQuotation;
         }
         else if (isEscapeDouble)
         {
-            token_label[i] = is_id_DoubleQuotation;
+            bnf_token_p.token_label[i] = is_id_DoubleQuotation;
         }
         else if (isVerticalLine)
         {
-            token_label[i] = is_id_VerticalLine;
+            bnf_token_p.token_label[i] = is_id_VerticalLine;
         }
         else if (isAddition)
         {
-            token_label[i] = is_id_Addition;
+            bnf_token_p.token_label[i] = is_id_Addition;
         }
         else if (isSubtraction)
         {
-            token_label[i] = is_id_Subtraction;
+            bnf_token_p.token_label[i] = is_id_Subtraction;
         }
         else if (isMultiplication)
         {
-            token_label[i] = is_id_Multiplication;
+            bnf_token_p.token_label[i] = is_id_Multiplication;
         }
         else if (isDivision)
         {
-            token_label[i] = is_id_Division;
+            bnf_token_p.token_label[i] = is_id_Division;
         }
         else if (isParenthesisLeft)
         {
-            token_label[i] = is_id_ParenthesisLeft;
+            bnf_token_p.token_label[i] = is_id_ParenthesisLeft;
         }
         else if (isParenthesisRight)
         {
-            token_label[i] = is_id_ParenthesisRight;
+            bnf_token_p.token_label[i] = is_id_ParenthesisRight;
         }
         else if (isBracketsLeft)
         {
-            token_label[i] = is_id_BracketLeft;
+            bnf_token_p.token_label[i] = is_id_BracketLeft;
         }
         else if (isBracketsRight)
         {
-            token_label[i] = is_id_BracketRight;
+            bnf_token_p.token_label[i] = is_id_BracketRight;
         }
         else if (isCurlyBracketsLeft)
         {
-            token_label[i] = is_id_CurlyBracketLeft;
+            bnf_token_p.token_label[i] = is_id_CurlyBracketLeft;
         }
         else if (isCurlyBracketsRight)
         {
-            token_label[i] = is_id_CurlyBracketRight;
+            bnf_token_p.token_label[i] = is_id_CurlyBracketRight;
         }
 
         else
         {
-            (*terminal_symbol_len)++;
-            token_label[i] = is_id_TerminalSymbol;
+            bnf_token_p.terminal_symbol_len++;
+            bnf_token_p.token_label[i] = is_id_TerminalSymbol;
         }
         i += work;
     }
 }
 
-int parseBnf(char *source_code, char **token_string)
+int parseBnf(char *source_code, BNFToken &bnf_token_p)
 {
     int i_s = 0;
     int state = 0;
     int loop = 0;
+
 
     for (;;)
     {
@@ -218,16 +220,16 @@ int parseBnf(char *source_code, char **token_string)
         { // or記号
             token_search_len = 1;
         }
-
         else
         {
             printf("syntax error : %.10s\n", &source_code[i_s]);
             exit(1);
         }
 
-        char *new_token = (char *)calloc(bnf_token_len, 1);
+        char* new_token = (char *)realloc(bnf_token_p.token_string[loop],token_search_len);
+
         strncpy(new_token, &source_code[i_s], token_search_len);
-        token_string[loop] = new_token;
+        bnf_token_p.token_string[loop] = new_token;
 
         i_s += token_search_len;
         loop++;

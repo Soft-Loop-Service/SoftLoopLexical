@@ -5,6 +5,8 @@
 
 #include "./../definition.hpp"
 #include "./BNFdefinition.hpp"
+#include "./BNFstruct.hpp"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,13 +70,13 @@ token_label     : 入力token 役割
 token_len       : 読み込む入力tokenの量
 symbol_len      : 非末端記号と末端記号の合計
 */
-int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_table, int *token_label, int token_len, int symbol_len)
+int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
 {
 
     int csi = 0; // symbol_stringで次に挿入する場所
-    for (int si = 0; si < token_len; si++)
+    for (int si = 0; si < bnf_token_p.token_len; si++)
     {
-        int ctl = token_label[si];
+        int ctl = bnf_token_p.token_label[si];
         switch (ctl)
         {
         case is_id_NonterminalSymbolLeft:  // 111  左辺定義 非末端記号
@@ -82,10 +84,10 @@ int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_t
         case is_id_TerminalSymbol:         // 140 末端記号(TerminalSymbol)
 
         {
-            int n = insertSymbolTable(token_string[si], symbol_string, symbol_len);
+            int n = insertSymbolTable(bnf_token_p.token_string[si], bnf_symbol_p.symbol_string, bnf_symbol_p.symbol_len);
             if (n > 0)
             {
-                symbol_table[si] = n;
+                bnf_symbol_p.symbol_table[si] = n;
             }
         }
 
@@ -96,19 +98,19 @@ int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_t
         case is_id_CurlyBracketLeft:{
             char *temp_name = new char[bnf_token_len];
             snprintf(temp_name,bnf_token_len,"%s_%d","temp",si);
-            int n = insertSymbolTable(temp_name, symbol_string, symbol_len);
-            symbol_table[si] = n;
+            int n = insertSymbolTable(temp_name, bnf_symbol_p.symbol_string, bnf_symbol_p.symbol_len);
+            bnf_symbol_p.symbol_table[si] = n;
             break;
         }
 
         default:
-            symbol_table[si] = -1;
+            bnf_symbol_p.symbol_table[si] = -1;
             break;
         }
     }
 
-    symbol_len = resizeCharNull(symbol_string , symbol_len);
-    return symbol_len;
+    bnf_symbol_p.symbol_len = resizeCharNull(bnf_symbol_p.symbol_string , bnf_symbol_p.symbol_len);
+    return bnf_symbol_p.symbol_len;
 }
 
 #endif

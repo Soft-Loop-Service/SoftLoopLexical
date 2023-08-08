@@ -22,13 +22,14 @@ struct BNFToken
     int token_len;
     int nonterminal_symbol_len;
     int terminal_symbol_len;
-    /* data */
 };
 
 struct BNFSymbol
 {
     int *symbol_table;
+    char **symbol_string;
     int unique_symbol_len;
+    int symbol_len;
 };
 
 #endif

@@ -100,7 +100,7 @@ int getToken(char *source_text, char **token_string, int *token_progression, int
 
     // ここから登録
     char *new_token = new char[100];
-    strncpy(new_token, source_text, token_search_len);
+    // strncpy(new_token, source_text, token_search_len);
     token_string[token_string_endline] = new_token;
 
     token_progression[token_progression_endline] = token_string_endline;
