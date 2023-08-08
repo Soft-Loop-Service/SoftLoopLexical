@@ -31,7 +31,7 @@ int main()
 
     int symbol_len = *nonterminal_symbol_len + *terminal_symbol_len;
     int *symbol_table = new int[token_len];
-    char **symbol_string = (char **)calloc(symbol_len, bnf_token_len);
+    char **symbol_string = (char **)calloc(token_len, bnf_token_len);
     int unique_symbol_len = generateSymbolTable(token_string, symbol_string, symbol_table, token_label, token_len,symbol_len);
     output_bnf_tablef(token_string, symbol_string, symbol_table, token_label,token_len, unique_symbol_len);
 

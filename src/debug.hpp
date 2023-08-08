@@ -53,10 +53,6 @@ void output_bnf_tablef(char **token_string, char **symbol_string, int *symbol_ta
     }
 
     for (int i = 0 ; i < symbol_len;i++){
-        
-        // if(symbol_string[i] ==  NULL){
-        //     return;
-        // }
 
         printf("obts : %d %s\n",i,symbol_string[i]);
     }

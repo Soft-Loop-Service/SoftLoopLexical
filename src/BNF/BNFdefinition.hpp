@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 
+// 記号の読み方
+// https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
+
 #define bnf_token_len 100 //BNFトークンの最大長
 #define bnf_token_string_len 1000
 
@@ -35,6 +38,10 @@
 #define is_id_Bracket 240          // しかくかっこ
 #define is_id_BracketLeft 241      // しかくかっこ左
 #define is_id_BracketRight 242     // しかくかっこ右
+
+#define is_id_CurlyBracket 250     //中かっこ
+#define is_id_CurlyBracketLeft 251     //左中かっこ
+#define is_id_CurlyBracketRight 252     //右中かっこ
 
 // 1000番台はそれぞれの記号の優先度を計算するために定義する
 #define is_id_Addition 1100;       // 足し算記号

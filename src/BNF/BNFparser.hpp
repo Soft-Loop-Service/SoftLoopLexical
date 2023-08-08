@@ -11,8 +11,7 @@
 #include <iostream>
 #include <vector>
 
-// 記号の読み方
-// https://www602.math.ryukoku.ac.jp/Prog1/charnames.html
+// EBNF記法に沿う
 
 /*
 labelingBnf
@@ -23,7 +22,7 @@ token_len    : 読み込む入力tokenの量
 nonterminal_symbol_len   : 役割探索の結果、非末端記号の数
 terminal_symbol_len   : 役割探索の結果、末端記号の数
 */
-int labelingBnf(char **token_string, int token_len , int *token_label, int *nonterminal_symbol_len , int *terminal_symbol_len)
+int labelingBnf(char **token_string, int token_len, int *token_label, int *nonterminal_symbol_len, int *terminal_symbol_len)
 {
     int i = 0;
     while (i < token_len)
@@ -66,17 +65,20 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
         bool isParenthesisRight = strchr(")", *cts) != 0;
         bool isBracketsLeft = strchr("[", *cts) != 0;
         bool isBracketsRight = strchr("]", *cts) != 0;
+        bool isCurlyBracketsLeft = strchr("{", *cts) != 0;
+        bool isCurlyBracketsRight = strchr("}", *cts) != 0;
 
         bool isAddition = strchr("+", *cts) != 0;
         bool isSubtraction = strchr("-", *cts) != 0;
         bool isMultiplication = strchr("*", *cts) != 0;
         bool isDivision = strchr("/", *cts) != 0;
+        bool isEqual = strchr("=", *cts) != 0;
 
         int work = 1;
 
         if (isNonterminalSymbol)
         {
-            (*nonterminal_symbol_len) ++;
+            (*nonterminal_symbol_len)++;
             if (isDefinitionSymbolNext)
             {
                 token_label[i] = is_id_NonterminalSymbolLeft;
@@ -93,7 +95,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
 
         else if (hasEscapeSingle)
         {
-            (*terminal_symbol_len) ++;
+            (*terminal_symbol_len)++;
             token_label[i] = is_id_SingleQuotationLeft;
             token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_SingleQuotationRight;
@@ -101,7 +103,7 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
         }
         else if (hasEscapeDouble)
         {
-            (*terminal_symbol_len) ++;
+            (*terminal_symbol_len)++;
             token_label[i] = is_id_DoubleQuotationLeft;
             token_label[i + 1] = is_id_TerminalSymbol;
             token_label[i + 2] = is_id_DoubleQuotationRight;
@@ -151,9 +153,18 @@ int labelingBnf(char **token_string, int token_len , int *token_label, int *nont
         {
             token_label[i] = is_id_BracketRight;
         }
+        else if (isCurlyBracketsLeft)
+        {
+            token_label[i] = is_id_CurlyBracketLeft;
+        }
+        else if (isCurlyBracketsRight)
+        {
+            token_label[i] = is_id_CurlyBracketRight;
+        }
+
         else
         {
-            (*terminal_symbol_len) ++;
+            (*terminal_symbol_len)++;
             token_label[i] = is_id_TerminalSymbol;
         }
         i += work;
@@ -183,11 +194,7 @@ int parseBnf(char *source_code, char **token_string)
 
         char *bnf_symbol = "_=+-*/!%&~<>?:.#^|";
 
-        if (strchr("+*[]()\'\"", source_code[i_s]) != 0)
-        { // or記号
-            token_search_len = 1;
-        }
-        else if (strncmp(&source_code[i_s], "::=", 3) == 0)
+        if (strncmp(&source_code[i_s], "::=", 3) == 0)
         {
             token_search_len = 3;
         }
@@ -207,6 +214,11 @@ int parseBnf(char *source_code, char **token_string)
                 token_search_len++;
             }
         }
+        else if (strchr("+*[]()\'\"", source_code[i_s]) != 0)
+        { // or記号
+            token_search_len = 1;
+        }
+
         else
         {
             printf("syntax error : %.10s\n", &source_code[i_s]);

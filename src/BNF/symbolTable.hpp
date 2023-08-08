@@ -33,7 +33,6 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
 
     for (int i = 0; i < symbol_len; i++)
     {
-        printf("istl : %s\n", symbol_string[i]);
         if ((symbol_string[i]) == NULL)
         {
             index = i;
@@ -51,10 +50,8 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
         return -1;
     }
 
-    printf("index : %d\n", index);
 
     symbol_string[index] = (char *)calloc(bnf_token_len, 1);
-    // printf("isto  a: %d %s %s %ld\n" , index,symbol_string[index],current_token_string);
     strncpy(symbol_string[index], current_token_string, bnf_token_len);
 
     return index;
@@ -93,6 +90,17 @@ int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_t
         }
 
         break;
+
+        case is_id_ParenthesisLeft:
+        case is_id_BracketLeft:
+        case is_id_CurlyBracketLeft:{
+            char *temp_name = new char[bnf_token_len];
+            snprintf(temp_name,bnf_token_len,"%s_%d","temp",si);
+            int n = insertSymbolTable(temp_name, symbol_string, symbol_len);
+            symbol_table[si] = n;
+            break;
+        }
+
         default:
             symbol_table[si] = -1;
             break;
@@ -100,7 +108,6 @@ int generateSymbolTable(char **token_string, char **symbol_string, int *symbol_t
     }
 
     symbol_len = resizeCharNull(symbol_string , symbol_len);
-
     return symbol_len;
 }
 

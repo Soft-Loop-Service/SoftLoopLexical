@@ -10,17 +10,17 @@ test
                    | signed
                    | unsigned
 
-<assignment_operator> ::= =
-                        | *=
-                        | /=
-                        | %=
-                        | +=
-                        | -=
-                        | <<=
-                        | >>=
-                        | &=
-                        | ^=
-                        | |=
+<assignment_operator> ::= '='
+                        | '*='
+                        | '/='
+                        | '%='
+                        | '+='
+                        | '-='
+                        | '<<='
+                        | '>>='
+                        | '&='
+                        | '^='
+                        | '|='
 
 <unary_operator> ::= &
                    | *
