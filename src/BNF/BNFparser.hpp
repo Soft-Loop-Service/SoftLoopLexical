@@ -30,7 +30,7 @@ int labelingBnf(BNFToken &bnf_token_p)
     while (i < bnf_token_p.token_len)
     {
 
-        char *cts = bnf_token_p.token_string[i];
+        char *cts = bnf_token_p.token_string_array[i];
 
         printf("llb while %d %s\n", i, &*cts);
 
@@ -46,7 +46,7 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isDefinitionSymbolNext = false;
         if (i + 1 < bnf_token_p.token_len)
         {
-            isDefinitionSymbolNext = strncmp(bnf_token_p.token_string[i + 1], "::=", 3) == 0;
+            isDefinitionSymbolNext = strncmp(bnf_token_p.token_string_array[i + 1], "::=", 3) == 0;
             // その次のトークンが定義記号か調べることによって、左辺なのか右辺なのかを確認する
         }
 
@@ -59,8 +59,8 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool hasEscapeDouble = false;
         if (i + 2 < bnf_token_p.token_len)
         {
-            hasEscapeSingle = isEscapeSingle && strncmp(bnf_token_p.token_string[i + 2], "\'", 1) == 0;
-            hasEscapeDouble = isEscapeDouble && strncmp(bnf_token_p.token_string[i + 2], "\"", 1) == 0;
+            hasEscapeSingle = isEscapeSingle && strncmp(bnf_token_p.token_string_array[i + 2], "\'", 1) == 0;
+            hasEscapeDouble = isEscapeDouble && strncmp(bnf_token_p.token_string_array[i + 2], "\"", 1) == 0;
         }
 
         bool isParenthesisLeft = strchr("(", *cts) != 0;
@@ -83,91 +83,91 @@ int labelingBnf(BNFToken &bnf_token_p)
             bnf_token_p.nonterminal_symbol_len++;
             if (isDefinitionSymbolNext)
             {
-                bnf_token_p.token_label[i] = is_id_NonterminalSymbolLeft;
+                bnf_token_p.token_label_array[i] = is_id_NonterminalSymbolLeft;
             }
             else
             {
-                bnf_token_p.token_label[i] = is_id_NonterminalSymbolRight;
+                bnf_token_p.token_label_array[i] = is_id_NonterminalSymbolRight;
             }
         }
         else if (isDefinitionSymbol)
         {
-            bnf_token_p.token_label[i] = is_id_DefinitionSymbol;
+            bnf_token_p.token_label_array[i] = is_id_DefinitionSymbol;
         }
 
         else if (hasEscapeSingle)
         {
             bnf_token_p.terminal_symbol_len++;
-            bnf_token_p.token_label[i] = is_id_SingleQuotationLeft;
-            bnf_token_p.token_label[i + 1] = is_id_TerminalSymbol;
-            bnf_token_p.token_label[i + 2] = is_id_SingleQuotationRight;
+            bnf_token_p.token_label_array[i] = is_id_SingleQuotationLeft;
+            bnf_token_p.token_label_array[i + 1] = is_id_TerminalSymbol;
+            bnf_token_p.token_label_array[i + 2] = is_id_SingleQuotationRight;
             work = 3;
         }
         else if (hasEscapeDouble)
         {
             bnf_token_p.terminal_symbol_len++;
-            bnf_token_p.token_label[i] = is_id_DoubleQuotationLeft;
-            bnf_token_p.token_label[i + 1] = is_id_TerminalSymbol;
-            bnf_token_p.token_label[i + 2] = is_id_DoubleQuotationRight;
+            bnf_token_p.token_label_array[i] = is_id_DoubleQuotationLeft;
+            bnf_token_p.token_label_array[i + 1] = is_id_TerminalSymbol;
+            bnf_token_p.token_label_array[i + 2] = is_id_DoubleQuotationRight;
             work = 3;
         }
         else if (isEscapeSingle)
         {
-            bnf_token_p.token_label[i] = is_id_SingleQuotation;
+            bnf_token_p.token_label_array[i] = is_id_SingleQuotation;
         }
         else if (isEscapeDouble)
         {
-            bnf_token_p.token_label[i] = is_id_DoubleQuotation;
+            bnf_token_p.token_label_array[i] = is_id_DoubleQuotation;
         }
         else if (isVerticalLine)
         {
-            bnf_token_p.token_label[i] = is_id_VerticalLine;
+            bnf_token_p.token_label_array[i] = is_id_VerticalLine;
         }
         else if (isAddition)
         {
-            bnf_token_p.token_label[i] = is_id_Addition;
+            bnf_token_p.token_label_array[i] = is_id_Addition;
         }
         else if (isSubtraction)
         {
-            bnf_token_p.token_label[i] = is_id_Subtraction;
+            bnf_token_p.token_label_array[i] = is_id_Subtraction;
         }
         else if (isMultiplication)
         {
-            bnf_token_p.token_label[i] = is_id_Multiplication;
+            bnf_token_p.token_label_array[i] = is_id_Multiplication;
         }
         else if (isDivision)
         {
-            bnf_token_p.token_label[i] = is_id_Division;
+            bnf_token_p.token_label_array[i] = is_id_Division;
         }
         else if (isParenthesisLeft)
         {
-            bnf_token_p.token_label[i] = is_id_ParenthesisLeft;
+            bnf_token_p.token_label_array[i] = is_id_ParenthesisLeft;
         }
         else if (isParenthesisRight)
         {
-            bnf_token_p.token_label[i] = is_id_ParenthesisRight;
+            bnf_token_p.token_label_array[i] = is_id_ParenthesisRight;
         }
         else if (isBracketsLeft)
         {
-            bnf_token_p.token_label[i] = is_id_BracketLeft;
+            bnf_token_p.token_label_array[i] = is_id_BracketLeft;
         }
         else if (isBracketsRight)
         {
-            bnf_token_p.token_label[i] = is_id_BracketRight;
+            bnf_token_p.token_label_array[i] = is_id_BracketRight;
         }
         else if (isCurlyBracketsLeft)
         {
-            bnf_token_p.token_label[i] = is_id_CurlyBracketLeft;
+            bnf_token_p.token_label_array[i] = is_id_CurlyBracketLeft;
         }
         else if (isCurlyBracketsRight)
         {
-            bnf_token_p.token_label[i] = is_id_CurlyBracketRight;
+            bnf_token_p.token_label_array[i] = is_id_CurlyBracketRight;
         }
 
         else
         {
             bnf_token_p.terminal_symbol_len++;
-            bnf_token_p.token_label[i] = is_id_TerminalSymbol;
+            bnf_token_p.token_label_array[i] = is_id_TerminalSymbol;
         }
         i += work;
     }
@@ -227,10 +227,10 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
             exit(1);
         }
 
-        char* new_token = (char *)realloc(bnf_token_p.token_string[loop],bnf_token_len);
+        char* new_token = (char *)realloc(bnf_token_p.token_string_array[loop],bnf_token_len);
 
         strncpy(new_token, &source_code[i_s], token_search_len);
-        bnf_token_p.token_string[loop] = new_token;
+        bnf_token_p.token_string_array[loop] = new_token;
 
         i_s += token_search_len;
         loop++;

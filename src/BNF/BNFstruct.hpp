@@ -26,8 +26,8 @@ terminal_symbol_len    : 末端記号の数
 */
 struct BNFToken
 {
-    char **token_string;
-    int *token_label;
+    char **token_string_array;
+    int *token_label_array;
     int token_len;
     int nonterminal_symbol_len;
     int terminal_symbol_len;
@@ -41,8 +41,9 @@ symbol_len          : 述べシンボルの数
 */
 struct BNFSymbol
 {
-    int *symbol_table;
-    char **symbol_string;
+    int *symbol_table_array;
+    char **symbol_string_array;
+    int *nonterminal_symbol_array;
     int unique_symbol_len;
     int symbol_len;
 };

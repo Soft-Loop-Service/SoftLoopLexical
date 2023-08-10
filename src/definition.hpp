@@ -15,7 +15,7 @@ typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
 typedef std::vector<int> vint;
 typedef std::vector<std::vector<int> > v2int;
-typedef std::stack<int> stint;
+typedef std::stack<int> sint;
 typedef std::queue<int> quint;
 using namespace std;
 

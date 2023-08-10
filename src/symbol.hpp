@@ -57,7 +57,31 @@ bool is_symbol_operator(int t)
         return true;
     }
 
-        default:
+    default:
+        return false;
+    }
+}
+
+bool is_for_automaton(int t)
+{
+    switch (t)
+    {
+    case is_id_VerticalLine:
+    case is_id_ParenthesisLeft:
+    case is_id_BracketLeft:
+    case is_id_CurlyBracketLeft:
+    case is_id_ParenthesisRight:
+    case is_id_BracketRight:
+    case is_id_CurlyBracketRight:
+    case is_id_Addition:
+    case is_id_Subtraction:
+    case is_id_Multiplication:
+    case is_id_Division:
+    {
+        return true;
+    }
+
+    default:
         return false;
     }
 }

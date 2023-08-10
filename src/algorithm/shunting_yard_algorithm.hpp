@@ -16,7 +16,7 @@
 //操車場アルゴリズム
 //https://www.pandanoir.info/entry/2017/07/05/190000
 
-void loop_shunting_yard_algorithm(stint &yard_stack, vint &output_queue, int current_label)
+void loop_shunting_yard_algorithm(sint &yard_stack, vint &output_queue, int current_label)
 {
 
     if (current_label == is_id_TerminalSymbol || current_label == is_id_NonterminalSymbolRight)
@@ -81,7 +81,7 @@ void loop_shunting_yard_algorithm(stint &yard_stack, vint &output_queue, int cur
 
 void shunting_yard_algorithm(int *label, int len)
 {
-    stint yard_stack;
+    sint yard_stack;
     vint output_queue;
 
     for (int i = 0; i < len; i++)

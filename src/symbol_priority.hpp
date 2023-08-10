@@ -59,7 +59,7 @@ v2int symbol_priority = {
     {left_join},
 
     // 13
-    {left_join},
+    {left_join,is_id_VerticalLine},
 
     // 14
     {right_join},
