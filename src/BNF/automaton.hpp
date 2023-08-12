@@ -55,7 +55,7 @@ int parseRightSide(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol 
         if(current_token_label == is_id_NonterminalSymbolLeft){  
             // 左辺定義 非末端記号
             // 次の 非末端記号 に到達すると終了する
-            return;
+            // return;
         }
     }
 }

@@ -28,7 +28,36 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 
 const int source_code_size = 1000000;
 
-int resizeCharNull(char ** str, int len){
+/*
+resizeCharNull 
+第一引数    : 対象となる配列
+第二引数    : 変更したい長さ
+*/
+int resizeNull(int *data , int len){
+    int size = -1;
+
+    for (int i = 0 ; i < len;i++){
+        
+        if((data[i]) ==  NULL){
+            size = i;
+            break;
+        }
+    }
+
+    int* newdata = (int *)realloc(data,size);
+
+    if (newdata == NULL){
+        printf("resize int null error : 再配置できません\n");
+        return len;
+    }
+    data = newdata;
+
+    printf("resize int null ok : resize %d -> %d sizeof %ld\n",len,size,sizeof(char**));
+    return size;
+
+}
+
+int resizeNull(char ** str, int len){
 
     int size = -1;
 

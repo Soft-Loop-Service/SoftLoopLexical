@@ -29,12 +29,17 @@ int labelingBnf(BNFToken &bnf_token_p)
     int i = 0;
     while (i < bnf_token_p.token_len)
     {
+        
 
         char *cts = bnf_token_p.token_string_array[i];
 
-        printf("llb while %d %s\n", i, &*cts);
+        printf("labelingBnf %d %s\n",i,&*cts);
+
+        // printf("llb while %d %s %d\n", i, &*cts,bnf_token_p.token_len);
+
 
         // current_token_string
+
 
         bool hasLess = strchr(cts, '<') != 0;
         bool hasGreater = strchr(cts, '>') != 0;
@@ -46,7 +51,9 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isDefinitionSymbolNext = false;
         if (i + 1 < bnf_token_p.token_len)
         {
-            isDefinitionSymbolNext = strncmp(bnf_token_p.token_string_array[i + 1], "::=", 3) == 0;
+            char* cts_1 = bnf_token_p.token_string_array[i + 1];
+            printf("cts_1 %s\n",cts_1);
+            isDefinitionSymbolNext = strncmp(cts_1, "::=", 3) == 0;
             // その次のトークンが定義記号か調べることによって、左辺なのか右辺なのかを確認する
         }
 
@@ -75,6 +82,7 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isMultiplication = strchr("*", *cts) != 0;
         bool isDivision = strchr("/", *cts) != 0;
         bool isEqual = strchr("=", *cts) != 0;
+
 
         int work = 1;
 
@@ -170,7 +178,12 @@ int labelingBnf(BNFToken &bnf_token_p)
             bnf_token_p.token_label_array[i] = is_id_TerminalSymbol;
         }
         i += work;
+
+        printf(" %d\n",work);
+
     }
+
+    
 }
 
 int parseBnf(char *source_code, BNFToken &bnf_token_p)
@@ -227,8 +240,9 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
             exit(1);
         }
 
-        char* new_token = (char *)realloc(bnf_token_p.token_string_array[loop],bnf_token_len);
+        // char* new_token = (char *)realloc(bnf_token_p.token_string_array[loop],bnf_token_len);
 
+        char* new_token = (char*)calloc(bnf_token_len,1);
         strncpy(new_token, &source_code[i_s], token_search_len);
         bnf_token_p.token_string_array[loop] = new_token;
 
@@ -236,7 +250,7 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
         loop++;
         /* code */
     }
-
+    
     return loop;
 }
 
