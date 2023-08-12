@@ -4,8 +4,8 @@
 #define __BNFGST
 
 #include "./../definition.hpp"
-#include "./BNFdefinition.hpp"
-#include "./BNFstruct.hpp"
+#include "./bnf_definition.hpp"
+#include "./bnf_struct.hpp"
 #include "./../symbol.hpp"
 
 #include <stdio.h>
@@ -72,11 +72,6 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
     for (int si = 0; si < bnf_token_p.token_len; si++)
     {
         int ctl = bnf_token_p.token_label_array[si];
-
-        if (ctl == is_id_NonterminalSymbolLeft){
-
-        }
-
         switch (ctl)
         {
         case is_id_NonterminalSymbolLeft:  // 左辺定義 非末端記号

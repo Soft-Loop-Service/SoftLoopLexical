@@ -2,7 +2,7 @@ build:
 	g++ -o ./bin/main.exe ./src/main.cpp
 
 bnf:
-	g++ -o ./BNFtest.exe ./src/BNF/BNFtest.cpp
+	g++ -o ./BNF_TEST.exe ./src/BNF/BNF_TEST.cpp
 
 bnfa:
-	g++ -o ./BNFtest.out ./src/BNF/BNFtest.cpp
+	g++ -o ./BNF_TEST.out ./src/BNF/BNF_TEST.cpp

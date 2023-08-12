@@ -3,8 +3,8 @@
 #define __BNFPARSER
 
 #include "./../definition.hpp"
-#include "./BNFdefinition.hpp"
-#include "./BNFstruct.hpp"
+#include "./bnf_definition.hpp"
+#include "./bnf_struct.hpp"
 #include "./../symbol.hpp"
 
 #include <stdio.h>

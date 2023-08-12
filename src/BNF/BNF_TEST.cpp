@@ -1,10 +1,10 @@
 // BNF定義ファイルからオートマトンを生成する
 #include "./../definition.hpp"
-#include "./BNFparser.hpp"
-#include "./BNFstruct.hpp"
+#include "./bnf_parser.hpp"
+#include "./bnf_struct.hpp"
 #include "./../debug.hpp"
-#include "./BNFdebug.hpp"
-#include "./symbolTable.hpp"
+#include "./bnf_debug.hpp"
+#include "./symbol_table.hpp"
 #include "./automaton.hpp"
 
 int main()
@@ -17,12 +17,11 @@ int main()
 
     bnf_token.token_string_array = (char **)calloc(bnf_token_string_len, 1);
     bnf_token.token_len = parseBnf(bnf_source, bnf_token);
+    bnf_token.token_label_array = new int[bnf_token.token_len];
     // // printf("token_len\n %d", token_len);
     free(bnf_source);
 
     output_token_string(bnf_token.token_string_array, bnf_token.token_len);
-
-    bnf_token.token_label_array = new int[bnf_token.token_len];
 
     labelingBnf(bnf_token);
     // // output_labeling_bnf(token_string, token_label, token_len);

@@ -3,7 +3,7 @@
 #define __BNFSTRUCT
 
 #include "./../definition.hpp"
-#include "./BNFdefinition.hpp"
+#include "./bnf_definition.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>

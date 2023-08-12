@@ -3,7 +3,7 @@
 #ifndef __DebugBNF
 #define __DebugBNF
 
-#include "BNFstruct.hpp"
+#include "bnf_struct.hpp"
 
 void output_bnf_tablef(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p )
 {
