@@ -29,7 +29,7 @@ symbol_stringにすでに存在すれば、存在する場所を戻り値とし�
 
 新規挿入する。
 */
-int insertSymbolTable(char *current_token_string, char **symbol_string, int symbol_len)
+int insertSymbolTable(char *current_token_string, char **symbol_string_array, int symbol_len)
 {
     // 格納されていないところを探す
 
@@ -37,17 +37,19 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
 
     for (int i = 0; i < symbol_len; i++)
     {
-        char* current_symbol_string = symbol_string[i];
+        char* current_symbol_string_array = symbol_string_array[i];
+
+        printf("current_symbol_string_array %s\n",current_symbol_string_array);
 
         //探索した場所がNULLだったら返却する
-        if (current_symbol_string == NULL)
+        if (current_symbol_string_array[0] == '\0')
         {
             index = i;
             break;
         }
 
         //すでに挿入済みであるか調べる
-        if (strncmp(current_token_string, current_symbol_string,bnf_token_len) == 0)
+        if (strncmp(current_token_string, current_symbol_string_array,bnf_token_len) == 0)
         {
             return i;
         }
@@ -58,8 +60,9 @@ int insertSymbolTable(char *current_token_string, char **symbol_string, int symb
         return -1;
     }
 
-
-    strncpy(symbol_string[index], current_token_string, bnf_token_len);
+    
+    // symbol_string_array[index] = 
+    strncpy(symbol_string_array[index], current_token_string, bnf_token_len);
 
     return index;
 }
@@ -73,10 +76,8 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
 {
 
     for (int i = 0; i < bnf_token_p.token_len ; i++){
-        bnf_symbol_p.symbol_string_array[i] = (char *)calloc(bnf_token_len, 1);
-        bnf_symbol_p.symbol_string_array[i] = "test";
-
-        printf("generateSymbolTable %d %s\n",i,bnf_symbol_p.symbol_string_array[i]);
+        bnf_symbol_p.symbol_string_array[i] = (char *)calloc(bnf_token_len,1);
+        bnf_symbol_p.symbol_string_array[i][0] = '\0';
     }
 
     int csi = 0; // symbol_stringで次に挿入する場所

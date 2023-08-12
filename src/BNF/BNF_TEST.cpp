@@ -11,13 +11,14 @@
 int main()
 {
     char *bnf_source = new char[source_code_size];
-    // loadText(bnf_source, "./src/BNF/BNF.txt", source_code_size);
-    loadText(bnf_source, "./BNF.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF.txt", source_code_size);
+    // loadText(bnf_source, "./BNF.txt", source_code_size);
 
     BNFToken bnf_token;
     BNFSymbol bnf_symbol;
 
-    bnf_token.token_string_array = (char **)calloc(bnf_token_string_len, 1);
+
+    bnf_token.token_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char**));
     bnf_token.token_len = parseBnf(bnf_source, bnf_token);
     bnf_token.token_label_array = new int[bnf_token.token_len];
     bnf_token.nonterminal_symbol_len = 0;
@@ -29,17 +30,19 @@ int main()
     output_token_string(bnf_token.token_string_array, bnf_token.token_len);
 
     labelingBnf(bnf_token);
-    // // output_labeling_bnf(token_string, token_label, token_len);
-
-    // // printf("sl %d %d %d\n", *nonterminal_symbol_len, *terminal_symbol_len,token_len);
-
 
     bnf_symbol.symbol_len = bnf_token.nonterminal_symbol_len + bnf_token.terminal_symbol_len;
     bnf_symbol.symbol_table_array = new int[bnf_token.token_len];
-    bnf_symbol.symbol_string_array = (char **)calloc(bnf_token.token_len, 1);
+    bnf_symbol.symbol_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char**));
     printf("bnf_token %d %d %d %d\n",bnf_token.token_len,bnf_symbol.symbol_len , bnf_token.nonterminal_symbol_len , bnf_token.terminal_symbol_len);
     int unique_symbol_len = generateSymbolTable(bnf_token, bnf_symbol);
 
+    printf("char size %ld %ld %ld\n",sizeof(char**),sizeof(char*),sizeof(char));
+
+    free(&(bnf_token.token_label_array));
+    free(&(bnf_token.token_string_array));
+    free(&(bnf_symbol.symbol_string_array));
+    free(&(bnf_symbol.symbol_table_array));
     // output_bnf_tablef(bnf_token, bnf_symbol);
 
     // Automaton *automaton_graph = new Automaton[unique_symbol_len];
@@ -51,4 +54,6 @@ int main()
     // for (int i = 0; i < sl_len ; i++){
     //     printf("nonterminal_symbol : %d %d" , nonterminal_symbol_left_array[i] , bnf_symbol.symbol_table_array[nonterminal_symbol_left_array[i]] );
     // }
+
+
 }

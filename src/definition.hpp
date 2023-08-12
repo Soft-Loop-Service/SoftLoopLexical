@@ -24,6 +24,11 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 // const int token_size = 50;           // tokenの最大文字数
 // const int variable_size = 50;        // variableの最大文字数
 
+
+#define code_token_len 50 //BNFトークンの最大長
+#define code_token_arr_len 500
+
+
 // 最大ソースコード容量 1MBまで対応
 
 const int source_code_size = 1000000;
@@ -38,7 +43,7 @@ int resizeNull(int *data , int len){
 
     for (int i = 0 ; i < len;i++){
         
-        if((data[i]) ==  NULL){
+        if((data[i]) ==  0){
             size = i;
             break;
         }
@@ -47,7 +52,7 @@ int resizeNull(int *data , int len){
     int* newdata = (int *)realloc(data,size);
 
     if (newdata == NULL){
-        printf("resize int null error : 再配置できません\n");
+        printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n",len,size);
         return len;
     }
     data = newdata;
@@ -63,7 +68,7 @@ int resizeNull(char ** str, int len){
 
     for (int i = 0 ; i < len;i++){
         
-        if((str[i]) ==  NULL){
+        if((str[i][0]) ==  '\0'){
             size = i;
             break;
         }
@@ -72,7 +77,7 @@ int resizeNull(char ** str, int len){
     char** newstr = (char **)realloc(str,size);
 
     if (newstr == NULL){
-        printf("resize char null error : 再配置できません\n");
+        printf("resize char null error : 再配置できません 再配置要求 %d -> %d\n",len,size);
         return len;
     }
 
