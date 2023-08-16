@@ -29,17 +29,14 @@ int labelingBnf(BNFToken &bnf_token_p)
     int i = 0;
     while (i < bnf_token_p.token_len)
     {
-        
 
         char *cts = bnf_token_p.token_string_array[i];
 
-        printf("labelingBnf %d %s\n",i,&*cts);
+        printf("labelingBnf %d %s\n", i, &*cts);
 
         // printf("llb while %d %s %d\n", i, &*cts,bnf_token_p.token_len);
 
-
         // current_token_string
-
 
         bool hasLess = strchr(cts, '<') != 0;
         bool hasGreater = strchr(cts, '>') != 0;
@@ -51,10 +48,10 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isDefinitionSymbolNext = false;
         if (i + 1 < bnf_token_p.token_len)
         {
-            char* cts_1 = bnf_token_p.token_string_array[i + 1];
-            printf("cts_1 %s\n",cts_1);
+            char *cts_1 = bnf_token_p.token_string_array[i + 1];
+            printf("cts_1 %s\n", cts_1);
             isDefinitionSymbolNext = strncmp(cts_1, "::=", 3) == 0;
-            printf("cts_2 %d\n",isDefinitionSymbolNext);
+            printf("cts_2 %d\n", isDefinitionSymbolNext);
             // その次のトークンが定義記号か調べることによって、左辺なのか右辺なのかを確認する
         }
 
@@ -65,21 +62,25 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isEscapeSingle = strncmp(cts, "\'", 1) == 0;
         bool isEscapeDouble = strncmp(cts, "\"", 1) == 0;
 
-        printf("bool 1 %d %d %d\n",i,isEscapeSingle , isEscapeDouble);
+        printf("bool 1 %d %d %d\n", i, isEscapeSingle, isEscapeDouble);
 
         bool hasEscapeSingle = false;
         bool hasEscapeDouble = false;
 
-        printf("bool 1.-1 %s\n",bnf_token_p.token_string_array[i - 1]);
-        printf("bool 1.1 %s\n",bnf_token_p.token_string_array[i + 1]);
-        printf("bool 1.2 %s\n",bnf_token_p.token_string_array[i + 2]);
+        if (i > 0)
+        {
+            printf("bool 1.-1 %s\n", bnf_token_p.token_string_array[i - 1]);
+        }
+
+        printf("bool 1.1 %s\n", bnf_token_p.token_string_array[i + 1]);
+        printf("bool 1.2 %s\n", bnf_token_p.token_string_array[i + 2]);
 
         if (i + 2 < bnf_token_p.token_len)
         {
             hasEscapeSingle = isEscapeSingle && strncmp(bnf_token_p.token_string_array[i + 2], "\'", 1) == 0;
             hasEscapeDouble = isEscapeDouble && strncmp(bnf_token_p.token_string_array[i + 2], "\"", 1) == 0;
         }
-        printf("bool 2 %d %d\n",hasEscapeSingle , hasEscapeDouble);
+        printf("bool 2 %d %d\n", hasEscapeSingle, hasEscapeDouble);
 
         bool isParenthesisLeft = strchr("(", *cts) != 0;
         bool isParenthesisRight = strchr(")", *cts) != 0;
@@ -93,7 +94,7 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isMultiplication = strchr("*", *cts) != 0;
         bool isDivision = strchr("/", *cts) != 0;
         bool isEqual = strchr("=", *cts) != 0;
-        printf("bool 3 %d %d\n",hasEscapeSingle , hasEscapeDouble);
+        printf("bool 3 %d %d\n", hasEscapeSingle, hasEscapeDouble);
 
         int work = 1;
 
@@ -191,10 +192,7 @@ int labelingBnf(BNFToken &bnf_token_p)
             bnf_token_p.token_label_array[i] = is_id_TerminalSymbol;
         }
         i += work;
-
     }
-
-    
 }
 
 int parseBnf(char *source_code, BNFToken &bnf_token_p)
@@ -203,10 +201,9 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
     int state = 0;
     int loop = 0;
 
-
     for (;;)
     {
-        
+
         int token_search_len = 0;
 
         if (source_code[i_s] == 0) // ファイル終端
@@ -254,15 +251,14 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
 
         // char* new_token = (char *)realloc(bnf_token_p.token_string_array[loop],bnf_token_len);
 
-        bnf_token_p.token_string_array[loop] = (char*)calloc(bnf_token_len,1);
+        bnf_token_p.token_string_array[loop] = (char *)calloc(bnf_token_len, 1);
         strncpy(bnf_token_p.token_string_array[loop], &source_code[i_s], token_search_len);
-        
 
         i_s += token_search_len;
         loop++;
         /* code */
     }
-    
+
     return loop;
 }
 

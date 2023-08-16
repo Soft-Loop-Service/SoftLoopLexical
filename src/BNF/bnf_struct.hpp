@@ -11,10 +11,10 @@
 #include <iostream>
 #include <vector>
 
-struct stest{
+struct stest
+{
     int test;
 };
-
 
 /*
 BNFToken
@@ -45,6 +45,16 @@ struct BNFSymbol
     char **symbol_string_array;
     int unique_symbol_len;
     int symbol_len;
+};
+
+/*
+array   : arrayとsymbol_stringの関連付け。要素番号=symbol_stringの格納場所
+*/
+struct RetrieveSymbol
+{
+    int *array;
+    int len;
+    /* data */
 };
 
 #endif

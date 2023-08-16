@@ -12,14 +12,12 @@
 #include <iostream>
 #include <vector>
 
-
-
 class Automaton
 {
 private:
     int referenceIndex;
-    vint transition;      // 次に想定するnode。つまり有向グラフにおいて接続する点。遷移先
-    vint previous;      // 上向き構文解析用
+    vint transition; // 次に想定するnode。つまり有向グラフにおいて接続する点。遷移先
+    vint previous;   // 上向き構文解析用
 public:
     // Automaton() //new配列で一度に確保するため、コンストラクタが使えない
     //  ~Automaton();
@@ -46,13 +44,14 @@ int connectAutomaton(Automaton *automaton_graph, int current_node, int sub_node)
     automaton_graph[sub_node].connectPrevious(current_node);
 }
 
-
-int parseRightSide(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p , sint &bnf_stack)
+int parseRightSide(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, sint &bnf_stack)
 {
-    for (int j= 0; j < bnf_token_p.token_len ; j++){
+    for (int j = 0; j < bnf_token_p.token_len; j++)
+    {
         int current_token_label = bnf_token_p.token_label_array[j];
 
-        if(current_token_label == is_id_NonterminalSymbolLeft){  
+        if (current_token_label == is_id_NonterminalSymbolLeft)
+        {
             // 左辺定義 非末端記号
             // 次の 非末端記号 に到達すると終了する
             // return;
@@ -60,7 +59,7 @@ int parseRightSide(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol 
     }
 }
 
-int generateAutomaton(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
+int generateAutomaton(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left)
 {
 
     sint bnf_stack;
@@ -71,7 +70,6 @@ int generateAutomaton(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymb
 
         if (current_token_label == is_id_NonterminalSymbolLeft)
         { // 左辺定義 非末端記号
-
         }
     }
 }
