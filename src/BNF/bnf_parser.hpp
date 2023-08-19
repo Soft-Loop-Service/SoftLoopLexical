@@ -15,15 +15,8 @@
 
 // EBNF記法に沿う
 
-/*
-labelingBnf
-tokenそれぞれの役割を明確化する
-token_string : 入力token
-token_label  : 役割探索結果
-token_len    : 読み込む入力tokenの量
-nonterminal_symbol_len   : 役割探索の結果、非末端記号の数
-terminal_symbol_len   : 役割探索の結果、末端記号の数
-*/
+/// labelingBnf
+/// tokenそれぞれの役割を明確化する
 int labelingBnf(BNFToken &bnf_token_p)
 {
     int i = 0;
@@ -66,14 +59,6 @@ int labelingBnf(BNFToken &bnf_token_p)
 
         bool hasEscapeSingle = false;
         bool hasEscapeDouble = false;
-
-        if (i > 0)
-        {
-            printf("bool 1.-1 %s\n", bnf_token_p.token_string_array[i - 1]);
-        }
-
-        printf("bool 1.1 %s\n", bnf_token_p.token_string_array[i + 1]);
-        printf("bool 1.2 %s\n", bnf_token_p.token_string_array[i + 2]);
 
         if (i + 2 < bnf_token_p.token_len)
         {

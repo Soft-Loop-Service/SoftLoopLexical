@@ -13,14 +13,11 @@
 #include <iostream>
 #include <vector>
 
-/*
-retrieveSymbolTable
-SymbolTableから欲しい種別だけ抽出する
-
-target_id       : 抽出対象
-retrieve_label  : 抽出したラベル
-戻り値          : 抽出したラベルデータの長さ　
-*/
+/// retrieveSymbolTable
+/// SymbolTableから欲しい種別だけ抽出する
+/// @param target_id       抽出対象
+/// @param retrieve_label  抽出したラベル
+/// @return                抽出したラベルデータの長さ　
 int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &retrieve_symbol, int target_id)
 {
 

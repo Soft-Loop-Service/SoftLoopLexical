@@ -14,9 +14,11 @@ typedef std::vector<char> vchar;
 typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
 typedef std::vector<int> vint;
-typedef std::vector<std::vector<int> > v2int;
+typedef std::vector<std::vector<int>> v2int;
 typedef std::stack<int> sint;
 typedef std::queue<int> quint;
+typedef std::vector<std::queue<int>> vquint;
+
 using namespace std;
 
 const int token_string_arr_size = 10000;      // tokenの最大数
@@ -24,67 +26,99 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 // const int token_size = 50;           // tokenの最大文字数
 // const int variable_size = 50;        // variableの最大文字数
 
-
-#define code_token_len 50 //BNFトークンの最大長
+#define code_token_len 50 // BNFトークンの最大長
 #define code_token_arr_len 500
-
 
 // 最大ソースコード容量 1MBまで対応
 
 const int source_code_size = 1000000;
 
+bool getTwoDimensionalArray(int **data, int one, int two)
+{
+    data = (int **)calloc(one, sizeof(int *));
+    if (data == NULL)
+    {
+        return false;
+    }
+
+    for (int i = 0; i < one; i++)
+    {
+        data[i] = (int *)calloc(two, sizeof(int));
+        if (data[i] == NULL)
+        {
+            return false;
+        }
+    }
+
+    for (int h = 0; h < one; h++)
+    {
+        for (int w = 0; w < two; w++)
+        {
+            data[h][w] = 0;
+        }
+    }
+
+    return true;
+}
+
 /*
-resizeCharNull 
+resizeCharNull
 第一引数    : 対象となる配列
 第二引数    : 変更したい長さ
 */
-int resizeNull(int *data , int len){
+int resizeNull(int *data, int len)
+{
     int size = -1;
 
-    for (int i = 0 ; i < len;i++){
-        
-        if((data[i]) ==  0){
+    for (int i = 0; i < len; i++)
+    {
+
+        if ((data[i]) == 0)
+        {
             size = i;
             break;
         }
     }
 
-    int* newdata = (int *)realloc(data,size);
+    int *newdata = (int *)realloc(data, size);
 
-    if (newdata == NULL){
-        printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n",len,size);
+    if (newdata == NULL)
+    {
+        printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
         return len;
     }
     data = newdata;
 
-    printf("resize int null ok : resize %d -> %d sizeof %ld\n",len,size,sizeof(char**));
+    printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
     return size;
-
 }
 
-int resizeNull(char ** str, int len){
+int resizeNull(char **str, int len)
+{
 
     int size = -1;
 
-    for (int i = 0 ; i < len;i++){
-        
-        if((str[i][0]) ==  '\0'){
+    for (int i = 0; i < len; i++)
+    {
+
+        if ((str[i][0]) == '\0')
+        {
             size = i;
             break;
         }
     }
 
-    char** newstr = (char **)realloc(str,size);
+    char **newstr = (char **)realloc(str, size);
 
-    if (newstr == NULL){
-        printf("resize char null error : 再配置できません 再配置要求 %d -> %d\n",len,size);
+    if (newstr == NULL)
+    {
+        printf("resize char null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
         return len;
     }
 
     str = newstr;
 
-    printf("resize char null ok : resize %d -> %d sizeof %ld\n",len,size,sizeof(char**));
-
+    printf("resize char null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
 
     return size;
 }

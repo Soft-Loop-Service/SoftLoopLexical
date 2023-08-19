@@ -8,7 +8,6 @@
 #include "./bnf_struct.hpp"
 #include "./../symbol.hpp"
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,19 +36,19 @@ int insertSymbolTable(char *current_token_string, char **symbol_string_array, in
 
     for (int i = 0; i < symbol_len; i++)
     {
-        char* current_symbol_string_array = symbol_string_array[i];
+        char *current_symbol_string_array = symbol_string_array[i];
 
-        printf("current_symbol_string_array %s\n",current_symbol_string_array);
+        printf("current_symbol_string_array %s\n", current_symbol_string_array);
 
-        //探索した場所がNULLだったら返却する
+        // 探索した場所がNULLだったら返却する
         if (current_symbol_string_array[0] == '\0')
         {
             index = i;
             break;
         }
 
-        //すでに挿入済みであるか調べる
-        if (strncmp(current_token_string, current_symbol_string_array,bnf_token_len) == 0)
+        // すでに挿入済みであるか調べる
+        if (strncmp(current_token_string, current_symbol_string_array, bnf_token_len) == 0)
         {
             return i;
         }
@@ -60,23 +59,22 @@ int insertSymbolTable(char *current_token_string, char **symbol_string_array, in
         return -1;
     }
 
-    
-    // symbol_string_array[index] = 
+    // symbol_string_array[index] =
     strncpy(symbol_string_array[index], current_token_string, bnf_token_len);
 
     return index;
 }
 
-
 /*
 generateSymbolTable
 非終端記号と終端記号の関係をまとめる。ユニークな非終端記号と終端記号の合計値を返す
 */
-int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
+int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
 {
 
-    for (int i = 0; i < bnf_token_p.token_len ; i++){
-        bnf_symbol_p.symbol_string_array[i] = (char *)calloc(bnf_token_len,1);
+    for (int i = 0; i < bnf_token_p.token_len; i++)
+    {
+        bnf_symbol_p.symbol_string_array[i] = (char *)calloc(bnf_token_len, 1);
         bnf_symbol_p.symbol_string_array[i][0] = '\0';
     }
 
@@ -91,7 +89,7 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
         case is_id_TerminalSymbol:         // 末端記号(TerminalSymbol)
 
         {
-            printf("generateSymbolTable switch a %d\n",ctl);
+            printf("generateSymbolTable switch a %d\n", ctl);
             int n = insertSymbolTable(bnf_token_p.token_string_array[si], bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
             if (n > 0)
             {
@@ -103,12 +101,13 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
 
         case is_id_ParenthesisLeft:
         case is_id_BracketLeft:
-        case is_id_CurlyBracketLeft:{
-            printf("generateSymbolTable switch b %d\n",ctl);
-            char *temp_name = (char*)malloc(bnf_token_len);
-            snprintf(temp_name,bnf_token_len,"%s_%d","temp",si);
-            int n = insertSymbolTable(temp_name, bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
-            bnf_symbol_p.symbol_table_array[si] = n;
+        case is_id_CurlyBracketLeft:
+        {
+            // printf("generateSymbolTable switch b %d\n",ctl);
+            // char *temp_name = (char*)malloc(bnf_token_len);
+            // snprintf(temp_name,bnf_token_len,"%s_%d","temp",si);
+            // int n = insertSymbolTable(temp_name, bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
+            // bnf_symbol_p.symbol_table_array[si] = n;
             break;
         }
 
@@ -118,7 +117,7 @@ int generateSymbolTable(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p)
         }
     }
 
-    bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array , bnf_symbol_p.symbol_len);
+    bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
     return bnf_symbol_p.symbol_len;
 }
 

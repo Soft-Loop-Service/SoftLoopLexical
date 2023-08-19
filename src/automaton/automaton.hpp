@@ -5,12 +5,17 @@
 #include "./../definition.hpp"
 #include "./automaton_definition.hpp"
 #include "./../symbol.hpp"
+#include "./../BNF/bnf_struct.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
 #include <vector>
+
+struct AutomatonNode
+{
+};
 
 class Automaton
 {
@@ -37,41 +42,34 @@ public:
         previous.push_back(arg);
     }
 };
-
+typedef std::vector<Automaton> vAutomaton;
 int connectAutomaton(Automaton *automaton_graph, int current_node, int sub_node)
 {
     automaton_graph[current_node].connectTransition(sub_node);
     automaton_graph[sub_node].connectPrevious(current_node);
 }
 
-int parseRightSide(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, sint &bnf_stack)
-{
-    for (int j = 0; j < bnf_token_p.token_len; j++)
-    {
-        int current_token_label = bnf_token_p.token_label_array[j];
+// int parseRightSide(vAutomaton &automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, sint &bnf_stack)
+// {
+//     for (int j = 0; j < bnf_token_p.token_len; j++)
+//     {
+//         int current_token_label = bnf_token_p.token_label_array[j];
 
-        if (current_token_label == is_id_NonterminalSymbolLeft)
-        {
-            // 左辺定義 非末端記号
-            // 次の 非末端記号 に到達すると終了する
-            // return;
-        }
-    }
+//         if (current_token_label == is_id_NonterminalSymbolLeft)
+//         {
+//             // 左辺定義 非末端記号
+//             // 次の 非末端記号 に到達すると終了する
+//             // return;
+//         }
+//     }
+// }
+
+int parseVerticalLine(int *ans_array, int len, int s, int e)
+{
 }
 
-int generateAutomaton(Automaton *automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left)
+int generateAutomaton(vAutomaton &automaton_graph, BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left)
 {
-
-    sint bnf_stack;
-
-    for (int i = 0; i < bnf_token_p.token_len; i++)
-    {
-        int current_token_label = bnf_token_p.token_label_array[i];
-
-        if (current_token_label == is_id_NonterminalSymbolLeft)
-        { // 左辺定義 非末端記号
-        }
-    }
 }
 
 #endif

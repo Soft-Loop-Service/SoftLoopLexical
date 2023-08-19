@@ -5,8 +5,9 @@
 #include "./../debug.hpp"
 #include "./bnf_debug.hpp"
 #include "./symbol_table.hpp"
-#include "./automaton.hpp"
+#include "./../automaton/automaton.hpp"
 #include "./retrieve_symbol_table.hpp"
+#include "./../automaton/item_set.hpp"
 
 int main()
 {
@@ -40,12 +41,20 @@ int main()
 
     RetrieveSymbol nonterminal_symbol_left;
     // 左辺非末端記号の配列を取得する
-
     retrieveSymbolTable(bnf_token, bnf_symbol, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
     // 左辺の数を取得する
 
-    Automaton *automaton_graph = new Automaton[unique_symbol_len];
-    generateAutomaton(automaton_graph, bnf_token, bnf_symbol, nonterminal_symbol_left);
+    RetrieveSymbol terminal_symbol;
+    // 左辺非末端記号の配列を取得する
+    retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
+
+    generateItemSet(bnf_token, bnf_symbol, nonterminal_symbol_left);
+    // 左辺の数を取得する
+
+    // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];
+
+    // vAutomaton automaton_graph = {};
+    // generateAutomaton(automaton_graph, bnf_token, bnf_symbol, nonterminal_symbol_left);
 
     free(&(bnf_token.token_label_array));
     free(&(bnf_token.token_string_array));
