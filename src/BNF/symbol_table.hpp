@@ -38,8 +38,6 @@ int insertSymbolTable(char *current_token_string, char **symbol_string_array, in
     {
         char *current_symbol_string_array = symbol_string_array[i];
 
-        printf("current_symbol_string_array %s\n", current_symbol_string_array);
-
         // 探索した場所がNULLだったら返却する
         if (current_symbol_string_array[0] == '\0')
         {
@@ -78,7 +76,7 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
         bnf_symbol_p.symbol_string_array[i][0] = '\0';
     }
 
-    int csi = 0; // symbol_stringで次に挿入する場所
+    int count = 0;
     for (int si = 0; si < bnf_token_p.token_len; si++)
     {
         int ctl = bnf_token_p.token_label_array[si];
@@ -94,6 +92,7 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
             if (n > 0)
             {
                 bnf_symbol_p.symbol_table_array[si] = n;
+                count++;
             }
         }
 
@@ -116,9 +115,13 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
             break;
         }
     }
-
-    bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
-    return bnf_symbol_p.symbol_len;
+    for (int i = 0; i < bnf_token_p.token_len; i++)
+    {
+        printf("generateSymbolTable %d %d %d\n", i, bnf_symbol_p.symbol_table_array[i], count);
+    }
+    bnf_symbol_p.unique_symbol_len = count;
+    // bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
+    return count;
 }
 
 #endif

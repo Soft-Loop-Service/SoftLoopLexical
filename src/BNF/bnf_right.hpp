@@ -26,7 +26,7 @@ void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
     printf("dequeueBNFRight %ld\n", bnf_right.size());
 }
 
-int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left)
+v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left)
 {
     quint bnf_que;
     v2int bnf_right;

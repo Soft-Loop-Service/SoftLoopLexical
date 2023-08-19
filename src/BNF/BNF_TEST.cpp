@@ -33,7 +33,7 @@ int main()
 
     bnf_symbol.symbol_len = bnf_token.nonterminal_symbol_len + bnf_token.terminal_symbol_len;
     bnf_symbol.symbol_table_array = new int[bnf_token.token_len];
-    bnf_symbol.symbol_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char **));
+    bnf_symbol.symbol_string_array = (char **)calloc(bnf_token.token_len, sizeof(char **));
     printf("bnf_token %d %d %d %d\n", bnf_token.token_len, bnf_symbol.symbol_len, bnf_token.nonterminal_symbol_len, bnf_token.terminal_symbol_len);
     int unique_symbol_len = generateSymbolTable(bnf_token, bnf_symbol);
 
@@ -41,12 +41,16 @@ int main()
 
     RetrieveSymbol nonterminal_symbol_left;
     // 左辺非末端記号の配列を取得する
-    retrieveSymbolTable(bnf_token, bnf_symbol, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
+    retrieveSymbolTable(bnf_token, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
     // 左辺の数を取得する
 
     RetrieveSymbol terminal_symbol;
+    // 末端記号の配列を取得する
+    retrieveSymbolTable(bnf_token, terminal_symbol, is_id_TerminalSymbol);
+
+    RetrieveSymbol symbol_right;
     // 左辺非末端記号の配列を取得する
-    retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
+    retrieveSymbolTable(bnf_token, bnf_symbol, symbol_right, is_id_TerminalSymbol);
 
     generateItemSet(bnf_token, bnf_symbol, nonterminal_symbol_left);
     // 左辺の数を取得する

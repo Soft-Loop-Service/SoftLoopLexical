@@ -25,10 +25,20 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
 
     for (int i = 0; i < nonterminal_symbol_left.len; i++)
     {
-        generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i);
+        v2int bnf_right = generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i);
         // ループカウンタがLR構文解析表を作るにあたって必要なdotの位置
-        for (int dot = 0; dot < 100; dot++)
+        for (int dot = 0; dot < bnf_right.size(); dot++)
         {
+            if (dot == 0) // 先端にいる時(読み込み済みが存在しないとき)
+            {
+            }
+            else if (dot == bnf_right.size()) // 末端にいるとき
+            {
+                int index = dot - 1;
+            }
+            else // それ以外
+            {
+            }
         }
     }
 }

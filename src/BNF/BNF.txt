@@ -1,4 +1,4 @@
-test
+<root> ::= <expr>
 
 <type_specifier> ::= void
                    | char
