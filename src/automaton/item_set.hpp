@@ -18,20 +18,21 @@ int addItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, Retrie
 {
     int index = dot - 1;
 
-    struct ItemSetStruct temp;
+    struct ItemSetStruct new_item_set = item_set_vector_tree.back();
+
     printf("test %4s %4s %4s %4s %4s %4s %30s children : %s\n", "i", "j", "k", "ctc", "cs", "cb", "", "ts");
     for (int i = 0; i < symbols.len; i++)
     {
         vint childlen_temp = {};
 
-        struct ItemSetStruct ct = item_set_vector_tree.back();
+        // struct ItemSetStruct ct = item_set_vector_tree.back();
         // Current Tree
 
-        for (int j = 0; j < ct.bnf_right.size(); j++)
+        for (int j = 0; j < new_item_set.bnf_right.size(); j++)
         {
-            for (int k = 0; k < ct.bnf_right[j].size(); k++)
+            for (int k = 0; k < new_item_set.bnf_right[j].size(); k++)
             {
-                vint ctc = ct.bnf_right[j][k];
+                vint ctc = new_item_set.bnf_right[j][k];
                 if (index >= ctc.size())
                 {
                     continue;
@@ -44,17 +45,21 @@ int addItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, Retrie
                 if (strncmp(current_symbol_text, current_bnf_text, bnf_token_len) == 0)
                 {
                     childlen_temp.push_back(current_symbol);
-                    printf("test %4d %4d %4d %4ld %4d %4d %30s children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), temp.children.size());
+                    printf("test %4d %4d %4d %4ld %4d %4d %30s children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), new_item_set.children.size());
                 }
             }
         }
 
         if (childlen_temp.size() > 0)
         {
-            temp.children.push_back(childlen_temp);
+            new_item_set.children.push_back(childlen_temp);
         }
     }
-    item_set_vector_tree.push_back(temp);
+    // item_set_vector_tree.push_back(new_item_set);
+}
+
+int modifyItemSetChildren(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols)
+{
 }
 
 /*
