@@ -14,34 +14,47 @@ bnf_right   : 3次元配列 上から順に 式：展開した式：式を構成
 children    : 4次元配列 上から順に アイテム集合群：式：展開した式：式を構成するtoken
 dot
 */
-struct ItemSetStruct
-{
-    vItemSetFormulaStruct formula;
-    vItemSetGroupStruct children;
-};
 
-struct ItemSetFormulaStruct
-{
-    vItemSetFormulaExpansionStruct formula_expansion;
-};
-struct ItemSetFormulaExpansionStruct
-{
-    vItemSetTokenStruct token;
-};
-struct ItemSetTokenStruct
-{
-    int token_number;
-}
-
-struct ItemSetGroupStruct
-{
-    vItemSetFormulaStruct formula;
-};
-
+// typedef std::vector<ItemSetGroupStruct> vItemSetGroupStruct;
+struct ItemSetStruct;
+struct ItemSetFormulaStruct;
+struct ItemSetFormulaExpansionStruct;
+struct ItemSetTokenStruct;
+typedef std::vector<ItemSetStruct> vItemSetStruct;
 typedef std::vector<ItemSetFormulaStruct> vItemSetFormulaStruct;
 typedef std::vector<ItemSetFormulaExpansionStruct> vItemSetFormulaExpansionStruct;
 typedef std::vector<ItemSetTokenStruct> vItemSetTokenStruct;
-typedef std::vector<ItemSetGroupStruct> vItemSetGroupStruct;
+
+struct ItemSetStruct
+{
+    vItemSetFormulaStruct formula_vector;
+    vItemSetStruct children;
+};
+
+// 構造体 式
+struct ItemSetFormulaStruct
+{
+    vItemSetFormulaExpansionStruct formula_expansion_vector;
+};
+
+// 構造体 展開した式
+struct ItemSetFormulaExpansionStruct
+{
+    vItemSetTokenStruct token_vector;
+};
+
+// 構造体 token
+struct ItemSetTokenStruct
+{
+    int token_number;
+};
+
+// // 子要素構造体
+// struct ItemSetGroupStruct
+// {
+//     ItemSetStruct item_set;
+// };
+
 // typedef std::vector<std::vector<ItemSetBnfRightStruct>> v2ItemSetBnfRightStruct;
 
 // typedef std::vector<std::vector<ItemSetStruct>> v2ItemSetTree;
