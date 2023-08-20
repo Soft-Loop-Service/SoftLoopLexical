@@ -14,25 +14,34 @@
 #include <iostream>
 #include <vector>
 
+// プロトタイプ宣言
+int addItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot);
+int modifyItemSetChildren(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot);
+int recursionItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot);
+
 int addItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot)
 {
     int index = dot - 1;
+    int count = 0;
 
-    struct ItemSetStruct new_item_set = item_set_vector_tree.back();
+    struct ItemSetStruct back_item_set = item_set_vector_tree.back();
 
-    printf("test %4s %4s %4s %4s %4s %4s %30s children : %s\n", "i", "j", "k", "ctc", "cs", "cb", "", "ts");
+    // printf("test %4s %4s %4s %4s %4s %4s %30s children : %s\n", "i", "j", "k", "ctc", "cs", "cb", "", "ts");
     for (int i = 0; i < symbols.len; i++)
     {
-        vint childlen_temp = {};
+        v3int childlen_temp = {};
 
         // struct ItemSetStruct ct = item_set_vector_tree.back();
         // Current Tree
 
-        for (int j = 0; j < new_item_set.bnf_right.size(); j++)
+        // j : bnf_right 式取得番号
+        for (int j = 0; j < back_item_set.bnf_right.size(); j++)
         {
-            for (int k = 0; k < new_item_set.bnf_right[j].size(); k++)
+            // k : bnf_right 展開式取得番号
+            for (int k = 0; k < back_item_set.bnf_right[j].size(); k++)
             {
-                vint ctc = new_item_set.bnf_right[j][k];
+                // ctc token取得番号一覧
+                vint ctc = back_item_set.bnf_right[j][k];
                 if (index >= ctc.size())
                 {
                     continue;
@@ -44,22 +53,54 @@ int addItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, Retrie
 
                 if (strncmp(current_symbol_text, current_bnf_text, bnf_token_len) == 0)
                 {
-                    childlen_temp.push_back(current_symbol);
-                    printf("test %4d %4d %4d %4ld %4d %4d %30s children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), new_item_set.children.size());
+                    childlen_temp.push_back(back_item_set.bnf_right[j]);
+                    count++;
+                    printf("addItemSet %4d %4d %4d %4ld %4d %4d %30s %ld children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), back_item_set.bnf_right[j].size(), back_item_set.children.size());
                 }
             }
         }
 
         if (childlen_temp.size() > 0)
         {
-            new_item_set.children.push_back(childlen_temp);
+            back_item_set.children.push_back(childlen_temp);
         }
     }
-    // item_set_vector_tree.push_back(new_item_set);
+
+    item_set_vector_tree[item_set_vector_tree.size() - 1] = back_item_set;
+
+    return count;
+    // 最後の要素に再代入する
 }
 
-int modifyItemSetChildren(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols)
+int modifyItemSetChildren(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot)
 {
+    struct ItemSetStruct back_item_set = item_set_vector_tree.back();
+
+    int s = item_set_vector_tree.size();
+
+    for (int i = 0; i < back_item_set.children.size(); i++)
+    {
+        // printf("back_item_set.children.size %d %ld\n", i, back_item_set.children[i].size());
+        struct ItemSetStruct new_item_set;
+
+        // new_item_set.bnf_right.push_back(back_item_set.children[i]);
+
+        new_item_set.bnf_right = back_item_set.children[i];
+
+        // for (int j = 0; j < back_item_set.children[i].size(); j++)
+        // {
+        //     // int k = back_item_set.children[i][j];
+        //     new_item_set.bnf_right.push_back(back_item_set.bnf_right[k]);
+        //     printf("modifyItemSetChildren %d %d %d %ld\n", i, j, k, back_item_set.bnf_right.size());
+        // }
+
+        item_set_vector_tree.push_back(new_item_set);
+        recursionItemSet(item_set_vector_tree, bnf_token_p, symbols, dot + 1);
+    }
+
+    int e = item_set_vector_tree.size();
+    printf("modifyItemSetChildren %d %d %ld %ld\n", s, e, back_item_set.children.size(), item_set_vector_tree.size());
+    return s; // どこから挿入したかという情報を返す
 }
 
 /*
@@ -67,7 +108,11 @@ int modifyItemSetChildren(vItemSetTree &item_set_vector_tree, BNFToken &bnf_toke
 */
 int recursionItemSet(vItemSetTree &item_set_vector_tree, BNFToken &bnf_token_p, RetrieveSymbol &symbols, int dot)
 {
-    addItemSet(item_set_vector_tree, bnf_token_p, symbols, dot);
+    int count = addItemSet(item_set_vector_tree, bnf_token_p, symbols, dot);
+    int current = modifyItemSetChildren(item_set_vector_tree, bnf_token_p, symbols, dot);
+
+    // printf("recursionItemSet %d\n", count);
+
     // recursionItemSet(item_set_vector_tree, symbols, dot);
 }
 

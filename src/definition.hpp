@@ -17,6 +17,7 @@ typedef std::vector<std::string> vstring;
 typedef std::vector<int> vint;
 typedef std::vector<std::vector<int>> v2int;
 typedef std::vector<std::vector<std::vector<int>>> v3int;
+typedef std::vector<std::vector<std::vector<std::vector<int>>>> v4int;
 typedef std::stack<int> sint;
 typedef std::queue<int> quint;
 typedef std::vector<std::queue<int>> vquint;

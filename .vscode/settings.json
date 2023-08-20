@@ -73,11 +73,12 @@
     "compare": "cpp",
     "concepts": "cpp",
     "stack": "cpp",
-    "queue": "cpp"
+    "queue": "cpp",
+    "map": "cpp"
   },
 
   "search.exclude": {
     "**/.git": true,
-    "**/.DS_Store": true,
-}
+    "**/.DS_Store": true
+  }
 }
