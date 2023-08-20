@@ -15,8 +15,8 @@ int main()
     loadText(bnf_source, "./src/BNF/BNF.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
-    BNFToken bnf_token;
-    BNFSymbol bnf_symbol;
+    struct BNFToken bnf_token;
+    struct BNFSymbol bnf_symbol;
 
     bnf_token.token_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char **));
     bnf_token.token_len = parseBnf(bnf_source, bnf_token);
@@ -39,20 +39,23 @@ int main()
 
     printf("char size %ld %ld %ld\n", sizeof(char **), sizeof(char *), sizeof(char));
 
-    RetrieveSymbol nonterminal_symbol_left;
+    struct RetrieveSymbol nonterminal_symbol_left;
     // 左辺非末端記号の配列を取得する
     retrieveSymbolTable(bnf_token, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
     // 左辺の数を取得する
 
-    RetrieveSymbol terminal_symbol;
+    struct RetrieveSymbol terminal_symbol;
     // 末端記号の配列を取得する
-    retrieveSymbolTable(bnf_token, terminal_symbol, is_id_TerminalSymbol);
+    retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
 
-    RetrieveSymbol symbol_right;
+    struct RetrieveSymbol symbols;
+    concatenateArrayRetrieveSymbol(symbols, nonterminal_symbol_left, terminal_symbol);
+
+    // struct RetrieveSymbol symbol_right;
     // 左辺非末端記号の配列を取得する
-    retrieveSymbolTable(bnf_token, bnf_symbol, symbol_right, is_id_TerminalSymbol);
+    // retrieveSymbolTable(bnf_token, bnf_symbol, symbol_right, is_id_TerminalSymbol);
 
-    generateItemSet(bnf_token, bnf_symbol, nonterminal_symbol_left);
+    generateItemSet(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
     // 左辺の数を取得する
 
     // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];
@@ -60,10 +63,10 @@ int main()
     // vAutomaton automaton_graph = {};
     // generateAutomaton(automaton_graph, bnf_token, bnf_symbol, nonterminal_symbol_left);
 
-    free(&(bnf_token.token_label_array));
-    free(&(bnf_token.token_string_array));
-    free(&(bnf_symbol.symbol_string_array));
-    free(&(bnf_symbol.symbol_table_array));
+    free((bnf_token.token_label_array));
+    free((bnf_token.token_string_array));
+    free((bnf_symbol.symbol_string_array));
+    free((bnf_symbol.symbol_table_array));
     // output_bnf_tablef(bnf_token, bnf_symbol);
 
     // for (int i = 0; i < sl_len ; i++){

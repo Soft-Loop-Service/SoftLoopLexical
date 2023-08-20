@@ -9,4 +9,18 @@
 #define automaton_asterisk 2  // * 記号
 #define automaton_plus_sign 3 // + 記号
 
+/*
+bnf_right
+children
+dot
+*/
+struct ItemSetStruct
+{
+    v3int bnf_right;
+    v2int children;
+    // int dot;
+};
+
+typedef std::vector<ItemSetStruct> vItemSetTree;
+
 #endif

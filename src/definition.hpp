@@ -8,6 +8,7 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <map>
 
 typedef unsigned char uchar;
 typedef std::vector<char> vchar;
@@ -15,9 +16,12 @@ typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
 typedef std::vector<int> vint;
 typedef std::vector<std::vector<int>> v2int;
+typedef std::vector<std::vector<std::vector<int>>> v3int;
 typedef std::stack<int> sint;
 typedef std::queue<int> quint;
 typedef std::vector<std::queue<int>> vquint;
+typedef std::map<std::string, int> mp_s_i;       // ローカル変数として、mp を生成
+typedef std::map<std::string, v2int> mp_s_v2int; // ローカル変数として、mp を生成
 
 using namespace std;
 
@@ -68,17 +72,17 @@ resizeCharNull
 */
 int resizeNull(int *data, int len)
 {
-    int size = -1;
+    int size = len * sizeof(int);
 
-    for (int i = 0; i < len; i++)
-    {
+    // for (int i = 0; i < len; i++)
+    // {
 
-        if ((data[i]) == 0)
-        {
-            size = i;
-            break;
-        }
-    }
+    //     if ((data[i]) == 0)
+    //     {
+    //         size = i;
+    //         break;
+    //     }
+    // }
 
     int *newdata = (int *)realloc(data, size);
 
@@ -89,7 +93,7 @@ int resizeNull(int *data, int len)
     }
     data = newdata;
 
-    printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
+    printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;
 }
 

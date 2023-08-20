@@ -23,7 +23,6 @@ void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
         bnf_que.pop();
     }
     bnf_right.push_back(ans);
-    printf("dequeueBNFRight %ld\n", bnf_right.size());
 }
 
 v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left)
@@ -63,15 +62,7 @@ v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveS
     }
     dequeueBNFRight(bnf_que, bnf_right);
 
-    for (int i = 0; i < bnf_right.size(); i++)
-    {
-        printf("generateBNFRight %ld %ld ", bnf_right.size(), bnf_right[i].size());
-        for (int j = 0; j < bnf_right[i].size(); j++)
-        {
-            printf("%s ", get_bnf_arr(bnf_token_p, bnf_right[i][j]));
-        }
-        printf("\n");
-    }
+    return bnf_right;
 }
 
 #endif
