@@ -39,6 +39,9 @@ int main()
 
     printf("char size %ld %ld %ld\n",sizeof(char**),sizeof(char*),sizeof(char));
 
+    int *nonterminal_symbol_left_array;
+    int sl_len = retrieveSymbolTable(bnf_token,bnf_symbol , is_id_NonterminalSymbolLeft  ,nonterminal_symbol_left_array);
+
     free(&(bnf_token.token_label_array));
     free(&(bnf_token.token_string_array));
     free(&(bnf_symbol.symbol_string_array));
@@ -47,9 +50,6 @@ int main()
 
     // Automaton *automaton_graph = new Automaton[unique_symbol_len];
     // generateAutomaton(automaton_graph, bnf_token, bnf_symbol);
-
-    // int *nonterminal_symbol_left_array;
-    // int sl_len = retrieveSymbolTable(bnf_token,bnf_symbol , is_id_NonterminalSymbolLeft  ,nonterminal_symbol_left_array);
 
     // for (int i = 0; i < sl_len ; i++){
     //     printf("nonterminal_symbol : %d %d" , nonterminal_symbol_left_array[i] , bnf_symbol.symbol_table_array[nonterminal_symbol_left_array[i]] );
