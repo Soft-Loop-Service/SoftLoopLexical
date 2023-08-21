@@ -15,14 +15,17 @@
 void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
 {
     vint ans = {};
-    printf("dequeueBNFRight que %ld\n", bnf_que.size());
+    // printf("dequeueBNFRight que %ld\n", bnf_que.size());
+    int size = bnf_que.size();
 
-    for (int i = 0; i < bnf_que.size(); i++)
+    for (int i = 0; i < size; i++)
     {
-        int e = bnf_que.back();
+        int e = bnf_que.front();
         ans.push_back(e);
         bnf_que.pop();
     }
+
+    // printf("dequeueBNFRight ans %ld\n", ans.size());
 
     bnf_right.push_back(ans);
 }

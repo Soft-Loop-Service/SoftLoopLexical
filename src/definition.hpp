@@ -75,18 +75,18 @@ int resizeArray(int *data, int len)
 {
     int size = len * sizeof(int);
 
-    // int*newdata = (int*)realloc(data, size);
-    // printf("resizeArray %d\n",newdata[0]);
+    // int *newdata = (int *)realloc(data, size);
+    // printf("resizeArray %d\n", newdata[0]);
     // if (newdata == NULL)
     // {
     //     printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
     //     return len;
     // }
 
-    int *newdata = (int*)calloc(len , sizeof(int));
+    int *newdata = (int *)calloc(len, sizeof(int));
     memcpy(newdata, data, size);
     data = newdata;
-    // printf("resizeArray %d\n",data[0]);
+    printf("resizeArray %d\n", data[0]);
 
     printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;
@@ -95,7 +95,7 @@ int resizeArray(int *data, int len)
 int resizeArray(char **str, int len)
 {
 
-    int size = len * sizeof(char*);
+    int size = len * sizeof(char *);
 
     for (int i = 0; i < len; i++)
     {
@@ -171,7 +171,7 @@ int getToken(char *source_text, char **token_string, int *token_progression, int
     // printf("%s", source_code_current);
 
     // ここから登録
-    char *new_token = (char*)calloc(code_token_len,sizeof(char));
+    char *new_token = (char *)calloc(code_token_len, sizeof(char));
     // strncpy(new_token, source_text, token_search_len);
     token_string[token_string_endline] = new_token;
 
