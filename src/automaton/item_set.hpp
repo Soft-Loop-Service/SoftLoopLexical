@@ -27,6 +27,7 @@ int addItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSymbol &s
 
     // printf("addItemSet %d %ld\n", symbols.len, item_set.formula_vector.size());
 
+    //これがいけないようだ
     for (int i = 0; i < symbols.len; i++)
     {
         struct ItemSetStruct new_item_set;
@@ -44,20 +45,24 @@ int addItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSymbol &s
                 {
                     continue;
                 }
+                printf("a %d %d\n",i,index);
                 int current_symbol = symbols.array[i];
                 int current_bnf = token_vector[index].token_number;
+                printf("b %d %d %d\n",current_symbol,current_bnf,symbols.len);
                 char *current_symbol_text = get_bnf_arr(bnf_token_p, current_symbol);
                 char *current_bnf_text = get_bnf_arr(bnf_token_p, current_bnf);
-
+                printf("c\n");
                 if (strncmp(current_symbol_text, current_bnf_text, bnf_token_len) == 0)
                 {
                     // int child_index = item_set_vector.size();
                     new_item_set_formula.formula_expansion_vector.push_back(item_set.formula_vector[j].formula_expansion_vector[k]);
-                    printf("strncmp 一致 %2d %2ld %2d %2d %2d %30s\n", dot, token_vector.size(), i, j, k, get_bnf_arr(bnf_token_p, current_bnf));
+                    // printf("strncmp 一致 %2d %2ld %2d %2d %2d %30s\n", dot, token_vector.size(), i, j, k, get_bnf_arr(bnf_token_p, current_bnf));
                     count++;
 
                     // printf("addItemSet %4d %4d %4d %4ld %4d %4d %30s %ld children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), back_item_set.bnf_right[j].size(), back_item_set.children.size());
                 }
+
+                printf("d\n");
             }
             new_item_set.formula_vector.push_back(new_item_set_formula);
         }
@@ -121,13 +126,14 @@ int recursionItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSym
             {
                 int n = item_set.formula_vector[j].formula_expansion_vector[k].token_vector[a].token_number;
                 // get_bnf_arr(bnf_token_p, n)
-                printf("現在 %3d %3d %3d %3d %3d %3d %s\n", dot, j, k, a, n, asize, get_bnf_arr(bnf_token_p, n));
+                // printf("現在 %3d %3d %3d %3d %3d %3d %s\n", dot, j, k, a, n, asize, get_bnf_arr(bnf_token_p, n));
             }
         }
         // printf("\n");
     }
     addItemSet(item_set, bnf_token_p, symbols, dot);
     int isize = item_set.children.size();
+    
     // printf("再帰 %3s %3s %3s %3s %3s %3s %s\n", "dot", "i", "j", "k", "a", "n", "get_bnf_arr");
     // for (int i = 0; i < isize; i++)
     // {
@@ -150,7 +156,9 @@ int recursionItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSym
     for (int i = 0; i < item_set.children.size(); i++)
     {
         // printf("再帰 %d\n", item_set.children[i], dot);
+        printf("dot %d\n",dot);
         recursionItemSet(item_set.children[i], bnf_token_p, symbols, dot + 1);
+        
     }
     // printf("recursionItemSet %ld %d\n", item_set.children.size(), dot);
     // for (int i = 0; i < item_set.children.size(); i++)
@@ -175,6 +183,10 @@ int recursionItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSym
 /// @return
 int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, RetrieveSymbol &symbols)
 {
+    for (int i = 0; i < symbols.len ; i++){
+        printf("symbols %d\n",symbols.array[i]);
+    }
+
     int **LR0Automaton;
     bool arr_bool = getTwoDimensionalArray(LR0Automaton, 100, bnf_symbol_p.unique_symbol_len);
     if (!arr_bool)

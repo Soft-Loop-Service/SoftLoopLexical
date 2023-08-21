@@ -49,6 +49,8 @@ int main()
     // 末端記号の配列を取得する
     retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
 
+    
+
     struct RetrieveSymbol symbols;
     concatenateArrayRetrieveSymbol(symbols, nonterminal_symbol_left, terminal_symbol);
 

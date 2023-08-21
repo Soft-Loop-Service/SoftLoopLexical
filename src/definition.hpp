@@ -71,37 +71,32 @@ resizeCharNull
 第一引数    : 対象となる配列
 第二引数    : 変更したい長さ
 */
-int resizeNull(int *data, int len)
+int resizeArray(int *data, int len)
 {
     int size = len * sizeof(int);
 
-    // for (int i = 0; i < len; i++)
+    printf("resizeArray %d\n",data[0]);
+    // int*newdata = (int*)realloc(data, size);
+    // printf("resizeArray %d\n",newdata[0]);
+    // if (newdata == NULL)
     // {
-
-    //     if ((data[i]) == 0)
-    //     {
-    //         size = i;
-    //         break;
-    //     }
+    //     printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
+    //     return len;
     // }
 
-    int *newdata = (int *)realloc(data, size);
-
-    if (newdata == NULL)
-    {
-        printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
-        return len;
-    }
+    int *newdata = (int*)calloc(len , sizeof(int));
+    memcpy(newdata, data, sizeof(len * sizeof(int)));
     data = newdata;
+    printf("resizeArray %d\n",data[0]);
 
     printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;
 }
 
-int resizeNull(char **str, int len)
+int resizeArray(char **str, int len)
 {
 
-    int size = -1;
+    int size = len * sizeof(char*);
 
     for (int i = 0; i < len; i++)
     {

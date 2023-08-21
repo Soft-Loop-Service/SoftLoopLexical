@@ -42,6 +42,7 @@ int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, Retrieve
     int *array = (int *)calloc(bnf_token_p.token_len, sizeof(int));
     int len = 0;
 
+
     for (int i = 0; i < bnf_token_p.token_len; i++)
     {
         int c_sta = bnf_symbol_p.symbol_table_array[i];
@@ -61,9 +62,19 @@ int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, Retrieve
             }
         }
     }
-    resizeNull(array, len);
+
+
+    
+
+    printf("realloc前 %d\n",array[0]);
+    int new_size = resizeArray(array, len);
+    printf("realloc後 %d\n",array[0]);
+
+
     retrieve_symbol.array = array;
     retrieve_symbol.len = len;
+
+    printf("terminal_symbol %d\n",retrieve_symbol.array[0]);
     // resizeNull(retrieve_label , len);
 
     return len;
