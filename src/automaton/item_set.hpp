@@ -53,7 +53,7 @@ int addItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSymbol &s
                 {
                     // int child_index = item_set_vector.size();
                     new_item_set_formula.formula_expansion_vector.push_back(item_set.formula_vector[j].formula_expansion_vector[k]);
-                    printf("%2d %2d %2d %30s\n", i, j, k, get_bnf_arr(bnf_token_p, current_bnf));
+                    printf("strncmp 一致 %2d %2ld %2d %2d %2d %30s\n", dot, token_vector.size(), i, j, k, get_bnf_arr(bnf_token_p, current_bnf));
                     count++;
 
                     // printf("addItemSet %4d %4d %4d %4ld %4d %4d %30s %ld children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), back_item_set.bnf_right[j].size(), back_item_set.children.size());
@@ -116,11 +116,12 @@ int recursionItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSym
     {
         for (int k = 0; k < item_set.formula_vector[j].formula_expansion_vector.size(); k++)
         {
-            for (int a = 0; a < item_set.formula_vector[j].formula_expansion_vector[k].token_vector.size(); a++)
+            int asize = item_set.formula_vector[j].formula_expansion_vector[k].token_vector.size();
+            for (int a = 0; a < asize; a++)
             {
                 int n = item_set.formula_vector[j].formula_expansion_vector[k].token_vector[a].token_number;
                 // get_bnf_arr(bnf_token_p, n)
-                printf("現在 %3d %3d %3d %3d %3d %s\n", dot, j, k, a, n, get_bnf_arr(bnf_token_p, n));
+                printf("現在 %3d %3d %3d %3d %3d %3d %s\n", dot, j, k, a, n, asize, get_bnf_arr(bnf_token_p, n));
             }
         }
         // printf("\n");
@@ -193,6 +194,7 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
         for (int j = 0; j < bnf_right_temp.size(); j++)
         {
             struct ItemSetFormulaExpansionStruct formula_expansion;
+            printf("bnf_right_temp size %ld %ld\n", bnf_right_temp.size(), bnf_right_temp[j].size());
             for (int k = 0; k < bnf_right_temp[j].size(); k++)
             {
                 struct ItemSetTokenStruct token;

@@ -15,6 +15,7 @@
 void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
 {
     vint ans = {};
+    printf("dequeueBNFRight que %ld\n", bnf_que.size());
 
     for (int i = 0; i < bnf_que.size(); i++)
     {
@@ -22,6 +23,7 @@ void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
         ans.push_back(e);
         bnf_que.pop();
     }
+
     bnf_right.push_back(ans);
 }
 
@@ -31,7 +33,7 @@ v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveS
     v2int bnf_right;
 
     int begin = nonterminal_symbol_left.array[current_left];
-    int end = current_left == nonterminal_symbol_left.len - 1 ? bnf_symbol_p.symbol_len : nonterminal_symbol_left.array[current_left + 1];
+    int end = current_left == nonterminal_symbol_left.len - 1 ? bnf_token_p.token_len : nonterminal_symbol_left.array[current_left + 1];
 
     for (int current = begin + 1; current < end; current++)
     {
@@ -51,17 +53,18 @@ v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveS
         case is_id_DoubleQuotation:
         case is_id_DoubleQuotationLeft:
         case is_id_DoubleQuotationRight:
+        {
             break;
+        }
 
         default:
         {
-        }
             bnf_que.push(current);
             break;
         }
+        }
     }
     dequeueBNFRight(bnf_que, bnf_right);
-
     return bnf_right;
 }
 

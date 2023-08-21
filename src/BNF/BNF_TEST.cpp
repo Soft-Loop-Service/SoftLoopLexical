@@ -12,7 +12,8 @@
 int main()
 {
     char *bnf_source = new char[source_code_size];
-    loadText(bnf_source, "./src/BNF/BNF.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF2.txt", source_code_size);
+    // loadText(bnf_source, "./BNF2.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
     struct BNFToken bnf_token;
