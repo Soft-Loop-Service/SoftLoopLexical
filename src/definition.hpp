@@ -171,7 +171,7 @@ int getToken(char *source_text, char **token_string, int *token_progression, int
     // printf("%s", source_code_current);
 
     // ここから登録
-    char *new_token = new char[100];
+    char *new_token = (char*)calloc(code_token_len,sizeof(char));
     // strncpy(new_token, source_text, token_search_len);
     token_string[token_string_endline] = new_token;
 
