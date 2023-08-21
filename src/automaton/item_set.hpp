@@ -45,24 +45,18 @@ int addItemSet(ItemSetStruct &item_set, BNFToken &bnf_token_p, RetrieveSymbol &s
                 {
                     continue;
                 }
-                printf("a %d %d\n",i,index);
                 int current_symbol = symbols.array[i];
                 int current_bnf = token_vector[index].token_number;
-                printf("b %d %d %d\n",current_symbol,current_bnf,symbols.len);
                 char *current_symbol_text = get_bnf_arr(bnf_token_p, current_symbol);
                 char *current_bnf_text = get_bnf_arr(bnf_token_p, current_bnf);
-                printf("c\n");
                 if (strncmp(current_symbol_text, current_bnf_text, bnf_token_len) == 0)
                 {
                     // int child_index = item_set_vector.size();
                     new_item_set_formula.formula_expansion_vector.push_back(item_set.formula_vector[j].formula_expansion_vector[k]);
-                    // printf("strncmp 一致 %2d %2ld %2d %2d %2d %30s\n", dot, token_vector.size(), i, j, k, get_bnf_arr(bnf_token_p, current_bnf));
                     count++;
 
-                    // printf("addItemSet %4d %4d %4d %4ld %4d %4d %30s %ld children : %ld\n", i, j, k, ctc.size(), current_symbol, current_bnf, get_bnf_arr(bnf_token_p, current_bnf), back_item_set.bnf_right[j].size(), back_item_set.children.size());
                 }
 
-                printf("d\n");
             }
             new_item_set.formula_vector.push_back(new_item_set_formula);
         }
