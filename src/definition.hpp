@@ -75,7 +75,6 @@ int resizeArray(int *data, int len)
 {
     int size = len * sizeof(int);
 
-    printf("resizeArray %d\n",data[0]);
     // int*newdata = (int*)realloc(data, size);
     // printf("resizeArray %d\n",newdata[0]);
     // if (newdata == NULL)
@@ -85,9 +84,9 @@ int resizeArray(int *data, int len)
     // }
 
     int *newdata = (int*)calloc(len , sizeof(int));
-    memcpy(newdata, data, sizeof(len * sizeof(int)));
+    memcpy(newdata, data, size);
     data = newdata;
-    printf("resizeArray %d\n",data[0]);
+    // printf("resizeArray %d\n",data[0]);
 
     printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;

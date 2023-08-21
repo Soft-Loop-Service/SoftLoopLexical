@@ -30,7 +30,8 @@ void concatenateArrayRetrieveSymbol(RetrieveSymbol &newdata, RetrieveSymbol &dat
     }
     printf("\n");
 
-    newdata.array = new int[data1.len + data2.len];
+    newdata.array = (int *)calloc(data1.len + data2.len,sizeof(int));
+    
     newdata.len = data1.len + data2.len;
     memcpy(newdata.array, data1.array, data1.len * sizeof(int));
     memcpy(newdata.array + data1.len, data2.array, data2.len * sizeof(int));
