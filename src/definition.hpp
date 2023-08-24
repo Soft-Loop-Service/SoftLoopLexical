@@ -16,8 +16,6 @@ typedef std::string string;
 typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
 typedef std::vector<std::vector<std::string>> v2string;
-typedef std::map<std::string, bool> mapstrbool;
-typedef std::map<std::string, int> mapstrint;
 
 typedef std::vector<int> vint;
 typedef std::vector<std::vector<int>> v2int;
@@ -27,6 +25,10 @@ typedef std::stack<int> sint;
 typedef std::queue<int> quint;
 typedef std::queue<std::string> qustr;
 typedef std::vector<std::queue<int>> vquint;
+
+typedef std::map<std::string, bool> mapstrbool;
+// typedef std::map<std::string, int> mapstrint;
+typedef std::map<std::string, string> mapstr;
 typedef std::map<std::string, int> mp_s_i;       // ローカル変数として、mp を生成
 typedef std::map<std::string, v2int> mp_s_v2int; // ローカル変数として、mp を生成
 

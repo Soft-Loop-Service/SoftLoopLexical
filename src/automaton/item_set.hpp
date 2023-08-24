@@ -46,7 +46,7 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
     {
         struct DeploymentFormulaStruct formula;
         v2string bnf_right_tokens;
-        mapstrint bnf_right_map;
+        mp_s_i bnf_right_map;
         generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i, bnf_right_tokens, bnf_right_map);
         string key = string(bnf_token_p.token_string_array[nonterminal_symbol_left.array[i]]);
 

@@ -30,7 +30,7 @@ void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right)
     bnf_right.push_back(ans);
 }
 
-void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mapstrint &bnf_right_map)
+void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mp_s_i &bnf_right_map)
 {
     qustr bnf_que;
 
