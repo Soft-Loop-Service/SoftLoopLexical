@@ -61,9 +61,12 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
 
         default:
         {
-            std::string str = std::string(bnf_symbol_p.symbol_string_array[current]);
+            // printf("キューに追加 %d %s %d\n", current, bnf_token_p.token_string_array[current], bnf_token_p.token_label_array[current]);
+
+            std::string str = std::string(bnf_token_p.token_string_array[current]);
             bnf_que.push(str);
             bnf_right_map[str] = bnf_token_p.token_label_array[current];
+
             break;
         }
         }

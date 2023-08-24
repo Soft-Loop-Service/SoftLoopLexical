@@ -55,10 +55,6 @@ struct DeploymentTokenStruct
 class NullSetClass
 {
 public:
-    vstring null_set;
-    DeploymentStruct deployment_syntax;
-    vstring formula_map_keys;
-
     NullSetClass(DeploymentStruct deployment_syntax)
     {
         this->deployment_syntax = deployment_syntax;
@@ -68,66 +64,90 @@ public:
     vstring findNullsSet()
     {
         int formula_map_size = this->deployment_syntax.formula_map.size();
+        printf("formula_map_size %d\n", formula_map_size);
         for (int i = 0; i < formula_map_size; i++)
         {
             string current_key = this->formula_map_keys[i];
             recursionNullSet(current_key);
         }
+        output_vector("null_set", null_set);
         return null_set;
     }
 
 private:
-    void recursionNullSet(string current_key)
+    vstring null_set;
+    DeploymentStruct deployment_syntax;
+    vstring formula_map_keys;
+
+    bool recursionNullSet(string current_key)
     {
-        if (hasKeyMap(this->formula_map_keys, current_key))
+
+        if (hasKeyMap(this->null_set, current_key))
         {
-            return;
+            return true;
         }
 
         vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
+
+        printf("recursionNullSet %s %d\n", current_key.c_str(), formula_expansion_vector_size);
+
+        if (formula_expansion_vector_size == 0)
+        {
+            // NULLである
+            null_set.push_back(current_key);
+            printf("null push a %s %d\n", current_key.c_str(), formula_expansion_vector_size);
+            return true;
+        }
+
         for (int j = 0; j < formula_expansion_vector_size; j++)
         {
+            bool null_count = 0;
             vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
             int token_vector_size = token_vector.size();
 
-            if (token_vector_size == 0)
+            // printf("token_vector_size %s %d\n", current_key.c_str(), token_vector_size);
+
+            for (int k = 0; k < token_vector_size; k++)
             {
-                // NULLである
+                string token_str = token_vector[k].token_str;
+                int label = token_vector[k].label;
+
+                // あわせて左再帰の除去
+                if (label == is_id_NonterminalSymbolRight && current_key != token_str)
+                {
+                    if (recursionNullSet(token_str))
+                    {
+                        null_count++;
+                    }
+                }
+
+                // }
+            }
+            printf("null_count == token_vector_size %s %d %d %d\n", current_key.c_str(), null_count, token_vector_size, formula_expansion_vector_size);
+            if (null_count == token_vector_size)
+            {
                 null_set.push_back(current_key);
-                continue;
+                printf("null push b %s %d\n", current_key.c_str(), token_vector_size);
+                return true;
             }
-            int k = 0;
-            // for (int k = 0; k < token_vector_size; k++)
-            // {
-            string token_str = token_vector[k].token_str;
-            int label = token_vector[k].label;
 
-            // あわせて左再帰の除去
-            if (label == is_id_NonterminalSymbolRight && current_key != token_str)
-            {
-
-                recursionNullSet(token_str);
-            }
-            // }
+            // this->null_set[current_key] = null_flag;
         }
-
-        // this->null_set[current_key] = null_flag;
+        return false;
     }
 };
 
 class FirstSetClass
 {
 private:
+    DeploymentStruct deployment_syntax;
     vstring null_set;
+    vstring first_set;
     vstring formula_map_keys;
 
 public:
-    DeploymentStruct deployment_syntax;
-
-    vstring first_set;
-
     FirstSetClass(DeploymentStruct deployment_syntax, vstring null_set)
     {
         this->deployment_syntax = deployment_syntax;
@@ -143,6 +163,7 @@ public:
             string current_key = this->formula_map_keys[i];
             recursionFirstsSet(current_key);
         }
+        output_vector("first_set", first_set);
         return first_set;
     }
 

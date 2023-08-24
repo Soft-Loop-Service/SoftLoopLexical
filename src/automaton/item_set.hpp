@@ -48,30 +48,41 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
         v2string bnf_right_tokens;
         mp_s_i bnf_right_map;
         generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i, bnf_right_tokens, bnf_right_map);
+
         string key = string(bnf_token_p.token_string_array[nonterminal_symbol_left.array[i]]);
 
-        for (int j = 0; j < bnf_right_map.size(); j++)
+        for (int j = 0; j < bnf_right_tokens.size(); j++)
         {
             struct DeploymentFormulaExpansionStruct formula_expansion;
 
             for (int k = 0; k < bnf_right_tokens[j].size(); k++)
             {
-                printf("bnf_right_temp size %d %d %d %ld %ld %d %s\n", i, j, k, bnf_right_tokens.size(), bnf_right_tokens[j].size(), bnf_right_tokens[j][k], bnf_right_tokens[j][k]);
+                // printf("pusha %s %d\n", bnf_right_tokens[j][k].c_str(), bnf_right_map[bnf_right_tokens[j][k]]);
+                printf("bnf_right_temp size %d %d %d %ld %ld %s %d\n", i, j, k, bnf_right_tokens.size(), bnf_right_tokens[j].size(), bnf_right_tokens[j][k].c_str(), bnf_right_map[bnf_right_tokens[j][k]]);
 
                 struct DeploymentTokenStruct token;
                 token.token_str = bnf_right_tokens[j][k];
                 token.label = bnf_right_map[token.token_str];
+
                 formula_expansion.token_vector.push_back(token);
             }
-            formula.formula_expansion_vector.push_back(formula_expansion);
+            if (bnf_right_tokens[j].size() > 0)
+            {
+                formula.formula_expansion_vector.push_back(formula_expansion);
+            }
         }
         // deployment_syntax.formula_vector.push_back(formula);
+
         deployment_syntax.formula_map[key] = formula;
     }
-
+    printf("再帰探索 a\n");
     NullSetClass null_set = NullSetClass(deployment_syntax);
+    vstring null_set_data = null_set.findNullsSet();
 
-    printf("再帰探索\n");
+    FirstSetClass first_set = FirstSetClass(deployment_syntax, null_set_data);
+    vstring first_set_string = first_set.findFirstSet();
+
+    printf("再帰探索 b\n");
     // recursionItemSet(item_set, bnf_token_p, symbols, 1);
 }
 

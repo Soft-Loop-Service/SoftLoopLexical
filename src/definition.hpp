@@ -53,6 +53,7 @@ bool hasKeyMap(vstring keys, string key)
     {
         if (keys[i] == key)
         {
+            printf("hasKeyMap %s %s\n", keys[i].c_str(), key.c_str());
             return true;
         }
         /* code */
