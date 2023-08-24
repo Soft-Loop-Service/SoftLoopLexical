@@ -12,15 +12,15 @@
 #include <iostream>
 #include <vector>
 
-void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
+void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right)
 {
-    vint ans = {};
+    vstring ans = {};
     // printf("dequeueBNFRight que %ld\n", bnf_que.size());
     int size = bnf_que.size();
 
     for (int i = 0; i < size; i++)
     {
-        int e = bnf_que.front();
+        string e = bnf_que.front();
         ans.push_back(e);
         bnf_que.pop();
     }
@@ -30,10 +30,9 @@ void dequeueBNFRight(quint &bnf_que, v2int &bnf_right)
     bnf_right.push_back(ans);
 }
 
-v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left)
+void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mapstrint &bnf_right_map)
 {
-    quint bnf_que;
-    v2int bnf_right;
+    qustr bnf_que;
 
     int begin = nonterminal_symbol_left.array[current_left];
     int end = current_left == nonterminal_symbol_left.len - 1 ? bnf_token_p.token_len : nonterminal_symbol_left.array[current_left + 1];
@@ -44,7 +43,7 @@ v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveS
         {
         case is_id_VerticalLine:
         {
-            dequeueBNFRight(bnf_que, bnf_right);
+            dequeueBNFRight(bnf_que, bnf_right_tokens);
 
             break;
         }
@@ -62,13 +61,14 @@ v2int generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveS
 
         default:
         {
-            bnf_que.push(current);
+            std::string str = std::string(bnf_symbol_p.symbol_string_array[current]);
+            bnf_que.push(str);
+            bnf_right_map[str] = bnf_token_p.token_label_array[current];
             break;
         }
         }
     }
-    dequeueBNFRight(bnf_que, bnf_right);
-    return bnf_right;
+    dequeueBNFRight(bnf_que, bnf_right_tokens);
 }
 
 #endif

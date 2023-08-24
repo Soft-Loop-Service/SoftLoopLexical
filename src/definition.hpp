@@ -12,14 +12,20 @@
 
 typedef unsigned char uchar;
 typedef std::vector<char> vchar;
+typedef std::string string;
 typedef std::vector<unsigned char> vuchar;
 typedef std::vector<std::string> vstring;
+typedef std::vector<std::vector<std::string>> v2string;
+typedef std::map<std::string, bool> mapstrbool;
+typedef std::map<std::string, int> mapstrint;
+
 typedef std::vector<int> vint;
 typedef std::vector<std::vector<int>> v2int;
 typedef std::vector<std::vector<std::vector<int>>> v3int;
 typedef std::vector<std::vector<std::vector<std::vector<int>>>> v4int;
 typedef std::stack<int> sint;
 typedef std::queue<int> quint;
+typedef std::queue<std::string> qustr;
 typedef std::vector<std::queue<int>> vquint;
 typedef std::map<std::string, int> mp_s_i;       // ローカル変数として、mp を生成
 typedef std::map<std::string, v2int> mp_s_v2int; // ローカル変数として、mp を生成
@@ -37,6 +43,34 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 // 最大ソースコード容量 1MBまで対応
 
 const int source_code_size = 1000000;
+
+bool hasKeyMap(vstring keys, string key)
+{
+    bool flag = false;
+    for (size_t i = 0; i < keys.size(); i++)
+    {
+        if (keys[i] == key)
+        {
+            return true;
+        }
+        /* code */
+    }
+    return false;
+}
+
+vstring getMapKeyString(auto mp)
+{
+    vstring keys;
+    auto begin = mp.begin(), end = mp.end();
+    for (auto iter = begin; iter != end; iter++)
+    {
+        // first: key, second: value
+        cout << "key = " << iter->first << "\n";
+        keys.push_back(iter->first);
+    }
+
+    return keys;
+}
 
 bool getTwoDimensionalArray(int **data, int one, int two)
 {

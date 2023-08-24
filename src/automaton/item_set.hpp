@@ -18,10 +18,6 @@ int findFollowsSet()
 {
 }
 
-int findNullsSet()
-{
-}
-
 /// @brief
 /// @param bnf_token_p
 /// @param bnf_symbol_p
@@ -49,24 +45,31 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
     for (int i = 0; i < nonterminal_symbol_left.len; i++)
     {
         struct DeploymentFormulaStruct formula;
-        v2int bnf_right_temp = generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i);
+        v2string bnf_right_tokens;
+        mapstrint bnf_right_map;
+        generateBNFRight(bnf_token_p, bnf_symbol_p, nonterminal_symbol_left, i, bnf_right_tokens, bnf_right_map);
+        string key = string(bnf_token_p.token_string_array[nonterminal_symbol_left.array[i]]);
 
-        for (int j = 0; j < bnf_right_temp.size(); j++)
+        for (int j = 0; j < bnf_right_map.size(); j++)
         {
             struct DeploymentFormulaExpansionStruct formula_expansion;
 
-            for (int k = 0; k < bnf_right_temp[j].size(); k++)
+            for (int k = 0; k < bnf_right_tokens[j].size(); k++)
             {
-                printf("bnf_right_temp size %d %d %d %ld %ld %d %s\n", i, j, k, bnf_right_temp.size(), bnf_right_temp[j].size(), bnf_right_temp[j][k], get_bnf_arr(bnf_token_p, bnf_right_temp[j][k]));
+                printf("bnf_right_temp size %d %d %d %ld %ld %d %s\n", i, j, k, bnf_right_tokens.size(), bnf_right_tokens[j].size(), bnf_right_tokens[j][k], bnf_right_tokens[j][k]);
 
                 struct DeploymentTokenStruct token;
-                token.token_number = bnf_right_temp[j][k];
+                token.token_str = bnf_right_tokens[j][k];
+                token.label = bnf_right_map[token.token_str];
                 formula_expansion.token_vector.push_back(token);
             }
             formula.formula_expansion_vector.push_back(formula_expansion);
         }
-        deployment_syntax.formula_vector.push_back(formula);
+        // deployment_syntax.formula_vector.push_back(formula);
+        deployment_syntax.formula_map[key] = formula;
     }
+
+    FollowsSetClass follow_set = FollowsSetClass(deployment_syntax);
 
     printf("再帰探索\n");
     // recursionItemSet(item_set, bnf_token_p, symbols, 1);
