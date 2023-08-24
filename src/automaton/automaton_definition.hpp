@@ -52,21 +52,20 @@ struct DeploymentTokenStruct
 };
 
 // 左辺非末端記号とNUll集合であるかどうか
-class FollowsSetClass
+class NullSetClass
 {
 public:
-    mapstrbool follows;
+    vstring null_set;
     DeploymentStruct deployment_syntax;
     vstring formula_map_keys;
 
-    FollowsSetClass(DeploymentStruct deployment_syntax)
+    NullSetClass(DeploymentStruct deployment_syntax)
     {
         this->deployment_syntax = deployment_syntax;
-
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
     }
 
-    int findNullsSet()
+    vstring findNullsSet()
     {
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
@@ -74,13 +73,12 @@ public:
             string current_key = this->formula_map_keys[i];
             recursionNullSet(current_key);
         }
+        return null_set;
     }
 
 private:
     void recursionNullSet(string current_key)
     {
-        bool folllow_flag = true;
-
         if (hasKeyMap(this->formula_map_keys, current_key))
         {
             return;
@@ -97,6 +95,7 @@ private:
             if (token_vector_size == 0)
             {
                 // NULLである
+                null_set.push_back(current_key);
                 continue;
             }
             int k = 0;
@@ -105,17 +104,79 @@ private:
             string token_str = token_vector[k].token_str;
             int label = token_vector[k].label;
 
-            if (label == is_id_NonterminalSymbolRight)
+            if (label == is_id_NonterminalSymbolRight && current_key != token_str)
             {
+
                 recursionNullSet(token_str);
             }
             // }
         }
 
-        this->follows[current_key] = folllow_flag;
+        // this->null_set[current_key] = null_flag;
     }
 };
 
+class FirstSetClass
+{
+
+public:
+    DeploymentStruct deployment_syntax;
+    vstring formula_map_keys;
+    vstring first_set;
+    vstring null_set;
+
+    FirstSetClass(DeploymentStruct deployment_syntax, vstring null_set)
+    {
+        this->deployment_syntax = deployment_syntax;
+        this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
+        this->null_set = null_set;
+    }
+
+    vstring findFirstSet()
+    {
+        int formula_map_size = this->deployment_syntax.formula_map.size();
+        for (int i = 0; i < formula_map_size; i++)
+        {
+            string current_key = this->formula_map_keys[i];
+            recursionFirstsSet(current_key);
+        }
+        return first_set;
+    }
+
+    void recursionFirstsSet(string current_key)
+    {
+        vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
+        int formula_expansion_vector_size = formula_expansion_vector.size();
+        for (int j = 0; j < formula_expansion_vector_size; j++)
+        {
+            vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
+
+            int token_vector_size = token_vector.size();
+
+            if (token_vector_size == 0)
+            {
+                // NULLである
+                continue;
+            }
+            else if (token_vector_size == 1 && token_vector[0].label == is_id_TerminalSymbol)
+            {
+                first_set.push_back(token_vector[0].token_str);
+            }
+            else
+            {
+                int k = 0;
+                string token_str = token_vector[k].token_str;
+                int label = token_vector[k].label;
+                if (label == is_id_NonterminalSymbolRight && current_key != token_str && !hasKeyMap(this->null_set, current_key))
+                {
+                    recursionFirstsSet(token_str);
+                }
+            }
+        }
+    }
+
+private:
+};
 // // 子要素構造体
 // struct DeploymentGroupStruct
 // {

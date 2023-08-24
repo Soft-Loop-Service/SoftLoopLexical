@@ -69,7 +69,7 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
         deployment_syntax.formula_map[key] = formula;
     }
 
-    FollowsSetClass follow_set = FollowsSetClass(deployment_syntax);
+    NullSetClass null_set = NullSetClass(deployment_syntax);
 
     printf("再帰探索\n");
     // recursionItemSet(item_set, bnf_token_p, symbols, 1);
