@@ -15,47 +15,47 @@ children    : 4次元配列 上から順に アイテム集合群：式：展開
 dot
 */
 
-// typedef std::vector<ItemSetGroupStruct> vItemSetGroupStruct;
-struct ItemSetStruct;
-struct ItemSetFormulaStruct;
-struct ItemSetFormulaExpansionStruct;
-struct ItemSetTokenStruct;
-typedef std::vector<ItemSetStruct> vItemSetStruct;
-typedef std::vector<ItemSetFormulaStruct> vItemSetFormulaStruct;
-typedef std::vector<ItemSetFormulaExpansionStruct> vItemSetFormulaExpansionStruct;
-typedef std::vector<ItemSetTokenStruct> vItemSetTokenStruct;
+// typedef std::vector<DeploymentGroupStruct> vDeploymentGroupStruct;
+struct DeploymentStruct;
+struct DeploymentFormulaStruct;
+struct DeploymentFormulaExpansionStruct;
+struct DeploymentTokenStruct;
+typedef std::vector<DeploymentStruct> vDeploymentStruct;
+typedef std::vector<DeploymentFormulaStruct> vDeploymentFormulaStruct;
+typedef std::vector<DeploymentFormulaExpansionStruct> vDeploymentFormulaExpansionStruct;
+typedef std::vector<DeploymentTokenStruct> vDeploymentTokenStruct;
 
-struct ItemSetStruct
+struct DeploymentStruct
 {
-    vItemSetFormulaStruct formula_vector;
-    vItemSetStruct children;
+    vDeploymentFormulaStruct formula_vector;
+    vDeploymentStruct children;
 };
 
 // 構造体 式
-struct ItemSetFormulaStruct
+struct DeploymentFormulaStruct
 {
-    vItemSetFormulaExpansionStruct formula_expansion_vector;
+    vDeploymentFormulaExpansionStruct formula_expansion_vector;
 };
 
 // 構造体 展開した式
-struct ItemSetFormulaExpansionStruct
+struct DeploymentFormulaExpansionStruct
 {
-    vItemSetTokenStruct token_vector;
+    vDeploymentTokenStruct token_vector;
 };
 
 // 構造体 token
-struct ItemSetTokenStruct
+struct DeploymentTokenStruct
 {
     int token_number;
 };
 
 // // 子要素構造体
-// struct ItemSetGroupStruct
+// struct DeploymentGroupStruct
 // {
-//     ItemSetStruct item_set;
+//     DeploymentStruct item_set;
 // };
 
-// typedef std::vector<std::vector<ItemSetBnfRightStruct>> v2ItemSetBnfRightStruct;
+// typedef std::vector<std::vector<DeploymentBnfRightStruct>> v2DeploymentBnfRightStruct;
 
-// typedef std::vector<std::vector<ItemSetStruct>> v2ItemSetTree;
+// typedef std::vector<std::vector<DeploymentStruct>> v2DeploymentTree;
 #endif
