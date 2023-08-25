@@ -7,6 +7,7 @@
 <H>      ::= habc
 <J>      ::= jabc
 <T>      ::= tabc | <F> 
+<L>      ::= <L> a
 
 <test2>  ::= <test3>
 <test3>  ::= 

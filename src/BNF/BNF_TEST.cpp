@@ -12,7 +12,7 @@
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-    loadText(bnf_source, "./src/BNF/BNF2.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF2.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
@@ -21,7 +21,7 @@ int main()
 
     bnf_token.token_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char **));
     bnf_token.token_len = parseBnf(bnf_source, bnf_token);
-    bnf_token.token_label_array = (int *)calloc(bnf_token.token_len,sizeof(int));
+    bnf_token.token_label_array = (int *)calloc(bnf_token.token_len, sizeof(int));
     bnf_token.nonterminal_symbol_len = 0;
     bnf_token.terminal_symbol_len = 0;
 
@@ -33,7 +33,7 @@ int main()
     labelingBnf(bnf_token);
 
     bnf_symbol.symbol_len = bnf_token.nonterminal_symbol_len + bnf_token.terminal_symbol_len;
-    bnf_symbol.symbol_table_array = (int *)calloc(bnf_token.token_len,sizeof(int));
+    bnf_symbol.symbol_table_array = (int *)calloc(bnf_token.token_len, sizeof(int));
     bnf_symbol.symbol_string_array = (char **)calloc(bnf_token.token_len, sizeof(char **));
     printf("bnf_token %d %d %d %d\n", bnf_token.token_len, bnf_symbol.symbol_len, bnf_token.nonterminal_symbol_len, bnf_token.terminal_symbol_len);
     int unique_symbol_len = generateSymbolTable(bnf_token, bnf_symbol);
@@ -48,8 +48,6 @@ int main()
     struct RetrieveSymbol terminal_symbol;
     // 末端記号の配列を取得する
     retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
-
-    
 
     struct RetrieveSymbol symbols;
     concatenateArrayRetrieveSymbol(symbols, nonterminal_symbol_left, terminal_symbol);

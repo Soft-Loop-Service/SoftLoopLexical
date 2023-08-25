@@ -66,10 +66,10 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
 
                 formula_expansion.token_vector.push_back(token);
             }
-            if (bnf_right_tokens[j].size() > 0)
-            {
-                formula.formula_expansion_vector.push_back(formula_expansion);
-            }
+            // if (bnf_right_tokens[j].size() > 0)
+            // {
+            formula.formula_expansion_vector.push_back(formula_expansion);
+            // }
         }
         // deployment_syntax.formula_vector.push_back(formula);
 
@@ -80,7 +80,10 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
     vstring null_set_data = null_set.findNullsSet();
 
     FirstSetClass first_set = FirstSetClass(deployment_syntax, null_set_data);
-    mp_s_vstring first_set_string = first_set.findFirstSet();
+    mp_s_vstring first_set_data = first_set.findFirstSet();
+
+    FollowSetClass folllow_set = FollowSetClass(deployment_syntax, null_set_data, first_set_data);
+    folllow_set.findFolllowSet();
 
     printf("再帰探索 b\n");
     // recursionItemSet(item_set, bnf_token_p, symbols, 1);
