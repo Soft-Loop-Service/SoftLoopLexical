@@ -1,9 +1,8 @@
 
 #ifndef __AUTOMATONIS
 #define __AUTOMATONIS
-
+#include "./item_set_calc.hpp"
 #include "./../definition.hpp"
-#include "./automaton_definition.hpp"
 #include "./../symbol.hpp"
 #include "./../BNF/bnf_struct.hpp"
 #include "./../BNF/bnf_right.hpp"

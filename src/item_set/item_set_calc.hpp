@@ -1,9 +1,18 @@
 
-#ifndef __AUTOMATON_DE
-#define __AUTOMATON_DE
+#ifndef __AUTOMATON_CALC
+#define __AUTOMATON_CALC
 
 #include "./../definition.hpp"
-#include "./automaton.hpp"
+#include "./../debug.hpp"
+#include "./../symbol.hpp"
+#include "./../BNF/bnf_struct.hpp"
+#include "./../BNF/bnf_right.hpp"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <vector>
 
 #define automaton_0or1 1      // ? 記号
 #define automaton_asterisk 2  // * 記号
@@ -188,6 +197,7 @@ public:
 
     mp_s_vstring findFirstSet()
     {
+        first_set["$"].push_back("$");
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
         {

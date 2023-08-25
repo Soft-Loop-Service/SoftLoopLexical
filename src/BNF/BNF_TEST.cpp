@@ -5,10 +5,10 @@
 #include "./../debug.hpp"
 #include "./bnf_debug.hpp"
 #include "./symbol_table.hpp"
-#include "./../automaton/automaton.hpp"
-#include "./retrieve_symbol_table.hpp"
-#include "./../automaton/item_set.hpp"
 
+#include "./retrieve_symbol_table.hpp"
+#include "./../item_set/item_set.hpp"
+#include "./../item_set/item_set_calc.hpp"
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
