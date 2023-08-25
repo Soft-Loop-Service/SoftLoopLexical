@@ -80,7 +80,7 @@ int generateItemSet(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymb
     vstring null_set_data = null_set.findNullsSet();
 
     FirstSetClass first_set = FirstSetClass(deployment_syntax, null_set_data);
-    vstring first_set_string = first_set.findFirstSet();
+    mp_s_vstring first_set_string = first_set.findFirstSet();
 
     printf("再帰探索 b\n");
     // recursionItemSet(item_set, bnf_token_p, symbols, 1);

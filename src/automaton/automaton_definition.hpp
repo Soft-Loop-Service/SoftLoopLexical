@@ -144,7 +144,7 @@ class FirstSetClass
 private:
     DeploymentStruct deployment_syntax;
     vstring null_set;
-    vstring first_set;
+    mp_s_vstring first_set;
     vstring formula_map_keys;
 
 public:
@@ -155,7 +155,7 @@ public:
         this->null_set = null_set;
     }
 
-    vstring findFirstSet()
+    mp_s_vstring findFirstSet()
     {
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
@@ -163,12 +163,23 @@ public:
             string current_key = this->formula_map_keys[i];
             recursionFirstsSet(current_key);
         }
-        output_vector("first_set", first_set);
+
+        for (int i = 0; i < first_set.size(); i++)
+        {
+            printf("first_set output %s\n", getMapKeyString(first_set)[i].c_str());
+            output_vector("first_set", first_set[getMapKeyString(first_set)[i]]);
+        }
+        //
         return first_set;
     }
 
     void recursionFirstsSet(string current_key)
     {
+        if (hasKeyMap(getMapKeyString(this->first_set), current_key))
+        {
+            return;
+        }
+
         vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
         for (int j = 0; j < formula_expansion_vector_size; j++)
@@ -184,17 +195,43 @@ public:
             }
             else if (token_vector_size == 1 && token_vector[0].label == is_id_TerminalSymbol)
             {
-                first_set.push_back(token_vector[0].token_str);
+
+                if (!hasKeyMap(first_set[current_key], token_vector[0].token_str))
+                {
+                    first_set[current_key].push_back(token_vector[0].token_str);
+                    printf("include %s %s\n", current_key.c_str(), token_vector[0].token_str.c_str());
+                }
             }
             else
             {
-                int k = 0;
-                string token_str = token_vector[k].token_str;
-                int label = token_vector[k].label;
-                if (label == is_id_NonterminalSymbolRight && current_key != token_str && !hasKeyMap(this->null_set, current_key))
+                int k = -1;
+                do
                 {
-                    recursionFirstsSet(token_str);
-                }
+                    k++;
+                    printf("非末端記号判定 %s %d\n", current_key.c_str(), k);
+                    if (k > 0)
+                    {
+                        printf("null集合による延長 %d\n", k);
+                    }
+                    string token_str = token_vector[k].token_str;
+                    int label = token_vector[k].label;
+                    if (label == is_id_NonterminalSymbolRight && current_key != token_str)
+                    {
+                        recursionFirstsSet(token_str);
+                        printf("配列の連結 %s <- %s %d\n", current_key.c_str(), token_str.c_str(), first_set[token_str].size());
+                        // first_set[current_key].insert(first_set[current_key].end(), first_set[token_str].begin(), first_set[token_str].end());
+
+                        for (int fc = 0; fc < first_set[token_str].size(); fc++)
+                        {
+                            string fc_element = first_set[token_str][fc];
+                            if (!hasKeyMap(first_set[current_key], fc_element))
+                            {
+                                first_set[current_key].push_back(fc_element);
+                            }
+                        }
+                    }
+
+                } while (k + 1 < token_vector_size && hasKeyMap(this->null_set, token_vector[k].token_str));
             }
         }
     }
