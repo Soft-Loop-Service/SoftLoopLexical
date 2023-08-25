@@ -9,6 +9,10 @@
 #include "./retrieve_symbol_table.hpp"
 #include "./../item_set/item_set.hpp"
 #include "./../item_set/item_set_calc.hpp"
+#include "./../DFA/dfa.hpp"
+#include "./../DFA/dfa_calc.hpp"
+#include "./bnf_vector.hpp"
+
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
@@ -56,7 +60,10 @@ int main()
     // 左辺非末端記号の配列を取得する
     // retrieveSymbolTable(bnf_token, bnf_symbol, symbol_right, is_id_TerminalSymbol);
 
-    generateItemSet(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
+    DeploymentStruct deployment_syntax = expansionDeployment(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
+
+    ItemSetStruct item_set = generateItemSet(deployment_syntax);
+    generateDFA(item_set);
     // 左辺の数を取得する
 
     // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];

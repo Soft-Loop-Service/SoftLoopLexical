@@ -9,12 +9,16 @@
 
 #include "./../item_set/item_set.hpp"
 #include "./../item_set/item_set_calc.hpp"
-#include "./dfa_definition.hpp"
+#include "./dfa_calc.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
 #include <vector>
+
+int generateDFA(ItemSetStruct item_set)
+{
+}
 
 #endif

@@ -1,7 +1,7 @@
 
 #ifndef __DFA
 #define __DFA
-#include "./automaton_definition.hpp"
+
 #include "./../definition.hpp"
 #include "./../symbol.hpp"
 #include "./../BNF/bnf_struct.hpp"
