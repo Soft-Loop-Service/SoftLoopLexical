@@ -1,11 +1,12 @@
 <root>   ::= <test>
 <test>   ::= <E>  | <E> <E>  | <E> <E>  <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E>
-<E>      ::= <F> <C> | 1 | 2 | 3 | 4
+<E>      ::= <F> <C> | 1 | 2 | 3 | <T> 45
 <C>      ::= <D> | <F> | <F> <H>
 <D>      ::=  <F>  <J> <H>
-<F>      ::= 
+<F>      ::= fabc
 <H>      ::= habc
 <J>      ::= jabc
+<T>      ::= tabc | <F> 
 
 <test2>  ::= <test3>
 <test3>  ::= 

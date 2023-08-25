@@ -78,9 +78,21 @@ private:
     vstring null_set;
     DeploymentStruct deployment_syntax;
     vstring formula_map_keys;
+    vstring already_explored;
 
     bool recursionNullSet(string current_key)
     {
+
+        if (hasKeyMap(this->already_explored, current_key))
+        {
+            if (hasKeyMap(this->null_set, current_key))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        already_explored.push_back(current_key);
 
         if (hasKeyMap(this->null_set, current_key))
         {
@@ -90,19 +102,20 @@ private:
         vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
 
-        printf("recursionNullSet %s %d\n", current_key.c_str(), formula_expansion_vector_size);
+        // printf("recursionNullSet %s %d\n", current_key.c_str(), formula_expansion_vector_size);
 
         if (formula_expansion_vector_size == 0)
         {
             // NULLである
             null_set.push_back(current_key);
-            printf("null push a %s %d\n", current_key.c_str(), formula_expansion_vector_size);
+            // printf("null push a %s %d\n", current_key.c_str(), formula_expansion_vector_size);
             return true;
         }
 
         for (int j = 0; j < formula_expansion_vector_size; j++)
         {
-            bool null_count = 0;
+            printf("formula_expansion_vector\n");
+            int null_count = 0;
             vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
             int token_vector_size = token_vector.size();
@@ -117,19 +130,26 @@ private:
                 // あわせて左再帰の除去
                 if (label == is_id_NonterminalSymbolRight && current_key != token_str)
                 {
-                    if (recursionNullSet(token_str))
+                    printf("    探索 %s -> %s\n", current_key.c_str(), token_str.c_str());
+                    bool result = recursionNullSet(token_str);
+                    if (result)
                     {
                         null_count++;
+                        printf("    加算\n");
                     }
+
+                    printf("    結果 %s -> %s %d %d\n", current_key.c_str(), token_str.c_str(), result, null_count);
                 }
 
                 // }
             }
-            printf("null_count == token_vector_size %s %d %d %d\n", current_key.c_str(), null_count, token_vector_size, formula_expansion_vector_size);
+            printf("判定 %s %d %d\n", current_key.c_str(), null_count, token_vector_size);
+            // printf("null_count == token_vector_size %s %d %d %d\n", current_key.c_str(), null_count, token_vector_size, formula_expansion_vector_size);
             if (null_count == token_vector_size)
             {
+                printf("    登録 %s\n", current_key.c_str());
                 null_set.push_back(current_key);
-                printf("null push b %s %d\n", current_key.c_str(), token_vector_size);
+                // printf("null push b %s %d\n", current_key.c_str(), token_vector_size);
                 return true;
             }
 
@@ -193,33 +213,17 @@ public:
                 // NULLである
                 continue;
             }
-            else if (token_vector_size == 1 && token_vector[0].label == is_id_TerminalSymbol)
-            {
-
-                if (!hasKeyMap(first_set[current_key], token_vector[0].token_str))
-                {
-                    first_set[current_key].push_back(token_vector[0].token_str);
-                    printf("include %s %s\n", current_key.c_str(), token_vector[0].token_str.c_str());
-                }
-            }
             else
             {
-                int k = -1;
+                int k = 0;
                 do
                 {
-                    k++;
-                    printf("非末端記号判定 %s %d\n", current_key.c_str(), k);
-                    if (k > 0)
-                    {
-                        printf("null集合による延長 %d\n", k);
-                    }
+
                     string token_str = token_vector[k].token_str;
                     int label = token_vector[k].label;
                     if (label == is_id_NonterminalSymbolRight && current_key != token_str)
                     {
                         recursionFirstsSet(token_str);
-                        printf("配列の連結 %s <- %s %d\n", current_key.c_str(), token_str.c_str(), first_set[token_str].size());
-                        // first_set[current_key].insert(first_set[current_key].end(), first_set[token_str].begin(), first_set[token_str].end());
 
                         for (int fc = 0; fc < first_set[token_str].size(); fc++)
                         {
@@ -230,8 +234,12 @@ public:
                             }
                         }
                     }
-
-                } while (k + 1 < token_vector_size && hasKeyMap(this->null_set, token_vector[k].token_str));
+                    else if (label == is_id_TerminalSymbol)
+                    {
+                        first_set[current_key].push_back(token_vector[k].token_str);
+                    }
+                    k++;
+                } while (k < token_vector_size && hasKeyMap(this->null_set, token_vector[k - 1].token_str));
             }
         }
     }
