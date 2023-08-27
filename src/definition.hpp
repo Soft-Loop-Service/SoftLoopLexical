@@ -113,20 +113,12 @@ int resizeArray(int *data, int len)
 {
     int size = len * sizeof(int);
 
-    // int *newdata = (int *)realloc(data, size);
-    // printf("resizeArray %d\n", newdata[0]);
-    // if (newdata == NULL)
-    // {
-    //     printf("resize int null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
-    //     return len;
-    // }
-
     int *newdata = (int *)calloc(len, sizeof(int));
     memcpy(newdata, data, size);
     data = newdata;
     printf("resizeArray %d\n", data[0]);
 
-    printf("resize int null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
+    printf("resize int array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;
 }
 
@@ -134,28 +126,17 @@ int resizeArray(char **str, int len)
 {
 
     int size = len * sizeof(char *);
-
-    for (int i = 0; i < len; i++)
-    {
-
-        if ((str[i][0]) == '\0')
-        {
-            size = i;
-            break;
-        }
-    }
-
     char **newstr = (char **)realloc(str, size);
 
     if (newstr == NULL)
     {
-        printf("resize char null error : 再配置できません 再配置要求 %d -> %d\n", len, size);
+        printf("resize char array error : 再配置できません 再配置要求 %d -> %d\n", len, size);
         return len;
     }
 
     str = newstr;
 
-    printf("resize char null ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
+    printf("resize char array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
 
     return size;
 }
@@ -168,7 +149,7 @@ void loadText(char *text, const char *file_name, int size)
     printf("read_size : %s %d\n", file_name, read_size);
 
     fclose(fp);
-    text[read_size] = 0; // 終端マーク 別に配列終端でなくてよい
+    text[read_size] = '\0'; // 終端マーク 別に配列終端でなくてよい
 }
 
 // アルファベットであるか探索

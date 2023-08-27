@@ -10,6 +10,7 @@
 #include "./../item_set/item_set.hpp"
 #include "./../item_set/item_set_calc.hpp"
 #include "./dfa_calc.hpp"
+#include "./lr_item.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +20,7 @@
 
 int generateDFA(ItemSetStruct item_set)
 {
+    vDfaNode dfa_node_array = {};
 }
 
 #endif

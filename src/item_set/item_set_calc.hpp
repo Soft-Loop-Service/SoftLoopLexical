@@ -1,6 +1,6 @@
 
-#ifndef __AUTOMATON_CALC
-#define __AUTOMATON_CALC
+#ifndef __ITEMSET_CALC
+#define __ITEMSET_CALC
 
 #include "./../definition.hpp"
 #include "./../debug.hpp"

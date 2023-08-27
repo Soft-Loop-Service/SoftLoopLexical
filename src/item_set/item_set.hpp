@@ -1,6 +1,6 @@
 
-#ifndef __AUTOMATONIS
-#define __AUTOMATONIS
+#ifndef __ITEMSET
+#define __ITEMSET
 #include "./item_set_calc.hpp"
 #include "./../definition.hpp"
 #include "./../symbol.hpp"
