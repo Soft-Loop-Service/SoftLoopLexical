@@ -8,7 +8,6 @@
 #include "./../BNF/bnf_right.hpp"
 
 #include "./../item_set/item_set.hpp"
-#include "./../item_set/item_set_calc.hpp"
 #include "./dfa_calc.hpp"
 #include "./lr_item.hpp"
 
@@ -18,7 +17,7 @@
 #include <iostream>
 #include <vector>
 
-int generateDFA(ItemSetStruct item_set)
+int generateDFA(DeploymentStruct deployment_syntax)
 {
     vDfaNode dfa_node_array = {};
 }

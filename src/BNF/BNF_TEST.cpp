@@ -8,7 +8,6 @@
 
 #include "./retrieve_symbol_table.hpp"
 #include "./../item_set/item_set.hpp"
-#include "./../item_set/item_set_calc.hpp"
 #include "./../DFA/dfa.hpp"
 #include "./../DFA/dfa_calc.hpp"
 #include "./bnf_vector.hpp"
@@ -62,8 +61,8 @@ int main()
 
     DeploymentStruct deployment_syntax = expansionDeployment(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
 
-    ItemSetStruct item_set = generateItemSet(deployment_syntax);
-    generateDFA(item_set);
+    // ItemSetStruct item_set = generateItemSet(deployment_syntax);
+    generateDFA(deployment_syntax);
     // 左辺の数を取得する
 
     // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];

@@ -9,7 +9,6 @@
 #include "./../BNF/bnf_vector.hpp"
 
 #include "./../item_set/item_set.hpp"
-#include "./../item_set/item_set_calc.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,16 +22,14 @@ class DfaNode
 {
 private:
     mapDeploymentFormulaStruct formula_map;
-    ItemSetStruct item_set;
     LRItemStruct lr_set;
 
     int dot;
 
 public:
-    DfaNode(mapDeploymentFormulaStruct formula_map, ItemSetStruct item_set, LRItemStruct lr_set, int dot)
+    DfaNode(mapDeploymentFormulaStruct formula_map,  LRItemStruct lr_set, int dot)
     {
         this->formula_map = formula_map;
-        this->item_set = item_set;
         this->dot = dot;
         this->lr_set = lr_set;
     }

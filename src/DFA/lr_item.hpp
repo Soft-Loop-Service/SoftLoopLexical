@@ -1,7 +1,6 @@
 
 #ifndef __LRITEM
 #define __LRITEM
-#include "./item_set_calc.hpp"
 #include "./../definition.hpp"
 #include "./../symbol.hpp"
 #include "./../BNF/bnf_struct.hpp"
