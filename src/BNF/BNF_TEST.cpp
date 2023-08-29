@@ -1,16 +1,19 @@
 // BNF定義ファイルからオートマトンを生成する
-#include "./../definition.hpp"
+
 #include "./bnf_parser.hpp"
 #include "./bnf_struct.hpp"
-#include "./../debug.hpp"
+
 #include "./bnf_debug.hpp"
+#include "./bnf_deployment.hpp"
+
 #include "./symbol_table.hpp"
+#include "./../debug.hpp"
+#include "./../definition.hpp"
 
 #include "./retrieve_symbol_table.hpp"
 #include "./../item_set/item_set.hpp"
 #include "./../DFA/dfa.hpp"
 #include "./../DFA/dfa_calc.hpp"
-#include "./bnf_vector.hpp"
 
 int main()
 {

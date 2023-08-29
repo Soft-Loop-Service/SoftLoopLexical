@@ -8,7 +8,7 @@
 #include "./../symbol.hpp"
 #include "./../BNF/bnf_struct.hpp"
 #include "./../BNF/bnf_right.hpp"
-#include "./../BNF/bnf_vector.hpp"
+#include "./../BNF/bnf_deployment.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -166,11 +166,12 @@ public:
             string current_key = request_token_vector[i].token_str;
             int current_label = request_token_vector[i].label;
 
-            if(current_label == is_id_TerminalSymbol){
+            if (current_label == is_id_TerminalSymbol)
+            {
                 first_set[current_key].push_back(current_key);
                 break;
             }
-            
+
             recursionFirstsSet(current_key);
 
             if (!hasKeyMap(getMapKeyString(this->first_set), current_key))
@@ -178,7 +179,6 @@ public:
                 break;
             }
         }
-
 
         for (int i = 0; i < first_set.size(); i++)
         {

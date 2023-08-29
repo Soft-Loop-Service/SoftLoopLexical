@@ -29,9 +29,10 @@ typedef std::vector<std::queue<int>> vquint;
 typedef std::map<std::string, bool> mapstrbool;
 // typedef std::map<std::string, int> mapstrint;
 typedef std::map<std::string, string> mapstr;
-typedef std::map<std::string, int> mp_s_i;           // ローカル変数として、mp を生成
-typedef std::map<std::string, v2int> mp_s_v2int;     // ローカル変数として、mp を生成
-typedef std::map<std::string, vstring> mp_s_vstring; // ローカル変数として、mp を生成
+typedef std::map<std::string, int> mp_s_i;           // mp を生成
+typedef std::map<std::string, vint> mp_s_vint;       // mp を生成
+typedef std::map<std::string, v2int> mp_s_v2int;     // を生成
+typedef std::map<std::string, vstring> mp_s_vstring; // を生成
 
 using namespace std;
 
@@ -62,8 +63,8 @@ bool hasKeyMap(vstring keys, string key)
     return false;
 }
 
-template<typename T>
-vstring getMapKeyString(std::map<string,T> mp)
+template <typename T>
+vstring getMapKeyString(std::map<string, T> mp)
 {
     vstring keys;
     auto begin = mp.begin(), end = mp.end();

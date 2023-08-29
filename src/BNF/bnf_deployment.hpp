@@ -40,6 +40,7 @@ struct DeploymentFormulaStruct
 struct DeploymentFormulaExpansionStruct
 {
     vDeploymentTokenStruct token_vector;
+    int formula_expansion_label;
 };
 
 // 構造体 token
@@ -64,6 +65,7 @@ DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbo
     }
 
     struct DeploymentStruct deployment_syntax;
+    int formula_expansion_count = 0;
 
     // 3次元配列 上から順に すべての式：式単体：式を構成するtoken
     for (int i = 0; i < nonterminal_symbol_left.len; i++)
@@ -92,7 +94,9 @@ DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbo
             }
             // if (bnf_right_tokens[j].size() > 0)
             // {
+            formula_expansion.formula_expansion_label = formula_expansion_count;
             formula.formula_expansion_vector.push_back(formula_expansion);
+            formula_expansion_count++;
             // }
         }
         // deployment_syntax.formula_vector.push_back(formula);

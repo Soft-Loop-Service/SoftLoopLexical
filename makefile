@@ -6,3 +6,6 @@ bnf:
 
 bnfa:
 	g++ -o ./BNF_TEST.out ./src/BNF/BNF_TEST.cpp  -std=c++20
+
+bnfa2:
+	g++ -o ./BNF_TEST.out ./src/BNF/BNF_TEST.cpp  -std=c++2a
