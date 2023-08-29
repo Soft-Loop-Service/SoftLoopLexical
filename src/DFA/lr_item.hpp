@@ -11,6 +11,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 struct LRItemStruct;
 struct LRItemFormulaStruct;
@@ -23,8 +24,10 @@ typedef std::map<string, LRItemFormulaStruct> mapLRItemFormulaStruct;
 struct LRItemStruct
 {
     mapLRItemFormulaStruct LR_formula_map;
+
     mp_s_i children_nodes;
     vint has_formula_expansion_label;
+    string node_label;
 };
 
 // 構造体 式
@@ -54,6 +57,14 @@ private:
 
 public:
     string temporary_start_symbol = "<_S>";
+
+    ClosureExpansionLRItem(LRItemStruct lr_set, mapDeploymentFormulaStruct formula_map, int dot)
+    {
+        this->lr_set = lr_set;
+        this->formula_map = formula_map;
+        this->dot = dot;
+    }
+
     ClosureExpansionLRItem(mapDeploymentFormulaStruct formula_map, int dot)
     {
         this->formula_map = formula_map;
@@ -66,8 +77,6 @@ public:
         for (int i = 0; i < formula_map_keys_after.size(); i++)
         {
             LRItemFormulaStruct t = lr_set.LR_formula_map[formula_map_keys_after[i]];
-            printf("formula %s %ld %ld: ", formula_map_keys_after[i].c_str(), formula_map_keys_after.size(), t.LR_formula_expansion_vector.size());
-
             for (int j = 0; j < t.LR_formula_expansion_vector.size(); j++)
             {
                 vDeploymentTokenStruct token_vector = t.LR_formula_expansion_vector[j].token_vector;
@@ -94,20 +103,22 @@ public:
         lr_set.LR_formula_map[temporary_start_symbol] = new_lr_formula;
     }
 
-    LRItemStruct nodeClosureExpansion(LRItemStruct parent_lr_set, string search_key)
+    LRItemStruct nodeClosureExpansion()
     {
-
-        int pls_LR_f_size = parent_lr_set.LR_formula_map.size();
-        vstring pls_LR_f_keys = getMapKeyString(parent_lr_set.LR_formula_map);
+        int pls_LR_f_size = lr_set.LR_formula_map.size();
+        vstring pls_LR_f_keys = getMapKeyString(lr_set.LR_formula_map);
         for (int i = 0; i < pls_LR_f_size; i++)
         {
             string key = pls_LR_f_keys[i];
 
-            recursionNodeClosureExpansion(search_key);
-            std::sort(lr_set.has_formula_expansion_label.begin(), lr_set.has_formula_expansion_label.end());
+            recursionNodeClosureExpansion(key);
+            printf("クロージャー展開 内終了\n");
+
             // LRItemFormulaStruct current_pls_LR_f = parent_lr_set.LR_formula_map[pls_LR_f_keys[i]];
             // current_pls_LR_f.
         }
+        printf("クロージャー展開 終了\n");
+        std::sort(lr_set.has_formula_expansion_label.begin(), lr_set.has_formula_expansion_label.end());
 
         return lr_set;
     }
@@ -146,10 +157,9 @@ private:
         {
             return;
         }
+        printf("クロージャー展開 %s\n", search_key.c_str());
         already_explored.push_back(search_key);
         vDeploymentFormulaExpansionStruct current_formula_expansion_vector = formula_map[search_key].formula_expansion_vector;
-
-        printf("search_key %s %ld\n", search_key.c_str(), current_formula_expansion_vector.size());
 
         // printf("current_formula_expansion_vector %ld\n",current_formula_expansion_vector.size());
         for (int i = 0; i < current_formula_expansion_vector.size(); i++)
@@ -160,19 +170,23 @@ private:
             lr_s.token_vector = current_formula_expansion_vector[i].token_vector;
 
             lr_set.LR_formula_map[search_key].LR_formula_expansion_vector.push_back(lr_s);
+
             lr_set.has_formula_expansion_label.push_back(formula_expansion_label);
 
-            for (int j = dot; j < lr_s.token_vector.size(); j++)
+            // for (int j = dot; j < lr_s.token_vector.size(); j++)
+            // {
+            if (dot >= lr_s.token_vector.size())
             {
-                DeploymentTokenStruct token = lr_s.token_vector[j];
-                printf("token %s\n", token.token_str.c_str());
-                if (token.label == is_id_TerminalSymbol)
-                {
-                    continue;
-                }
+                continue;
+            }
 
+            DeploymentTokenStruct token = lr_s.token_vector[dot];
+            if (token.label != is_id_TerminalSymbol)
+            {
                 recursionNodeClosureExpansion(token.token_str);
             }
+
+            // }
         }
     }
 };
