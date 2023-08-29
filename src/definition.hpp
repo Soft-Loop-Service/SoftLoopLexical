@@ -62,7 +62,8 @@ bool hasKeyMap(vstring keys, string key)
     return false;
 }
 
-vstring getMapKeyString(auto mp)
+template<typename T>
+vstring getMapKeyString(std::map<string,T> mp)
 {
     vstring keys;
     auto begin = mp.begin(), end = mp.end();

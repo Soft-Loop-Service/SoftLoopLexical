@@ -164,6 +164,13 @@ public:
         for (int i = 0; i < request_token_vector_size; i++)
         {
             string current_key = request_token_vector[i].token_str;
+            int current_label = request_token_vector[i].label;
+
+            if(current_label == is_id_TerminalSymbol){
+                first_set[current_key].push_back(current_key);
+                break;
+            }
+            
             recursionFirstsSet(current_key);
 
             if (!hasKeyMap(getMapKeyString(this->first_set), current_key))
@@ -171,6 +178,14 @@ public:
                 break;
             }
         }
+
+
+        for (int i = 0; i < first_set.size(); i++)
+        {
+            printf("first_set output request %s\n", getMapKeyString(first_set)[i].c_str());
+            output_vector("first_set", first_set[getMapKeyString(first_set)[i]]);
+        }
+
         return first_set;
     }
 

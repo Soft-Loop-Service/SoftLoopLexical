@@ -12,24 +12,28 @@
 #include <iostream>
 #include <vector>
 
+struct LRItemStruct;
+struct LRItemFormulaStruct;
+struct LRItemFormulaExpansionStruct;
 typedef std::vector<LRItemStruct> vLRItemStruct;
 typedef std::vector<LRItemFormulaStruct> vLRItemFormulaStruct;
 typedef std::vector<LRItemFormulaExpansionStruct> vLRItemFormulaExpansionStruct;
-// typedef std::vector<LRItemTokenStruct> vLRItemTokenStruct;
 typedef std::map<string, LRItemFormulaStruct> mapLRItemFormulaStruct;
 
 struct LRItemStruct
 {
-    mapLRItemFormulaStruct formula_map;
+    mapLRItemFormulaStruct LR_formula_map;
 };
 
 // 構造体 式
 struct LRItemFormulaStruct
 {
-    vLRItemFormulaExpansionStruct formula_expansion_vector;
+    vLRItemFormulaExpansionStruct LR_formula_expansion_vector;
 };
 
-// 構造体 展開した式
+/*構造体 展開した式
+lookAhead : 先読み記号
+*/ 
 struct LRItemFormulaExpansionStruct
 {
     vDeploymentTokenStruct token_vector;

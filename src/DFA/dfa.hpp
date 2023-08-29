@@ -20,6 +20,11 @@
 int generateDFA(DeploymentStruct deployment_syntax)
 {
     vDfaNode dfa_node_array = {};
+    int dot = 0;
+
+    DfaNode root_dfa_node = DfaNode(deployment_syntax.formula_map,dot);
+    root_dfa_node.addRoot();
+    root_dfa_node.nodeClosureExpansion("<S>",root_dfa_node.temporary_start_symbol);
 }
 
 #endif
