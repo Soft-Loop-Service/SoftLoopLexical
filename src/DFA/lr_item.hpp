@@ -14,6 +14,9 @@
 #include <vector>
 #include <algorithm>
 
+#define ROOT_DFA_SYMBOL "<_S>"
+#define START_DFA_SYMBOL "<S>"
+
 struct LRItemStruct;
 struct DFANode;
 struct LRItemFormulaStruct;

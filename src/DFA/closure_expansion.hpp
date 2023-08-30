@@ -10,7 +10,7 @@
 #include "./../BNF/bnf_struct.hpp"
 #include "./../BNF/bnf_right.hpp"
 #include "./../BNF/bnf_deployment.hpp"
-#include "./lr_item.hpp"
+
 #include "./../item_set/item_set.hpp"
 
 #include <stdio.h>
@@ -77,7 +77,6 @@ private:
 
             // データの移譲
             vDeploymentFormulaExpansionStruct dfexp = deployment_syntax.formula_map[token.token_str].formula_expansion_vector;
-            printf("dfexp %s %ld\n", token.token_str.c_str(), dfexp.size());
 
             for (int k = 0; k < dfexp.size(); k++)
             {
@@ -90,7 +89,6 @@ private:
 
                     lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
                     already_explored_formula_expansion.push_back(new_lrf_exp.formula_expansion_label);
-                    printf("挿入\n");
                 }
             }
 
