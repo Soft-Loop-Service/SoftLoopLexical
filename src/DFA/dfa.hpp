@@ -17,126 +17,116 @@
 #include <iostream>
 #include <vector>
 
-int newNodeDFA(vLRItemStruct &dfa_nodes, LRItemStruct &parent_node, string token_str)
+vDeploymentTokenStruct getNextLabelDFA(DFANode &current_node, int dot)
 {
-    struct LRItemStruct new_node;
-    dfa_nodes.push_back(new_node);
-    int index = dfa_nodes.size() - 1;
-    parent_node.children_nodes[token_str] = index;
+    int index = dot - 1;
+    vDeploymentTokenStruct labels;
 
-    return index;
-}
+    vstring LR_formula_map_keys = getMapKeyString(current_node.LR_formula_map);
+    int LR_formula_map_size = current_node.LR_formula_map.size();
 
-quint constructionRecursionDFA(vLRItemStruct &dfa_nodes, LRItemStruct &parent_node, int dot)
-{
-
-    quint next_que;
-
-    vstring formula_map_keys = getMapKeyString(parent_node.LR_formula_map);
-    for (int i = 0; i < formula_map_keys.size(); i++)
+    for (int i = 0; i < LR_formula_map_size; i++)
     {
-        string formula_key = formula_map_keys[i];
-        LRItemFormulaStruct lr_formula = parent_node.LR_formula_map[formula_key];
+        string key = LR_formula_map_keys[i];
+        vLRItemFormulaExpansionStruct LR_formula_expansion_vector = current_node.LR_formula_map[key].LR_formula_expansion_vector;
 
-        for (int j = 0; j < lr_formula.LR_formula_expansion_vector.size(); j++)
+        for (int j = 0; j < LR_formula_expansion_vector.size(); j++)
         {
-            LRItemFormulaExpansionStruct parent_lr_formula_expansion = lr_formula.LR_formula_expansion_vector[j];
-            vDeploymentTokenStruct parent_token_vector = parent_lr_formula_expansion.token_vector;
+            vDeploymentTokenStruct token_vector = LR_formula_expansion_vector[j].token_vector;
 
-            if (dot > parent_token_vector.size())
+            if (index >= token_vector.size())
             {
                 continue;
             }
+            DeploymentTokenStruct token = token_vector[index];
+            printf("getNextLabelDFA %s\n", token.token_str.c_str());
 
-            string label_token_str = parent_token_vector[dot - 1].token_str;
+            int label_index = -1;
 
-            int child_node_index = hasKeyMap(getMapKeyString(parent_node.children_nodes), label_token_str) ? parent_node.children_nodes[label_token_str] : newNodeDFA(dfa_nodes, parent_node, label_token_str);
-            LRItemStruct *child_node_p;
-            child_node_p = &(dfa_nodes[child_node_index]);
-            child_node_p->LR_formula_map[formula_key].LR_formula_expansion_vector.push_back(parent_lr_formula_expansion);
-            child_node_p->node_label = label_token_str;
-
-            next_que.push(child_node_index);
-            // conveyNodeDFA
-        }
-    }
-    return next_que;
-}
-
-void removeDuplicatesDFA(DeploymentStruct &deployment_syntax, vLRItemStruct &dfa_nodes, int target, int duplicate)
-{
-    printf("削除対象 %d %d\n", target, duplicate);
-}
-
-void hadDuplicatesDFA(DeploymentStruct &deployment_syntax, vLRItemStruct &dfa_nodes, quint que)
-{
-    int que_size = que.size();
-    for (int i = 0; i < que_size; i++)
-    {
-        int f = que.front();
-        LRItemStruct *node_p = &dfa_nodes[f];
-        que.pop();
-
-        for (int j = 0; j <= f; j++)
-        {
-            if (j >= dfa_nodes.size())
+            for (int k = 0; k < labels.size(); k++)
             {
-                continue;
-            }
-            int a_size = node_p->has_formula_expansion_label.size();
-            int b_size = dfa_nodes[j].has_formula_expansion_label.size();
-            if (a_size != b_size && a_size == 0)
-            {
-                continue;
-            }
-            for (int k = 0; k < a_size; k++)
-            {
-                if (node_p->has_formula_expansion_label[k] != dfa_nodes[j].has_formula_expansion_label[k])
+                if (labels[k].token_str == token.token_str)
                 {
-                    continue;
+                    label_index = k;
+                    break;
                 }
             }
-            removeDuplicatesDFA(deployment_syntax, dfa_nodes, f, j);
+            if (label_index == -1)
+            {
+                labels.push_back(token);
+                label_index = labels.size() - 1;
+            }
         }
     }
+    return labels;
 }
 
-void recursionDFA(DeploymentStruct &deployment_syntax, vLRItemStruct &dfa_nodes, LRItemStruct &parent_node, int dot)
+DFANode getNewLRItem(DFANode current_node, string search_key, int dot)
 {
-    printf("recursionDFA dot : %d\n", dot);
-    quint que = constructionRecursionDFA(dfa_nodes, parent_node, dot);
+    struct DFANode new_node;
+    new_node.node_label = search_key;
 
-    int que_size = que.size();
-    // hadDuplicatesDFA(deployment_syntax, dfa_nodes, que);
+    int index = dot - 1;
+    vstring LR_formula_map_keys = getMapKeyString(current_node.LR_formula_map);
+    int LR_formula_map_size = current_node.LR_formula_map.size();
 
-    for (int i = 0; i < que_size; i++)
+    for (int i = 0; i < LR_formula_map_size; i++)
     {
-        int f = que.front();
-        LRItemStruct *node_p = &dfa_nodes[f];
-        que.pop();
+        string key = LR_formula_map_keys[i];
+        vLRItemFormulaExpansionStruct LR_formula_expansion_vector = current_node.LR_formula_map[key].LR_formula_expansion_vector;
 
-        ClosureExpansionLRItem closure_expansion_LR_item = ClosureExpansionLRItem(*node_p, deployment_syntax.formula_map, dot);
-        LRItemStruct closure_lr_item = closure_expansion_LR_item.nodeClosureExpansion();
-        // closure_lr_item.node_label;
-        printf("label : %s ", closure_lr_item.node_label.c_str());
-        for (int c = 0; c < closure_lr_item.has_formula_expansion_label.size(); c++)
+        for (int j = 0; j < LR_formula_expansion_vector.size(); j++)
         {
-            printf("%d ", closure_lr_item.has_formula_expansion_label[c]);
+            vDeploymentTokenStruct token_vector = LR_formula_expansion_vector[j].token_vector;
+            if (search_key != token_vector[index].token_str)
+            {
+                continue;
+            }
+            new_node.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion_vector[j]);
         }
-        printf("\n");
-
-        // // closure_expansion_LR_item.debug();
-        dfa_nodes[f] = closure_lr_item;
-        recursionDFA(deployment_syntax, dfa_nodes, dfa_nodes[f], dot + 1);
     }
+
+    return new_node;
+}
+int addNewLRItem(vDFANode &dfa_nodes, DFANode &current_node, DFANode new_node)
+{
+    printf("子要素の登録 a %s / %s / %d\n", current_node.node_label.c_str(), new_node.node_label.c_str());
+    dfa_nodes.push_back(new_node);
+    // int add_index = dfa_nodes.size() - 1;
+    // current_node.children_nodes[new_node.node_label] = add_index;
+    printf("子要素の登録 b %s / %s / %d\n", current_node.node_label.c_str(), new_node.node_label.c_str());
 }
 
-int outputDFA(vLRItemStruct dfa_nodes)
+void recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_nodes, DFANode &current_node, int dot)
+{
+    vDeploymentTokenStruct next_nodes = getNextLabelDFA(current_node, dot);
+
+    for (int n = 0; n < next_nodes.size(); n++)
+    {
+        string next_node_token = next_nodes[n].token_str;
+        DFANode new_node = getNewLRItem(current_node, next_node_token, dot);
+
+        ClosureExpansionLRItem closure_expansion_LR_item = ClosureExpansionLRItem(new_node, deployment_syntax.formula_map, dot);
+        LRItemStruct lr_item = closure_expansion_LR_item.nodeClosureExpansion();
+
+        new_node.LR_formula_map = lr_item.LR_formula_map;
+
+        if (true) // ここに既に同じ要素があるかを探索する処理を書く
+        {
+        }
+        addNewLRItem(dfa_nodes, current_node, new_node);
+    }
+    // ClosureExpansionLRItem closure_expansion_LR_item = ClosureExpansionLRItem(parent_node, deployment_syntax.formula_map, dot);
+    // // LRItemStruct lr_item = closure_expansion_LR_item.nodeClosureExpansion();
+    // closure_expansion_LR_item.debug();
+}
+
+int outputDFA(vDFANode dfa_nodes)
 {
     for (int i = 0; i < dfa_nodes.size(); i++)
     {
 
-        LRItemStruct cdn = dfa_nodes[i];
+        DFANode cdn = dfa_nodes[i];
         printf("%2d 受理 %5s size %ld:  ", i, cdn.node_label.c_str(), cdn.children_nodes.size());
         vstring keys = getMapKeyString(cdn.children_nodes);
         for (int j = 0; j < cdn.children_nodes.size(); j++)
@@ -155,13 +145,16 @@ int generateDFA(DeploymentStruct deployment_syntax)
     ClosureExpansionLRItem closure_expansion_LR_item = ClosureExpansionLRItem(deployment_syntax.formula_map, dot);
     closure_expansion_LR_item.addRoot();
     LRItemStruct lr_item = closure_expansion_LR_item.nodeClosureExpansion("<S>");
-    lr_item.node_label = closure_expansion_LR_item.temporary_start_symbol;
+    DFANode dfa_root_node;
+    dfa_root_node.node_label = closure_expansion_LR_item.temporary_start_symbol;
+    dfa_root_node.LR_formula_map = lr_item.LR_formula_map;
     closure_expansion_LR_item.debug();
 
-    vLRItemStruct dfa_nodes;
-
-    dfa_nodes.push_back(lr_item);
+    vDFANode dfa_nodes = {};
+    dfa_nodes.push_back(dfa_root_node);
     recursionDFA(deployment_syntax, dfa_nodes, dfa_nodes[0], dot + 1);
+
+    // recursionDFA(deployment_syntax, dfa_nodes, dfa_nodes[0], dot + 1);
     outputDFA(dfa_nodes);
 }
 

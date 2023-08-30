@@ -12,7 +12,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+#include <set>
 // typedef std::vector<DeploymentGroupStruct> vDeploymentGroupStruct;
 struct DeploymentStruct;
 struct DeploymentFormulaStruct;
@@ -23,6 +23,7 @@ typedef std::vector<DeploymentFormulaStruct> vDeploymentFormulaStruct;
 typedef std::vector<DeploymentFormulaExpansionStruct> vDeploymentFormulaExpansionStruct;
 typedef std::vector<DeploymentTokenStruct> vDeploymentTokenStruct;
 typedef std::map<string, DeploymentFormulaStruct> mapDeploymentFormulaStruct;
+// typedef std::set<DeploymentTokenStruct> setDeploymentTokenStruct;
 
 struct DeploymentStruct
 {

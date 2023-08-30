@@ -172,12 +172,11 @@ public:
                 break;
             }
 
-            recursionFirstsSet(current_key);
-
             if (!hasKeyMap(getMapKeyString(this->first_set), current_key))
             {
                 break;
             }
+            recursionFirstsSet(current_key);
         }
 
         for (int i = 0; i < first_set.size(); i++)
