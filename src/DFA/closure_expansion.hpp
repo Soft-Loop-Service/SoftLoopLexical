@@ -40,6 +40,19 @@ public:
         this->deployment_syntax = deployment_syntax;
         this->dot = dot;
     }
+    void nodeClosureExpansion(LRItemStruct &lr_item)
+    {
+        already_explored = {};
+        already_explored_formula_expansion = {};
+
+        vstring LR_formula_map_keys = getMapKeyString(lr_item.LR_formula_map);
+
+        for (int i = 0; i < LR_formula_map_keys.size(); i++)
+        {
+            recursionNodeClosureExpansion(lr_item, LR_formula_map_keys[i]);
+        }
+    }
+
     void nodeClosureExpansion(LRItemStruct &lr_item, string search_key)
     {
         already_explored = {};

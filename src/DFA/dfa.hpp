@@ -62,9 +62,60 @@ vstring getNextLabelDFA(DFANode current_node, int dot)
     return next_labels;
 }
 
-int recursionDFA(DeploymentStruct deployment_syntax, vDFANode &dfa_node_graph, DFANode current_node, int dot)
+DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_node, int dot, string next_label)
 {
-    getNextLabelDFA(current_node, dot);
+    struct DFANode new_node;
+    new_node.node_label = next_label;
+    // new_node.lr_item.
+    int index = dot - 1;
+
+    mapLRItemFormulaStruct LR_formula_map = current_node.lr_item.LR_formula_map;
+
+    vstring LR_formula_map_keys = getMapKeyString(LR_formula_map);
+
+    for (int i = 0; i < LR_formula_map_keys.size(); i++)
+    {
+        string key = LR_formula_map_keys[i];
+        LRItemFormulaStruct LR_formula = LR_formula_map[key];
+
+        for (int j = 0; j < LR_formula.LR_formula_expansion_vector.size(); j++)
+        {
+            LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
+            vDeploymentTokenStruct token_vector = LR_formula_expansion.token_vector;
+            if (index >= token_vector.size())
+            {
+                continue;
+            }
+
+            DeploymentTokenStruct token = token_vector[index];
+
+            if (token.token_str != next_label)
+            {
+                continue;
+            }
+
+            new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
+        }
+    }
+    return new_node;
+}
+
+int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, DFANode current_node, int dot)
+{
+    vstring next_labels = getNextLabelDFA(current_node, dot);
+
+    ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax, dot);
+
+    for (int i = 0; i < next_labels.size(); i++)
+    {
+        string next_label = next_labels[i];
+
+        DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, dot, next_label);
+        closure_expansion.nodeClosureExpansion(new_node.lr_item);
+        dfa_node_graph.push_back(new_node);
+
+        recursionDFA(deployment_syntax, dfa_node_graph, new_node, dot + 1);
+    }
 }
 
 int generateDFA(DeploymentStruct deployment_syntax)
@@ -78,6 +129,7 @@ int generateDFA(DeploymentStruct deployment_syntax)
 
     vDFANode dfa_node_graph = {};
     dfa_node_graph.push_back(root_dfa_node);
+
     recursionDFA(deployment_syntax, dfa_node_graph, root_dfa_node, dot + 1);
 }
 
