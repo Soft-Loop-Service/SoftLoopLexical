@@ -30,9 +30,9 @@ class ClosureExpansion
 {
 private:
     DeploymentStruct deployment_syntax;
-    vstring already_explored;
+    vstring already_explored = {};
     vint already_explored_formula_expansion = {};
-    int dot;
+    int dot = -1;
 
 public:
     ClosureExpansion(DeploymentStruct deployment_syntax, int dot)
@@ -49,7 +49,8 @@ public:
 
         for (int i = 0; i < LR_formula_map_keys.size(); i++)
         {
-            recursionNodeClosureExpansion(lr_item, LR_formula_map_keys[i]);
+            string key = LR_formula_map_keys[i];
+            recursionNodeClosureExpansion(lr_item, key);
         }
     }
 

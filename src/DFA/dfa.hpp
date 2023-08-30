@@ -130,7 +130,9 @@ int generateDFA(DeploymentStruct deployment_syntax)
     vDFANode dfa_node_graph = {};
     dfa_node_graph.push_back(root_dfa_node);
 
-    recursionDFA(deployment_syntax, dfa_node_graph, root_dfa_node, dot + 1);
+    recursionDFA(deployment_syntax, dfa_node_graph, dfa_node_graph[0], dot + 1);
+
+    printf("処理終了\n");
 }
 
 #endif
