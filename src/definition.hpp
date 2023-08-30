@@ -48,7 +48,8 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 
 const int source_code_size = 1000000;
 
-bool hasKeyMap(vstring keys, string key)
+template <typename T>
+bool hasKeyMap(vector<T> keys, T key)
 {
     bool flag = false;
     for (size_t i = 0; i < keys.size(); i++)
