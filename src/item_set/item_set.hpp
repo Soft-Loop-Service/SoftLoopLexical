@@ -155,7 +155,7 @@ public:
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
     }
-    vstring findFirstSet(vDeploymentTokenStruct request_token_vector)
+    vstring findFirstSetVector(vDeploymentTokenStruct request_token_vector)
     {
         vstring first_set_vecotr = {};
 

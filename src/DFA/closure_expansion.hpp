@@ -62,6 +62,32 @@ public:
     }
 
 private:
+    // dotの後ろにある末端記号・非末端記号と、先読み記号を合体させる
+    vDeploymentTokenStruct getLatterToken(LRItemFormulaExpansionStruct LR_formula_expansion)
+    {
+        vDeploymentTokenStruct latter_token = {};
+        for (int i = dot + 1; i < LR_formula_expansion.token_vector.size(); i++)
+        {
+            latter_token.push_back(LR_formula_expansion.token_vector[i]);
+        }
+
+        for (int i = 0; i < LR_formula_expansion.lookAhead.size(); i++)
+        {
+            latter_token.push_back(LR_formula_expansion.lookAhead[i]);
+        }
+        return latter_token;
+    }
+
+    vstring getLatterFirstSet(LRItemFormulaExpansionStruct LR_formula_expansion)
+    {
+        NullSetClass cnull_set_class = NullSetClass(deployment_syntax);
+        FirstSetClass cfirst_set_class = FirstSetClass(deployment_syntax, cnull_set_class.findNullsSet());
+
+        vDeploymentTokenStruct latter_token = getLatterToken(LR_formula_expansion);
+        vstring first_set = cfirst_set_class.findFirstSetVector(latter_token);
+        return first_set;
+    }
+
     // search_key : 展開したいkey(左辺key)
     void recursionNodeClosureExpansion(LRItemStruct &lr_item, string search_key)
     {
