@@ -50,7 +50,11 @@ public:
         for (int i = 0; i < LR_formula_map_keys.size(); i++)
         {
             string key = LR_formula_map_keys[i];
-            recursionNodeClosureExpansion(lr_item, key);
+
+            for (int j = 0; j < lr_item.LR_formula_map[key].LR_formula_expansion_vector.size(); j++)
+            {
+                recursionNodeClosureExpansion(lr_item, key, j);
+            }
         }
     }
 
@@ -58,7 +62,10 @@ public:
     {
         already_explored = {};
         already_explored_formula_expansion = {};
-        recursionNodeClosureExpansion(lr_item, search_key);
+        for (int j = 0; j < lr_item.LR_formula_map[search_key].LR_formula_expansion_vector.size(); j++)
+        {
+            recursionNodeClosureExpansion(lr_item, search_key, j);
+        }
     }
 
 private:
@@ -90,7 +97,8 @@ private:
     }
 
     // search_key : 展開したいkey(左辺key)
-    void recursionNodeClosureExpansion(LRItemStruct &lr_item, string search_key)
+    // 展開した式ごとに関数を実行する
+    void recursionNodeClosureExpansion(LRItemStruct &lr_item, string search_key, int LR_formula_expansion_vector_index)
     {
         if (hasKeyMap(this->already_explored, search_key))
         {
@@ -101,46 +109,49 @@ private:
         LRItemFormulaStruct lr_item_formula = lr_item.LR_formula_map[search_key];
         vLRItemFormulaExpansionStruct LR_formula_expansion_vector = lr_item_formula.LR_formula_expansion_vector;
 
-        int LR_formula_expansion_vector_size = LR_formula_expansion_vector.size();
-        for (int j = 0; j < LR_formula_expansion_vector_size; j++)
+        LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula_expansion_vector[LR_formula_expansion_vector_index];
+        vDeploymentTokenStruct token_vector = LR_formula_expansion.token_vector;
+
+        if (dot >= token_vector.size())
         {
-            LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula_expansion_vector[j];
-            vDeploymentTokenStruct token_vector = LR_formula_expansion.token_vector;
-
-            if (dot >= token_vector.size())
-            {
-                continue;
-            }
-
-            DeploymentTokenStruct token = token_vector[dot];
-            // 展開しなければならないkey(右辺)
-            // これをもとに、左辺を呼び出して展開する
-
-            // データの移譲
-            vDeploymentFormulaExpansionStruct dfexp = deployment_syntax.formula_map[token.token_str].formula_expansion_vector;
-
-            for (int k = 0; k < dfexp.size(); k++)
-            {
-
-                if (!hasKeyMap(already_explored_formula_expansion, dfexp[k].formula_expansion_label))
-                {
-                    struct LRItemFormulaExpansionStruct new_lrf_exp;
-                    new_lrf_exp.token_vector = dfexp[k].token_vector;
-                    new_lrf_exp.formula_expansion_label = dfexp[k].formula_expansion_label;
-
-                    lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
-                    already_explored_formula_expansion.push_back(new_lrf_exp.formula_expansion_label);
-                }
-            }
-
-            if (token.label == is_id_TerminalSymbol)
-            {
-                continue;
-            }
-            // 展開した先でも非末端記号であれば再帰的に展開する
-            recursionNodeClosureExpansion(lr_item, token.token_str);
-            // for (int k = 0; k < toke)
+            return;
         }
+
+        DeploymentTokenStruct token = token_vector[dot];
+        // 展開しなければならないkey(右辺)
+        // これをもとに、左辺を呼び出して展開する
+
+        // データの移譲
+        vDeploymentFormulaExpansionStruct dfexp = deployment_syntax.formula_map[token.token_str].formula_expansion_vector;
+
+        for (int k = 0; k < dfexp.size(); k++)
+        {
+
+            if (!hasKeyMap(already_explored_formula_expansion, dfexp[k].formula_expansion_label))
+            {
+                struct LRItemFormulaExpansionStruct new_lrf_exp;
+                new_lrf_exp.token_vector = dfexp[k].token_vector;
+                new_lrf_exp.formula_expansion_label = dfexp[k].formula_expansion_label;
+
+                lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
+                already_explored_formula_expansion.push_back(new_lrf_exp.formula_expansion_label);
+            }
+        }
+
+        if (token.label == is_id_TerminalSymbol)
+        {
+            return;
+        }
+        // 展開した先でも非末端記号であれば再帰的に展開する
+
+        int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();
+        for (int j = 0; j < nfx_size; j++)
+        {
+            recursionNodeClosureExpansion(lr_item, token.token_str, j);
+        }
+
+        // for (int k = 0; k < toke)
+
         // }
     }
 };

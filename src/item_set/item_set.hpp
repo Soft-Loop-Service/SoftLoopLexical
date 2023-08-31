@@ -159,7 +159,7 @@ public:
     {
         vDeploymentTokenStruct first_set_vecotr = {};
 
-        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
+        struct DeploymentTokenStruct root_symbol = {"$", is_id_Dollar};
 
         // 一度すべての集合を求める
         first_set = {};
@@ -201,7 +201,7 @@ public:
     mp_s_Dtoken findFirstSet()
     {
         first_set = {};
-        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
+        struct DeploymentTokenStruct root_symbol = {"$", is_id_Dollar};
         first_set["$"].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
@@ -304,7 +304,7 @@ public:
     }
     mp_s_Dtoken findFolllowSet()
     {
-        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
+        struct DeploymentTokenStruct root_symbol = {"$", is_id_Dollar};
         follow_set["$"].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int s = 0; s < formula_map_size; s++)

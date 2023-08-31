@@ -22,9 +22,11 @@ int generateDFARoot(DFANode &root_dfa_node)
 {
     root_dfa_node.node_label = "root";
     struct DeploymentTokenStruct token = {START_DFA_SYMBOL, is_id_NonterminalSymbolRight};
+    struct DeploymentTokenStruct token_dollar = {"$", is_id_Dollar};
     struct LRItemFormulaExpansionStruct formula_expansion;
     formula_expansion.token_vector.push_back(token);
     formula_expansion.formula_expansion_label = -1;
+    formula_expansion.lookAhead = {token_dollar};
     struct LRItemFormulaStruct formula;
     formula.LR_formula_expansion_vector.push_back(formula_expansion);
     root_dfa_node.lr_item.LR_formula_map[ROOT_DFA_SYMBOL] = formula;
@@ -140,7 +142,7 @@ void outputDFA(vDFANode dfa_node_graph)
     }
 }
 
-int generateDFA(DeploymentStruct deployment_syntax)
+vDFANode generateDFA(DeploymentStruct deployment_syntax)
 {
     int dot = 0;
     DFANode root_dfa_node = DFANode();
@@ -157,6 +159,8 @@ int generateDFA(DeploymentStruct deployment_syntax)
     outputDFA(dfa_node_graph);
 
     printf("処理終了\n");
+
+    return dfa_node_graph;
 }
 
 #endif

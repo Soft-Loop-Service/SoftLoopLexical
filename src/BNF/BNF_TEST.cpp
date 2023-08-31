@@ -65,7 +65,7 @@ int main()
     DeploymentStruct deployment_syntax = expansionDeployment(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
 
     // ItemSetStruct item_set = generateItemSet(deployment_syntax);
-    generateDFA(deployment_syntax);
+    vDFANode dfa_node_graph = generateDFA(deployment_syntax);
     // 左辺の数を取得する
 
     // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];
