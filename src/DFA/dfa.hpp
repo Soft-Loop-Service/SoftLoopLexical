@@ -100,8 +100,9 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
     return new_node;
 }
 
-int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, DFANode current_node, int dot)
+int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, int current_node_index, int dot)
 {
+    DFANode current_node = dfa_node_graph[current_node_index];
     vstring next_labels = getNextLabelDFA(current_node, dot);
 
     ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax, dot);
@@ -113,8 +114,29 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, dot, next_label);
         closure_expansion.nodeClosureExpansion(new_node.lr_item);
         dfa_node_graph.push_back(new_node);
+        int push_index = dfa_node_graph.size() - 1;
 
-        recursionDFA(deployment_syntax, dfa_node_graph, new_node, dot + 1);
+        dfa_node_graph[current_node_index].children_nodes[next_label] = push_index;
+
+        recursionDFA(deployment_syntax, dfa_node_graph, push_index, dot + 1);
+    }
+}
+
+void outputDFA(vDFANode dfa_node_graph)
+{
+    printf("outputDFA * * * * \n");
+
+    for (int d = 0; d < dfa_node_graph.size(); d++)
+    {
+        DFANode node = dfa_node_graph[d];
+        printf("受理 %d %6s ", d, node.node_label.c_str());
+
+        vstring keys = getMapKeyString(node.children_nodes);
+        for (int i = 0; i < node.children_nodes.size(); i++)
+        {
+            printf("( %s %d ) ", keys[i].c_str(), node.children_nodes[keys[i]]);
+        }
+        printf("\n");
     }
 }
 
@@ -130,7 +152,9 @@ int generateDFA(DeploymentStruct deployment_syntax)
     vDFANode dfa_node_graph = {};
     dfa_node_graph.push_back(root_dfa_node);
 
-    recursionDFA(deployment_syntax, dfa_node_graph, dfa_node_graph[0], dot + 1);
+    recursionDFA(deployment_syntax, dfa_node_graph, 0, dot + 1);
+
+    outputDFA(dfa_node_graph);
 
     printf("処理終了\n");
 }
