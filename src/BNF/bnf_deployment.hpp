@@ -23,6 +23,7 @@ typedef std::vector<DeploymentFormulaStruct> vDeploymentFormulaStruct;
 typedef std::vector<DeploymentFormulaExpansionStruct> vDeploymentFormulaExpansionStruct;
 typedef std::vector<DeploymentTokenStruct> vDeploymentTokenStruct;
 typedef std::map<string, DeploymentFormulaStruct> mapDeploymentFormulaStruct;
+typedef std::map<std::string, vDeploymentTokenStruct> mp_s_Dtoken; // を生成
 // typedef std::set<DeploymentTokenStruct> setDeploymentTokenStruct;
 
 struct DeploymentStruct
@@ -50,6 +51,21 @@ struct DeploymentTokenStruct
     string token_str;
     int label;
 };
+
+bool hasDtoken(vector<DeploymentTokenStruct> keys, DeploymentTokenStruct key)
+{
+    bool flag = false;
+    for (size_t i = 0; i < keys.size(); i++)
+    {
+        if (keys[i].token_str == key.token_str && keys[i].label == key.label)
+        {
+            // printf("hasKeyMap %s %s\n", keys[i].c_str(), key.c_str());
+            return true;
+        }
+        /* code */
+    }
+    return false;
+}
 
 DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, RetrieveSymbol &symbols)
 {

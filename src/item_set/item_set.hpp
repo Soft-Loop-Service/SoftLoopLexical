@@ -144,7 +144,7 @@ class FirstSetClass
 private:
     DeploymentStruct deployment_syntax;
     vstring null_set;
-    mp_s_vstring first_set;
+    mp_s_Dtoken first_set;
     vstring formula_map_keys;
     vstring already_explored;
 
@@ -155,13 +155,15 @@ public:
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
     }
-    vstring findFirstSetVector(vDeploymentTokenStruct request_token_vector)
+    vDeploymentTokenStruct findFirstSetVector(vDeploymentTokenStruct request_token_vector)
     {
-        vstring first_set_vecotr = {};
+        vDeploymentTokenStruct first_set_vecotr = {};
+
+        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
 
         // 一度すべての集合を求める
         first_set = {};
-        first_set["$"].push_back("$");
+        first_set["$"].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
         {
@@ -178,34 +180,29 @@ public:
 
             if (current_label == is_id_TerminalSymbol)
             {
-                first_set_vecotr.push_back(current_key);
+                first_set_vecotr.push_back(request_token_vector[i]);
                 break;
             }
 
-            vstring current_first_set = first_set[current_key];
+            vDeploymentTokenStruct current_first_set = first_set[current_key];
 
             for (int j = 0; j < current_first_set.size(); j++)
             {
-                if (hasKeyMap(first_set_vecotr, current_first_set[j]))
+                if (hasDtoken(first_set_vecotr, current_first_set[j]))
                 {
                     first_set_vecotr.push_back(current_first_set[j]);
                 }
             }
         }
 
-        for (int i = 0; i < first_set.size(); i++)
-        {
-            printf("first_set output request %s\n", getMapKeyString(first_set)[i].c_str());
-            output_vector("first_set", first_set[getMapKeyString(first_set)[i]]);
-        }
-
         return first_set_vecotr;
     }
 
-    mp_s_vstring findFirstSet()
+    mp_s_Dtoken findFirstSet()
     {
         first_set = {};
-        first_set["$"].push_back("$");
+        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
+        first_set["$"].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
         {
@@ -213,11 +210,6 @@ public:
             recursionFirstsSet(current_key);
         }
 
-        for (int i = 0; i < first_set.size(); i++)
-        {
-            printf("first_set output %s\n", getMapKeyString(first_set)[i].c_str());
-            output_vector("first_set", first_set[getMapKeyString(first_set)[i]]);
-        }
         //
         return first_set;
     }
@@ -271,8 +263,8 @@ public:
 
                             for (int fc = 0; fc < first_set[token_str].size(); fc++)
                             {
-                                string fc_element = first_set[token_str][fc];
-                                if (!hasKeyMap(first_set[current_key], fc_element))
+                                DeploymentTokenStruct fc_element = first_set[token_str][fc];
+                                if (!hasDtoken(first_set[current_key], fc_element))
                                 {
                                     first_set[current_key].push_back(fc_element);
                                 }
@@ -282,7 +274,7 @@ public:
                     else if (label == is_id_TerminalSymbol)
                     {
 
-                        first_set[current_key].push_back(token_vector[k].token_str);
+                        first_set[current_key].push_back(token_vector[k]);
                     }
                     k++;
 
@@ -296,23 +288,24 @@ class FollowSetClass
 {
 private:
     DeploymentStruct deployment_syntax;
-    mp_s_vstring first_set;
+    mp_s_Dtoken first_set;
     vstring null_set;
-    mp_s_vstring follow_set;
+    mp_s_Dtoken follow_set;
     vstring formula_map_keys;
     vstring already_explored;
 
 public:
-    FollowSetClass(DeploymentStruct deployment_syntax, vstring null_set, mp_s_vstring first_set)
+    FollowSetClass(DeploymentStruct deployment_syntax, vstring null_set, mp_s_Dtoken first_set)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
         this->first_set = first_set;
     }
-    mp_s_vstring findFolllowSet()
+    mp_s_Dtoken findFolllowSet()
     {
-        follow_set["<S>"].push_back("$");
+        struct DeploymentTokenStruct root_symbol = {"$", is_is_Dollar};
+        follow_set["$"].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int s = 0; s < formula_map_size; s++)
         {
@@ -320,11 +313,6 @@ public:
             recursionFollowSet(search_key);
         }
 
-        for (int i = 0; i < follow_set.size(); i++)
-        {
-            printf("follow_set output %s\n", getMapKeyString(follow_set)[i].c_str());
-            output_vector("follow_set", follow_set[getMapKeyString(follow_set)[i]]);
-        }
         return follow_set;
     }
 
@@ -372,9 +360,9 @@ public:
 
                                 if (next_label == is_id_TerminalSymbol)
                                 {
-                                    if (!hasKeyMap(this->follow_set[search_key], next_key))
+                                    if (!hasDtoken(this->follow_set[search_key], token_vector[n + 1]))
                                     {
-                                        this->follow_set[search_key].push_back(next_key);
+                                        this->follow_set[search_key].push_back(token_vector[n + 1]);
                                     }
                                     flag = false;
                                 }
@@ -400,11 +388,11 @@ private: /// @brief
     {
         printf("findNext %s : %s -> %s\n", current_key.c_str(), search_key.c_str(), next_key.c_str());
 
-        vstring next_first_set = first_set[next_key];
+        vDeploymentTokenStruct next_first_set = first_set[next_key];
 
         for (int i = 0; i < next_first_set.size(); i++)
         {
-            if (!hasKeyMap(this->follow_set[search_key], next_first_set[i]))
+            if (!hasDtoken(this->follow_set[search_key], next_first_set[i]))
             {
                 this->follow_set[search_key].push_back(next_first_set[i]);
             }
@@ -422,8 +410,8 @@ private: /// @brief
 
         for (int i = 0; i < follow_set[current_key].size(); i++)
         {
-            printf("findNextNull push %s - %s %s\n", search_key.c_str(), current_key.c_str(), follow_set[current_key][i].c_str());
-            if (!hasKeyMap(this->follow_set[search_key], follow_set[current_key][i]))
+            printf("findNextNull push %s - %s %s\n", search_key.c_str(), current_key.c_str(), follow_set[current_key][i].token_str.c_str());
+            if (!hasDtoken(this->follow_set[search_key], follow_set[current_key][i]))
             {
 
                 this->follow_set[search_key].push_back(follow_set[current_key][i]);

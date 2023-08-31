@@ -74,17 +74,18 @@ private:
         for (int i = 0; i < LR_formula_expansion.lookAhead.size(); i++)
         {
             latter_token.push_back(LR_formula_expansion.lookAhead[i]);
+            // findFirstSetVectorに対してはvDeploymentTokenStructの形で渡さねばならぬが、これが阻んでいる
         }
         return latter_token;
     }
 
-    vstring getLatterFirstSet(LRItemFormulaExpansionStruct LR_formula_expansion)
+    vDeploymentTokenStruct getLatterFirstSet(LRItemFormulaExpansionStruct LR_formula_expansion)
     {
         NullSetClass cnull_set_class = NullSetClass(deployment_syntax);
         FirstSetClass cfirst_set_class = FirstSetClass(deployment_syntax, cnull_set_class.findNullsSet());
 
         vDeploymentTokenStruct latter_token = getLatterToken(LR_formula_expansion);
-        vstring first_set = cfirst_set_class.findFirstSetVector(latter_token);
+        vDeploymentTokenStruct first_set = cfirst_set_class.findFirstSetVector(latter_token);
         return first_set;
     }
 

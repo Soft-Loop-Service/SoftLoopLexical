@@ -12,7 +12,8 @@
 #define is_id_VerticalLine 130           // | この縦棒記号。条件分岐に用いる
 #define is_id_TerminalSymbol 140         // 末端記号(TerminalSymbol)
 #define is_id_Token 141                  // 通常トークン。原則使わず、末端記号(TerminalSymbol)を使う
-#define is_id_Escape 200                 // イコール記号
+#define is_is_Dollar 142
+#define is_id_Escape 200 // イコール記号
 #define is_id_SingleQuotation 210
 #define is_id_SingleQuotationLeft 211
 #define is_id_SingleQuotationRight 212
