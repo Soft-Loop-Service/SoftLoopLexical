@@ -25,6 +25,9 @@ int generateDFARoot(DFANode &root_dfa_node)
     struct LRItemFormulaExpansionStruct formula_expansion;
     formula_expansion.token_vector.push_back(token);
     formula_expansion.formula_expansion_label = -1;
+
+    struct DeploymentTokenStruct token_lastest = {"$", is_id_TerminalSymbol};
+    formula_expansion.lookAhead.push_back(token_lastest);
     struct LRItemFormulaStruct formula;
     formula.LR_formula_expansion_vector.push_back(formula_expansion);
     root_dfa_node.lr_item.LR_formula_map[ROOT_DFA_SYMBOL] = formula;

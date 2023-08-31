@@ -23,6 +23,8 @@ typedef std::vector<DeploymentFormulaStruct> vDeploymentFormulaStruct;
 typedef std::vector<DeploymentFormulaExpansionStruct> vDeploymentFormulaExpansionStruct;
 typedef std::vector<DeploymentTokenStruct> vDeploymentTokenStruct;
 typedef std::map<string, DeploymentFormulaStruct> mapDeploymentFormulaStruct;
+
+typedef std::map<std::string, vDeploymentTokenStruct> mp_s_vDtoken;
 // typedef std::set<DeploymentTokenStruct> setDeploymentTokenStruct;
 
 struct DeploymentStruct
