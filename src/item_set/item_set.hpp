@@ -155,10 +155,20 @@ public:
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
     }
-    mp_s_vstring findFirstSet(vDeploymentTokenStruct request_token_vector)
+    vstring findFirstSet(vDeploymentTokenStruct request_token_vector)
     {
+        vstring first_set_vecotr = {};
+
+        // 一度すべての集合を求める
         first_set = {};
         first_set["$"].push_back("$");
+        int formula_map_size = this->deployment_syntax.formula_map.size();
+        for (int i = 0; i < formula_map_size; i++)
+        {
+            string current_key = this->formula_map_keys[i];
+            recursionFirstsSet(current_key);
+        }
+
         // int formula_map_size = this->deployment_syntax.formula_map.size();
         int request_token_vector_size = request_token_vector.size();
         for (int i = 0; i < request_token_vector_size; i++)
@@ -168,15 +178,19 @@ public:
 
             if (current_label == is_id_TerminalSymbol)
             {
-                first_set[current_key].push_back(current_key);
+                first_set_vecotr.push_back(current_key);
                 break;
             }
 
-            if (!hasKeyMap(getMapKeyString(this->first_set), current_key))
+            vstring current_first_set = first_set[current_key];
+
+            for (int j = 0; j < current_first_set.size(); j++)
             {
-                break;
+                if (hasKeyMap(first_set_vecotr, current_first_set[j]))
+                {
+                    first_set_vecotr.push_back(current_first_set[j]);
+                }
             }
-            recursionFirstsSet(current_key);
         }
 
         for (int i = 0; i < first_set.size(); i++)
@@ -185,7 +199,7 @@ public:
             output_vector("first_set", first_set[getMapKeyString(first_set)[i]]);
         }
 
-        return first_set;
+        return first_set_vecotr;
     }
 
     mp_s_vstring findFirstSet()
