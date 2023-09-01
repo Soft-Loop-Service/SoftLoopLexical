@@ -54,7 +54,7 @@ vstring getNextLabelDFA(DFANode current_node, int dot)
             }
             DeploymentTokenStruct token = token_vector[index];
 
-            if (hasKeyMap(next_labels, token.token_str))
+            if (hasKeyMap(next_labels, token.token_str) )
             {
                 continue;
             }
@@ -140,6 +140,8 @@ void outputDFA(vDFANode dfa_node_graph)
         }
         printf("\n");
     }
+
+    printf("outputDFA ITEM * * * * \n");
 }
 
 vDFANode generateDFA(DeploymentStruct deployment_syntax)

@@ -8,6 +8,7 @@
 
 #include "./symbol_table.hpp"
 #include "./../debug.hpp"
+
 #include "./../definition.hpp"
 
 #include "./retrieve_symbol_table.hpp"
@@ -18,8 +19,8 @@
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-    // loadText(bnf_source, "./src/BNF/BNF3.txt", source_code_size);
-    loadText(bnf_source, "./BNF3.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF3.txt", source_code_size);
+    // loadText(bnf_source, "./BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
     struct BNFToken bnf_token;
@@ -66,6 +67,7 @@ int main()
 
     // ItemSetStruct item_set = generateItemSet(deployment_syntax);
     vDFANode dfa_node_graph = generateDFA(deployment_syntax);
+
     // 左辺の数を取得する
 
     // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];
