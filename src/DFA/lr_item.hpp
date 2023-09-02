@@ -48,6 +48,7 @@ lookAhead : 先読み記号
 struct LRItemFormulaExpansionStruct : DeploymentFormulaExpansionStruct
 {
     vDeploymentTokenStruct lookAhead;
+    int dot;
 };
 struct DFANode
 {

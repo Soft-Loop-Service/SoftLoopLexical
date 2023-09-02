@@ -15,7 +15,8 @@
     "set": "cpp",
     "stack": "cpp",
     "string_view": "cpp",
-    "unordered_map": "cpp"
+    "unordered_map": "cpp",
+    "__node_handle": "cpp"
   },  
   
   "C_Cpp.errorSquiggles": "enabled",

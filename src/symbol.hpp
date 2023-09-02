@@ -3,6 +3,8 @@
 #ifndef __SYMBOL
 #define __SYMBOL
 
+#define DOLLAR  "\$"
+
 #define is_id_Null 0                     // 0は原則として使用禁止
 #define is_id_Unnecessary 100            // 不必要記号(無視)
 #define is_id_NonterminalSymbol 110      // 非末端記号

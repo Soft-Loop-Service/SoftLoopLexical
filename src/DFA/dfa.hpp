@@ -22,19 +22,20 @@ int generateDFARoot(DFANode &root_dfa_node)
 {
     root_dfa_node.node_label = "root";
     struct DeploymentTokenStruct token = {START_DFA_SYMBOL, is_id_NonterminalSymbolRight};
-    struct DeploymentTokenStruct token_dollar = {"$", is_id_Dollar};
+    struct DeploymentTokenStruct token_dollar = {DOLLAR, is_id_Dollar};
     struct LRItemFormulaExpansionStruct formula_expansion;
     formula_expansion.token_vector.push_back(token);
     formula_expansion.formula_expansion_label = -1;
     formula_expansion.lookAhead = {token_dollar};
+    formula_expansion.dot = 0;
     struct LRItemFormulaStruct formula;
     formula.LR_formula_expansion_vector.push_back(formula_expansion);
     root_dfa_node.lr_item.LR_formula_map[ROOT_DFA_SYMBOL] = formula;
 }
 
-vstring getNextLabelDFA(DFANode current_node, int dot)
+vstring getNextLabelDFA(DFANode current_node)
 {
-    int index = dot - 1;
+
     vstring next_labels;
     mapLRItemFormulaStruct LR_formula_map = current_node.lr_item.LR_formula_map;
 
@@ -48,6 +49,9 @@ vstring getNextLabelDFA(DFANode current_node, int dot)
         {
             LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
             vDeploymentTokenStruct token_vector = LR_formula_expansion.token_vector;
+            // int dot = LR_formula_expansion.dot;
+            int index = LR_formula_expansion.dot;
+
             if (index >= token_vector.size())
             {
                 continue;
@@ -64,12 +68,12 @@ vstring getNextLabelDFA(DFANode current_node, int dot)
     return next_labels;
 }
 
-DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_node, int dot, string next_label)
+DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_node, string next_label)
 {
     struct DFANode new_node;
     new_node.node_label = next_label;
     // new_node.lr_item.
-    int index = dot - 1;
+    
 
     mapLRItemFormulaStruct LR_formula_map = current_node.lr_item.LR_formula_map;
 
@@ -83,6 +87,7 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
         for (int j = 0; j < LR_formula.LR_formula_expansion_vector.size(); j++)
         {
             LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
+            int index = LR_formula_expansion.dot;
             vDeploymentTokenStruct token_vector = LR_formula_expansion.token_vector;
             if (index >= token_vector.size())
             {
@@ -95,32 +100,32 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
             {
                 continue;
             }
-
+            LR_formula_expansion.dot++;
             new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
         }
     }
     return new_node;
 }
 
-int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, int current_node_index, int dot)
+int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, int current_node_index)
 {
     DFANode current_node = dfa_node_graph[current_node_index];
-    vstring next_labels = getNextLabelDFA(current_node, dot);
+    vstring next_labels = getNextLabelDFA(current_node);
 
-    ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax, dot);
+    ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax);
 
     for (int i = 0; i < next_labels.size(); i++)
     {
         string next_label = next_labels[i];
 
-        DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, dot, next_label);
+        DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
         closure_expansion.nodeClosureExpansion(new_node.lr_item);
         dfa_node_graph.push_back(new_node);
         int push_index = dfa_node_graph.size() - 1;
 
         dfa_node_graph[current_node_index].children_nodes[next_label] = push_index;
 
-        recursionDFA(deployment_syntax, dfa_node_graph, push_index, dot + 1);
+        recursionDFA(deployment_syntax, dfa_node_graph, push_index);
     }
 }
 
@@ -142,21 +147,47 @@ void outputDFA(vDFANode dfa_node_graph)
     }
 
     printf("outputDFA ITEM * * * * \n");
+    for (int d = 0; d < dfa_node_graph.size(); d++)
+    {
+        DFANode node = dfa_node_graph[d];
+        // printf("受理 %d %6s ", d, node.node_label.c_str());
+
+        vstring keys = getMapKeyString(node.lr_item.LR_formula_map);
+        for (int i = 0; i < keys.size(); i++)
+        {
+            vLRItemFormulaExpansionStruct LR_formula_expansion_vector = node.lr_item.LR_formula_map[keys[i]].LR_formula_expansion_vector;
+
+            for (int j = 0; j < LR_formula_expansion_vector.size();j++){
+                vDeploymentTokenStruct token_vector = LR_formula_expansion_vector[j].token_vector;
+                vDeploymentTokenStruct lookAhead = LR_formula_expansion_vector[j].lookAhead;
+
+                printf("%d %d %d dot : %d ITEM群 : %s ::= ", d,i,j,LR_formula_expansion_vector[j].dot,keys[i].c_str());
+                for (int k = 0; k < token_vector.size();k++){
+                    printf("%s , ",token_vector[k].token_str.c_str());
+                }
+                printf("先読み記号 : ");
+                for (int k = 0; k < lookAhead.size();k++){
+                    printf("%s ,  ",lookAhead[k].token_str.c_str());
+                }
+                printf("\n");
+            }
+        }
+    }
+
 }
 
 vDFANode generateDFA(DeploymentStruct deployment_syntax)
 {
-    int dot = 0;
     DFANode root_dfa_node = DFANode();
     generateDFARoot(root_dfa_node);
 
-    ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax, dot);
+    ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax);
     closure_expansion.nodeClosureExpansion(root_dfa_node.lr_item, ROOT_DFA_SYMBOL);
 
     vDFANode dfa_node_graph = {};
     dfa_node_graph.push_back(root_dfa_node);
 
-    recursionDFA(deployment_syntax, dfa_node_graph, 0, dot + 1);
+    recursionDFA(deployment_syntax, dfa_node_graph, 0);
 
     outputDFA(dfa_node_graph);
 
