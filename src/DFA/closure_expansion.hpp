@@ -172,13 +172,20 @@ private:
             else
             { // 先読み記号だけ追加する
                 int formula_expansion_index = already_explored_formula_expansion[dfexp[k].formula_expansion_label];
-                vDeploymentTokenStruct *current_lookAhead = &(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[formula_expansion_index].lookAhead);
+                vDeploymentTokenStruct *current_lookAhead_p = &(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[formula_expansion_index].lookAhead);
 
                 for (int n = 0; n < first_set.size(); n++)
                 {
-                    // if(!hasKeyMap(*current_lookAhead,first_set[n])){
-                    current_lookAhead->push_back(first_set[n]);
-                    // }
+                    bool flag = true;
+                    for (int s = 0; s < current_lookAhead_p->size();s++){
+                        if (current_lookAhead_p->at(s).token_str == first_set[n].token_str){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        current_lookAhead_p->push_back(first_set[n]);
+                    }
                 }
             }
         }
