@@ -119,11 +119,6 @@ private:
         return first_set;
     }
 
-    // すでにクロージャー展開された式に、追加で先読み記号を追加する
-    void insertLookaheadSymbol()
-    {
-    }
-
     // search_key : 展開したいkey(左辺key)
     // 展開した式ごとに関数を実行する
     void recursionNodeClosureExpansion(LRItemStruct &lr_item, string search_key, int LR_formula_expansion_vector_index, vDeploymentTokenStruct first_set)
