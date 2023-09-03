@@ -30,6 +30,7 @@ typedef std::map<std::string, bool> mapstrbool;
 // typedef std::map<std::string, int> mapstrint;
 typedef std::map<std::string, string> mapstr;
 typedef std::map<std::string, int> mp_s_i;           // mp を生成
+typedef std::map<int, int> mp_i_i;           // mp を生成
 typedef std::map<std::string, vint> mp_s_vint;       // mp を生成
 typedef std::map<std::string, v2int> mp_s_v2int;     // を生成
 typedef std::map<std::string, vstring> mp_s_vstring; // を生成
@@ -64,10 +65,10 @@ bool hasKeyMap(vector<T> keys, T key)
     return false;
 }
 
-template <typename T>
-vstring getMapKeyString(std::map<string, T> mp)
+template <typename T,typename Y>
+std::vector<Y> getMapKeyString(std::map<Y, T> mp)
 {
-    vstring keys;
+    std::vector<Y> keys;
     auto begin = mp.begin(), end = mp.end();
     for (auto iter = begin; iter != end; iter++)
     {
