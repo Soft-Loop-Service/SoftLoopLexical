@@ -55,7 +55,8 @@ public:
             {
                 int dot = lr_item.LR_formula_map[key].LR_formula_expansion_vector[j].dot;
 
-                for (int k = 0; k < lr_item.LR_formula_map[key].LR_formula_expansion_vector[j].lookAhead.size(); k++)
+                int la_size = lr_item.LR_formula_map[key].LR_formula_expansion_vector[j].lookAhead.size();
+                for (int k = 0; k < la_size; k++)
                 {
                     vDeploymentTokenStruct first_set = getLatterFirstSet(lr_item.LR_formula_map[key].LR_formula_expansion_vector[j], dot, k);
                     recursionNodeClosureExpansion(lr_item, key, j, first_set);
@@ -71,7 +72,8 @@ public:
         for (int j = 0; j < lr_item.LR_formula_map[search_key].LR_formula_expansion_vector.size(); j++)
         {
             int dot = lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].dot;
-            for (int k = 0; k < lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].lookAhead.size(); k++)
+            int la_size =  lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].lookAhead.size();
+            for (int k = 0; k < la_size; k++)
             {
                 vDeploymentTokenStruct first_set = getLatterFirstSet(lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j], dot, k);
                 recursionNodeClosureExpansion(lr_item, search_key, j, first_set);
