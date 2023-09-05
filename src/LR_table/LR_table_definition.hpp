@@ -52,6 +52,17 @@ public:
         }
     }
 
+    void addSymbol(string cstr)
+    {
+        vector<T> new_column = {};
+        for (int j = 0; j < column_length; j++)
+        {
+            T new_cell = T();
+            new_column.push_back(new_cell);
+        }
+        this->LR_table_column_map[cstr] = new_column;
+    }
+
     LRTable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol symbol)
     {
         this->dfa_node_graph = dfa_node_graph;
@@ -134,6 +145,44 @@ public:
 
                     int child_node = children_nodes[key];
                     this->LR_table_column_map[key][i].setCell(child_node);
+                }
+            }
+        }
+    }
+};
+
+template <typename U>
+class LRTableMakeReduce : public LRTable<U>
+{
+
+public:
+    using LRTable<U>::LRTable;
+
+    void makeTable()
+    {
+        for (int c = 0; c < this->column_length; c++)
+        {
+            LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
+            mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
+
+            vstring LR_formula_map_keys = getMapKeyString(LR_formula_map);
+
+            for (int i = 0; i < LR_formula_map_keys.size(); i++)
+            {
+                string fm_key = LR_formula_map_keys[i];
+                LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
+
+                for (int j = 0; j < LR_formula.LR_formula_expansion_vector.size(); j++)
+                {
+                    LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
+                    vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
+
+                    for (int k = 0; k < lookAhead.size(); k++)
+                    {
+                        string la_key = lookAhead[k].token_str;
+
+                        this->LR_table_column_map[la_key][c].setCell(fm_key, LR_formula_expansion.token_vector, LR_formula_expansion.formula_expansion_label);
+                    }
                 }
             }
         }
