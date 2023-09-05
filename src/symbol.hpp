@@ -3,7 +3,7 @@
 #ifndef __SYMBOL
 #define __SYMBOL
 
-#define DOLLAR  "\$"
+#define DOLLAR "$"
 
 #define is_id_Null 0                     // 0は原則として使用禁止
 #define is_id_Unnecessary 100            // 不必要記号(無視)
@@ -15,7 +15,8 @@
 #define is_id_TerminalSymbol 140         // 末端記号(TerminalSymbol)
 #define is_id_Token 141                  // 通常トークン。原則使わず、末端記号(TerminalSymbol)を使う
 #define is_id_Dollar 142
-#define is_id_Escape 200 // イコール記号
+#define is_id_Escape 200   // イコール記号
+#define is_id_Question 201 // はてな記号
 #define is_id_SingleQuotation 210
 #define is_id_SingleQuotationLeft 211
 #define is_id_SingleQuotationRight 212

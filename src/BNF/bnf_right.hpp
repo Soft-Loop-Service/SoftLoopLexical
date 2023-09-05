@@ -37,6 +37,8 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
     int begin = nonterminal_symbol_left.array[current_left];
     int end = current_left == nonterminal_symbol_left.len - 1 ? bnf_token_p.token_len : nonterminal_symbol_left.array[current_left + 1];
 
+    std::string begin_str = std::string(bnf_token_p.token_string_array[begin]);
+
     for (int current = begin + 1; current < end; current++)
     {
         switch (bnf_token_p.token_label_array[current])
@@ -55,12 +57,36 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
         case is_id_DoubleQuotation:
         case is_id_DoubleQuotationLeft:
         case is_id_DoubleQuotationRight:
+        case is_id_Question:
+        case is_id_Multiplication:
         {
             break;
         }
 
         default:
         {
+            if ((current + 1) < bnf_token_p.token_len)
+            {
+                std::string cstr = std::string(bnf_token_p.token_string_array[current]);
+                // std::string nstr = std::string(bnf_token_p.token_string_array[current + 1]);
+                if (bnf_token_p.token_label_array[current + 1] == is_id_Multiplication)
+                {
+                    bnf_que.push(cstr);
+                    bnf_que.push(begin_str);
+                    bnf_right_tokens.push_back({});
+                    bnf_right_map[cstr] = bnf_token_p.token_label_array[current];
+                    bnf_right_map[begin_str] = is_id_NonterminalSymbolRight;
+                    break;
+                }
+                else if (bnf_token_p.token_label_array[current + 1] == is_id_Question)
+                {
+                    bnf_que.push(cstr);
+                    bnf_right_tokens.push_back({});
+                    bnf_right_map[cstr] = bnf_token_p.token_label_array[current];
+                    break;
+                }
+            }
+
             // printf("キューに追加 %d %s %d\n", current, bnf_token_p.token_string_array[current], bnf_token_p.token_label_array[current]);
 
             std::string str = std::string(bnf_token_p.token_string_array[current]);

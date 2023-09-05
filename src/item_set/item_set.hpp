@@ -34,13 +34,11 @@ public:
     vstring findNullsSet()
     {
         int formula_map_size = this->deployment_syntax.formula_map.size();
-        printf("formula_map_size %d\n", formula_map_size);
         for (int i = 0; i < formula_map_size; i++)
         {
             string current_key = this->formula_map_keys[i];
             recursionNullSet(current_key);
         }
-        output_vector("null_set", null_set);
         return null_set;
     }
 
@@ -70,19 +68,15 @@ private:
         vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
 
-        // printf("recursionNullSet %s %d\n", current_key.c_str(), formula_expansion_vector_size);
-
         if (formula_expansion_vector_size == 0)
         {
             // NULLである
             null_set.push_back(current_key);
-            // printf("null push a %s %d\n", current_key.c_str(), formula_expansion_vector_size);
             return true;
         }
 
         for (int j = 0; j < formula_expansion_vector_size; j++)
         {
-            printf("formula_expansion_vector\n");
             int null_count = 0;
             vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
@@ -93,8 +87,6 @@ private:
                 null_set.push_back(current_key);
                 return true;
             }
-
-            // printf("token_vector_size %s %d\n", current_key.c_str(), token_vector_size);
 
             for (int k = 0; k < token_vector_size; k++)
             {
@@ -110,26 +102,18 @@ private:
 
                 if (label == is_id_NonterminalSymbolRight)
                 {
-                    printf("    探索 %s -> %s\n", current_key.c_str(), token_str.c_str());
                     bool result = recursionNullSet(token_str);
                     if (result)
                     {
                         null_count++;
-                        printf("    加算\n");
                     }
-
-                    printf("    結果 %s -> %s %d %d\n", current_key.c_str(), token_str.c_str(), result, null_count);
                 }
 
                 // }
             }
-            printf("判定 %s %d %d\n", current_key.c_str(), null_count, token_vector_size);
-            // printf("null_count == token_vector_size %s %d %d %d\n", current_key.c_str(), null_count, token_vector_size, formula_expansion_vector_size);
             if (null_count == token_vector_size)
             {
-                printf("    登録 %s\n", current_key.c_str());
                 null_set.push_back(current_key);
-                // printf("null push b %s %d\n", current_key.c_str(), token_vector_size);
                 return true;
             }
 
@@ -171,17 +155,16 @@ public:
             recursionFirstsSet(current_key);
         }
 
-        vstring f_k = getMapKeyString(first_set);
-        printf("findFirstSetVector f_k %d\n",f_k.size());
-        for (int i = 0; i < f_k.size(); i++)
-        {
-            printf("findFirstSetVector f_k %d\n",first_set[f_k[i]].size());
-            for (int j = 0; j < first_set[f_k[i]].size(); j++)
-            {
+        // vstring f_k = getMapKeyString(first_set);
+        // for (int i = 0; i < f_k.size(); i++)
+        // {
+        //     printf("findFirstSetVector f_k %d\n",first_set[f_k[i]].size());
+        //     for (int j = 0; j < first_set[f_k[i]].size(); j++)
+        //     {
 
-                printf("findFirstSetVector %s : %s\n", f_k[i].c_str(), first_set[f_k[i]][j].token_str.c_str());
-            }
-        }
+        //         printf("findFirstSetVector %s : %s\n", f_k[i].c_str(), first_set[f_k[i]][j].token_str.c_str());
+        //     }
+        // }
 
         // int formula_map_size = this->deployment_syntax.formula_map.size();
         int request_token_vector_size = request_token_vector.size();
@@ -336,8 +319,6 @@ public:
         }
         already_explored.push_back(search_key);
 
-        printf("recursionFollowSet %s\n", search_key.c_str());
-
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
         {
@@ -353,7 +334,6 @@ public:
                 {
                     if (search_key == token_vector[k].token_str)
                     {
-                        // printf("対象との一致 %s\n", search_key.c_str());
                         bool flag = true;
                         int n = k;
                         while (flag && n < token_vector_size)
@@ -361,7 +341,6 @@ public:
 
                             if (n == token_vector_size - 1) // 一番最後であるとき
                             {
-                                printf("token終端\n");
                                 findNextNull(search_key, current_key);
                                 flag = false;
                             }
@@ -398,7 +377,6 @@ private: /// @brief
     /// @return nullの可能性があるか否か
     bool findNext(string search_key, string current_key, string next_key)
     {
-        printf("findNext %s : %s -> %s\n", current_key.c_str(), search_key.c_str(), next_key.c_str());
 
         vDeploymentTokenStruct next_first_set = first_set[next_key];
 
@@ -418,11 +396,8 @@ private: /// @brief
     {
         recursionFollowSet(current_key);
 
-        printf("findNextNull %s -> %s\n", current_key.c_str(), search_key.c_str());
-
         for (int i = 0; i < follow_set[current_key].size(); i++)
         {
-            printf("findNextNull push %s - %s %s\n", search_key.c_str(), current_key.c_str(), follow_set[current_key][i].token_str.c_str());
             if (!hasDtoken(this->follow_set[search_key], follow_set[current_key][i]))
             {
 

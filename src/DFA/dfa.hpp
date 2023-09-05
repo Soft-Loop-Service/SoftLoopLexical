@@ -18,6 +18,86 @@
 #include <iostream>
 #include <vector>
 
+bool isDfaEqual(DFANode a_node, DFANode b_node)
+{
+    mapLRItemFormulaStruct a_LR_formula_map = a_node.lr_item.LR_formula_map;
+    mapLRItemFormulaStruct b_LR_formula_map = b_node.lr_item.LR_formula_map;
+
+    vstring a_LR_formula_map_keys = getMapKeyString(a_LR_formula_map);
+    vstring b_LR_formula_map_keys = getMapKeyString(b_LR_formula_map);
+
+    if (a_LR_formula_map_keys.size() != b_LR_formula_map_keys.size())
+    {
+        return false;
+    }
+
+    for (int i = 0; i < a_LR_formula_map_keys.size(); i++)
+    {
+        LRItemFormulaStruct a_LR_formula = a_LR_formula_map[a_LR_formula_map_keys[i]];
+        LRItemFormulaStruct b_LR_formula = b_LR_formula_map[a_LR_formula_map_keys[i]];
+
+        if (a_LR_formula.LR_formula_expansion_vector.size() != b_LR_formula.LR_formula_expansion_vector.size())
+        {
+            return false;
+        }
+
+        for (int j = 0; j < a_LR_formula.LR_formula_expansion_vector.size(); j++)
+        {
+            LRItemFormulaExpansionStruct a_LR_formula_expansion = a_LR_formula.LR_formula_expansion_vector[j];
+            LRItemFormulaExpansionStruct b_LR_formula_expansion = a_LR_formula.LR_formula_expansion_vector[j];
+            vDeploymentTokenStruct a_token_vector = a_LR_formula_expansion.token_vector;
+            vDeploymentTokenStruct b_token_vector = a_LR_formula_expansion.token_vector;
+            vDeploymentTokenStruct a_lookAhead = a_LR_formula_expansion.lookAhead;
+            vDeploymentTokenStruct b_lookAhead = b_LR_formula_expansion.lookAhead;
+
+            if (a_token_vector.size() != b_token_vector.size())
+            {
+                return false;
+            }
+            if (a_lookAhead.size() != b_lookAhead.size())
+            {
+                return false;
+            }
+
+            int t_count = 0;
+            for (int k = 0; k < a_token_vector.size(); k++)
+            {
+                for (int n = 0; n < b_token_vector.size(); n++)
+                {
+                    if (a_token_vector[k].token_str == b_token_vector[k].token_str)
+                    {
+                        t_count++;
+                        continue;
+                    }
+                }
+            }
+            if (t_count != a_token_vector.size())
+            {
+                return false;
+            }
+
+            int l_count = 0;
+            for (int k = 0; k < a_lookAhead.size(); k++)
+            {
+                for (int n = 0; n < b_lookAhead.size(); n++)
+                {
+                    if (a_lookAhead[k].token_str == b_lookAhead[k].token_str)
+                    {
+                        l_count++;
+                        continue;
+                    }
+                }
+            }
+            if (l_count != a_lookAhead.size())
+            {
+                return false;
+            }
+        }
+    }
+    printf("完全一致\n");
+    return true;
+}
+
 int generateDFARoot(DFANode &root_dfa_node)
 {
     root_dfa_node.node_label = "root";
@@ -58,7 +138,7 @@ vstring getNextLabelDFA(DFANode current_node)
             }
             DeploymentTokenStruct token = token_vector[index];
 
-            if (hasKeyMap(next_labels, token.token_str) )
+            if (hasKeyMap(next_labels, token.token_str))
             {
                 continue;
             }
@@ -73,7 +153,6 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
     struct DFANode new_node;
     new_node.node_label = next_label;
     // new_node.lr_item.
-    
 
     mapLRItemFormulaStruct LR_formula_map = current_node.lr_item.LR_formula_map;
 
@@ -102,6 +181,7 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
             }
             LR_formula_expansion.dot++;
             new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
+            printf("構文の追加 %s %d\n", key.c_str(), new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.size());
         }
     }
     return new_node;
@@ -112,17 +192,35 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
     DFANode current_node = dfa_node_graph[current_node_index];
     vstring next_labels = getNextLabelDFA(current_node);
 
+    printf("current_node_index %d\n", dfa_node_graph.size());
+
     ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax);
 
     for (int i = 0; i < next_labels.size(); i++)
     {
         string next_label = next_labels[i];
+        printf("next_label %s\n", next_label.c_str());
 
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
+
         closure_expansion.nodeClosureExpansion(new_node.lr_item);
+
+        int flag = -1;
+        for (int j = 0; j < dfa_node_graph.size(); j++)
+        {
+            if (isDfaEqual(new_node, dfa_node_graph[j]))
+            {
+                flag = j;
+                break;
+            }
+        }
+        if (flag != -1)
+        {
+            dfa_node_graph[current_node_index].children_nodes[next_label] = flag;
+            break;
+        }
         dfa_node_graph.push_back(new_node);
         int push_index = dfa_node_graph.size() - 1;
-
         dfa_node_graph[current_node_index].children_nodes[next_label] = push_index;
 
         recursionDFA(deployment_syntax, dfa_node_graph, push_index);
@@ -157,23 +255,25 @@ void outputDFA(vDFANode dfa_node_graph)
         {
             vLRItemFormulaExpansionStruct LR_formula_expansion_vector = node.lr_item.LR_formula_map[keys[i]].LR_formula_expansion_vector;
 
-            for (int j = 0; j < LR_formula_expansion_vector.size();j++){
+            for (int j = 0; j < LR_formula_expansion_vector.size(); j++)
+            {
                 vDeploymentTokenStruct token_vector = LR_formula_expansion_vector[j].token_vector;
                 vDeploymentTokenStruct lookAhead = LR_formula_expansion_vector[j].lookAhead;
 
-                printf("%d %d %d dot : %d ITEM群 : %s ::= ", d,i,j,LR_formula_expansion_vector[j].dot,keys[i].c_str());
-                for (int k = 0; k < token_vector.size();k++){
-                    printf("%s , ",token_vector[k].token_str.c_str());
+                printf("%d %d %d dot : %d ITEM群 : %s ::= ", d, i, j, LR_formula_expansion_vector[j].dot, keys[i].c_str());
+                for (int k = 0; k < token_vector.size(); k++)
+                {
+                    printf("%s , ", token_vector[k].token_str.c_str());
                 }
                 printf("先読み記号 : ");
-                for (int k = 0; k < lookAhead.size();k++){
-                    printf("%s ,  ",lookAhead[k].token_str.c_str());
+                for (int k = 0; k < lookAhead.size(); k++)
+                {
+                    printf("%s ,  ", lookAhead[k].token_str.c_str());
                 }
                 printf("\n");
             }
         }
     }
-
 }
 
 vDFANode generateDFA(DeploymentStruct deployment_syntax)

@@ -72,7 +72,7 @@ public:
         for (int j = 0; j < lr_item.LR_formula_map[search_key].LR_formula_expansion_vector.size(); j++)
         {
             int dot = lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].dot;
-            int la_size =  lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].lookAhead.size();
+            int la_size = lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j].lookAhead.size();
             for (int k = 0; k < la_size; k++)
             {
                 vDeploymentTokenStruct first_set = getLatterFirstSet(lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[j], dot, k);
@@ -108,15 +108,15 @@ private:
         vDeploymentTokenStruct latter_token = getLatterToken(LR_formula_expansion, dot, lookAhead_index);
         vDeploymentTokenStruct first_set = cfirst_set_class.findFirstSetVector(latter_token);
 
-        printf("latter_token , getLatterFirstSet %ld %ld\n", latter_token.size(), first_set.size());
-        for (int la = 0; la < latter_token.size(); la++)
-        {
-            printf("latter_token %s\n", latter_token[la].token_str.c_str());
-        }
-        for (int la = 0; la < first_set.size(); la++)
-        {
-            printf("getLatterFirstSet %s\n", first_set[la].token_str.c_str());
-        }
+        // printf("latter_token , getLatterFirstSet %ld %ld\n", latter_token.size(), first_set.size());
+        // for (int la = 0; la < latter_token.size(); la++)
+        // {
+        //     printf("latter_token %s\n", latter_token[la].token_str.c_str());
+        // }
+        // for (int la = 0; la < first_set.size(); la++)
+        // {
+        //     printf("getLatterFirstSet %s\n", first_set[la].token_str.c_str());
+        // }
 
         return first_set;
     }
@@ -125,7 +125,6 @@ private:
     // 展開した式ごとに関数を実行する
     void recursionNodeClosureExpansion(LRItemStruct &lr_item, string search_key, int LR_formula_expansion_vector_index, vDeploymentTokenStruct first_set)
     {
-        printf("recursionNodeClosureExpansion 展開 : %s %d\n", search_key.c_str(), LR_formula_expansion_vector_index);
 
         LRItemFormulaStruct lr_item_formula = lr_item.LR_formula_map[search_key];
         vLRItemFormulaExpansionStruct LR_formula_expansion_vector = lr_item_formula.LR_formula_expansion_vector;
@@ -161,12 +160,12 @@ private:
                 new_lrf_exp.lookAhead = first_set;
                 new_lrf_exp.dot = 0;
 
-                printf("クロージャー展開新規追加 %s %d\n", token.token_str.c_str(), new_lrf_exp.lookAhead.size());
+                // printf("クロージャー展開新規追加 %s %d\n", token.token_str.c_str(), new_lrf_exp.lookAhead.size());
 
-                for (int la = 0; la < new_lrf_exp.lookAhead.size(); la++)
-                {
-                    printf("先読み記号 %s\n", new_lrf_exp.lookAhead[la].token_str.c_str());
-                }
+                // for (int la = 0; la < new_lrf_exp.lookAhead.size(); la++)
+                // {
+                //     printf("先読み記号 %s\n", new_lrf_exp.lookAhead[la].token_str.c_str());
+                // }
 
                 lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
                 already_explored_formula_expansion[new_lrf_exp.formula_expansion_label] = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size() - 1;
@@ -179,13 +178,16 @@ private:
                 for (int n = 0; n < first_set.size(); n++)
                 {
                     bool flag = true;
-                    for (int s = 0; s < current_lookAhead_p->size();s++){
-                        if (current_lookAhead_p->at(s).token_str == first_set[n].token_str){
+                    for (int s = 0; s < current_lookAhead_p->size(); s++)
+                    {
+                        if (current_lookAhead_p->at(s).token_str == first_set[n].token_str)
+                        {
                             flag = false;
                             break;
                         }
                     }
-                    if(flag){
+                    if (flag)
+                    {
                         current_lookAhead_p->push_back(first_set[n]);
                     }
                 }
@@ -194,14 +196,14 @@ private:
 
         if (hasKeyMap(this->already_explored, search_key))
         {
-            printf("拒否 %s\n", search_key.c_str());
+            // printf("拒否 %s\n", search_key.c_str());
             return;
         }
-        already_explored.push_back(search_key);
+        this->already_explored.push_back(search_key);
 
         // 展開した先でも非末端記号であれば再帰的に展開する
         int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();
-        printf("再帰展開 %d\n", nfx_size);
+        // printf("再帰展開 %d\n", nfx_size);
         for (int j = 0; j < nfx_size; j++)
         {
             int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].dot;

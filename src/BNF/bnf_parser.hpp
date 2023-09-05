@@ -70,7 +70,7 @@ int labelingBnf(BNFToken &bnf_token_p)
         bool isMultiplication = strchr("*", *cts) != 0;
         bool isDivision = strchr("/", *cts) != 0;
         bool isEqual = strchr("=", *cts) != 0;
-
+        bool isQuestion = strchr("?", *cts) != 0;
         int work = 1;
 
         if (isNonterminalSymbol)
@@ -134,6 +134,12 @@ int labelingBnf(BNFToken &bnf_token_p)
         {
             bnf_token_p.token_label_array[i] = is_id_Division;
         }
+
+        else if (isQuestion)
+        {
+            bnf_token_p.token_label_array[i] = is_id_Question;
+        }
+
         else if (isParenthesisLeft)
         {
             bnf_token_p.token_label_array[i] = is_id_ParenthesisLeft;
