@@ -16,6 +16,8 @@
 #include "./../DFA/dfa.hpp"
 #include "./../DFA/dfa_calc.hpp"
 
+#include "./../LR_table/LR_table.hpp"
+
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
@@ -67,6 +69,8 @@ int main()
 
     // ItemSetStruct item_set = generateItemSet(deployment_syntax);
     vDFANode dfa_node_graph = generateDFA(deployment_syntax);
+
+    generateLRtable(dfa_node_graph, bnf_token, nonterminal_symbol_left, terminal_symbol);
 
     // 左辺の数を取得する
 
