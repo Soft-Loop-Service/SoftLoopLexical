@@ -79,7 +79,6 @@ public:
                 new_column.push_back(new_cell);
             }
             this->LR_table_column_map[cstr] = new_column;
-            printf("追加 %s\n", cstr.c_str());
         }
     }
 
@@ -106,13 +105,11 @@ public:
                     string key = keys[k];
                     if (!hasKeyMap(getMapKeyString(this->LR_table_column_map), key))
                     {
-
                         continue;
                     }
 
                     int child_node = children_nodes[key];
 
-                    printf("通過 %s %d %d\n", key.c_str(), i, child_node);
                     this->LR_table_column_map[key][i].setCell(child_node);
                 }
             }
@@ -183,6 +180,36 @@ public:
 
                         this->LR_table_column_map[la_key][c].setCell(fm_key, LR_formula_expansion.token_vector, LR_formula_expansion.formula_expansion_label);
                     }
+                }
+            }
+        }
+    }
+};
+
+template <typename U>
+class LRTableMakeAccept : public LRTable<U>
+{
+
+public:
+    using LRTable<U>::LRTable;
+
+    void makeTable()
+    {
+        for (int c = 1; c < this->column_length; c++)
+        {
+            LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
+            mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
+
+            vstring LR_formula_map_keys = getMapKeyString(LR_formula_map);
+
+            for (int i = 0; i < LR_formula_map_keys.size(); i++)
+            {
+                string fm_key = LR_formula_map_keys[i];
+                LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
+
+                if (fm_key == ROOT_DFA_SYMBOL)
+                {
+                    this->LR_table_column_map[DOLLAR][c].setCell(true);
                 }
             }
         }

@@ -41,12 +41,14 @@ class LRTableGotoCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_goto;
+    bool is_valid = false;
 
 public:
     int next_state = -1;
     void setCell(int next_state)
     {
         this->next_state = next_state;
+        this->is_valid = true;
     };
     void debugCell()
     {
@@ -63,12 +65,14 @@ class LRTableShiftCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_shift;
+    bool is_valid = false;
 
 public:
     int next_state = -1;
     void setCell(int next_state)
     {
         this->next_state = next_state;
+        this->is_valid = true;
     };
     void debugCell()
     {
@@ -88,7 +92,7 @@ private:
 
     string token_left;
     vDeploymentTokenStruct token_vector;
-    bool apply_flag = false;
+    bool is_valid = false;
     int formula_expansion_label;
 
 public:
@@ -96,12 +100,12 @@ public:
     {
         this->token_left = token_left;
         this->token_vector = token_vector;
-        this->apply_flag = true;
+        this->is_valid = true;
         this->formula_expansion_label = formula_expansion_label;
     };
     void debugCell()
     {
-        if (!apply_flag)
+        if (!is_valid)
         {
             printf("     ");
             return;
@@ -114,14 +118,23 @@ class LRTableAcceptCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_accept;
-    bool accept = false;
+    bool is_valid = false;
 
 public:
     void
-    setCell(bool accept)
+    setCell(bool is_valid)
     {
-        this->accept = accept;
+        this->is_valid = is_valid;
     };
+    void debugCell()
+    {
+        if (!is_valid)
+        {
+            printf("     ");
+            return;
+        }
+        printf("%5s", "acc");
+    }
 };
 
 #endif
