@@ -13,6 +13,7 @@
 #include "./../DFA/closure_expansion.hpp"
 #include "./../DFA/dfa.hpp"
 #include "./LR_table_definition.hpp"
+#include "./LR_table_cell.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,13 +21,12 @@
 #include <iostream>
 #include <vector>
 
-int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol nonterminal_symbol, RetrieveSymbol terminal_symbol)
+int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol terminal_symbol, RetrieveSymbol nonterminal_symbol)
 {
-    LRTable LR_table = LRTable(dfa_node_graph);
-    LR_table.initActionTable(bnf_token_p, nonterminal_symbol);
-    LR_table.initGotoTable(bnf_token_p, terminal_symbol);
-    LR_table.generateLRTable();
-    LR_table.output();
+    LRTableMakeShift LR_table_goto = LRTableMakeShift<LRTableGotoCell>(dfa_node_graph, bnf_token_p, nonterminal_symbol);
+    LRTableMakeShift LR_table_accept = LRTableMakeShift<LRTableGotoCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
+    // LRTableMakeShift LR_table_reduce = LRTableMakeShift<LRTableGotoCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
+    // LRTableMakeShift LR_table_shift = LRTableMakeShift<LRTableGotoCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
 }
 
 #endif
