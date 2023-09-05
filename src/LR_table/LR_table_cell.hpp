@@ -29,48 +29,83 @@
 
 class LRTableCell
 {
-private:
+protected:
     char operation = LR_table_operation_none;
 
 public:
-    // virtual void setCell();
-    // virtual string debugCell();
+    // virtual void setCell(int next_state);
+    // virtual void debugCell();
 };
 
-class LRTableGotoCell : LRTableCell
+class LRTableGotoCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_goto;
 
 public:
-    void setCell();
+    int next_state = -1;
+    void setCell(int next_state)
+    {
+        this->next_state = next_state;
+    };
+    void debugCell()
+    {
+        if (next_state == -1)
+        {
+            printf("     ");
+            return;
+        }
+        printf("%5d", next_state);
+    }
 };
 
-class LRTableShiftCell : LRTableCell
+class LRTableShiftCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_shift;
 
 public:
-    void setCell();
+    int next_state = -1;
+    void setCell(int next_state)
+    {
+        this->next_state = next_state;
+    };
+    void debugCell()
+    {
+        if (next_state == -1)
+        {
+            printf("     ");
+            return;
+        }
+        printf("%5d", next_state);
+    }
 };
 
-class LRTableReduceCell : LRTableCell
-{
-private:
-    char operation = LR_table_operation_reduce;
+// class LRTableReduceCell :public LRTableCell
+// {
+// private:
+//     char operation = LR_table_operation_reduce;
+//     int apply = -1;
 
-public:
-    void setCell();
-};
+// public:
+//     void setCell(int apply)
+//     {
+//         apply = apply;
+//     };
+// };
 
-class LRTableAcceptCell : LRTableCell
-{
-private:
-    char operation = LR_table_operation_accept;
+// class LRTableAcceptCell : public LRTableCell
+// {
+// private:
+//     char operation = LR_table_operation_accept;
+//     bool accept = false;
 
-public:
-    void setCell();
-};
+// public:
+//     void
+//     setCell(bool accept)
+//     {
+//         accept = accept;
+//     };
+// };
 
 #endif

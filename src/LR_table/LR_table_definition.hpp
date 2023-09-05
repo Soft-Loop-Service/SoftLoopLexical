@@ -26,9 +26,32 @@ class LRTable
 protected:
     vDFANode dfa_node_graph;
     int column_length;
-    map<string, vector<T>> LR_table_column_map;
 
 public:
+    map<string, vector<T>> LR_table_column_map;
+    void makeTable();
+    void debug()
+    {
+        vstring keys = getMapKeyString(this->LR_table_column_map);
+        printf("   : ");
+        for (int j = 0; j < keys.size(); j++)
+        {
+            printf("%5s", keys[j].c_str());
+        }
+        printf("\n");
+        for (int i = 0; i < column_length; i++)
+        {
+            printf("%2d : ", i);
+
+            for (int j = 0; j < keys.size(); j++)
+            {
+                // printf("%d %d\n", LR_table_column_map.size(), LR_table_column_map[keys[j]][i].next_state);
+                this->LR_table_column_map[keys[j]][i].debugCell();
+            }
+            printf("\n");
+        }
+    }
+
     LRTable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol symbol)
     {
         this->dfa_node_graph = dfa_node_graph;
@@ -44,21 +67,22 @@ public:
                 T new_cell = T();
                 new_column.push_back(new_cell);
             }
-            LR_table_column_map[cstr] = new_column;
+            this->LR_table_column_map[cstr] = new_column;
+            printf("追加 %s\n", cstr.c_str());
         }
     }
 
-    virtual void makeTable() const = 0;
+    // virtual void makeTable();
 };
 
 template <typename U>
-class LRTableMakeShift : LRTable<U>
+class LRTableMakeGoto : public LRTable<U>
 {
 
 public:
     using LRTable<U>::LRTable;
 
-    void makeTable() const override
+    void makeTable()
     {
         for (int i = 0; i < this->column_length; i++)
         {
@@ -69,9 +93,47 @@ public:
                 for (int k = 0; k < keys.size(); k++)
                 {
                     string key = keys[k];
+                    if (!hasKeyMap(getMapKeyString(this->LR_table_column_map), key))
+                    {
+
+                        continue;
+                    }
+
                     int child_node = children_nodes[key];
 
-                    // LR_table_column_map[key].getTableSection() == LR_table_section_action ? LR_table_column_map[key].setColumnCell(i, LR_table_operation_shift, child_node) : LR_table_column_map[key].setColumnCell(i, child_node);
+                    printf("通過 %s %d %d\n", key.c_str(), i, child_node);
+                    this->LR_table_column_map[key][i].setCell(child_node);
+                }
+            }
+        }
+    }
+};
+
+template <typename U>
+class LRTableMakeShift : public LRTable<U>
+{
+
+public:
+    using LRTable<U>::LRTable;
+
+    void makeTable()
+    {
+        for (int i = 0; i < this->column_length; i++)
+        {
+            mp_s_i children_nodes = this->dfa_node_graph[i].children_nodes;
+            for (int j = 0; j < children_nodes.size(); j++)
+            {
+                vstring keys = getMapKeyString(children_nodes);
+                for (int k = 0; k < keys.size(); k++)
+                {
+                    string key = keys[k];
+                    if (!hasKeyMap(getMapKeyString(this->LR_table_column_map), key))
+                    {
+                        continue;
+                    }
+
+                    int child_node = children_nodes[key];
+                    this->LR_table_column_map[key][i].setCell(child_node);
                 }
             }
         }
