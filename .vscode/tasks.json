@@ -1,30 +1,21 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "cppbuild",
-            "label": "build_g++",
-            
-            "command": "/usr/bin/g++",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-std=c++20",
-                "${file}",
-                "-g",
-                "-o",
-                "${workspaceFolder}/BNF_TEST.out"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "detail": "コンパイラ: /usr/bin/g++"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "cppbuild",
+      "label": "build_g++",
+
+      "command": "/usr/bin/g++",
+      "args": ["-fdiagnostics-color=always", "-std=c++2a", "${file}", "-g", "-o", "${workspaceFolder}/BNF_TEST.out"],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "コンパイラ: /usr/bin/g++"
+    }
+  ]
 }

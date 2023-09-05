@@ -1,5 +1,4 @@
-<test>   ::= 3 | 3 | 3 | 3 3  3 3 3 3
-<root> ::= <expr>
+<S> ::= <expr>
 
 <type_specifier> ::= void
                    | char
@@ -35,8 +34,8 @@
 <number> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 <expr>   ::= <term> | <expr> <expr2>
-<expr2>  ::= <addition_subtraction> <term> | <addition_subtraction> <term> <expr2>
-<term>   ::= <factor> | <factor> <term2>
-<term2>  ::= <multiplication_division> <factor> | <multiplication_division> <factor> <term2>
-<factor> ::= <number> | '(' <expr> ')'
+<expr2>  ::= <addition_subtraction> <term> | <addition_subtraction> <term> <expr2> | 
+<term>   ::= <factor> | <factor> <term2> | 
+<term2>  ::= <multiplication_division> <factor> | <multiplication_division> <factor> <term2> | 
+<factor> ::= <number> | '(' <expr> ')' | 
 

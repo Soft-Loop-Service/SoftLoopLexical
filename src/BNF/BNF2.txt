@@ -1,6 +1,6 @@
-<root>   ::= <test>
-<test>   ::= <E>  | <E> <E>  | <E> <E>  <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E> <E>
-<E>      ::= <F> <C> | 1 | 2 | 3 | <T> 45
+<S>   ::= <test> | <test2>
+<test>   ::= <E> <E>
+<E>      ::= <F> <C> | 1 | 2 | 3 | <T> 45 | <test>
 <C>      ::= <D> | <F> | <F> <H>
 <D>      ::=  <F>  <J> <H>
 <F>      ::= fabc

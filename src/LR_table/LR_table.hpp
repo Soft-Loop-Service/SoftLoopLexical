@@ -24,7 +24,9 @@ int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymb
 {
     LRTable LR_table = LRTable(dfa_node_graph);
     LR_table.initActionTable(bnf_token_p, nonterminal_symbol);
-    LR_table.initGotoTalbe(bnf_token_p, terminal_symbol);
+    LR_table.initGotoTable(bnf_token_p, terminal_symbol);
+    LR_table.generateLRTable();
+    LR_table.output();
 }
 
 #endif
