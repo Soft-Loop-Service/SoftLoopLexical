@@ -20,6 +20,7 @@
 
 bool isDfaEqual(DFANode a_node, DFANode b_node)
 {
+    // バグの温床になるのでブランチ閉
     mapLRItemFormulaStruct a_LR_formula_map = a_node.lr_item.LR_formula_map;
     mapLRItemFormulaStruct b_LR_formula_map = b_node.lr_item.LR_formula_map;
 
@@ -64,7 +65,7 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
             {
                 for (int n = 0; n < b_token_vector.size(); n++)
                 {
-                    if (a_token_vector[k].token_str == b_token_vector[k].token_str)
+                    if (a_token_vector[k].token_str == b_token_vector[n].token_str)
                     {
                         t_count++;
                         continue;
@@ -81,7 +82,7 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
             {
                 for (int n = 0; n < b_lookAhead.size(); n++)
                 {
-                    if (a_lookAhead[k].token_str == b_lookAhead[k].token_str)
+                    if (a_lookAhead[k].token_str == b_lookAhead[n].token_str)
                     {
                         l_count++;
                         continue;
