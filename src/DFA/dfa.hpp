@@ -34,7 +34,7 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
     for (int i = 0; i < a_LR_formula_map_keys.size(); i++)
     {
         LRItemFormulaStruct a_LR_formula = a_LR_formula_map[a_LR_formula_map_keys[i]];
-        LRItemFormulaStruct b_LR_formula = b_LR_formula_map[a_LR_formula_map_keys[i]];
+        LRItemFormulaStruct b_LR_formula = b_LR_formula_map[b_LR_formula_map_keys[i]];
 
         if (a_LR_formula.LR_formula_expansion_vector.size() != b_LR_formula.LR_formula_expansion_vector.size())
         {
@@ -44,9 +44,9 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
         for (int j = 0; j < a_LR_formula.LR_formula_expansion_vector.size(); j++)
         {
             LRItemFormulaExpansionStruct a_LR_formula_expansion = a_LR_formula.LR_formula_expansion_vector[j];
-            LRItemFormulaExpansionStruct b_LR_formula_expansion = a_LR_formula.LR_formula_expansion_vector[j];
+            LRItemFormulaExpansionStruct b_LR_formula_expansion = b_LR_formula.LR_formula_expansion_vector[j];
             vDeploymentTokenStruct a_token_vector = a_LR_formula_expansion.token_vector;
-            vDeploymentTokenStruct b_token_vector = a_LR_formula_expansion.token_vector;
+            vDeploymentTokenStruct b_token_vector = b_LR_formula_expansion.token_vector;
             vDeploymentTokenStruct a_lookAhead = a_LR_formula_expansion.lookAhead;
             vDeploymentTokenStruct b_lookAhead = b_LR_formula_expansion.lookAhead;
 
@@ -217,7 +217,7 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
         if (flag != -1)
         {
             dfa_node_graph[current_node_index].children_nodes[next_label] = flag;
-            break;
+            continue;
         }
         dfa_node_graph.push_back(new_node);
         int push_index = dfa_node_graph.size() - 1;
