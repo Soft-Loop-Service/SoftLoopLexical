@@ -169,6 +169,16 @@ private:
 
                 lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
                 already_explored_formula_expansion[new_lrf_exp.formula_expansion_label] = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size() - 1;
+
+                int n_index = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size() - 1;
+                int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[n_index].dot;
+
+                int la_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[n_index].lookAhead.size();
+                for (int k = 0; k < la_size; k++)
+                {
+                    vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[n_index], dot, k);
+                    recursionNodeClosureExpansion(lr_item, token.token_str, n_index, new_first_set);
+                }
             }
             else
             { // 先読み記号だけ追加する
@@ -191,7 +201,7 @@ private:
                         current_lookAhead_p->push_back(first_set[n]);
                     }
                 }
-                return;
+                // return;s
             }
         }
 
@@ -203,19 +213,19 @@ private:
         // this->already_explored.push_back(search_key);
 
         // 展開した先でも非末端記号であれば再帰的に展開する
-        int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();
-        // printf("再帰展開 %d\n", nfx_size);
-        for (int j = 0; j < nfx_size; j++)
-        {
-            int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].dot;
+        // int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();
+        // // printf("再帰展開 %d\n", nfx_size);
+        // for (int j = 0; j < nfx_size; j++)
+        // {
+        //     int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].dot;
 
-            int la_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].lookAhead.size();
-            for (int k = 0; k < la_size; k++)
-            {
-                vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j], dot, k);
-                recursionNodeClosureExpansion(lr_item, token.token_str, j, new_first_set);
-            }
-        }
+        //     int la_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].lookAhead.size();
+        //     for (int k = 0; k < la_size; k++)
+        //     {
+        //         vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j], dot, k);
+        //         recursionNodeClosureExpansion(lr_item, token.token_str, j, new_first_set);
+        //     }
+        // }
 
         // for (int k = 0; k < toke)
 
