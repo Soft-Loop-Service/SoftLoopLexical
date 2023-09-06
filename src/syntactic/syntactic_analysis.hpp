@@ -64,10 +64,8 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
         {
             // syntacticAnalysisProcessAccept();
 
-            for (int a = 0; a < ans_analysis.size(); a++)
-            {
-                printf("syntacticAnalysisProcess acc %s\n", ans_analysis[a].token_left.c_str());
-            }
+            printf("syntacticAnalysisProcess acc %s\n");
+
             continue;
         }
 

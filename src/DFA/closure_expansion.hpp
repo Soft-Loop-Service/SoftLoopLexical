@@ -160,12 +160,12 @@ private:
                 new_lrf_exp.lookAhead = first_set;
                 new_lrf_exp.dot = 0;
 
-                printf("クロージャー展開新規追加 %s %d\n", token.token_str.c_str(), new_lrf_exp.lookAhead.size());
+                // printf("クロージャー展開新規追加 %s %d\n", token.token_str.c_str(), new_lrf_exp.lookAhead.size());
 
-                for (int la = 0; la < new_lrf_exp.lookAhead.size(); la++)
-                {
-                    printf("先読み記号 %s\n", new_lrf_exp.lookAhead[la].token_str.c_str());
-                }
+                // for (int la = 0; la < new_lrf_exp.lookAhead.size(); la++)
+                // {
+                //     printf("先読み記号 %s\n", new_lrf_exp.lookAhead[la].token_str.c_str());
+                // }
 
                 lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
                 already_explored_formula_expansion[new_lrf_exp.formula_expansion_label] = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size() - 1;
@@ -198,6 +198,20 @@ private:
                     if (flag)
                     {
                         current_lookAhead_p->push_back(first_set[n]);
+
+                        int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();
+                        // printf("再帰展開 %d\n", nfx_size);
+                        for (int j = 0; j < nfx_size; j++)
+                        {
+                            int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].dot;
+
+                            int la_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].lookAhead.size();
+                            for (int k = 0; k < la_size; k++)
+                            {
+                                vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j], dot, k);
+                                recursionNodeClosureExpansion(lr_item, token.token_str, j, new_first_set);
+                            }
+                        }
                     }
                 }
                 // return;s
