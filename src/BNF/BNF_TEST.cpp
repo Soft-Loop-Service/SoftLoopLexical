@@ -18,10 +18,12 @@
 
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
+#include "./../LR_table/LR_table_cell.hpp"
+
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-    loadText(bnf_source, "./src/BNF/BNF5.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF6.txt", source_code_size);
     // loadText(bnf_source, "./BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
@@ -70,7 +72,11 @@ int main()
     // ItemSetStruct item_set = generateItemSet(deployment_syntax);
     vDFANode dfa_node_graph = generateDFA(deployment_syntax);
 
-    generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left);
+    LRTableMakeGoto<LRTableGotoCell> LR_table_goto;
+    LRTableMakeShift<LRTableShiftCell> LR_table_shift;
+    LRTableMakeReduce<LRTableReduceCell> LR_table_reduce;
+    LRTableMakeAccept<LRTableAcceptCell> LR_table_accept;
+    generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_goto, LR_table_shift, LR_table_reduce, LR_table_accept);
 
     // 左辺の数を取得する
 

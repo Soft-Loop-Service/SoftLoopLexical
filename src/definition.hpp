@@ -30,7 +30,7 @@ typedef std::map<std::string, bool> mapstrbool;
 // typedef std::map<std::string, int> mapstrint;
 typedef std::map<std::string, string> mapstr;
 typedef std::map<std::string, int> mp_s_i;           // mp を生成
-typedef std::map<int, int> mp_i_i;           // mp を生成
+typedef std::map<int, int> mp_i_i;                   // mp を生成
 typedef std::map<std::string, vint> mp_s_vint;       // mp を生成
 typedef std::map<std::string, v2int> mp_s_v2int;     // を生成
 typedef std::map<std::string, vstring> mp_s_vstring; // を生成
@@ -65,7 +65,7 @@ bool hasKeyMap(vector<T> keys, T key)
     return false;
 }
 
-template <typename T,typename Y>
+template <typename T, typename Y>
 std::vector<Y> getMapKeyString(std::map<Y, T> mp)
 {
     std::vector<Y> keys;
@@ -174,33 +174,4 @@ int isAlphabetOrNumber(char ch)
     return 0;
 }
 
-int getToken(char *source_text, char **token_string, int *token_progression, int token_search_len, int &token_string_endline, int &token_progression_endline)
-{
-
-    for (int i = 0; i < token_string_endline; i++)
-    {
-        printf("token_search_len : %s %d\n", token_string[i], token_search_len);
-        bool result = strncmp(source_text, token_string[i], token_search_len) == 0;
-        // 存在するか否か
-
-        if (result)
-        {
-            token_progression[token_progression_endline] = i;
-            token_progression_endline++;
-            return i;
-        }
-    }
-
-    // printf("%s", source_code_current);
-
-    // ここから登録
-    char *new_token = (char *)calloc(code_token_len, sizeof(char));
-    // strncpy(new_token, source_text, token_search_len);
-    token_string[token_string_endline] = new_token;
-
-    token_progression[token_progression_endline] = token_string_endline;
-    token_string_endline++;
-    token_progression_endline++;
-    return token_string_endline;
-}
 #endif

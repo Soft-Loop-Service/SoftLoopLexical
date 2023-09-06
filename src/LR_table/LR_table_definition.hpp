@@ -62,7 +62,7 @@ public:
         }
         this->LR_table_column_map[cstr] = new_column;
     }
-
+    LRTable() {}
     LRTable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol symbol)
     {
         this->dfa_node_graph = dfa_node_graph;
@@ -91,6 +91,7 @@ class LRTableMakeGoto : public LRTable<U>
 
 public:
     using LRTable<U>::LRTable;
+    // LRTableMakeGoto() {}
 
     void makeTable()
     {
@@ -123,6 +124,7 @@ class LRTableMakeShift : public LRTable<U>
 
 public:
     using LRTable<U>::LRTable;
+    // LRTableMakeShift(){};
 
     void makeTable()
     {
@@ -154,6 +156,7 @@ class LRTableMakeReduce : public LRTable<U>
 
 public:
     using LRTable<U>::LRTable;
+    // LRTableMakeReduce(){};
 
     void makeTable()
     {
@@ -192,6 +195,7 @@ class LRTableMakeAccept : public LRTable<U>
 
 public:
     using LRTable<U>::LRTable;
+    // LRTableMakeAccept();
 
     void makeTable()
     {

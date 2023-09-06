@@ -26,5 +26,4 @@ int main()
     // bnfMain(LR_table_goto, LR_table_shift, LR_table_reduce, LR_table_accept);
 
     free(source_code);
-    // ソースコードは用済み
 }

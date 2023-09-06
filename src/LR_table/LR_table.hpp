@@ -21,12 +21,13 @@
 #include <iostream>
 #include <vector>
 
-int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol terminal_symbol, RetrieveSymbol nonterminal_symbol)
+int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol terminal_symbol, RetrieveSymbol nonterminal_symbol,
+                    LRTableMakeGoto<LRTableGotoCell> &LR_table_goto, LRTableMakeShift<LRTableShiftCell> &LR_table_shift, LRTableMakeReduce<LRTableReduceCell> &LR_table_reduce, LRTableMakeAccept<LRTableAcceptCell> &LR_table_accept)
 {
-    LRTableMakeGoto LR_table_goto = LRTableMakeGoto<LRTableGotoCell>(dfa_node_graph, bnf_token_p, nonterminal_symbol);
-    LRTableMakeShift LR_table_shift = LRTableMakeShift<LRTableShiftCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
-    LRTableMakeReduce LR_table_reduce = LRTableMakeReduce<LRTableReduceCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
-    LRTableMakeAccept LR_table_accept = LRTableMakeAccept<LRTableAcceptCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
+    LR_table_goto = LRTableMakeGoto<LRTableGotoCell>(dfa_node_graph, bnf_token_p, nonterminal_symbol);
+    LR_table_shift = LRTableMakeShift<LRTableShiftCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
+    LR_table_reduce = LRTableMakeReduce<LRTableReduceCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
+    LR_table_accept = LRTableMakeAccept<LRTableAcceptCell>(dfa_node_graph, bnf_token_p, terminal_symbol);
 
     // LR_table_goto.addSymbol(ROOT_DFA_SYMBOL);
     LR_table_shift.addSymbol(DOLLAR);
