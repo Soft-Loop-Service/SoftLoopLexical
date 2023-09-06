@@ -6,6 +6,25 @@
 #include "./../definition.hpp"
 #include "./../debug.hpp"
 
+vstring getTokenString(char **token_string, int *token_progression)
+{
+    vstring token_string_vector;
+    for (int i = 0; i < token_progression_arr_size; i++)
+    {
+        int p = token_progression[i];
+
+        if (p == -1)
+        {
+            break;
+        }
+
+        char *token = token_string[p];
+        string token_string = string(token);
+        token_string_vector.push_back(token_string);
+    }
+    return token_string_vector;
+}
+
 int getToken(char *source_text, char **token_string, int *token_progression, int token_search_len, int &token_string_endline, int &token_progression_endline)
 {
 
@@ -42,6 +61,11 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
 
     int token_string_endline = 0;
     int token_progression_endline = 0;
+
+    for (int i = 0; i < token_progression_arr_size; i++)
+    {
+        token_progression[i] = -1;
+    }
 
     int i_s = 0; // 現在地点
     for (;;)
@@ -90,7 +114,7 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
         i_s += token_search_len;
     }
 
-    output_token_string(token_string, token_string_arr_size);
+    // output_token_string(token_string, token_string_arr_size);
     // output_token_progression(token_string, token_progression, token_progression_endline);
 }
 

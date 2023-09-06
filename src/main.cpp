@@ -17,6 +17,9 @@ int main()
     int *token_progression = new int[token_progression_arr_size * sizeof(int)];
 
     lexSyntax(source_code, token_string, token_progression);
+    vstring token_string_vector = getTokenString(token_string, token_progression);
+
+    output_vector("token_string_vector", token_string_vector);
 
     LRTableMakeGoto<LRTableGotoCell> LR_table_goto;
     LRTableMakeShift<LRTableShiftCell> LR_table_shift;
