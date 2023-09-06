@@ -21,9 +21,9 @@ int main()
     lexSyntax(source_code, token_string, token_progression);
     vstring token_string_vector = getTokenString(token_string, token_progression);
 
-    free(source_code);
-    free(token_string);
-    free(token_progression);
+    delete source_code;
+    delete token_string;
+    delete token_progression;
     output_vector("token_string_vector", token_string_vector);
 
     LRTableMultilayer LR_table_multilayer;

@@ -68,7 +68,7 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
                     if (a_token_vector[k].token_str == b_token_vector[n].token_str)
                     {
                         t_count++;
-                        continue;
+                        break;
                     }
                 }
             }
@@ -85,7 +85,7 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
                     if (a_lookAhead[k].token_str == b_lookAhead[n].token_str)
                     {
                         l_count++;
-                        continue;
+                        break;
                     }
                 }
             }
@@ -95,7 +95,6 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
             }
         }
     }
-    printf("完全一致\n");
     return true;
 }
 
@@ -182,7 +181,6 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
             }
             LR_formula_expansion.dot++;
             new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
-            printf("構文の追加 %s %d\n", key.c_str(), new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.size());
         }
     }
     return new_node;
@@ -193,14 +191,11 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
     DFANode current_node = dfa_node_graph[current_node_index];
     vstring next_labels = getNextLabelDFA(current_node);
 
-    printf("current_node_index %d\n", dfa_node_graph.size());
-
     ClosureExpansion closure_expansion = ClosureExpansion(deployment_syntax);
 
     for (int i = 0; i < next_labels.size(); i++)
     {
         string next_label = next_labels[i];
-        printf("next_label %s\n", next_label.c_str());
 
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
 
