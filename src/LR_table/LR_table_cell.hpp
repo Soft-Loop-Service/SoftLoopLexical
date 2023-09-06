@@ -42,14 +42,22 @@ class LRTableGotoCell : public LRTableCell
 private:
     char operation = LR_table_operation_goto;
     bool is_valid = false;
+    int next_state = -1;
 
 public:
-    int next_state = -1;
     void setCell(int next_state)
     {
         this->next_state = next_state;
         this->is_valid = true;
     };
+    int getCell()
+    {
+        return this->next_state;
+    }
+    int getValid()
+    {
+        return this->is_valid;
+    }
     void debugCell()
     {
         if (next_state == -1)
@@ -74,6 +82,14 @@ public:
         this->next_state = next_state;
         this->is_valid = true;
     };
+    bool getValid()
+    {
+        return this->is_valid;
+    }
+    int getCell()
+    {
+        return this->next_state;
+    }
     void debugCell()
     {
         if (next_state == -1)
@@ -85,24 +101,37 @@ public:
     }
 };
 
+struct ReduceFormula
+{
+    string token_left;
+    vDeploymentTokenStruct token_vector;
+};
+typedef vector<ReduceFormula> vReduceFormula;
+
 class LRTableReduceCell : public LRTableCell
 {
 private:
     char operation = LR_table_operation_reduce;
 
-    string token_left;
-    vDeploymentTokenStruct token_vector;
+    ReduceFormula reduce_formula;
     bool is_valid = false;
     int formula_expansion_label;
 
 public:
     void setCell(string token_left, vDeploymentTokenStruct token_vector, int formula_expansion_label)
     {
-        this->token_left = token_left;
-        this->token_vector = token_vector;
+        this->reduce_formula = ReduceFormula{token_left, token_vector};
         this->is_valid = true;
         this->formula_expansion_label = formula_expansion_label;
     };
+    ReduceFormula getCell()
+    {
+        return this->reduce_formula;
+    }
+    bool getValid()
+    {
+        return this->is_valid;
+    }
     void debugCell()
     {
         if (!is_valid)
@@ -126,6 +155,10 @@ public:
     {
         this->is_valid = is_valid;
     };
+    bool getValid()
+    {
+        return this->is_valid;
+    }
     void debugCell()
     {
         if (!is_valid)

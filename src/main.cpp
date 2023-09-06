@@ -1,4 +1,6 @@
 #include "./lexical/lexical_analysis.hpp"
+#include "./syntactic/syntactic_analysis.hpp"
+
 #include "definition.hpp"
 
 #include "./LR_table/LR_table.hpp"
@@ -27,6 +29,7 @@ int main()
     LRTableMultilayer LR_table_multilayer;
 
     bnfMain(LR_table_multilayer);
+    syntacticAnalysis(LR_table_multilayer, token_string_vector);
 
     // ソースコードは用済み
 }

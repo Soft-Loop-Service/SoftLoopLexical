@@ -30,7 +30,7 @@ class ClosureExpansion
 {
 private:
     DeploymentStruct deployment_syntax;
-    vstring already_explored = {};                  // すでに展開した左辺を登録する。無限に再帰展開されないようにするのが目的
+    // vstring already_explored = {};                  // すでに展開した左辺を登録する。無限に再帰展開されないようにするのが目的
     mp_i_i already_explored_formula_expansion = {}; // 一つのアイテム集合内に、同じ展開式が重複して登録されないようにする
     // int dot = -1;
 
@@ -42,7 +42,7 @@ public:
     }
     void nodeClosureExpansion(LRItemStruct &lr_item)
     {
-        already_explored = {};
+        // already_explored = {};
         already_explored_formula_expansion = {};
 
         vstring LR_formula_map_keys = getMapKeyString(lr_item.LR_formula_map);
@@ -67,7 +67,7 @@ public:
 
     void nodeClosureExpansion(LRItemStruct &lr_item, string search_key)
     {
-        already_explored = {};
+        // already_explored = {};
         already_explored_formula_expansion = {};
         for (int j = 0; j < lr_item.LR_formula_map[search_key].LR_formula_expansion_vector.size(); j++)
         {
@@ -191,15 +191,16 @@ private:
                         current_lookAhead_p->push_back(first_set[n]);
                     }
                 }
+                return;
             }
         }
 
-        if (hasKeyMap(this->already_explored, search_key))
-        {
-            // printf("拒否 %s\n", search_key.c_str());
-            return;
-        }
-        this->already_explored.push_back(search_key);
+        // if (hasKeyMap(this->already_explored, search_key))
+        // {
+        //     // printf("拒否 %s\n", search_key.c_str());
+        //     return;
+        // }
+        // this->already_explored.push_back(search_key);
 
         // 展開した先でも非末端記号であれば再帰的に展開する
         int nfx_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size();

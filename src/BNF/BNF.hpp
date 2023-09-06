@@ -32,7 +32,7 @@
 int bnfMain(LRTableMultilayer &LR_table_multilayer)
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-    loadText(bnf_source, "./src/BNF/BNF.txt", source_code_size);
+    loadText(bnf_source, "./src/BNF/BNF6.txt", source_code_size);
     // loadText(bnf_source, "./BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 
