@@ -72,11 +72,8 @@ int main()
     // ItemSetStruct item_set = generateItemSet(deployment_syntax);
     vDFANode dfa_node_graph = generateDFA(deployment_syntax);
 
-    LRTableMakeGoto<LRTableGotoCell> LR_table_goto;
-    LRTableMakeShift<LRTableShiftCell> LR_table_shift;
-    LRTableMakeReduce<LRTableReduceCell> LR_table_reduce;
-    LRTableMakeAccept<LRTableAcceptCell> LR_table_accept;
-    generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_goto, LR_table_shift, LR_table_reduce, LR_table_accept);
+    LRTableMultilayer LR_table_multilayer;
+    generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_multilayer);
 
     // 左辺の数を取得する
 
