@@ -94,6 +94,11 @@ DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbo
 
         string key = string(bnf_token_p.token_string_array[nonterminal_symbol_left.array[i]]);
 
+        if (hasKeyMap(getMapKeyString(deployment_syntax.formula_map), key))
+        {
+            formula = deployment_syntax.formula_map[key];
+        }
+
         for (int j = 0; j < bnf_right_tokens.size(); j++)
         {
             struct DeploymentFormulaExpansionStruct formula_expansion;

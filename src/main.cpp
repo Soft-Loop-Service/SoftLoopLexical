@@ -8,7 +8,7 @@
 #include "./LR_table/LR_table_cell.hpp"
 #include "./BNF/BNF.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
     printf("start program\n");
 
@@ -28,7 +28,7 @@ int main()
 
     LRTableMultilayer LR_table_multilayer;
 
-    bnfMain(LR_table_multilayer);
+    bnfMain(argv[1], LR_table_multilayer);
     syntacticAnalysis(LR_table_multilayer, token_string_vector);
 
     // ソースコードは用済み

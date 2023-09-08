@@ -5,6 +5,7 @@
 
 #include "./../definition.hpp"
 #include "./../debug.hpp"
+#include "./../symbol.hpp"
 
 vstring getTokenString(char **token_string, int *token_progression)
 {
@@ -22,6 +23,7 @@ vstring getTokenString(char **token_string, int *token_progression)
         string token_string = string(token);
         token_string_vector.push_back(token_string);
     }
+    token_string_vector.push_back(DOLLAR);
     return token_string_vector;
 }
 

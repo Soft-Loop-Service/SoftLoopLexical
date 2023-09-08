@@ -12,21 +12,38 @@
 #include <vector>
 #include <algorithm>
 
+void output_vReduceFormula(string name, vReduceFormula v)
+{
+    printf("%s top : ", name.c_str());
+    int vsize = v.size();
+    for (int i = 0; i < vsize; i++)
+    {
+        printf("%s ", v[vsize - i - 1].token_left.c_str());
+    }
+    printf("\n");
+}
+
 // 入力を一つ消費して、指定された値をpushする
 void syntacticAnalysisProcessShift(LRTableMultilayer LR_table_multilayer, string token, sint &stack_analysis)
 {
-    printf("syntacticAnalysisProcessShift\n");
+    printf("Shift : ");
     int top = stack_analysis.top();
+
+    printf("top : %d ", top);
+
     int next_state = LR_table_multilayer.LR_table_shift.LR_table_column_map[token][top].getCell();
     stack_analysis.push(next_state);
+    printf("\n");
 }
 
 void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, string token, sint &stack_analysis, vReduceFormula &ans_analysis)
 {
-    printf("syntacticAnalysisProcessReduce\n");
+    printf("Reduce : ");
     int top = stack_analysis.top();
     ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token][top].getCell();
     ans_analysis.push_back(state);
+
+    printf("token_left : %s %d ", state.token_left.c_str(), state.token_vector.size());
 
     for (int i = 0; i < state.token_vector.size(); i++)
     {
@@ -34,9 +51,11 @@ void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, strin
     }
 
     int top2 = stack_analysis.top();
+    printf("top2 : %d ", top2);
+
     int next_state = LR_table_multilayer.LR_table_goto.LR_table_column_map[state.token_left][top2].getCell();
     stack_analysis.push(next_state);
-    printf("syntacticAnalysisProcessReduce end\n");
+    printf("\n");
 }
 
 void syntacticAnalysisProcessAccept()
@@ -51,45 +70,45 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
 
     stack_analysis.push(0);
 
-    for (int i = 0; i < token_string_vector.size(); i++)
+    int i = 0;
+    while (i < token_string_vector.size())
     {
 
         string current_token = token_string_vector[i];
         int top = stack_analysis.top();
+        printf("CurrentToken %s\n", current_token.c_str());
 
-        printf("syntacticAnalysisProcess %s %d\n", current_token.c_str(), top);
-
-        printf("A\n");
         if (LR_table_multilayer.LR_table_accept.LR_table_column_map[current_token][top].getValid())
         {
-            // syntacticAnalysisProcessAccept();
-
-            printf("syntacticAnalysisProcess acc %s\n");
-
-            continue;
+            printf("acc \n");
+            return;
         }
 
-        printf("B\n");
-        printf("B2 %d\n", LR_table_multilayer.LR_table_shift.LR_table_column_map[current_token][top].getValid());
         if (LR_table_multilayer.LR_table_shift.LR_table_column_map[current_token][top].getValid())
         {
             syntacticAnalysisProcessShift(LR_table_multilayer, current_token, stack_analysis);
+            output_stack("構文解析", stack_analysis);
+            output_vReduceFormula("構文解析", ans_analysis);
+
+            printf("\n");
+            i++;
             continue;
         }
 
-        printf("C\n");
-        printf("D %d\n", LR_table_multilayer.LR_table_reduce.LR_table_column_map[current_token][top].getValid());
-
         if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[current_token][top].getValid())
         {
-            printf("実行\n");
             syntacticAnalysisProcessReduce(LR_table_multilayer, current_token, stack_analysis, ans_analysis);
-            // syntacticAnalysisProcessAccept();
+            output_stack("構文解析", stack_analysis);
+            output_vReduceFormula("構文解析", ans_analysis);
+
+            printf("\n");
             continue;
         }
         printf("ERROR\n");
         return;
     }
+    output_stack("構文解析 終了", stack_analysis);
+    output_vReduceFormula("構文解析 終了", ans_analysis);
 }
 
 void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vstring token_string_vector)

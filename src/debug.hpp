@@ -3,6 +3,18 @@
 #define __Debug
 #include "definition.hpp"
 
+void output_stack(string name, sint v)
+{
+    printf("%s top : ", name.c_str());
+    int vsize = v.size();
+    for (int i = 0; i < vsize; i++)
+    {
+        printf("%d ", v.top());
+        v.pop();
+    }
+    printf("\n");
+}
+
 void output_vector(string name, vstring v)
 {
     printf("%s 配列長 : %d\n", name.c_str(), v.size());

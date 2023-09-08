@@ -62,10 +62,10 @@ public:
     {
         if (next_state == -1)
         {
-            printf("     ");
+            printf("%10s", "");
             return;
         }
-        printf("%5d", next_state);
+        printf("%10d", next_state);
     }
 };
 
@@ -94,10 +94,10 @@ public:
     {
         if (next_state == -1)
         {
-            printf("     ");
+            printf("%10s", "");
             return;
         }
-        printf("%5d", next_state);
+        printf("%10d", next_state);
     }
 };
 
@@ -136,10 +136,10 @@ public:
     {
         if (!is_valid)
         {
-            printf("     ");
+            printf("%10s", "");
             return;
         }
-        printf("%5d", formula_expansion_label);
+        printf("%10s", reduce_formula.token_left.c_str());
     }
 };
 
@@ -163,10 +163,10 @@ public:
     {
         if (!is_valid)
         {
-            printf("     ");
+            printf("%10s", "");
             return;
         }
-        printf("%5s", "acc");
+        printf("%10s", "acc");
     }
 };
 

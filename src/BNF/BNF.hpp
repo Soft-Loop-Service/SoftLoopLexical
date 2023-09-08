@@ -29,10 +29,12 @@
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
 #include "./../LR_table/LR_table_cell.hpp"
-int bnfMain(LRTableMultilayer &LR_table_multilayer)
+int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer)
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-    loadText(bnf_source, "./src/BNF/BNF5.txt", source_code_size);
+    printf("bnf_file_name %s\n", bnf_file_name);
+    loadText(bnf_source, bnf_file_name, source_code_size);
+    // loadText(bnf_source, "./src/BNF/BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF3.txt", source_code_size);
     // loadText(bnf_source, "./BNF.txt", source_code_size);
 

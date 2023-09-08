@@ -33,10 +33,10 @@ public:
     void debug()
     {
         vstring keys = getMapKeyString(this->LR_table_column_map);
-        printf("   : ");
+        printf("%2s: ", "");
         for (int j = 0; j < keys.size(); j++)
         {
-            printf("%5s", keys[j].c_str());
+            printf("%10s", keys[j].c_str());
         }
         printf("\n");
         for (int i = 0; i < column_length; i++)
@@ -176,6 +176,11 @@ public:
                 {
                     LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
                     vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
+
+                    if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
+                    {
+                        continue;
+                    }
 
                     for (int k = 0; k < lookAhead.size(); k++)
                     {
