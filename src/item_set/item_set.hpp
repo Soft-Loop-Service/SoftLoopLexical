@@ -25,7 +25,7 @@ dot
 class NullSetClass
 {
 public:
-    NullSetClass(DeploymentStruct deployment_syntax)
+    NullSetClass(DeploymentStruct &deployment_syntax)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
@@ -133,7 +133,7 @@ private:
     vstring already_explored;
 
 public:
-    FirstSetClass(DeploymentStruct deployment_syntax, vstring null_set)
+    FirstSetClass(DeploymentStruct &deployment_syntax, vstring null_set)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
@@ -290,7 +290,7 @@ private:
     vstring already_explored;
 
 public:
-    FollowSetClass(DeploymentStruct deployment_syntax, vstring null_set, mp_s_Dtoken first_set)
+    FollowSetClass(DeploymentStruct &deployment_syntax, vstring null_set, mp_s_Dtoken first_set)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
