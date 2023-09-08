@@ -4,15 +4,11 @@
 <BLOCK> ::= <C1> <expr> <C2>
 <AS> ::= '+' | '-'
 <MD> ::= '*' | '/'
-<expr>   ::= <term> <expr3>
-<expr3> ::= <expr2> *
-<expr2> ::=  <AS> <term>
-<term>   ::= <factor> <factor3>
-<factor3> ::= <factor2> *
-<factor2> ::= <MD> <factor>
+<expr> ::= <expr> <AS> <item> | <item>
+<item> ::= <item> <MD> <factor> | <factor>
 <factor> ::= <number> | <C3> <expr> <C4>
-<number> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-
+<number> ::=  <bit> *
+<bit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 <C1> ::= "{"
 <C2> ::= "}"
 <C3> ::= "("

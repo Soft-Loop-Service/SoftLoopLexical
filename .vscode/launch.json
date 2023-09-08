@@ -10,7 +10,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/BNF_TEST.out",
       "miDebuggerPath": "/usr/bin/gdb",
-      "args": [],
+      "args": ["./test/BNF8.txt"],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}/",
       "environment": [],

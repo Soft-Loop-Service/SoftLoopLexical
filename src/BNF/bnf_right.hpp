@@ -72,7 +72,6 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
     int begin = nonterminal_symbol_left.array[current_left];
     int end = current_left == nonterminal_symbol_left.len - 1 ? bnf_token_p.token_len : nonterminal_symbol_left.array[current_left + 1];
     char *begin_char = bnf_token_p.token_string_array[begin];
-    std::string begin_str = std::string();
 
     for (int current = begin + 1; current < end; current++)
     {
