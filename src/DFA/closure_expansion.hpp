@@ -134,15 +134,24 @@ private:
 
     void loopNodeClosureExpansion(LRItemStruct &lr_item, string search_key, int LR_formula_expansion_vector_index, vDeploymentTokenStruct first_set)
     {
-        qClosureExpansionQueueStruct que;
+        qClosureExpansionQueueStruct que = {};
+
+        printf("loopNodeClosureExpansion \n");
 
         struct ClosureExpansionQueueStruct f_closure_expansion_queue_struct = {search_key, LR_formula_expansion_vector_index, first_set};
         que.push(f_closure_expansion_queue_struct);
         do
         {
             recursionNodeClosureExpansion(que, lr_item, que.front());
-            que.pop();
+
+            if (que.size() != 0)
+            {
+                que.pop();
+            }
+
+            printf("\r quesize : %ld                                                        ", que.size());
         } while (que.size() != 0);
+        printf("\n");
     }
 
     // search_key : 展開したいkey(左辺key)
