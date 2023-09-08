@@ -48,7 +48,6 @@ int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer)
     bnf_token.terminal_symbol_len = 0;
 
     // // printf("token_len\n %d", token_len);
-    free(bnf_source);
 
     // output_token_string(bnf_token.token_string_array, bnf_token.token_len);
 
@@ -61,7 +60,7 @@ int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer)
     int unique_symbol_len = generateSymbolTable(bnf_token, bnf_symbol);
 
     printf("char size %ld %ld %ld\n", sizeof(char **), sizeof(char *), sizeof(char));
-
+    free(bnf_source);
     struct RetrieveSymbol nonterminal_symbol_left;
     // 左辺非末端記号の配列を取得する
     retrieveSymbolTable(bnf_token, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);

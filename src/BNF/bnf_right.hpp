@@ -34,7 +34,7 @@ void replaceTerminalSymbol()
 {
 }
 
-void expansionWildcard(int current, char *begin_str, BNFToken &bnf_token_p, qustr &bnf_que, v2string &bnf_right_tokens, mp_s_i &bnf_right_map)
+bool expansionWildcard(int current, char *begin_str, BNFToken &bnf_token_p, qustr &bnf_que, v2string &bnf_right_tokens, mp_s_i &bnf_right_map)
 {
     std::string cstr = std::string(bnf_token_p.token_string_array[current]);
     // std::string nstr = std::string(bnf_token_p.token_string_array[current + 1]);
@@ -45,7 +45,7 @@ void expansionWildcard(int current, char *begin_str, BNFToken &bnf_token_p, qust
         bnf_right_tokens.push_back({});
         bnf_right_map[cstr] = bnf_token_p.token_label_array[current];
         bnf_right_map[begin_str] = is_id_NonterminalSymbolRight;
-        return;
+        return true;
     }
     if (bnf_token_p.token_label_array[current + 1] == is_id_Addition)
     {
@@ -54,15 +54,17 @@ void expansionWildcard(int current, char *begin_str, BNFToken &bnf_token_p, qust
         bnf_right_tokens.push_back({cstr});
         bnf_right_map[cstr] = bnf_token_p.token_label_array[current];
         bnf_right_map[begin_str] = is_id_NonterminalSymbolRight;
-        return;
+        return true;
     }
     if (bnf_token_p.token_label_array[current + 1] == is_id_Question)
     {
         bnf_que.push(cstr);
         bnf_right_tokens.push_back({});
         bnf_right_map[cstr] = bnf_token_p.token_label_array[current];
-        return;
+        return true;
     }
+
+    return false;
 }
 
 void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mp_s_i &bnf_right_map)
@@ -101,7 +103,11 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
         {
             if ((current + 1) < bnf_token_p.token_len)
             {
-                expansionWildcard(current, begin_char, bnf_token_p, bnf_que, bnf_right_tokens, bnf_right_map);
+                bool ew_bool = expansionWildcard(current, begin_char, bnf_token_p, bnf_que, bnf_right_tokens, bnf_right_map);
+                if (ew_bool)
+                {
+                    break;
+                }
             }
 
             // printf("キューに追加 %d %s %d\n", current, bnf_token_p.token_string_array[current], bnf_token_p.token_label_array[current]);

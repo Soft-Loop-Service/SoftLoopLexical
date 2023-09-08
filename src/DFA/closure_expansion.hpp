@@ -102,8 +102,9 @@ private:
 
     vDeploymentTokenStruct getLatterFirstSet(LRItemFormulaExpansionStruct LR_formula_expansion, int dot, int lookAhead_index)
     {
-        NullSetClass cnull_set_class = NullSetClass(deployment_syntax);
-        FirstSetClass cfirst_set_class = FirstSetClass(deployment_syntax, cnull_set_class.findNullsSet());
+
+        NullSetClass cnull_set_class = NullSetClass(this->deployment_syntax);
+        FirstSetClass cfirst_set_class = FirstSetClass(this->deployment_syntax, cnull_set_class.findNullsSet());
 
         vDeploymentTokenStruct latter_token = getLatterToken(LR_formula_expansion, dot, lookAhead_index);
         vDeploymentTokenStruct first_set = cfirst_set_class.findFirstSetVector(latter_token);
@@ -208,7 +209,9 @@ private:
                             int la_size = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j].lookAhead.size();
                             for (int k = 0; k < la_size; k++)
                             {
+
                                 vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[j], dot, k);
+
                                 recursionNodeClosureExpansion(lr_item, token.token_str, j, new_first_set);
                             }
                         }

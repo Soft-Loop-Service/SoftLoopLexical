@@ -4,8 +4,10 @@
 <BLOCK> ::= <C1> <expr> <C2>
 <AS> ::= '+' | '-'
 <MD> ::= '*' | '/'
-<expr> ::= <expr> <AS> <item> | <item>
-<item> ::= <item> <MD> <factor> | <factor>
+<expr> ::= <expr2>
+<expr2> ::= <expr> <AS> <item> | <item>
+<item> ::= <item2>
+<item2> ::= <item> <MD> <factor> | <factor>
 <factor> ::= <C3> <expr> <C4> | <number>
 <number> ::=  <bit> *
 <bit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9

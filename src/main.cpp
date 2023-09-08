@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
     LRTableMultilayer LR_table_multilayer;
 
     bnfMain(argv[1], LR_table_multilayer);
+
     syntacticAnalysis(LR_table_multilayer, token_string_vector);
 
     // ソースコードは用済み

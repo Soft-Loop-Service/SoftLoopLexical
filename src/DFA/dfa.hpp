@@ -196,9 +196,7 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
     for (int i = 0; i < next_labels.size(); i++)
     {
         string next_label = next_labels[i];
-
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
-
         closure_expansion.nodeClosureExpansion(new_node.lr_item);
 
         int flag = -1;
@@ -210,6 +208,7 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
                 break;
             }
         }
+
         if (flag != -1)
         {
             dfa_node_graph[current_node_index].children_nodes[next_label] = flag;
