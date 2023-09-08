@@ -1,0 +1,20 @@
+<S> ::= <IFT> <CON> <BLOCK> <C5>
+<IFT> ::= "if"
+<CON> ::= <C3> <expr> <C4>
+<BLOCK> ::= <C1> <expr> <C2>
+<AS> ::= '+' | '-'
+<MD> ::= '*' | '/'
+<expr>   ::= <term> <expr3>
+<expr3> ::= <expr2> *
+<expr2> ::=  <AS> <term>
+<term>   ::= <factor> <factor3>
+<factor3> ::= <factor2> *
+<factor2> ::= <MD> <factor>
+<factor> ::= <number> | '(' <expr> ')'
+<number> ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+<C1> ::= "{"
+<C2> ::= "}"
+<C3> ::= "("
+<C4> ::= ")"
+<C5> ::= ";"

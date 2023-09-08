@@ -50,7 +50,7 @@ int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer)
     // // printf("token_len\n %d", token_len);
     free(bnf_source);
 
-    output_token_string(bnf_token.token_string_array, bnf_token.token_len);
+    // output_token_string(bnf_token.token_string_array, bnf_token.token_len);
 
     labelingBnf(bnf_token);
 

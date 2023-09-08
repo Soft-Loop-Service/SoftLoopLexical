@@ -110,7 +110,7 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
             printf("syntax error : %.10s\n", &source_code[i_s]);
             exit(1);
         }
-        printf("token_search_len %d\n", token_search_len);
+        // printf("token_search_len %d\n", token_search_len);
         int current_token_id = getToken(&source_code[i_s], token_string, token_progression, token_search_len, token_string_endline, token_progression_endline);
         // printf("current_token_id : %d", current_token_id);
         i_s += token_search_len;

@@ -15,7 +15,7 @@
 
 int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, int *array, int len, int current_number)
 {
-    printf("searchRetrieveSymbolTableDuplication %d\n", len);
+    // printf("searchRetrieveSymbolTableDuplication %d\n", len);
     for (int i = 0; i < len; i++)
     {
         char *old = get_bnf_arr(bnf_token_p, array[i]);
@@ -23,7 +23,7 @@ int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_s
 
         if (strncmp(old, current, bnf_token_len) == 0)
         {
-            printf("重複検知 %s\n", current);
+            // printf("重複検知 %s\n", current);
             return true;
         }
     }
@@ -37,11 +37,10 @@ int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_s
 /// @return                抽出したラベルデータの長さ　
 int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &retrieve_symbol, int target_id)
 {
-    printf("retrieveSymbolTable B %d\n", bnf_symbol_p.unique_symbol_len);
+    // printf("retrieveSymbolTable B %d\n", bnf_symbol_p.unique_symbol_len);
 
     int *array = (int *)calloc(bnf_token_p.token_len, sizeof(int));
     int len = 0;
-
 
     for (int i = 0; i < bnf_token_p.token_len; i++)
     {
@@ -57,24 +56,20 @@ int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, Retrieve
             if (!(searchRetrieveSymbolTableDuplication(bnf_token_p, bnf_symbol_p, array, len, i)))
             {
                 array[len] = i;
-                printf("retrieveSymbolTable B : %d %d %d %d %s\n", array[len], i, target_id, len, get_bnf_arr(bnf_token_p, i));
+                // printf("retrieveSymbolTable B : %d %d %d %d %s\n", array[len], i, target_id, len, get_bnf_arr(bnf_token_p, i));
                 len++;
             }
         }
     }
 
-
-    
-
-    printf("realloc前 %d\n",array[0]);
+    // printf("realloc前 %d\n", array[0]);
     int new_size = resizeArray(array, len);
-    printf("realloc後 %d\n",array[0]);
-
+    // printf("realloc後 %d\n", array[0]);
 
     retrieve_symbol.array = array;
     retrieve_symbol.len = len;
 
-    printf("terminal_symbol %d\n",retrieve_symbol.array[0]);
+    // printf("terminal_symbol %d\n", retrieve_symbol.array[0]);
     // resizeNull(retrieve_label , len);
 
     return len;
@@ -110,7 +105,7 @@ int retrieveSymbolTable(BNFToken &bnf_token_p, RetrieveSymbol &retrieve_symbol, 
         if (ctl == target_id)
         {
             retrieve_symbol.array[len] = i;
-            printf("retrieveSymbolTable A : %d %d %d\n", retrieve_symbol.array[len], i, bnf_token_p.token_len);
+            // printf("retrieveSymbolTable A : %d %d %d\n", retrieve_symbol.array[len], i, bnf_token_p.token_len);
             len++;
         }
     }

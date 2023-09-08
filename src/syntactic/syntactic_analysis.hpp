@@ -12,6 +12,13 @@
 #include <vector>
 #include <algorithm>
 
+void output_syntactic_analysis_stack(string token, int shift_count, int reduce_count, sint &stack_analysis, vReduceFormula &ans_analysis)
+{
+    // printf("\r");
+    printf("\n");
+    printf("%10s (stacktop:%3d) loop:%5d (s:%5d r:%5d) stack : %5ld ans : %5ld", token.c_str(), stack_analysis.top(), shift_count + reduce_count, shift_count, reduce_count, stack_analysis.size(), ans_analysis.size());
+}
+
 void output_vReduceFormula(string name, vReduceFormula v)
 {
     printf("%s top : ", name.c_str());
@@ -29,7 +36,7 @@ void syntacticAnalysisProcessShift(LRTableMultilayer LR_table_multilayer, string
     printf("Shift : ");
     int top = stack_analysis.top();
 
-    printf("top : %d ", top);
+    // printf("top : %d ", top);
 
     int next_state = LR_table_multilayer.LR_table_shift.LR_table_column_map[token][top].getCell();
     stack_analysis.push(next_state);
@@ -43,7 +50,7 @@ void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, strin
     ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token][top].getCell();
     ans_analysis.push_back(state);
 
-    printf("token_left : %s %d ", state.token_left.c_str(), state.token_vector.size());
+    // printf("token_left : %s %d ", state.token_left.c_str(), state.token_vector.size());
 
     for (int i = 0; i < state.token_vector.size(); i++)
     {
@@ -51,7 +58,7 @@ void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, strin
     }
 
     int top2 = stack_analysis.top();
-    printf("top2 : %d ", top2);
+    // printf("top2 : %d ", top2);
 
     int next_state = LR_table_multilayer.LR_table_goto.LR_table_column_map[state.token_left][top2].getCell();
     stack_analysis.push(next_state);
@@ -65,50 +72,56 @@ void syntacticAnalysisProcessAccept()
 
 void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring token_string_vector)
 {
+    printf("\n");
+
     sint stack_analysis;
     vReduceFormula ans_analysis;
 
     stack_analysis.push(0);
 
     int i = 0;
+    int shift_count = 0;
+    int reduce_count = 0;
     while (i < token_string_vector.size())
     {
 
         string current_token = token_string_vector[i];
         int top = stack_analysis.top();
         printf("CurrentToken %s\n", current_token.c_str());
-
+        // output_syntactic_analysis_stack(current_token, shift_count, reduce_count, stack_analysis, ans_analysis);
         if (LR_table_multilayer.LR_table_accept.LR_table_column_map[current_token][top].getValid())
         {
-            printf("acc \n");
+            printf("\nacc \n");
+            output_stack("構文解析 終了", stack_analysis);
+            output_vReduceFormula("構文解析 終了", ans_analysis);
             return;
         }
 
         if (LR_table_multilayer.LR_table_shift.LR_table_column_map[current_token][top].getValid())
         {
             syntacticAnalysisProcessShift(LR_table_multilayer, current_token, stack_analysis);
-            output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", ans_analysis);
+            output_stack("構文解析 S", stack_analysis);
+            output_vReduceFormula("構文解析 R", ans_analysis);
 
-            printf("\n");
+            // printf("\n");
             i++;
+            shift_count++;
             continue;
         }
 
         if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[current_token][top].getValid())
         {
             syntacticAnalysisProcessReduce(LR_table_multilayer, current_token, stack_analysis, ans_analysis);
-            output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", ans_analysis);
+            output_stack("構文解析 S", stack_analysis);
+            output_vReduceFormula("構文解析 R", ans_analysis);
 
-            printf("\n");
+            // printf("\n");
+            reduce_count++;
             continue;
         }
         printf("ERROR\n");
         return;
     }
-    output_stack("構文解析 終了", stack_analysis);
-    output_vReduceFormula("構文解析 終了", ans_analysis);
 }
 
 void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vstring token_string_vector)

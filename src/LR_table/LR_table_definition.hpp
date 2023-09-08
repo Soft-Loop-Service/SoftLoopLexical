@@ -177,7 +177,7 @@ public:
                     LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
                     vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
 
-                    if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
+                    if (LR_formula_expansion.dot < LR_formula_expansion.token_vector.size())
                     {
                         continue;
                     }

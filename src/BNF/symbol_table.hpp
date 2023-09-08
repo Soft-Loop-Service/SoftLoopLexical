@@ -87,7 +87,7 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
         case is_id_TerminalSymbol:         // 末端記号(TerminalSymbol)
 
         {
-            printf("generateSymbolTable switch a %d\n", ctl);
+            // printf("generateSymbolTable switch a %d\n", ctl);
             int n = insertSymbolTable(bnf_token_p.token_string_array[si], bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
             if (n > 0)
             {
@@ -115,10 +115,10 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
             break;
         }
     }
-    for (int i = 0; i < bnf_token_p.token_len; i++)
-    {
-        printf("generateSymbolTable %d %d %d\n", i, bnf_symbol_p.symbol_table_array[i], count);
-    }
+    // for (int i = 0; i < bnf_token_p.token_len; i++)
+    // {
+    //     printf("generateSymbolTable %d %d %d\n", i, bnf_symbol_p.symbol_table_array[i], count);
+    // }
     bnf_symbol_p.unique_symbol_len = count;
     // bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
     return count;
