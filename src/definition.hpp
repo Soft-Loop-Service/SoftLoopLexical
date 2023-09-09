@@ -25,16 +25,19 @@ typedef std::stack<int> sint;
 typedef std::queue<int> quint;
 typedef std::queue<std::string> qustr;
 typedef std::vector<std::queue<int>> vquint;
-
+// typedef std::set<int> tint;
 typedef std::map<std::string, bool> mapstrbool;
 // typedef std::map<std::string, int> mapstrint;
 typedef std::map<std::string, string> mapstr;
 typedef std::map<std::string, int> mp_s_i;           // mp を生成
 typedef std::map<int, int> mp_i_i;                   // mp を生成
+typedef std::map<int, string> mp_i_string;           // mp を生成
+typedef std::map<int, vstring> mp_i_vstring;         // mp を生成
 typedef std::map<std::string, vint> mp_s_vint;       // mp を生成
 typedef std::map<std::string, v2int> mp_s_v2int;     // を生成
 typedef std::map<std::string, vstring> mp_s_vstring; // を生成
-
+typedef std::map<int, vint> mp_i_vint;               // mp を生成
+// typedef std::map<int, tint> mp_i_tint;               // mp を生成
 using namespace std;
 
 const int token_string_arr_size = 10000;      // tokenの最大数
