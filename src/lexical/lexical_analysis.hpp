@@ -85,7 +85,7 @@ void lexSyntax(char *source_code, char **token_string, int *token_progression)
             i_s++;
             continue;
         }
-        if (strchr("(){}[];,", source_code[i_s]) != 0)
+        if (strchr("(){}[]{};,", source_code[i_s]) != 0)
         { // 1文字記号.
             token_search_len = 1;
         }
