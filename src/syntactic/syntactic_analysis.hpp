@@ -14,11 +14,12 @@
 
 void output_vReduceFormula(string name, vReduceFormula v)
 {
-    printf("%s top : ", name.c_str());
+    printf("%s 結果 : ", name.c_str());
     int vsize = v.size();
     for (int i = 0; i < vsize; i++)
     {
-        printf("%s ", v[vsize - i - 1].token_left.c_str());
+        // printf("%s ", v[vsize - i - 1].token_left.c_str());
+        printf("%s ", v[i].token_left.c_str());
     }
     printf("\n");
 }

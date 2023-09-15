@@ -3,6 +3,18 @@
 #define __Debug
 #include "definition.hpp"
 
+int helloWorld(string text)
+{
+    if (text == "hello world")
+    {
+        printf("hello world");
+    }
+    else
+    {
+        printf("z z z z");
+    }
+}
+
 void output_stack(string name, sint v)
 {
     printf("%s top : ", name.c_str());

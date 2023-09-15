@@ -1,4 +1,8 @@
-<S> ::= if <conditional> <process>
+<S> ::= <E> *
+<E> ::= <if> | <ifelse>
+<ifelse> ::= <if> <else>
+<if> ::= if <conditional> <process>
+<else> ::= else <process>
 <conditional> ::= "(" <expr> ")" 
 <process> ::= "{" <expr> "}" 
 <expr> ::= <expr> "*" <value> | <expr> '+' <value> | <value> | <expr> *
