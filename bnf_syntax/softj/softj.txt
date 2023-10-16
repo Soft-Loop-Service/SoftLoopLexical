@@ -1,0 +1,8 @@
+<S> ::= <E>
+<E> ::= <expr>
+
+<expr> ::= <term> | <expr> "+" <term> | <expr> "-" <term>
+<term> ::= <fact> | <term> "*" <fact> | <term> "/" <fact>
+<fact> ::= <number> | "-" <fact> | "(" <expr> ")"
+
+<number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
