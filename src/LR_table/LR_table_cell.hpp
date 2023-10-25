@@ -101,10 +101,11 @@ public:
     }
 };
 
-struct ReduceFormula
+struct ReduceFormula // 構文解析用
 {
-    string token_left;
-    vDeploymentTokenStruct token_vector;
+    string token_left;                   // 左辺
+    vDeploymentTokenStruct token_vector; // 展開したBNFの右辺
+    int depth;
 };
 typedef vector<ReduceFormula> vReduceFormula;
 
@@ -113,14 +114,14 @@ class LRTableReduceCell : public LRTableCell
 private:
     char operation = LR_table_operation_reduce;
 
-    ReduceFormula reduce_formula;
+    struct ReduceFormula reduce_formula;
     bool is_valid = false;
     int formula_expansion_label;
 
 public:
     void setCell(string token_left, vDeploymentTokenStruct token_vector, int formula_expansion_label)
     {
-        this->reduce_formula = ReduceFormula{token_left, token_vector};
+        this->reduce_formula = ReduceFormula{token_left, token_vector, 0};
         this->is_valid = true;
         this->formula_expansion_label = formula_expansion_label;
     };
