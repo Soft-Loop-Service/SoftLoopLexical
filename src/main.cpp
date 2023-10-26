@@ -30,7 +30,13 @@ int main(int argc, char *argv[])
     LRTableMultilayer LR_table_multilayer;
 
     bnfMain(argv[1], LR_table_multilayer);
-    vReduceFormula ans_analysis = syntacticAnalysis(LR_table_multilayer, token_string_vector);
+
+    vReduceFormula syntactic_analysis_formula = {};
+    syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
+
+    printf("syntacticPurseTree\n");
+    vSyntacticTree syntactic_tree = {};
+    syntacticPurseTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_tree);
 
     // ソースコードは用済み
 }
