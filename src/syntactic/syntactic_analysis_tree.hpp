@@ -40,15 +40,17 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
     struct SyntacticTreeNode new_node_nonterminal = {current_reduce_formula.token_left, is_id_NonterminalSymbol, {}};
     syntactic_analysis_tree.push_back(new_node_nonterminal);
 
+    int new_current_index = syntactic_analysis_tree.size() - 1;
+
     int size = current_reduce_formula.token_vector.size();
-    if (parent_node_index < syntactic_analysis_formula.size())
+    if (parent_node_index >= 0)
     {
         auto it_0 = syntactic_analysis_tree[parent_node_index].children.begin();
-        syntactic_analysis_tree[parent_node_index].children.insert(it_0, search_first_index);
+        syntactic_analysis_tree[parent_node_index].children.insert(it_0, new_current_index);
 
-        printf("接続 %d - %d\n", parent_node_index, search_first_index);
+        printf("接続 %d - %d\n", parent_node_index, new_current_index);
     }
-    int new_current_index = search_first_index;
+    // int new_current_index = search_first_index;
     for (int i = size - 1; i >= 0; i--)
     {
         DeploymentTokenStruct bnf = current_reduce_formula.token_vector[i];
@@ -58,8 +60,8 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
             struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}};
             syntactic_analysis_tree.push_back(new_node_terminal);
 
-            auto it_p = syntactic_analysis_tree[parent_node_index].children.begin();
-            syntactic_analysis_tree[parent_node_index].children.insert(it_p, syntactic_analysis_tree.size() - 1);
+            auto it_p = syntactic_analysis_tree[new_current_index].children.begin();
+            syntactic_analysis_tree[new_current_index].children.insert(it_p, syntactic_analysis_tree.size() - 1);
             continue;
         }
 
@@ -102,7 +104,7 @@ void syntacticAnalysisTree(LRTableMultilayer LR_table_multilayer, vstring token_
 
     // }
 
-    recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, last, size, 0);
+    recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, last, -1, 0);
     debugSyntacticAnalysisTree(syntactic_analysis_tree);
 }
 
