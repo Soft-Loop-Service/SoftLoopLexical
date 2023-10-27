@@ -30,19 +30,25 @@ typedef vector<SyntacticTreeNode> vSyntacticTree;
 /// @param depth 深さ
 void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, vReduceFormula &syntactic_analysis_formula, int &search_first_index, int parent_node_index, int depth) // 導出木に変換するため深さ優先探索を行う。その地点で木構造に分類する。つまり細かく木構造に分割していくイメージ。
 {
+
+    printf("探索 現在:%d 親:%d\n", search_first_index, parent_node_index);
+
+    // syntactic_analysis_tree.push_back(new_node_nonterminal);
+    // int new_parent_node_index = syntactic_analysis_tree.size() - 1;
     ReduceFormula current_reduce_formula = syntactic_analysis_formula[search_first_index];
-    int size = current_reduce_formula.token_vector.size();
 
     struct SyntacticTreeNode new_node_nonterminal = {current_reduce_formula.token_left, is_id_NonterminalSymbol, {}};
     syntactic_analysis_tree.push_back(new_node_nonterminal);
-    int new_parent_node_index = syntactic_analysis_tree.size() - 1;
 
-    if (parent_node_index >= 0)
+    int size = current_reduce_formula.token_vector.size();
+    if (parent_node_index < syntactic_analysis_formula.size())
     {
-        syntactic_analysis_tree[parent_node_index].children.push_back(new_parent_node_index);
-        printf("接続 %d - %d\n", parent_node_index, new_parent_node_index);
-    }
+        auto it_0 = syntactic_analysis_tree[parent_node_index].children.begin();
+        syntactic_analysis_tree[parent_node_index].children.insert(it_0, search_first_index);
 
+        printf("接続 %d - %d\n", parent_node_index, search_first_index);
+    }
+    int new_current_index = search_first_index;
     for (int i = size - 1; i >= 0; i--)
     {
         DeploymentTokenStruct bnf = current_reduce_formula.token_vector[i];
@@ -51,13 +57,15 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
         {
             struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}};
             syntactic_analysis_tree.push_back(new_node_terminal);
-            syntactic_analysis_tree[new_parent_node_index].children.push_back(syntactic_analysis_tree.size() - 1);
+
+            auto it_p = syntactic_analysis_tree[parent_node_index].children.begin();
+            syntactic_analysis_tree[parent_node_index].children.insert(it_p, syntactic_analysis_tree.size() - 1);
             continue;
         }
 
         search_first_index--;
-        int new_current_index = search_first_index;
-        recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, search_first_index, new_parent_node_index, (depth + 1));
+
+        recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, search_first_index, new_current_index, (depth + 1));
     }
 }
 
@@ -86,9 +94,15 @@ void syntacticAnalysisTree(LRTableMultilayer LR_table_multilayer, vstring token_
 
     // syntactic_analysis_formulaは構文解析の結果 後ろから見ていくことで木構造を構築する
 
-    int size = syntactic_analysis_formula.size() - 1;
+    int size = syntactic_analysis_formula.size();
+    int last = size - 1;
 
-    recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, size, -1, 0);
+    // for (int i = 0; i < size; i++)
+    // {
+
+    // }
+
+    recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, last, size, 0);
     debugSyntacticAnalysisTree(syntactic_analysis_tree);
 }
 
