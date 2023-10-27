@@ -26,7 +26,7 @@ typedef vector<SyntacticTreeNode> vSyntacticTree;
 /// @param syntactic_analysis_formula
 /// @param search_first_index 後ろから探索しているという条件で、探索済みの場所の先端の1つ手前
 /// @param depth 深さ
-void recursionSyntacticPurseTreeDFS(vSyntacticTree &syntactic_tree, vReduceFormula &syntactic_analysis_formula, int &search_first_index, int parent_node_index, int depth) // 導出木に変換するため深さ優先探索を行う。その地点で木構造に分類する。つまり細かく木構造に分割していくイメージ。
+void recursionSyntacticPurseDerivationTreeDFS(vSyntacticTree &syntactic_tree, vReduceFormula &syntactic_analysis_formula, int &search_first_index, int parent_node_index, int depth) // 導出木に変換するため深さ優先探索を行う。その地点で木構造に分類する。つまり細かく木構造に分割していくイメージ。
 {
     ReduceFormula current_reduce_formula = syntactic_analysis_formula[search_first_index];
     int size = current_reduce_formula.token_vector.size();
@@ -55,11 +55,11 @@ void recursionSyntacticPurseTreeDFS(vSyntacticTree &syntactic_tree, vReduceFormu
 
         search_first_index--;
         int new_current_index = search_first_index;
-        recursionSyntacticPurseTreeDFS(syntactic_tree, syntactic_analysis_formula, search_first_index, new_parent_node_index, (depth + 1));
+        recursionSyntacticPurseDerivationTreeDFS(syntactic_tree, syntactic_analysis_formula, search_first_index, new_parent_node_index, (depth + 1));
     }
 }
 
-void debugSyntacticPurseTree(vSyntacticTree &syntactic_tree)
+void debugSyntacticPurseDerivationTree(vSyntacticTree &syntactic_tree)
 {
     for (int i = 0; i < syntactic_tree.size(); i++)
     {
@@ -79,15 +79,15 @@ void debugSyntacticPurseTree(vSyntacticTree &syntactic_tree)
     }
 }
 
-void syntacticPurseTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_tree)
+void syntacticPurseDerivationTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_tree)
 {
 
     // syntactic_analysis_formulaは構文解析の結果 後ろから見ていくことで木構造を構築する
 
     int size = syntactic_analysis_formula.size() - 1;
 
-    recursionSyntacticPurseTreeDFS(syntactic_tree, syntactic_analysis_formula, size, -1, 0);
-    debugSyntacticPurseTree(syntactic_tree);
+    recursionSyntacticPurseDerivationTreeDFS(syntactic_tree, syntactic_analysis_formula, size, -1, 0);
+    debugSyntacticPurseDerivationTree(syntactic_tree);
 }
 
 #endif

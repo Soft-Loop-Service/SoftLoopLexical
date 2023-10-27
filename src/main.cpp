@@ -1,6 +1,6 @@
 #include "./lexical/lexical_analysis.hpp"
 #include "./syntactic/syntactic_analysis.hpp"
-#include "./syntactic/syntactic_purse_tree.hpp"
+#include "./syntactic/syntactic_purse_derivation_tree.hpp"
 
 #include "definition.hpp"
 
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 
     printf("syntacticPurseTree\n");
     vSyntacticTree syntactic_tree = {};
-    syntacticPurseTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_tree);
+    syntacticPurseDerivationTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_tree);
 
     // ソースコードは用済み
 }
