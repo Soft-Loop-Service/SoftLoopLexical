@@ -15,26 +15,29 @@
 
 #include "./../../bnf_syntax/softj/softj.hpp"
 
-void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress, int current_node_index)
+void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress, vint parent_stack, int current_node_index)
 {
     SyntacticTreeNode current_node = syntactic_analysis_tree[current_node_index];
-
+    softj(syntactic_analysis_tree, progress, parent_stack, current_node_index);
+    parent_stack.push_back(current_node_index);
     for (int i = 0; i < current_node.children.size(); i++)
     {
         int child = current_node.children[i];
-        recursionProgressAnalysis(syntactic_analysis_tree, progress, child);
+        recursionProgressAnalysis(syntactic_analysis_tree, progress, parent_stack, child);
     }
 
-    if (current_node.token_label == is_id_TerminalSymbol)
-    {
-        progress.push_back(current_node);
-    }
+    // if (current_node.token_label == is_id_TerminalSymbol)
+    // {
+    //     progress.push_back(current_node);
+    // }
 }
 void progressAnalysis(vSyntacticTree syntactic_analysis_tree)
 {
+    printf("progressAnalysis\n");
     vSyntacticTree progress = {};
-    recursionProgressAnalysis(syntactic_analysis_tree, progress, 0);
-    // debugSyntacticAnalysisTree(progress);
+    vint parent_stack = {};
+    recursionProgressAnalysis(syntactic_analysis_tree, progress, parent_stack, 0);
+    debugSyntacticAnalysisTree(progress);
 }
 
 #endif

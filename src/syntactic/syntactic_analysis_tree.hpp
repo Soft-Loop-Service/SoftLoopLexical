@@ -27,7 +27,7 @@ bool isTokenSkepSyntacticAnalysis(string token_str)
 {
     const char *token = token_str.c_str();
 
-    if (strchr("=(){};", token[0]) != 0)
+    if (strchr("(){}[];", token[0]) != 0)
     {
         printf("isTokenSkepSyntacticAnalysis\n");
         return true;
