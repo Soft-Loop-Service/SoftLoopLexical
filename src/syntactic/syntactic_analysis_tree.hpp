@@ -23,6 +23,19 @@ struct SyntacticTreeNode // 構文解析用
 };
 typedef vector<SyntacticTreeNode> vSyntacticTree;
 
+bool isTokenSkepSyntacticAnalysis(string token_str)
+{
+    const char *token = token_str.c_str();
+
+    if (strchr("=(){};", token[0]) != 0)
+    {
+        printf("isTokenSkepSyntacticAnalysis\n");
+        return true;
+    }
+
+    return false;
+}
+
 /// @brief
 /// @param syntactic_analysis_tree
 /// @param syntactic_analysis_formula
@@ -57,6 +70,11 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
         if (bnf.label == is_id_TerminalSymbol)
         {
+            if (isTokenSkepSyntacticAnalysis(bnf.token_str))
+            {
+                continue;
+            }
+
             struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}};
             syntactic_analysis_tree.push_back(new_node_terminal);
 
@@ -91,18 +109,13 @@ void debugSyntacticAnalysisTree(vSyntacticTree &syntactic_analysis_tree)
     }
 }
 
-void syntacticAnalysisTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree)
+void syntacticAnalysisTree(vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree)
 {
 
     // syntactic_analysis_formulaは構文解析の結果 後ろから見ていくことで木構造を構築する
 
     int size = syntactic_analysis_formula.size();
     int last = size - 1;
-
-    // for (int i = 0; i < size; i++)
-    // {
-
-    // }
 
     recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, last, -1, 0);
     debugSyntacticAnalysisTree(syntactic_analysis_tree);

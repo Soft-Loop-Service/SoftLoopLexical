@@ -3,8 +3,9 @@
 #include "./syntactic/syntactic_analysis_tree.hpp"
 #include "./syntactic/syntactic_parse_tree.hpp"
 
-#include "definition.hpp"
+#include "./progress/progress_analysis.hpp"
 
+#include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
 #include "./LR_table/LR_table_definition.hpp"
 #include "./LR_table/LR_table_cell.hpp"
@@ -37,9 +38,12 @@ int main(int argc, char *argv[])
 
     printf("syntacticPurseTree\n");
     vSyntacticTree syntactic_analysis_tree = {};
-    vSyntacticTree syntactic_parse_tree = {};
-    syntacticAnalysisTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_analysis_tree);
-    syntacticParseTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_analysis_tree,syntactic_parse_tree);
+
+    syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree);
+    vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
+
+    syntacticParseTree(syntactic_parse_tree);
+    progressAnalysis(syntactic_analysis_tree);
 
     // ソースコードは用済み
 }
