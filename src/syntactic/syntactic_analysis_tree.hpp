@@ -1,6 +1,8 @@
 
-#ifndef __SYNTPT
-#define __SYNTPT
+#ifndef __SYNTDT
+#define __SYNTDT
+
+// 解析木
 
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
@@ -26,7 +28,7 @@ typedef vector<SyntacticTreeNode> vSyntacticTree;
 /// @param syntactic_analysis_formula
 /// @param search_first_index 後ろから探索しているという条件で、探索済みの場所の先端の1つ手前
 /// @param depth 深さ
-void recursionSyntacticPurseDerivationTreeDFS(vSyntacticTree &syntactic_tree, vReduceFormula &syntactic_analysis_formula, int &search_first_index, int parent_node_index, int depth) // 導出木に変換するため深さ優先探索を行う。その地点で木構造に分類する。つまり細かく木構造に分割していくイメージ。
+void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_tree, vReduceFormula &syntactic_analysis_formula, int &search_first_index, int parent_node_index, int depth) // 導出木に変換するため深さ優先探索を行う。その地点で木構造に分類する。つまり細かく木構造に分割していくイメージ。
 {
     ReduceFormula current_reduce_formula = syntactic_analysis_formula[search_first_index];
     int size = current_reduce_formula.token_vector.size();
@@ -55,11 +57,11 @@ void recursionSyntacticPurseDerivationTreeDFS(vSyntacticTree &syntactic_tree, vR
 
         search_first_index--;
         int new_current_index = search_first_index;
-        recursionSyntacticPurseDerivationTreeDFS(syntactic_tree, syntactic_analysis_formula, search_first_index, new_parent_node_index, (depth + 1));
+        recursionSyntacticAnalysisTreeDFS(syntactic_tree, syntactic_analysis_formula, search_first_index, new_parent_node_index, (depth + 1));
     }
 }
 
-void debugSyntacticPurseDerivationTree(vSyntacticTree &syntactic_tree)
+void debugSyntacticAnalysisTree(vSyntacticTree &syntactic_tree)
 {
     for (int i = 0; i < syntactic_tree.size(); i++)
     {
@@ -79,15 +81,15 @@ void debugSyntacticPurseDerivationTree(vSyntacticTree &syntactic_tree)
     }
 }
 
-void syntacticPurseDerivationTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_tree)
+void syntacticAnalysisTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_tree)
 {
 
     // syntactic_analysis_formulaは構文解析の結果 後ろから見ていくことで木構造を構築する
 
     int size = syntactic_analysis_formula.size() - 1;
 
-    recursionSyntacticPurseDerivationTreeDFS(syntactic_tree, syntactic_analysis_formula, size, -1, 0);
-    debugSyntacticPurseDerivationTree(syntactic_tree);
+    recursionSyntacticAnalysisTreeDFS(syntactic_tree, syntactic_analysis_formula, size, -1, 0);
+    debugSyntacticAnalysisTree(syntactic_tree);
 }
 
 #endif
