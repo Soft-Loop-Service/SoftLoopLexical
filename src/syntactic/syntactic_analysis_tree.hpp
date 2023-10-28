@@ -14,11 +14,15 @@
 #include <vector>
 #include <algorithm>
 
+const int syntactic_tree_node_type_number = 100;
+const int syntactic_tree_node_type_string = 101;
+
 struct SyntacticTreeNode // 構文解析用
 {
     string token;
     int token_label;
     vint children;
+    int node_type;
     // int parent;
 };
 typedef vector<SyntacticTreeNode> vSyntacticTree;
@@ -50,7 +54,11 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
     // int new_parent_node_index = syntactic_analysis_tree.size() - 1;
     ReduceFormula current_reduce_formula = syntactic_analysis_formula[search_first_index];
 
-    struct SyntacticTreeNode new_node_nonterminal = {current_reduce_formula.token_left, is_id_NonterminalSymbol, {}};
+    struct SyntacticTreeNode new_node_nonterminal = {
+        current_reduce_formula.token_left,
+        is_id_NonterminalSymbol,
+        {},
+        syntactic_tree_node_type_string};
     syntactic_analysis_tree.push_back(new_node_nonterminal);
 
     int new_current_index = syntactic_analysis_tree.size() - 1;
@@ -63,6 +71,10 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
         printf("接続 %d - %d\n", parent_node_index, new_current_index);
     }
+
+    int token_type = current_reduce_formula.token_left == "<number>" ? syntactic_tree_node_type_number : syntactic_tree_node_type_string;
+    printf("token_type : %d %s\n", token_type, current_reduce_formula.token_left.c_str());
+
     // int new_current_index = search_first_index;
     for (int i = size - 1; i >= 0; i--)
     {
@@ -75,7 +87,7 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
                 continue;
             }
 
-            struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}};
+            struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}, token_type};
             syntactic_analysis_tree.push_back(new_node_terminal);
 
             auto it_p = syntactic_analysis_tree[new_current_index].children.begin();

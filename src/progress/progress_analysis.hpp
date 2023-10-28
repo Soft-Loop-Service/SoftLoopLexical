@@ -14,22 +14,30 @@
 #include <algorithm>
 
 #include "./../../bnf_syntax/softj/softj.hpp"
+#include "./progress_analysis_struct.hpp"
 
 void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress, vint parent_stack, int current_node_index)
 {
     SyntacticTreeNode current_node = syntactic_analysis_tree[current_node_index];
-    softj(syntactic_analysis_tree, progress, parent_stack, current_node_index);
-    parent_stack.push_back(current_node_index);
+    // softj(syntactic_analysis_tree, progress, parent_stack, current_node_index);
+
     for (int i = 0; i < current_node.children.size(); i++)
     {
         int child = current_node.children[i];
         recursionProgressAnalysis(syntactic_analysis_tree, progress, parent_stack, child);
     }
 
-    // if (current_node.token_label == is_id_TerminalSymbol)
-    // {
-    //     progress.push_back(current_node);
-    // }
+    parent_stack.push_back(current_node_index);
+
+    if (current_node.token_label == is_id_TerminalSymbol)
+    {
+        progress.push_back(current_node);
+        operationsArithmetic(current_node, progress);
+    }
+    else
+    {
+        // operationsArithmetic(current_node, progress);
+    }
 }
 void progressAnalysis(vSyntacticTree syntactic_analysis_tree)
 {
