@@ -15,7 +15,7 @@
 #include <vector>
 #include <algorithm>
 
-void syntacticParseTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_tree)
+void syntacticParseTree(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &syntactic_parse_tree)
 {
 }
 

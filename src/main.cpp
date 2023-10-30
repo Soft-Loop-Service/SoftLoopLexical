@@ -36,9 +36,10 @@ int main(int argc, char *argv[])
     syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
 
     printf("syntacticPurseTree\n");
-    vSyntacticTree syntactic_tree = {};
-    syntacticAnalysisTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_tree);
-    syntacticParseTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_tree);
+    vSyntacticTree syntactic_analysis_tree = {};
+    vSyntacticTree syntactic_parse_tree = {};
+    syntacticAnalysisTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_analysis_tree);
+    syntacticParseTree(LR_table_multilayer, token_string_vector, syntactic_analysis_formula, syntactic_analysis_tree,syntactic_parse_tree);
 
     // ソースコードは用済み
 }
