@@ -13,11 +13,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
-const int syntactic_tree_node_type_number = 100;
-const int syntactic_tree_node_type_string = 101;
-const int syntactic_tree_node_type_operation_formula = 102;
-const int syntactic_tree_node_type_non_terminal = 110;
+#include "./../../bnf_syntax/softj/node.hpp"
 
 struct SyntacticTreeNode // 構文解析用
 {
@@ -86,20 +82,7 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
                 continue;
             }
 
-            int node_type;
-            if (bnf.token_str == "=" || bnf.token_str == "+" || bnf.token_str == "-" || bnf.token_str == "*" || bnf.token_str == "/")
-            {
-                node_type = syntactic_tree_node_type_operation_formula;
-            }
-            else if (current_reduce_formula.token_left == "<number>")
-            {
-                node_type = syntactic_tree_node_type_number;
-            }
-
-            else
-            {
-                node_type = syntactic_tree_node_type_string;
-            }
+            int node_type = getSyntacticAnalysisTreeNodeType(current_reduce_formula.token_left, bnf.token_str);
 
             printf("node_type : %d %s\n", node_type, current_reduce_formula.token_left.c_str());
 

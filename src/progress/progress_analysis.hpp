@@ -14,7 +14,7 @@
 #include <algorithm>
 
 #include "./../../bnf_syntax/softj/softj.hpp"
-#include "./progress_analysis_struct.hpp"
+#include "./progress_analysis_operation.hpp"
 
 void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress_stack, vint parent_stack, int current_node_index)
 {
@@ -31,13 +31,9 @@ void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntact
 
     if (current_node.token_label == is_id_TerminalSymbol)
     {
-        printf("スタックへの追加 %s\n", current_node.token.c_str());
+        // printf("スタックへの追加 %s\n", current_node.token.c_str());
         progress_stack.push_back(current_node);
-        operationsArithmetic(progress_stack);
-    }
-    else
-    {
-        // operationsArithmetic(current_node, progress);
+        operationArithmetic(progress_stack);
     }
 }
 void progressAnalysis(vSyntacticTree syntactic_analysis_tree)
