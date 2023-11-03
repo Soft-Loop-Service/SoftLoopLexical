@@ -3,7 +3,7 @@
 #include "./syntactic/syntactic_analysis_tree.hpp"
 #include "./syntactic/syntactic_parse_tree.hpp"
 
-#include "./progress/progress_analysis.hpp"
+#include "./process/process_analysis.hpp"
 
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
     syntacticParseTree(syntactic_parse_tree);
-    progressAnalysis(syntactic_parse_tree);
+    processAnalysis(syntactic_parse_tree);
 
     // ソースコードは用済み
 }
