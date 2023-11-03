@@ -14,17 +14,17 @@
 #include <algorithm>
 
 #include "./../../bnf_syntax/softj/softj.hpp"
-#include "./progress_analysis_operation.hpp"
+#include "./process_analysis_operation.hpp"
 
-void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress_stack, vint parent_stack, int current_node_index)
+void recursionProcessAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &process_stack, vint parent_stack, int current_node_index)
 {
     SyntacticTreeNode current_node = syntactic_analysis_tree[current_node_index];
-    // softj(syntactic_analysis_tree, progress, parent_stack, current_node_index);
+    // softj(syntactic_analysis_tree, process, parent_stack, current_node_index);
 
     for (int i = 0; i < current_node.children.size(); i++)
     {
         int child = current_node.children[i];
-        recursionProgressAnalysis(syntactic_analysis_tree, progress_stack, parent_stack, child);
+        recursionProcessAnalysis(syntactic_analysis_tree, process_stack, parent_stack, child);
     }
 
     parent_stack.push_back(current_node_index);
@@ -32,17 +32,17 @@ void recursionProgressAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntact
     if (current_node.token_label == is_id_TerminalSymbol)
     {
         // printf("スタックへの追加 %s\n", current_node.token.c_str());
-        progress_stack.push_back(current_node);
-        operationArithmetic(progress_stack);
+        process_stack.push_back(current_node);
+        operationArithmetic(process_stack);
     }
 }
-void progressAnalysis(vSyntacticTree syntactic_analysis_tree)
+void processAnalysis(vSyntacticTree syntactic_analysis_tree)
 {
-    printf("progressAnalysis\n");
-    vSyntacticTree progress = {};
+    printf("processAnalysis\n");
+    vSyntacticTree process = {};
     vint parent_stack = {};
-    recursionProgressAnalysis(syntactic_analysis_tree, progress, parent_stack, 0);
-    debugSyntacticAnalysisTree(progress);
+    recursionProcessAnalysis(syntactic_analysis_tree, process, parent_stack, 0);
+    debugSyntacticAnalysisTree(process);
 }
 
 #endif

@@ -22,7 +22,7 @@ int softjDefinitionNonTerminal(vSyntacticTree &syntactic_analysis_tree, int curr
     vint children = current_node.children;
 }
 
-int softjDefinition(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &progress, vint parent_stack, int current_node_index)
+int softjDefinition(vSyntacticTree &syntactic_analysis_tree, vSyntacticTree &process, vint parent_stack, int current_node_index)
 {
     SyntacticTreeNode current_node = syntactic_analysis_tree[current_node_index];
 

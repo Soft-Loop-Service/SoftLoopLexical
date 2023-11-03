@@ -13,12 +13,12 @@
 #include <vector>
 #include <algorithm>
 
-void operationArithmetic(vSyntacticTree &progress_stack)
+void operationArithmetic(vSyntacticTree &process_stack)
 {
 
-    SyntacticTreeNode current_node = progress_stack[progress_stack.size() - 1];
+    SyntacticTreeNode current_node = process_stack[process_stack.size() - 1];
 
-    if (progress_stack.size() < 2)
+    if (process_stack.size() < 2)
     {
         return;
     }
@@ -28,8 +28,8 @@ void operationArithmetic(vSyntacticTree &progress_stack)
         return;
     }
 
-    SyntacticTreeNode node1 = progress_stack[progress_stack.size() - 2];
-    SyntacticTreeNode node2 = progress_stack[progress_stack.size() - 3];
+    SyntacticTreeNode node1 = process_stack[process_stack.size() - 2];
+    SyntacticTreeNode node2 = process_stack[process_stack.size() - 3];
     if (node1.node_type != syntactic_tree_node_type_number || node2.node_type != syntactic_tree_node_type_number)
     {
         // printf("node_type %d %d\n", node1.node_type, node2.node_type);
@@ -38,7 +38,7 @@ void operationArithmetic(vSyntacticTree &progress_stack)
 
     for (int i = 0; i < 3; i++)
     {
-        progress_stack.erase(progress_stack.end() - 1);
+        process_stack.erase(process_stack.end() - 1);
     }
 
     // printf("ope calc: %s %s %s\n", current_node.token.c_str(), node1.token.c_str(), node2.token.c_str());
@@ -51,10 +51,10 @@ void operationArithmetic(vSyntacticTree &progress_stack)
         int calc = n2 + n1;
 
         SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
-        progress_stack.push_back(new_node);
+        process_stack.push_back(new_node);
 
         printf("ope : %d + %d = %d\n", n2, n1, calc);
-        // operationAddition(current_node, progress);
+        // operationAddition(current_node, process);
         return;
     }
     if (current_node.token == "-")
@@ -62,10 +62,10 @@ void operationArithmetic(vSyntacticTree &progress_stack)
         int calc = n2 - n1;
 
         SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
-        progress_stack.push_back(new_node);
+        process_stack.push_back(new_node);
         printf("ope : %d - %d = %d\n", n2, n1, calc);
 
-        // operationSubtraction(current_node, progress);
+        // operationSubtraction(current_node, process);
         return;
     }
     if (current_node.token == "*")
@@ -73,10 +73,10 @@ void operationArithmetic(vSyntacticTree &progress_stack)
         int calc = n2 * n1;
 
         SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
-        progress_stack.push_back(new_node);
+        process_stack.push_back(new_node);
         printf("ope : %d * %d = %d\n", n2, n1, calc);
 
-        // operationMultiplication(current_node, progress);
+        // operationMultiplication(current_node, process);
         return;
     }
     if (current_node.token == "/")
@@ -84,27 +84,27 @@ void operationArithmetic(vSyntacticTree &progress_stack)
         int calc = n2 / n1;
 
         SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
-        progress_stack.push_back(new_node);
+        process_stack.push_back(new_node);
         printf("ope : %d / %d = %d\n", n2, n1, calc);
 
-        // operationSubtraction(current_node, progress);
+        // operationSubtraction(current_node, process);
         return;
     }
 }
 
-// int operationAddition(SyntacticTreeNode current_node, vSyntacticTree &progress)
+// int operationAddition(SyntacticTreeNode current_node, vSyntacticTree &process)
 // {
 // }
 
-// int operationSubtraction(SyntacticTreeNode current_node, vSyntacticTree &progress)
+// int operationSubtraction(SyntacticTreeNode current_node, vSyntacticTree &process)
 // {
 // }
 
-// int operationMultiplication(SyntacticTreeNode current_node, vSyntacticTree &progress)
+// int operationMultiplication(SyntacticTreeNode current_node, vSyntacticTree &process)
 // {
 // }
 
-// int operationDivision(SyntacticTreeNode current_node, vSyntacticTree &progress)
+// int operationDivision(SyntacticTreeNode current_node, vSyntacticTree &process)
 // {
 // }
 
