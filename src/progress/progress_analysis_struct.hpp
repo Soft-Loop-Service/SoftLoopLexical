@@ -13,74 +13,79 @@
 #include <vector>
 #include <algorithm>
 
-void operationsArithmetic(SyntacticTreeNode current_node, vSyntacticTree &progress)
+void operationsArithmetic(vSyntacticTree &progress_stack)
 {
 
-    if (progress.size() < 2)
+    SyntacticTreeNode current_node = progress_stack[progress_stack.size() - 1];
+
+    if (progress_stack.size() < 2)
     {
         return;
     }
 
-    if (current_node.token != "+" && current_node.token != "-" && current_node.token != "*" && current_node.token != "/")
+    if (current_node.node_type != syntactic_tree_node_type_operation_formula)
     {
+        // printf("current_node.token %s\n", current_node.token.c_str());
         return;
     }
+    progress_stack.erase(progress_stack.end() - 1);
 
-    SyntacticTreeNode node1 = progress[progress.size() - 1];
-    SyntacticTreeNode node2 = progress[progress.size() - 2];
+    SyntacticTreeNode node1 = progress_stack[progress_stack.size() - 1];
+    SyntacticTreeNode node2 = progress_stack[progress_stack.size() - 2];
     if (node1.node_type != syntactic_tree_node_type_number || node2.node_type != syntactic_tree_node_type_number)
     {
+        // printf("node_type %d %d\n", node1.node_type, node2.node_type);
         return;
     }
 
-    progress.erase(progress.end() - 1);
-    progress.erase(progress.end() - 1);
+    progress_stack.erase(progress_stack.end() - 1);
+    progress_stack.erase(progress_stack.end() - 1);
 
-    printf("ope calc: %s %s %s\n", current_node.token.c_str(), node1.token.c_str(), node2.token.c_str());
+    // printf("ope calc: %s %s %s\n", current_node.token.c_str(), node1.token.c_str(), node2.token.c_str());
 
     int n1 = stoi(node1.token);
     int n2 = stoi(node2.token);
 
     if (current_node.token == "+")
     {
-        int calc = n1 + n2;
+        int calc = n2 + n1;
 
-        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}};
-        progress.push_back(new_node);
+        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
+        progress_stack.push_back(new_node);
 
-        printf("ope : %d + %d = %d\n", n1, n2, calc);
+        printf("ope : %d + %d = %d\n", n2, n1, calc);
         // operationAddition(current_node, progress);
         return;
     }
     if (current_node.token == "-")
     {
-        int calc = n1 - n2;
+        int calc = n2 - n1;
 
-        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}};
-        progress.push_back(new_node);
-        printf("ope : %d - %d = %d\n", n1, n2, calc);
+        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
+        progress_stack.push_back(new_node);
+        printf("ope : %d - %d = %d\n", n2, n1, calc);
 
         // operationSubtraction(current_node, progress);
         return;
     }
     if (current_node.token == "*")
     {
-        int calc = n1 * n2;
+        int calc = n2 * n1;
 
-        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}};
-        progress.push_back(new_node);
-        printf("ope : %d * %d = %d\n", n1, n2, calc);
+        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
+        progress_stack.push_back(new_node);
+        printf("ope : %d * %d = %d\n", n2, n1, calc);
 
         // operationMultiplication(current_node, progress);
         return;
     }
     if (current_node.token == "/")
     {
-        int calc = n1 / n2;
+        int calc = n2 / n1;
 
-        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}};
-        progress.push_back(new_node);
-        printf("ope : %d / %d = %d\n", n1, n2, calc);
+        SyntacticTreeNode new_node = {to_string(calc), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
+        progress_stack.push_back(new_node);
+        printf("ope : %d / %d = %d\n", n2, n1, calc);
 
         // operationSubtraction(current_node, progress);
         return;
