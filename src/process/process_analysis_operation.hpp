@@ -14,14 +14,37 @@
 #include <vector>
 #include <algorithm>
 
+void operationProcessNewValue(vSyntacticTree &process_stack, vProcessAnalysis &process_result)
+{
+    if (process_stack.size() < 2)
+    {
+        return;
+    }
+    SyntacticTreeNode node1 = process_stack[process_stack.size() - 1];
+    SyntacticTreeNode node2 = process_stack[process_stack.size() - 2];
+
+    if (node2.node_type != syntactic_tree_node_type_valuetype)
+    {
+        return;
+    }
+    if (node1.node_type != syntactic_tree_node_type_valuename)
+    {
+        return;
+    }
+    process_stack.erase(process_stack.end() - 2);
+
+    ProcessAnalysisNewVal pa = ProcessAnalysisNewVal();
+    pa.setVariable(ProcessVariable("new val"), ProcessVariable(node2.token), ProcessVariable(node1.token));
+    process_result.push_back(pa);
+}
 int operation_arithmetic_temp_count = 0;
 
-void operationArithmetic(vSyntacticTree &process_stack, vProcessAnalysis &process_result)
+void operationProcessArithmetic(vSyntacticTree &process_stack, vProcessAnalysis &process_result)
 {
 
     SyntacticTreeNode current_node = process_stack[process_stack.size() - 1];
 
-    if (process_stack.size() < 2)
+    if (process_stack.size() < 3)
     {
         return;
     }
@@ -38,14 +61,15 @@ void operationArithmetic(vSyntacticTree &process_stack, vProcessAnalysis &proces
     {
         process_stack.erase(process_stack.end() - 1);
     }
-    SyntacticTreeNode new_node = {"temp" + to_string(operation_arithmetic_temp_count), is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
+
+    string temp_name = "temp" + to_string(operation_arithmetic_temp_count);
+    SyntacticTreeNode new_node = {temp_name, is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
     process_stack.push_back(new_node);
 
     ProcessAnalysisCalculation pa = ProcessAnalysisCalculation(current_node.token);
-
-    printf("%s : %s %s\n", ("temp" + to_string(operation_arithmetic_temp_count)).c_str(), node2.token.c_str(), node1.token.c_str());
-    pa.setVariable(ProcessVariable("temp" + to_string(operation_arithmetic_temp_count)), ProcessVariable(node2.token), ProcessVariable(node1.token));
+    pa.setVariable(ProcessVariable(temp_name), ProcessVariable(node2.token), ProcessVariable(node1.token));
     process_result.push_back(pa);
+
     operation_arithmetic_temp_count++;
 
     // if (current_node.token == "+")

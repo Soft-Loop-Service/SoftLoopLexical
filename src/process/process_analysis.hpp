@@ -35,7 +35,8 @@ void recursionProcessAnalysis(vSyntacticTree &syntactic_analysis_tree, vSyntacti
     {
         // printf("スタックへの追加 %s\n", current_node.token.c_str());
         process_stack.push_back(current_node);
-        operationArithmetic(process_stack, process_result);
+        operationProcessArithmetic(process_stack, process_result);
+        operationProcessNewValue(process_stack, process_result);
     }
 }
 
@@ -43,7 +44,8 @@ void debugProcessResult(vProcessAnalysis process_result)
 {
     for (int i = 0; i < process_result.size(); i++)
     {
-        process_result[i].processAsmd();
+
+        process_result[i].process();
     }
 }
 

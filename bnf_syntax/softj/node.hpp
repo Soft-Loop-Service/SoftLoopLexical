@@ -24,6 +24,14 @@ int getSyntacticAnalysisTreeNodeType(string token_left, string bnf_token)
     {
         return syntactic_tree_node_type_number;
     }
+    if (token_left == "<type_name>")
+    {
+        return syntactic_tree_node_type_valuetype;
+    }
+    if (token_left == "<value_name>")
+    {
+        return syntactic_tree_node_type_valuename;
+    }
 
     return syntactic_tree_node_type_string;
 }

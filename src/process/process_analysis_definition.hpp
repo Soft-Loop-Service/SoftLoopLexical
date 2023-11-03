@@ -79,7 +79,6 @@ public:
     ProcessAnalysis(){
 
     };
-    // void process();
 
     void setVariable(ProcessVariable variable_left, ProcessVariable var1, ProcessVariable var2)
     {
@@ -99,24 +98,26 @@ public:
         this->variable_right.push_back(var1);
         this->variable_right.push_back(var2);
     };
-
-    void processAsmd()
+    void process()
     {
         printf("%s : %s %s %s\n", this->variable_left.get_string().c_str(), variable_right[0].get_string().c_str(), operation.c_str(), variable_right[1].get_string().c_str());
     }
 };
 
-// #define is_id_Addition 1100       // 足し算記号
-// #define is_id_Subtraction 1101    // 引き算記号
-// #define is_id_Multiplication 1110 // 掛け算記号
-// #define is_id_Division 1111       // 割り算記号
 class ProcessAnalysisCalculation : public ProcessAnalysis
 {
 public:
-    ProcessAnalysisCalculation();
     ProcessAnalysisCalculation(string operation)
     {
         this->operation = operation;
+    }
+};
+class ProcessAnalysisNewVal : public ProcessAnalysis
+{
+public:
+    ProcessAnalysisNewVal()
+    {
+        this->operation = "new val";
     }
 };
 #endif
