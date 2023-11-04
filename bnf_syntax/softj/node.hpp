@@ -13,6 +13,7 @@
 #include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 #include "./../../src/symbol.hpp"
 
+// 解析中の非末端記号と末端記号から、葉ノードの定義を行う．これは文法定義に依存する
 int getSyntacticAnalysisTreeNodeType(string token_left, string bnf_token)
 {
     int node_type;

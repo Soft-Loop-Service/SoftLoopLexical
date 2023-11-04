@@ -75,10 +75,18 @@ protected:
     ProcessVariable variable_left;
     vProcessVariable variable_right;
 
-public:
-    ProcessAnalysis(){
+    string process_analysis_type = "analysis";
 
-    };
+public:
+    ProcessAnalysis(){};
+    virtual void set(){};
+    virtual void process(){};
+    virtual void process(string operation){};
+
+    bool isAnalysisType(string text)
+    {
+        return text == process_analysis_type;
+    }
 
     void setVariable(ProcessVariable variable_left, ProcessVariable var1, ProcessVariable var2)
     {
@@ -87,6 +95,13 @@ public:
         this->variable_right = {};
         this->variable_right.push_back(var1);
         this->variable_right.push_back(var2);
+    }
+    void setVariable(ProcessVariable variable_left, ProcessVariable var1)
+    {
+
+        this->variable_left = variable_left;
+        this->variable_right = {};
+        this->variable_right.push_back(var1);
     }
     void setVariableLeft(ProcessVariable variable_left)
     {
@@ -98,26 +113,48 @@ public:
         this->variable_right.push_back(var1);
         this->variable_right.push_back(var2);
     };
-    void process()
-    {
-        printf("%s : %s %s %s\n", this->variable_left.get_string().c_str(), variable_right[0].get_string().c_str(), operation.c_str(), variable_right[1].get_string().c_str());
-    }
 };
 
 class ProcessAnalysisCalculation : public ProcessAnalysis
 {
+
 public:
-    ProcessAnalysisCalculation(string operation)
+    void set(string operation)
     {
+        process_analysis_type = "calculation";
         this->operation = operation;
+    }
+    void process() override
+    {
+        printf("%s : %s %s %s\n", this->variable_left.get_string().c_str(), variable_right[0].get_string().c_str(), operation.c_str(), variable_right[1].get_string().c_str());
+    }
+};
+class ProcessAnalysisEqual : public ProcessAnalysis
+{
+public:
+    void set() override
+    {
+        process_analysis_type = "equal";
+        this->operation = "=";
+    }
+    void process() override
+    {
+        printf("%s = %s\n", this->variable_left.get_string().c_str(), variable_right[0].get_string().c_str());
     }
 };
 class ProcessAnalysisNewVal : public ProcessAnalysis
 {
+
 public:
-    ProcessAnalysisNewVal()
+    void set()
     {
-        this->operation = "new val";
+        process_analysis_type = "newval";
+        this->operation = "newval";
+    }
+    void set(string operation){};
+    void process()
+    {
+        printf("%s %s\n", this->variable_left.get_string().c_str(), variable_right[0].get_string().c_str());
     }
 };
 #endif

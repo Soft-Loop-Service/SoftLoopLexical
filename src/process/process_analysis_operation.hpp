@@ -20,8 +20,8 @@ void operationProcessNewValue(vSyntacticTree &process_stack, vProcessAnalysis &p
     {
         return;
     }
-    SyntacticTreeNode node1 = process_stack[process_stack.size() - 1];
-    SyntacticTreeNode node2 = process_stack[process_stack.size() - 2];
+    SyntacticTreeNode node1 = process_stack[process_stack.size() - 1]; // 変数名
+    SyntacticTreeNode node2 = process_stack[process_stack.size() - 2]; // 型
 
     if (node2.node_type != syntactic_tree_node_type_valuetype)
     {
@@ -34,9 +34,11 @@ void operationProcessNewValue(vSyntacticTree &process_stack, vProcessAnalysis &p
     process_stack.erase(process_stack.end() - 2);
 
     ProcessAnalysisNewVal pa = ProcessAnalysisNewVal();
-    pa.setVariable(ProcessVariable("new val"), ProcessVariable(node2.token), ProcessVariable(node1.token));
+    pa.set();
+    pa.setVariable(ProcessVariable(node2.token), ProcessVariable(node1.token));
     process_result.push_back(pa);
 }
+
 int operation_arithmetic_temp_count = 0;
 
 void operationProcessArithmetic(vSyntacticTree &process_stack, vProcessAnalysis &process_result)
@@ -54,8 +56,8 @@ void operationProcessArithmetic(vSyntacticTree &process_stack, vProcessAnalysis 
         return;
     }
 
-    SyntacticTreeNode node1 = process_stack[process_stack.size() - 2];
-    SyntacticTreeNode node2 = process_stack[process_stack.size() - 3];
+    SyntacticTreeNode node1 = process_stack[process_stack.size() - 2]; // 右ノード
+    SyntacticTreeNode node2 = process_stack[process_stack.size() - 3]; // 左ノード
 
     for (int i = 0; i < 3; i++)
     {
@@ -66,9 +68,20 @@ void operationProcessArithmetic(vSyntacticTree &process_stack, vProcessAnalysis 
     SyntacticTreeNode new_node = {temp_name, is_id_TerminalSymbol, {}, syntactic_tree_node_type_number};
     process_stack.push_back(new_node);
 
-    ProcessAnalysisCalculation pa = ProcessAnalysisCalculation(current_node.token);
-    pa.setVariable(ProcessVariable(temp_name), ProcessVariable(node2.token), ProcessVariable(node1.token));
-    process_result.push_back(pa);
+    if (current_node.token == "=")
+    {
+        ProcessAnalysisEqual pa = ProcessAnalysisEqual();
+        pa.set();
+        pa.setVariable(ProcessVariable(node2.token), ProcessVariable(node1.token));
+        process_result.push_back(pa);
+    }
+    else
+    {
+        ProcessAnalysisCalculation pa = ProcessAnalysisCalculation();
+        pa.set(current_node.token);
+        pa.setVariable(ProcessVariable(temp_name), ProcessVariable(node2.token), ProcessVariable(node1.token));
+        process_result.push_back(pa);
+    }
 
     operation_arithmetic_temp_count++;
 

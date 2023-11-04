@@ -44,8 +44,29 @@ void debugProcessResult(vProcessAnalysis process_result)
 {
     for (int i = 0; i < process_result.size(); i++)
     {
-
-        process_result[i].process();
+        ProcessAnalysis current = process_result[i];
+        if (current.isAnalysisType("calculation"))
+        {
+            printf("calculation\n");
+            ProcessAnalysisCalculation *r = dynamic_cast<ProcessAnalysisCalculation *>(&current);
+            r->process();
+            continue;
+        }
+        if (current.isAnalysisType("equal"))
+        {
+            printf("equal\n");
+            ProcessAnalysisEqual *r = dynamic_cast<ProcessAnalysisEqual *>(&current);
+            r->process();
+            continue;
+        }
+        if (current.isAnalysisType("newval"))
+        {
+            printf("newval\n");
+            ProcessAnalysisNewVal *r = dynamic_cast<ProcessAnalysisNewVal *>(&current);
+            r->process();
+            continue;
+        }
+        current.process();
     }
 }
 
