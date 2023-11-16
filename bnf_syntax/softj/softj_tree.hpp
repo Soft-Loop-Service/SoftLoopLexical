@@ -84,7 +84,7 @@ private:
     }
     int division(int left, int right)
     {
-        string message = "減算 " + to_string(left) + " / " + to_string(right);
+        string message = "割算 " + to_string(left) + " / " + to_string(right);
         struct ProcessAnalysis pr = {message};
         process_result->push_back(pr);
         return left / right;
