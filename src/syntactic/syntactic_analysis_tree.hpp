@@ -19,6 +19,7 @@ struct SyntacticTreeNode // 構文解析用
     string token;
     int token_label;
     vint children;
+    string parent_token;
 };
 typedef vector<SyntacticTreeNode> vSyntacticTree;
 
@@ -61,6 +62,7 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
     {
         auto it_0 = syntactic_analysis_tree[parent_node_index].children.begin();
         syntactic_analysis_tree[parent_node_index].children.insert(it_0, new_current_index);
+        syntactic_analysis_tree[new_current_index].parent_token = syntactic_analysis_tree[parent_node_index].token;
 
         printf("接続 %d - %d\n", parent_node_index, new_current_index);
     }
@@ -82,7 +84,7 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
             printf("node_type : %s\n", current_reduce_formula.token_left.c_str());
 
-            struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}};
+            struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}, current_reduce_formula.token_left};
             syntactic_analysis_tree.push_back(new_node_terminal);
 
             auto it_p = syntactic_analysis_tree[new_current_index].children.begin();
@@ -105,6 +107,7 @@ void debugSyntacticAnalysisTree(vSyntacticTree &syntactic_analysis_tree)
         printf("node %d * * * * \n", i);
         printf("token %s\n", node.token.c_str());
         printf("token label %d\n", node.token_label);
+        printf("parent token %s\n", node.parent_token.c_str());
 
         printf("children ");
         for (int j = 0; j < node.children.size(); j++)

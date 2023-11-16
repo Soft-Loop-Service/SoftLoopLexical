@@ -35,7 +35,9 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     printf("processAnalysis\n");
     vint parent_stack = {};
     vProcessAnalysis process_result = {};
-    softjTree(syntactic_analysis_tree, process_result);
+
+    SoftjTree softjtree(syntactic_analysis_tree, process_result);
+
     debugProcessResult(process_result);
 }
 
