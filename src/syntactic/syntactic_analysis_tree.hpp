@@ -13,7 +13,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "./../../bnf_syntax/softj/node.hpp"
 
 struct SyntacticTreeNode // 構文解析用
 {

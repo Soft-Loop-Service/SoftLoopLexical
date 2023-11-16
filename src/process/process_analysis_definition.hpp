@@ -14,10 +14,11 @@
 class ProcessAnalysis;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 
-class ProcessAnalysis
+struct ProcessAnalysis
 {
-    string operation;
-    string value;
+    string message;
+    string relationship_variable;
+    // string value;
 };
 
 #endif

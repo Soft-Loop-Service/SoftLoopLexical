@@ -15,6 +15,8 @@
 #include <algorithm>
 
 #include "./../../bnf_syntax/softj/softj.hpp"
+#include "./../../bnf_syntax/softj/softj_tree.hpp"
+
 #include "./process_analysis_operation.hpp"
 #include "./process_analysis_definition.hpp"
 
@@ -23,6 +25,8 @@ void debugProcessResult(vProcessAnalysis process_result)
     for (int i = 0; i < process_result.size(); i++)
     {
         ProcessAnalysis current = process_result[i];
+
+        printf("%d : %s\n", i, current.message.c_str());
     }
 }
 
@@ -31,8 +35,7 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     printf("processAnalysis\n");
     vint parent_stack = {};
     vProcessAnalysis process_result = {};
-    recursionProcessAnalysis(syntactic_analysis_tree, process_result, 0);
-    // debugSyntacticAnalysisTree(process);
+    softjTree(syntactic_analysis_tree, process_result);
     debugProcessResult(process_result);
 }
 

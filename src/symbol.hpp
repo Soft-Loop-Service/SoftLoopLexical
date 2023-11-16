@@ -39,13 +39,6 @@
 #define is_id_Multiplication 1110 // 掛け算記号
 #define is_id_Division 1111       // 割り算記号
 
-const int syntactic_tree_node_type_number = 100;            // 数値
-const int syntactic_tree_node_type_string = 101;            // 文字列
-const int syntactic_tree_node_type_operation_formula = 102; // + - * / =
-const int syntactic_tree_node_type_non_terminal = 110;      // 非末端記号
-const int syntactic_tree_node_type_valuetype = 120;         // 変数の型
-const int syntactic_tree_node_type_valuename = 120;         // 変数の名前
-
 bool is_symbol_parentheses_left(int t)
 {
     return t == is_id_ParenthesisLeft || t == is_id_BracketLeft || t == is_id_CurlyBracketLeft;
