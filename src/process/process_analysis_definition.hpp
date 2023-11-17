@@ -61,11 +61,14 @@ public:
     }
     void getPointer(VariablePossession<int> *pointer)
     {
-        *pointer = *vp_int;
+        printf("b1\n");
+        pointer = vp_int;        
+        printf("b2\n");
+
     }
     void getPointer(VariablePossession<string> *pointer)
     {
-        *pointer = *vp_string;
+        pointer = vp_string;
     }
 };
 

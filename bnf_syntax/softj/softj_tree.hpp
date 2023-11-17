@@ -18,7 +18,7 @@ class SoftjTree
 private:
     vSyntacticTree *syntactic_analysis_tree;
     vProcessAnalysis *process_result;
-    VariablePossessionControl *vpc;
+    VariablePossessionControl vpc;
 
     template <class T>
     void assExpr(T value, int node_index, int &address, int &size)
@@ -36,7 +36,7 @@ private:
             VariablePossession<T> *vp_t;
             printf("b\n");
 
-            vpc->getPointer(vp_t);
+            vpc.getPointer(vp_t);
             printf("c\n");
 
             vp_t->add(value, address, size);
@@ -179,11 +179,11 @@ private:
     }
 
 public:
-    SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result)
+    SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result , VariablePossessionControl &vpc)
     {
         this->syntactic_analysis_tree = &syntactic_analysis_tree;
         this->process_result = &process_result;
-        this->vpc = new VariablePossessionControl();
+        this->vpc = vpc;
 
         recursion(0);
     }
