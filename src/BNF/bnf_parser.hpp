@@ -205,16 +205,16 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
 
         else if (isAlphabetOrNumber(source_code[i_s]) || strchr(bnf_symbol, source_code[i_s]) != 0)
         {
-            printf("アルファベット %c\n", source_code[i_s]);
+            // printf("アルファベット %c\n", source_code[i_s]);
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]) || strchr(bnf_symbol, source_code[i_s + token_search_len]) != 0)
             {
                 if (source_code[i_s + token_search_len] == 0) // ファイル終端
                 {
-                    printf("アルファベット探知終了");
+                    // printf("アルファベット探知終了");
                     break;
                 }
 
-                printf("アルファベット while : %c %d\n", source_code[i_s + token_search_len], i_s + token_search_len);
+                // printf("アルファベット while : %c %d\n", source_code[i_s + token_search_len], i_s + token_search_len);
                 token_search_len++;
             }
         }

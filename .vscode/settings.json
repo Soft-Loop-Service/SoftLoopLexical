@@ -76,7 +76,9 @@
     "random": "cpp",
     "utility": "cpp",
     "fstream": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "iomanip": "cpp",
+    "filesystem": "cpp"
   },
 
   "C_Cpp.errorSquiggles": "enabled"

@@ -1,8 +1,15 @@
-<S> ::= <E>
-<E> ::= <expr>
+<S> ::= <E> *
+<E> ::= <right> | <left> <equal> <right>
 
-<expr> ::= <term> | <expr> "+" <term> | <expr> "-" <term>
-<term> ::= <fact> | <term> "*" <fact> | <term> "/" <fact>
-<fact> ::= <number> | "-" <fact> | "(" <expr> ")"
+<equal> ::= "="
+<left> ::= <value_definition>
+<right> ::= <expr>
+
+<expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
+<term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
+<factor> ::= <number> | "(" <expr> ")" | <value_name>
 
 <number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<value_definition> ::= <type_name> <value_name>
+<type_name> ::= "int" | "string"
+<value_name> ::= "a" | "b" | "c"

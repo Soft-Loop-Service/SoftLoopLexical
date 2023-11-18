@@ -37,12 +37,13 @@ void syntacticAnalysisProcessShift(LRTableMultilayer LR_table_multilayer, string
     printf("\n");
 }
 
-void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, string token, sint &stack_analysis, vReduceFormula &ans_analysis)
+void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, string token, sint &stack_analysis, vReduceFormula &syntactic_analysis_formula)
 {
     printf("Reduce : ");
+
     int top = stack_analysis.top();
     ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token][top].getCell();
-    ans_analysis.push_back(state);
+    syntactic_analysis_formula.push_back(state);
 
     printf("token_left : %s %d ", state.token_left.c_str(), state.token_vector.size());
 
@@ -53,9 +54,16 @@ void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, strin
 
     int top2 = stack_analysis.top();
     printf("top2 : %d ", top2);
+    printf("top2 sta : %s %d\n", state.token_left.c_str(),top2);
 
     int next_state = LR_table_multilayer.LR_table_goto.LR_table_column_map[state.token_left][top2].getCell();
+
+    printf("top2 state : %d\n", next_state);
+
+
     stack_analysis.push(next_state);
+
+    printf("top2 end : %d\n", top2);
     printf("\n");
 }
 
@@ -64,10 +72,10 @@ void syntacticAnalysisProcessAccept()
     printf("syntacticAnalysisProcessAccept\n");
 }
 
-void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring token_string_vector)
+void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula &syntactic_analysis_formula)
 {
-    sint stack_analysis;
-    vReduceFormula ans_analysis;
+    sint stack_analysis; // 構文解析表スタック
+    // syntactic_analysis_formula                     // 構文解析表出力。出力ストリーム
 
     stack_analysis.push(0);
 
@@ -77,7 +85,7 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
 
         string current_token = token_string_vector[i];
         int top = stack_analysis.top();
-        printf("CurrentToken %s\n", current_token.c_str());
+        printf("CurrentToken %s %d\n", current_token.c_str(),top);
 
         if (LR_table_multilayer.LR_table_accept.LR_table_column_map[current_token][top].getValid())
         {
@@ -87,9 +95,10 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
 
         if (LR_table_multilayer.LR_table_shift.LR_table_column_map[current_token][top].getValid())
         {
+            printf("shift \n");
             syntacticAnalysisProcessShift(LR_table_multilayer, current_token, stack_analysis);
             output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", ans_analysis);
+            output_vReduceFormula("構文解析", syntactic_analysis_formula);
 
             printf("\n");
             i++;
@@ -98,9 +107,11 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
 
         if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[current_token][top].getValid())
         {
-            syntacticAnalysisProcessReduce(LR_table_multilayer, current_token, stack_analysis, ans_analysis);
+            printf("reduce \n");
+
+            syntacticAnalysisProcessReduce(LR_table_multilayer, current_token, stack_analysis, syntactic_analysis_formula);
             output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", ans_analysis);
+            output_vReduceFormula("構文解析", syntactic_analysis_formula);
 
             printf("\n");
             continue;
@@ -109,12 +120,15 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vstring tok
         return;
     }
     output_stack("構文解析 終了", stack_analysis);
-    output_vReduceFormula("構文解析 終了", ans_analysis);
+    output_vReduceFormula("構文解析 終了", syntactic_analysis_formula);
+
+    return;
 }
 
-void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vstring token_string_vector)
+void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vstring token_string_vector, vReduceFormula &syntactic_analysis_formula)
 {
-    syntacticAnalysisProcess(LR_table_multilayer, token_string_vector);
+    syntacticAnalysisProcess(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
+    return;
 }
 
 #endif

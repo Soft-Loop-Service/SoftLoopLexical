@@ -1,5 +1,5 @@
-#ifndef __SOFTJ
-#define __SOFTJ
+#ifndef __SOFTJD
+#define __SOFTJD
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +9,6 @@
 #include <stack>
 #include <queue>
 #include <map>
-
-#include "./softj_definition.hpp"
 #include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 
 #endif

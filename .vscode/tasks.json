@@ -6,7 +6,7 @@
       "label": "build_g++",
 
       "command": "/usr/bin/g++",
-      "args": ["-fdiagnostics-color=always", "-std=c++2a", "${file}", "-g", "-o", "${workspaceFolder}/BNF_TEST.out"],
+      "args": ["-fdiagnostics-color=always", "-std=c++2a", "${file}", "-g", "-o", "${workspaceFolder}/main.out"],
       "options": {
         "cwd": "${fileDirname}"
       },
