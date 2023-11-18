@@ -99,6 +99,7 @@ public:
     }
     void parseStringCell(vector<string>&str_v){
         next_state = stoi(str_v[0]);
+        is_valid = str_v[0] == "-1" ? false : true;
         
         str_v.erase(str_v.begin());
     }
