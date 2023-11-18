@@ -44,6 +44,7 @@ void outputHtml(vProcessAnalysis process_result)
     }
 
     writing_file << text1 << endl;
+    writing_file << div << endl;
     writing_file << text2 << endl;
 
     writing_file.close();
