@@ -18,7 +18,7 @@ class SoftjTree
 private:
     vSyntacticTree *syntactic_analysis_tree;
     vProcessAnalysis *process_result;
-    VariablePossessionControl vpc;
+    VariablePossessionControl *vpc;
 
     template <class T>
     void assExpr(T value, int node_index, int &address, int &size)
@@ -32,14 +32,8 @@ private:
 
         if (current_node.token == "<value_definition>")
         {
-            printf("a\n");
-            VariablePossession<T> *vp_t;
-            printf("b\n");
 
-            vpc.getPointer(vp_t);
-            printf("c\n");
-
-            vp_t->add(value, address, size);
+            vpc->add(value, address, size);
             printf("d\n");
 
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
@@ -183,7 +177,7 @@ public:
     {
         this->syntactic_analysis_tree = &syntactic_analysis_tree;
         this->process_result = &process_result;
-        this->vpc = vpc;
+        this->vpc = &vpc;
 
         recursion(0);
     }

@@ -160,13 +160,6 @@ private:
                 new_lrf_exp.lookAhead = first_set;
                 new_lrf_exp.dot = 0;
 
-                // printf("クロージャー展開新規追加 %s %d\n", token.token_str.c_str(), new_lrf_exp.lookAhead.size());
-
-                // for (int la = 0; la < new_lrf_exp.lookAhead.size(); la++)
-                // {
-                //     printf("先読み記号 %s\n", new_lrf_exp.lookAhead[la].token_str.c_str());
-                // }
-
                 lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.push_back(new_lrf_exp);
                 already_explored_formula_expansion[new_lrf_exp.formula_expansion_label] = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector.size() - 1;
 

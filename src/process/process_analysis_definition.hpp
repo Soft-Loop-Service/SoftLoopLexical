@@ -59,16 +59,19 @@ public:
         vp_int = new VariablePossession<int>();
         vp_string = new VariablePossession<string>();
     }
-    void getPointer(VariablePossession<int> *pointer)
-    {
-        printf("b1\n");
-        pointer = vp_int;        
-        printf("b2\n");
-
+    void add(int value, int &address, int &size){
+        vp_int->add(value,address,size);
     }
-    void getPointer(VariablePossession<string> *pointer)
+    void add(string value, int &address, int &size){
+        vp_string->add(value,address,size);
+    }
+    void get(int index, int &data)
     {
-        pointer = vp_string;
+        vp_int->get(index,data);
+    }
+    void get(int index, string &data)
+    {
+        vp_string->get(index,data);
     }
 };
 

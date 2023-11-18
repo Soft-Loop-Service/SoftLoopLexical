@@ -69,16 +69,16 @@ bool hasDtoken(vector<DeploymentTokenStruct> keys, DeploymentTokenStruct key)
 
 DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, RetrieveSymbol &symbols)
 {
-    for (int i = 0; i < symbols.len; i++)
-    {
-        printf("symbols %d\n", symbols.array[i]);
-    }
+    // for (int i = 0; i < symbols.len; i++)
+    // {
+    //     // printf("symbols %d\n", symbols.array[i]);
+    // }
 
     int **LR0Automaton;
     bool arr_bool = getTwoDimensionalArray(LR0Automaton, 100, bnf_symbol_p.unique_symbol_len);
     if (!arr_bool)
     {
-        printf("generateItemSet 配列確保に失敗");
+        printf("配列確保に失敗");
     }
 
     struct DeploymentStruct deployment_syntax;
@@ -106,7 +106,7 @@ DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbo
             for (int k = 0; k < bnf_right_tokens[j].size(); k++)
             {
                 // printf("pusha %s %d\n", bnf_right_tokens[j][k].c_str(), bnf_right_map[bnf_right_tokens[j][k]]);
-                printf("bnf_right_temp size %d %d %d %ld %ld %s %d\n", i, j, k, bnf_right_tokens.size(), bnf_right_tokens[j].size(), bnf_right_tokens[j][k].c_str(), bnf_right_map[bnf_right_tokens[j][k]]);
+                // printf("bnf_right_temp size %d %d %d %ld %ld %s %d\n", i, j, k, bnf_right_tokens.size(), bnf_right_tokens[j].size(), bnf_right_tokens[j][k].c_str(), bnf_right_map[bnf_right_tokens[j][k]]);
 
                 struct DeploymentTokenStruct token;
                 token.token_str = bnf_right_tokens[j][k];

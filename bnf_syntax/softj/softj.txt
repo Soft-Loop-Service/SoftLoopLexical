@@ -1,4 +1,4 @@
-<S> ::= <E>
+<S> ::= <E> *
 <E> ::= <right> | <left> <equal> <right>
 
 <equal> ::= "="
@@ -7,9 +7,9 @@
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
-<factor> ::= <number> | "(" <expr> ")"
+<factor> ::= <number> | "(" <expr> ")" | <value_name>
 
-<number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | <value_name>
+<number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 <value_definition> ::= <type_name> <value_name>
 <type_name> ::= "int" | "string"
 <value_name> ::= "a" | "b" | "c"
