@@ -55,6 +55,13 @@ public:
         return to_string(next_state);
     }
 
+    void parseStringCell(vector<string>&str_v){
+        next_state = stoi(str_v[0]);
+        str_v.erase(str_v.begin());
+
+        is_valid = next_state == -1 ? false : true;
+    }
+
     int getCell()
     {
         return this->next_state;
@@ -89,6 +96,11 @@ public:
     };
     string getCellString(){
         return to_string(next_state);
+    }
+    void parseStringCell(vector<string>&str_v){
+        next_state = stoi(str_v[0]);
+        
+        str_v.erase(str_v.begin());
     }
 
 
@@ -126,26 +138,55 @@ private:
 
     struct ReduceFormula reduce_formula;
     bool is_valid = false;
-    int formula_expansion_label;
 
 public:
-    void setCell(string token_left, vDeploymentTokenStruct token_vector, int formula_expansion_label)
+
+
+    void setCell(string token_left, vDeploymentTokenStruct token_vector)
     {
         this->reduce_formula = ReduceFormula{token_left, token_vector};
         this->is_valid = true;
-        this->formula_expansion_label = formula_expansion_label;
+
     };
+
+    void parseStringCell(vector<string>&str_v){
+        string text_left = str_v[0];
+        str_v.erase(str_v.begin());
+
+        int token_vector_size = stoi(str_v[0]);
+        is_valid = str_v[0] == "" ? false : true;
+
+        str_v.erase(str_v.begin());
+
+        vDeploymentTokenStruct token_vector;
+
+        for (int i = 0; i < token_vector_size;i++){
+
+            int label = stoi(str_v[0]);
+            str_v.erase(str_v.begin());
+
+            string token_str = str_v[0];
+            str_v.erase(str_v.begin());
+
+            token_vector.push_back(DeploymentTokenStruct{token_str,label});
+
+        }
+
+        this->reduce_formula = ReduceFormula{text_left, token_vector};
+    }
+    
     string getCellString(){
         string text = "";
         text += reduce_formula.token_left;
-        text += ",";
+        text += " ";
         text += to_string(reduce_formula.token_vector.size());
         for (int i = 0; i < reduce_formula.token_vector.size();i++){
-            text += ",";
+            text += " ";
             text += to_string(reduce_formula.token_vector[i].label);
-            text += ",";
+            text += " ";
             text += reduce_formula.token_vector[i].token_str;
         }
+        
 
         return text;
     }
@@ -177,6 +218,11 @@ private:
 public:
     string getCellString(){
         return to_string(is_valid);
+    }
+    void parseStringCell(vector<string>&str_v){
+        is_valid = str_v[0] == "1" ? true : false;
+        str_v.erase(str_v.begin());
+        
     }
 
     void setCell(bool is_valid)

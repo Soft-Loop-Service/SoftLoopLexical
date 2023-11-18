@@ -30,29 +30,73 @@ protected:
 public:
     map<string, vector<T>> LR_table_column_map;
 
+    LRTable(string table_string)
+    {
+        vector<string> result;
+        string temp = "";
+        for (int i = 0; i < table_string.size(); i++)
+        {
+            if (table_string[i] == ' ')
+            {
+                result.push_back(temp);
+                temp = "";
+                continue;
+            }
+            temp += table_string[i];
+        }
+        result.push_back(temp);
+
+
+        int width = stoi(result[0]);
+        result.erase(result.begin());
+        int height = stoi(result[0]);
+        result.erase(result.begin());
+
+        column_length = height;
+
+        printf("LRTable str %d %d %d\n",width,height,result.size());
+
+        for (int x = 0 ; x < width ;x ++){
+            string key = result[0];
+            result.erase(result.begin());
+
+            // printf("LRTable key  %s %d\n",key.c_str(),result.size());
+
+            LR_table_column_map[key] = {};
+
+            for (int i = 0; i < height; i++)
+            {
+                T newCell;
+                newCell.parseStringCell(result);
+                LR_table_column_map[key].push_back(newCell);
+            }
+        }
+
+        printf("LRTable end %d %d %d\n",width,height,result.size());
+
+    }
+
     string outputTable()
     {
         string text = "";
 
         text += to_string(LR_table_column_map.size());
-        text += ",";
+        text += " ";
         text += to_string(column_length);
-
 
         auto begin = LR_table_column_map.begin(), end = LR_table_column_map.end();
         for (auto iter = begin; iter != end; iter++)
         {
             string key = iter->first;
 
-            text += ",";
+            text += " ";
             text += key;
-            
 
-            for (int i = 0; i < column_length;i++){
-                text += ",";
+            for (int i = 0; i < column_length; i++)
+            {
+                text += " ";
                 text += LR_table_column_map[key][i].getCellString();
             }
-
         }
 
         return text;
@@ -218,7 +262,7 @@ public:
                     {
                         string la_key = lookAhead[k].token_str;
 
-                        this->LR_table_column_map[la_key][c].setCell(fm_key, LR_formula_expansion.token_vector, LR_formula_expansion.formula_expansion_label);
+                        this->LR_table_column_map[la_key][c].setCell(fm_key, LR_formula_expansion.token_vector);
                     }
                 }
             }
