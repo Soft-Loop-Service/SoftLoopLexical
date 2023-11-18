@@ -46,7 +46,7 @@ int inputTable(string table_file, LRTableMultilayer &LR_table_multilayer)
 
     // LR_table_multilayer.LR_table_goto.debug();
     // LR_table_multilayer.LR_table_shift.debug();
-    // LR_table_multilayer.LR_table_reduce.debug();
+    LR_table_multilayer.LR_table_reduce.debug();
     // LR_table_multilayer.LR_table_accept.debug();
 
     printf("inputTable end\n");

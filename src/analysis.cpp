@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
     LRTableMultilayer LR_table_multilayer;
     inputTable(argv[1],LR_table_multilayer);
 
+    printf("syntacticAnalysis\n");
+
     vReduceFormula syntactic_analysis_formula = {};
     syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
 

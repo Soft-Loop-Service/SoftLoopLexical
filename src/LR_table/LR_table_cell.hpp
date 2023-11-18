@@ -151,10 +151,18 @@ public:
 
     void parseStringCell(vector<string>&str_v){
         string text_left = str_v[0];
+        is_valid = str_v[0] == "-1" ? false : true;
         str_v.erase(str_v.begin());
+        // printf("parseStringCell text_left %s\n",text_left.c_str());
+
+        if (!is_valid){
+            return;
+        }
+
+
+        
 
         int token_vector_size = stoi(str_v[0]);
-        is_valid = str_v[0] == "" ? false : true;
 
         str_v.erase(str_v.begin());
 
@@ -176,6 +184,10 @@ public:
     }
     
     string getCellString(){
+        if (!is_valid){
+            return "-1";
+        }
+
         string text = "";
         text += reduce_formula.token_left;
         text += " ";

@@ -54,7 +54,7 @@ public:
 
         column_length = height;
 
-        printf("LRTable str %d %d %d\n",width,height,result.size());
+        printf("LRTable sta %d %d %d\n",width,height,result.size());
 
         for (int x = 0 ; x < width ;x ++){
             string key = result[0];
@@ -70,9 +70,12 @@ public:
                 newCell.parseStringCell(result);
                 LR_table_column_map[key].push_back(newCell);
             }
+
+            printf("LRTable size %d %d \n", LR_table_column_map.size(),LR_table_column_map[key].size());
+
         }
 
-        printf("LRTable end %d %d %d\n",width,height,result.size());
+        printf("LRTable end %d %d %d \n",width,height,result.size());
 
     }
 
