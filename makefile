@@ -1,5 +1,8 @@
 build:
 	g++ -o ./main.out ./src/main.cpp  -std=c++2a
+	
+buildtable:
+	g++ -o ./table.out ./src/table.cpp  -std=c++2a
 
 bnf:
 	g++ -o ./BNF_TEST.exe ./src/BNF/BNF_TEST.cpp

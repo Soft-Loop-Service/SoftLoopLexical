@@ -29,6 +29,38 @@ protected:
 
 public:
     map<string, vector<T>> LR_table_column_map;
+
+    string outputTable()
+    {
+        string text = "";
+
+        text += to_string(LR_table_column_map.size());
+        text += ",";
+        text += to_string(column_length);
+
+
+        auto begin = LR_table_column_map.begin(), end = LR_table_column_map.end();
+        for (auto iter = begin; iter != end; iter++)
+        {
+            string key = iter->first;
+
+            text += ",";
+            text += key;
+            
+
+            for (int i = 0; i < column_length;i++){
+                text += ",";
+                text += LR_table_column_map[key][i].getCellString();
+            }
+
+        }
+
+        return text;
+    }
+    void inputTabke()
+    {
+    }
+
     void makeTable();
     void debug()
     {

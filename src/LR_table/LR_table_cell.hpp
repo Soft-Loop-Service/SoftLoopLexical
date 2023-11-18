@@ -44,12 +44,17 @@ private:
     bool is_valid = false;
     int next_state = -1;
 
+
 public:
     void setCell(int next_state)
     {
         this->next_state = next_state;
         this->is_valid = true;
     };
+    string getCellString(){
+        return to_string(next_state);
+    }
+
     int getCell()
     {
         return this->next_state;
@@ -82,10 +87,16 @@ public:
         this->next_state = next_state;
         this->is_valid = true;
     };
+    string getCellString(){
+        return to_string(next_state);
+    }
+
+
     bool getValid()
     {
         return this->is_valid;
     }
+    
     int getCell()
     {
         return this->next_state;
@@ -124,6 +135,20 @@ public:
         this->is_valid = true;
         this->formula_expansion_label = formula_expansion_label;
     };
+    string getCellString(){
+        string text = "";
+        text += reduce_formula.token_left;
+        text += ",";
+        text += to_string(reduce_formula.token_vector.size());
+        for (int i = 0; i < reduce_formula.token_vector.size();i++){
+            text += ",";
+            text += to_string(reduce_formula.token_vector[i].label);
+            text += ",";
+            text += reduce_formula.token_vector[i].token_str;
+        }
+
+        return text;
+    }
     ReduceFormula getCell()
     {
         return this->reduce_formula;
@@ -150,8 +175,11 @@ private:
     bool is_valid = false;
 
 public:
-    void
-    setCell(bool is_valid)
+    string getCellString(){
+        return to_string(is_valid);
+    }
+
+    void setCell(bool is_valid)
     {
         this->is_valid = is_valid;
     };
