@@ -42,8 +42,47 @@ private:
         }
     }
 
+    bool getBool(int node_index){
+        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+
+        if (current_node.parent_token == "<number>")
+        {
+            int num = stoi(current_node.token);
+
+            if (num >= 1){
+                return true;;
+            }
+            return false;
+        }
+
+        return false;
+    }
+
+    int ifCalc(int node_index){
+        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+        SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
+        // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
+        // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
+
+        bool ifbool = getBool(current_node.children[1]);
+
+        if (ifbool){
+            string message = "条件式 true";
+            struct ProcessAnalysis pr = {message};
+            process_result->push_back(pr);
+            recursion(current_node.children[2]);
+            
+        }
+        else{
+            string message = "条件式 false";
+            struct ProcessAnalysis pr = {message};
+            process_result->push_back(pr);
+        }
+    }
+
     int equal(int node_index)
     {
+
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
@@ -86,12 +125,12 @@ private:
 
     int calc(int node_index)
     {
-
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
         if (current_node.parent_token == "<number>")
         {
             return stoi(current_node.token);
         }
+        printf("calc %d -> %d %d\n",node_index,current_node.children[0],current_node.children[1]);
 
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
@@ -137,16 +176,20 @@ private:
     }
 
     int recursion(int node_index)
-    {
+    {        
+
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
         // char *text = current_node.token.c_str();
-
         string token = current_node.token;
         const char *token_c = token.c_str();
 
         switch (*token_c)
         {
+        case '<if>':
+        {
+            ifCalc(node_index);
+        }
         case '=':
         {
             equal(node_index);
@@ -175,6 +218,8 @@ private:
 public:
     SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result , VariablePossessionControl &vpc)
     {
+
+
         this->syntactic_analysis_tree = &syntactic_analysis_tree;
         this->process_result = &process_result;
         this->vpc = &vpc;

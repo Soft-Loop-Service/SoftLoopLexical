@@ -1,9 +1,11 @@
-<S> ::= <E> *
-<E> ::= <right> | <left> <equal> <right>
+<S> ::= <EL>
+<EL> ::= <E> *
+<E> ::= <right> | <in> | <ifexpr>
 
 <equal> ::= "="
 <left> ::= <value_definition>
 <right> ::= <expr>
+<in> ::= <left> <equal> <right>
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
@@ -13,3 +15,8 @@
 <value_definition> ::= <type_name> <value_name>
 <type_name> ::= "int" | "string"
 <value_name> ::= "a" | "b" | "c"
+
+<ifexpr> ::= <if>
+
+<if> ::= "if" <expr> <block>
+<block> ::= "{" <EL> "}"

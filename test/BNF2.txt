@@ -1,13 +1,6 @@
-<S>   ::= <test> | <test2>
-<test>   ::= <E>
-<E>      ::= <F> <C> | 1 | 2 | 3 | <T> 45 | <test>
-<C>      ::= <D> | <F> | <F> <H>
-<D>      ::=  <F>  <J> <H>
-<F>      ::= fabc
-<H>      ::= habc
-<J>      ::= jabc
-<T>      ::= tabc | <F> 
-<L>      ::= <L> a
+<S> ::= <E> *
+<E> ::= <right> | <left> <equal> <right> | <ifexpr>
 
-<test2>  ::= <test3>
-<test3>  ::= 
+<equal> ::= "="
+<left> ::= "3"
+<right> ::= "4"
