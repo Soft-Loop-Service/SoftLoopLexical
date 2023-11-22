@@ -1,6 +1,4 @@
-<S> ::= <Expr>
-<Expr>   ::= <Factor>
-<Expr>   ::= '(' <Expr> ')'
-<Factor> ::= num
-<Factor> ::= '+' <Factor>
-<Factor> ::= <Factor> '+' num 
+<S> ::= <E> "=" <E> | "id"
+<E> ::= <E> "+" <T> | <T>
+<T> ::= "Num"
+<T> ::= "id"

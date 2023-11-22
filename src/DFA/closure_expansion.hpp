@@ -100,7 +100,7 @@ private:
         return latter_token;
     }
 
-    //指定したdot以降の右辺tokenと、先読み記号をもとにfirst集合を作成する
+    // 指定したdot以降の右辺tokenと、先読み記号をもとにfirst集合を作成する
     vDeploymentTokenStruct getLatterFirstSet(LRItemFormulaExpansionStruct LR_formula_expansion, int dot, int lookAhead_index)
     {
         NullSetClass cnull_set_class = NullSetClass(deployment_syntax);
@@ -134,6 +134,7 @@ private:
 
         if (token.label == is_id_TerminalSymbol)
         {
+            LR_formula_expansion_vector[LR_formula_expansion_vector_index].dot++;
             return;
         }
 
@@ -184,9 +185,8 @@ private:
                         current_look_ahead_p->push_back(first_set[n]);
 
                         int dot = lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[formula_expansion_index].dot;
-                        vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[formula_expansion_index], dot, current_look_ahead_p->size()-1);
+                        vDeploymentTokenStruct new_first_set = getLatterFirstSet(lr_item.LR_formula_map[token.token_str].LR_formula_expansion_vector[formula_expansion_index], dot, current_look_ahead_p->size() - 1);
                         recursionNodeClosureExpansion(lr_item, token.token_str, formula_expansion_index, new_first_set);
-
                     }
                 }
             }

@@ -1,6 +1,4 @@
-<S> ::= <E> *
-<E> ::= <right> | <left> <equal> <right> | <ifexpr>
+<S> ::= <left> "+" <right>
 
-<equal> ::= "="
 <left> ::= "3"
 <right> ::= "4"

@@ -44,18 +44,19 @@ private:
     bool is_valid = false;
     int next_state = -1;
 
-
 public:
     void setCell(int next_state)
     {
         this->next_state = next_state;
         this->is_valid = true;
     };
-    string getCellString(){
+    string getCellString()
+    {
         return to_string(next_state);
     }
 
-    void parseStringCell(vector<string>&str_v){
+    void parseStringCell(vector<string> &str_v)
+    {
         next_state = stoi(str_v[0]);
         str_v.erase(str_v.begin());
 
@@ -94,22 +95,23 @@ public:
         this->next_state = next_state;
         this->is_valid = true;
     };
-    string getCellString(){
+    string getCellString()
+    {
         return to_string(next_state);
     }
-    void parseStringCell(vector<string>&str_v){
+    void parseStringCell(vector<string> &str_v)
+    {
         next_state = stoi(str_v[0]);
         is_valid = str_v[0] == "-1" ? false : true;
-        
+
         str_v.erase(str_v.begin());
     }
-
 
     bool getValid()
     {
         return this->is_valid;
     }
-    
+
     int getCell()
     {
         return this->next_state;
@@ -141,27 +143,23 @@ private:
     bool is_valid = false;
 
 public:
-
-
     void setCell(string token_left, vDeploymentTokenStruct token_vector)
     {
         this->reduce_formula = ReduceFormula{token_left, token_vector};
         this->is_valid = true;
-
     };
 
-    void parseStringCell(vector<string>&str_v){
+    void parseStringCell(vector<string> &str_v)
+    {
         string text_left = str_v[0];
         is_valid = str_v[0] == "-1" ? false : true;
         str_v.erase(str_v.begin());
         // printf("parseStringCell text_left %s\n",text_left.c_str());
 
-        if (!is_valid){
+        if (!is_valid)
+        {
             return;
         }
-
-
-        
 
         int token_vector_size = stoi(str_v[0]);
 
@@ -169,7 +167,8 @@ public:
 
         vDeploymentTokenStruct token_vector;
 
-        for (int i = 0; i < token_vector_size;i++){
+        for (int i = 0; i < token_vector_size; i++)
+        {
 
             int label = stoi(str_v[0]);
             str_v.erase(str_v.begin());
@@ -177,15 +176,16 @@ public:
             string token_str = str_v[0];
             str_v.erase(str_v.begin());
 
-            token_vector.push_back(DeploymentTokenStruct{token_str,label});
-
+            token_vector.push_back(DeploymentTokenStruct{token_str, label});
         }
 
         this->reduce_formula = ReduceFormula{text_left, token_vector};
     }
-    
-    string getCellString(){
-        if (!is_valid){
+
+    string getCellString()
+    {
+        if (!is_valid)
+        {
             return "-1";
         }
 
@@ -193,13 +193,13 @@ public:
         text += reduce_formula.token_left;
         text += " ";
         text += to_string(reduce_formula.token_vector.size());
-        for (int i = 0; i < reduce_formula.token_vector.size();i++){
+        for (int i = 0; i < reduce_formula.token_vector.size(); i++)
+        {
             text += " ";
             text += to_string(reduce_formula.token_vector[i].label);
             text += " ";
             text += reduce_formula.token_vector[i].token_str;
         }
-        
 
         return text;
     }
@@ -229,13 +229,14 @@ private:
     bool is_valid = false;
 
 public:
-    string getCellString(){
+    string getCellString()
+    {
         return to_string(is_valid);
     }
-    void parseStringCell(vector<string>&str_v){
+    void parseStringCell(vector<string> &str_v)
+    {
         is_valid = str_v[0] == "1" ? true : false;
         str_v.erase(str_v.begin());
-        
     }
 
     void setCell(bool is_valid)
