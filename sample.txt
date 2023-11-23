@@ -1,1 +1,3 @@
-Num=Num
+if (1){
+    int a = 3
+}
