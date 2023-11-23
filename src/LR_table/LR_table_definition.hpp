@@ -46,7 +46,6 @@ public:
         }
         result.push_back(temp);
 
-
         int width = stoi(result[0]);
         result.erase(result.begin());
         int height = stoi(result[0]);
@@ -54,9 +53,10 @@ public:
 
         column_length = height;
 
-        printf("LRTable sta %d %d %d\n",width,height,result.size());
+        printf("LRTable sta %d %d %d\n", width, height, result.size());
 
-        for (int x = 0 ; x < width ;x ++){
+        for (int x = 0; x < width; x++)
+        {
             string key = result[0];
             result.erase(result.begin());
 
@@ -71,12 +71,10 @@ public:
                 LR_table_column_map[key].push_back(newCell);
             }
 
-            printf("LRTable size %d %d \n", LR_table_column_map.size(),LR_table_column_map[key].size());
-
+            printf("LRTable size %d %d \n", LR_table_column_map.size(), LR_table_column_map[key].size());
         }
 
-        printf("LRTable end %d %d %d \n",width,height,result.size());
-
+        printf("LRTable end %d %d %d \n", width, height, result.size());
     }
 
     string outputTable()
@@ -258,6 +256,7 @@ public:
 
                     if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
                     {
+                        printf("dot数違反 %d : %s %d %d\n", c, fm_key.c_str(), LR_formula_expansion.dot, LR_formula_expansion.token_vector.size());
                         continue;
                     }
 

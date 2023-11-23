@@ -152,21 +152,9 @@ public:
         for (int i = 0; i < formula_map_size; i++)
         {
             string current_key = this->formula_map_keys[i];
-            recursionFirstsSet(current_key);
+            recursionFirstsSet(current_key); // 左辺によるfollows集合を求める
         }
 
-        // vstring f_k = getMapKeyString(first_set);
-        // for (int i = 0; i < f_k.size(); i++)
-        // {
-        //     printf("findFirstSetVector f_k %d\n",first_set[f_k[i]].size());
-        //     for (int j = 0; j < first_set[f_k[i]].size(); j++)
-        //     {
-
-        //         printf("findFirstSetVector %s : %s\n", f_k[i].c_str(), first_set[f_k[i]][j].token_str.c_str());
-        //     }
-        // }
-
-        // int formula_map_size = this->deployment_syntax.formula_map.size();
         int request_token_vector_size = request_token_vector.size();
         for (int i = 0; i < request_token_vector_size; i++)
         {
@@ -181,6 +169,7 @@ public:
 
             vDeploymentTokenStruct current_first_set = first_set[current_key];
 
+            // 重複がないよう挿入
             for (int j = 0; j < current_first_set.size(); j++)
             {
                 if (!hasDtoken(first_set_vecotr, current_first_set[j]))

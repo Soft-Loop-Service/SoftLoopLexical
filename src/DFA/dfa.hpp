@@ -19,6 +19,7 @@
 #include <vector>
 
 bool isDfaEqual(DFANode a_node, DFANode b_node)
+
 {
     mapLRItemFormulaStruct a_LR_formula_map = a_node.lr_item.LR_formula_map;
     mapLRItemFormulaStruct b_LR_formula_map = b_node.lr_item.LR_formula_map;
@@ -50,6 +51,10 @@ bool isDfaEqual(DFANode a_node, DFANode b_node)
             vDeploymentTokenStruct a_lookAhead = a_LR_formula_expansion.lookAhead;
             vDeploymentTokenStruct b_lookAhead = b_LR_formula_expansion.lookAhead;
 
+            if (a_LR_formula_expansion.dot != b_LR_formula_expansion.dot)
+            {
+                return false;
+            }
             if (a_token_vector.size() != b_token_vector.size())
             {
                 return false;
@@ -112,6 +117,7 @@ int generateDFARoot(DFANode &root_dfa_node)
     root_dfa_node.lr_item.LR_formula_map[ROOT_DFA_SYMBOL] = formula;
 }
 
+// 次に展開すべき左辺を割り出す
 vstring getNextLabelDFA(DFANode current_node)
 {
 
@@ -135,6 +141,7 @@ vstring getNextLabelDFA(DFANode current_node)
             {
                 continue;
             }
+
             DeploymentTokenStruct token = token_vector[index];
 
             if (hasKeyMap(next_labels, token.token_str))
@@ -147,10 +154,12 @@ vstring getNextLabelDFA(DFANode current_node)
     return next_labels;
 }
 
+// 元ノード(current_node)から、dotの次のlabelが指定されたものと一致された者を抜き出し、dotを1追加する処理。
 DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_node, string next_label)
 {
     struct DFANode new_node;
     new_node.node_label = next_label;
+
     // new_node.lr_item.
 
     mapLRItemFormulaStruct LR_formula_map = current_node.lr_item.LR_formula_map;
@@ -178,6 +187,9 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
             {
                 continue;
             }
+
+            printf("node add %s %s %d\n", token.token_str.c_str(), next_label.c_str(), LR_formula_expansion.dot);
+
             LR_formula_expansion.dot++;
             new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
         }
@@ -196,6 +208,7 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
     {
         string next_label = next_labels[i];
 
+        printf("next_label %s\n", next_label.c_str());
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
 
         closure_expansion.nodeClosureExpansion(new_node.lr_item);
@@ -211,13 +224,13 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
         }
         if (flag != -1)
         {
+            // 既に存在するなら、それを子要素として挿入する
             dfa_node_graph[current_node_index].children_nodes[next_label] = flag;
             continue;
         }
         dfa_node_graph.push_back(new_node);
         int push_index = dfa_node_graph.size() - 1;
         dfa_node_graph[current_node_index].children_nodes[next_label] = push_index;
-
         recursionDFA(deployment_syntax, dfa_node_graph, push_index);
     }
 }
