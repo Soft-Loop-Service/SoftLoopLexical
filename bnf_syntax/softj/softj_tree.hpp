@@ -62,6 +62,10 @@ private:
         return val > 0;
     }
 
+    int functionCalc(int node_index)
+    {
+    }
+
     int whileCalc(int node_index)
     {
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
