@@ -32,75 +32,106 @@ public:
 
     LRTable(string table_string)
     {
-        vector<string> result;
-        string temp = "";
-        for (int i = 0; i < table_string.size(); i++)
-        {
-            if (table_string[i] == ' ')
-            {
-                result.push_back(temp);
-                temp = "";
-                continue;
-            }
-            temp += table_string[i];
-        }
-        result.push_back(temp);
 
-        int width = stoi(result[0]);
-        result.erase(result.begin());
-        int height = stoi(result[0]);
-        result.erase(result.begin());
+        LRTableLoad *loader = new LRTableLoad(table_string);
 
+        int width = stoi(loader->road_token());
+        // result.erase(result.begin());
+        int height = stoi(loader->road_token());
+        // result.erase(result.begin());
+        int template_cell = stoi(loader->road_token());
+        // result.erase(result.begin());
         column_length = height;
 
-        printf("LRTable sta %d %d %d\n", width, height, result.size());
+        printf("LRTable sta %d %d\n", width, height);
+
+        vector<T> new_cells = {};
+
+        for (int i = 0; i < template_cell; i++)
+        {
+            T new_cell;
+            new_cell.parseStringCell(loader);
+            new_cells.push_back(new_cell);
+        }
 
         for (int x = 0; x < width; x++)
         {
-            string key = result[0];
-            result.erase(result.begin());
-
-            // printf("LRTable key  %s %d\n",key.c_str(),result.size());
-
+            string key = loader->road_token();
+            // result.erase(result.begin());
             LR_table_column_map[key] = {};
 
             for (int i = 0; i < height; i++)
             {
-                T newCell;
-                newCell.parseStringCell(result);
-                LR_table_column_map[key].push_back(newCell);
+                string template_cell_index = loader->road_token();
+                // result.erase(result.begin());
+                int template_cell_index_int = stoi(template_cell_index);
+
+                LR_table_column_map[key].push_back(new_cells[template_cell_index_int]);
             }
 
             printf("LRTable size %d %d \n", LR_table_column_map.size(), LR_table_column_map[key].size());
         }
 
-        printf("LRTable end %d %d %d \n", width, height, result.size());
+        printf("LRTable end %d %d \n", width, height);
     }
 
     string outputTable()
     {
-        string text = "";
+        vstring cell_que = {};
 
-        text += to_string(LR_table_column_map.size());
-        text += " ";
-        text += to_string(column_length);
+        string header_text = "";
+
+        header_text += to_string(LR_table_column_map.size());
+        header_text += " ";
+        header_text += to_string(column_length);
+
+        string main_text = "";
 
         auto begin = LR_table_column_map.begin(), end = LR_table_column_map.end();
         for (auto iter = begin; iter != end; iter++)
         {
             string key = iter->first;
 
-            text += " ";
-            text += key;
+            main_text += " ";
+            main_text += key;
 
             for (int i = 0; i < column_length; i++)
             {
-                text += " ";
-                text += LR_table_column_map[key][i].getCellString();
+                main_text += " ";
+
+                string cellt = LR_table_column_map[key][i].getCellString();
+
+                int has_flag = -1;
+                for (int c = 0; c < cell_que.size(); c++)
+                {
+                    if (cell_que[c] == cellt)
+                    {
+                        has_flag = c;
+                        break;
+                    }
+                }
+                if (has_flag > -1)
+                {
+                    main_text += to_string(has_flag);
+                }
+                else
+                {
+                    cell_que.push_back(cellt);
+                    main_text += to_string(cell_que.size() - 1);
+                }
             }
         }
 
-        return text;
+        string template_text = "";
+        template_text += to_string(cell_que.size());
+
+        for (int i = 0; i < cell_que.size(); i++)
+        {
+            template_text += " ";
+            template_text += cell_que[i];
+        }
+
+        return header_text + " " + template_text + main_text;
     }
     void inputTabke()
     {

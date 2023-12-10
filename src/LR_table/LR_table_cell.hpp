@@ -27,6 +27,37 @@
 #define LR_table_operation_accept 'a'
 #define LR_table_operation_goto 'g'
 
+class LRTableLoad
+{
+private:
+    vector<string> result;
+    int point = 0;
+
+public:
+    LRTableLoad(string table_string)
+    {
+        string temp = "";
+        for (int i = 0; i < table_string.size(); i++)
+        {
+            if (table_string[i] == ' ')
+            {
+                result.push_back(temp);
+                temp = "";
+                continue;
+            }
+            temp += table_string[i];
+        }
+        result.push_back(temp);
+    }
+
+    string road_token()
+    {
+        string text = result[point];
+        point++;
+        return text;
+    }
+};
+
 class LRTableCell
 {
 protected:
@@ -55,10 +86,9 @@ public:
         return to_string(next_state);
     }
 
-    void parseStringCell(vector<string> &str_v)
+    void parseStringCell(LRTableLoad *loader)
     {
-        next_state = stoi(str_v[0]);
-        str_v.erase(str_v.begin());
+        next_state = stoi(loader->road_token());
 
         is_valid = next_state == -1 ? false : true;
     }
@@ -99,12 +129,11 @@ public:
     {
         return to_string(next_state);
     }
-    void parseStringCell(vector<string> &str_v)
+    void parseStringCell(LRTableLoad *loader)
     {
-        next_state = stoi(str_v[0]);
-        is_valid = str_v[0] == "-1" ? false : true;
-
-        str_v.erase(str_v.begin());
+        string next = loader->road_token();
+        next_state = stoi(next);
+        is_valid = next == "-1" ? false : true;
     }
 
     bool getValid()
@@ -149,11 +178,10 @@ public:
         this->is_valid = true;
     };
 
-    void parseStringCell(vector<string> &str_v)
+    void parseStringCell(LRTableLoad *loader)
     {
-        string text_left = str_v[0];
-        is_valid = str_v[0] == "-1" ? false : true;
-        str_v.erase(str_v.begin());
+        string text_left = loader->road_token();
+        is_valid = text_left == "-1" ? false : true;
         // printf("parseStringCell text_left %s\n",text_left.c_str());
 
         if (!is_valid)
@@ -161,19 +189,16 @@ public:
             return;
         }
 
-        int token_vector_size = stoi(str_v[0]);
-        str_v.erase(str_v.begin());
+        int token_vector_size = stoi(loader->road_token());
 
         vDeploymentTokenStruct token_vector;
 
         for (int i = 0; i < token_vector_size; i++)
         {
 
-            int label = stoi(str_v[0]);
-            str_v.erase(str_v.begin());
+            int label = stoi(loader->road_token());
 
-            string token_str = str_v[0];
-            str_v.erase(str_v.begin());
+            string token_str = loader->road_token();
 
             token_vector.push_back(DeploymentTokenStruct{token_str, label});
         }
@@ -234,10 +259,9 @@ public:
     {
         return to_string(is_valid);
     }
-    void parseStringCell(vector<string> &str_v)
+    void parseStringCell(LRTableLoad *loader)
     {
-        is_valid = str_v[0] == "1" ? true : false;
-        str_v.erase(str_v.begin());
+        is_valid = loader->road_token() == "1" ? true : false;
     }
 
     void setCell(bool is_valid)
