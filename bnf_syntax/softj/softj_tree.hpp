@@ -57,23 +57,9 @@ private:
         }
     }
 
-    bool getBool(int node_index)
+    bool getBool(int val)
     {
-        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-
-        if (current_node.parent_token == "<number>")
-        {
-            int num = stoi(current_node.token);
-
-            if (num >= 1)
-            {
-                return true;
-                ;
-            }
-            return false;
-        }
-
-        return false;
+        return val > 0;
     }
 
     int whileCalc(int node_index)
@@ -83,7 +69,8 @@ private:
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
         // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
 
-        bool ifbool = getBool(current_node.children[1]);
+        int calc_ans = calc(current_node.children[1]);
+        bool ifbool = getBool(calc_ans);
 
         while (ifbool)
         {
@@ -91,6 +78,8 @@ private:
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
+            calc_ans = calc(current_node.children[1]);
+            ifbool = getBool(calc_ans);
         }
 
         string message = "ループ条件式 false";
@@ -104,8 +93,9 @@ private:
         SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
         // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
+        int calc_ans = calc(current_node.children[1]);
 
-        bool ifbool = getBool(current_node.children[1]);
+        bool ifbool = getBool(calc_ans);
 
         if (ifbool)
         {
@@ -163,7 +153,34 @@ private:
         process_result->push_back(pr);
         return left / right;
     }
-
+    int less(int left, int right)
+    {
+        string message = "比較 " + to_string(left) + " < " + to_string(right);
+        struct ProcessAnalysis pr = {message};
+        process_result->push_back(pr);
+        return left < right;
+    }
+    int less_equal(int left, int right)
+    {
+        string message = "比較 " + to_string(left) + " <= " + to_string(right);
+        struct ProcessAnalysis pr = {message};
+        process_result->push_back(pr);
+        return left <= right;
+    }
+    int greater(int left, int right)
+    {
+        string message = "比較 " + to_string(left) + " > " + to_string(right);
+        struct ProcessAnalysis pr = {message};
+        process_result->push_back(pr);
+        return left > right;
+    }
+    int greater_equal(int left, int right)
+    {
+        string message = "比較 " + to_string(left) + " >= " + to_string(right);
+        struct ProcessAnalysis pr = {message};
+        process_result->push_back(pr);
+        return left >= right;
+    }
     int calc(int node_index)
     {
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -198,31 +215,39 @@ private:
         string token = current_node.token;
         const char *token_c = token.c_str();
 
-        switch (*token_c)
-        {
-        case '+':
+        if (token == "+")
         {
             ans = addition(left, right);
-            break;
         }
-        case '-':
+        if (token == "-")
         {
             ans = subtraction(left, right);
-            break;
         }
-        case '*':
+        if (token == "*")
         {
             ans = multiplication(left, right);
-            break;
         }
-        case '/':
+        if (token == "/")
         {
             ans = division(left, right);
-            break;
         }
+        if (token == "<")
+        {
+            ans = less(left, right);
         }
-
-        printf("calcSoftjTree %d : %d %d\n", ans, left, right);
+        if (token == "<=")
+        {
+            ans = less_equal(left, right);
+        }
+        if (token == ">")
+        {
+            ans = greater(left, right);
+        }
+        if (token == ">=")
+        {
+            ans = greater_equal(left, right);
+        }
+        printf("calcSoftjTree %d : %d %s %d\n", ans, left, token.c_str(), right);
 
         return ans;
     }
@@ -253,7 +278,7 @@ private:
             equal(node_index);
             return;
         }
-        if (token == "+" || token == "-" || token == "*" || token == "/")
+        if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=")
         {
             calc(node_index);
             return;

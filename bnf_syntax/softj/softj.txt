@@ -3,11 +3,14 @@
 <E> ::= <right> | <left> "=" <right> | <ifexpr> | <while>
 
 <left> ::= <value_definition> | <value_name>
-<right> ::= <expr>
+<right> ::= <comparison_equal>
+
+<comparison_equal> ::= <comparison_equal> "==" <comparison> | <comparison>
+<comparison> ::= <comparison> "<" <expr> | <comparison> "<=" <expr> | <comparison> ">" <expr> | <comparison> ">=" <expr> | <expr>
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
-<factor> ::= <number> | "(" <expr> ")" | <value_name>
+<factor> ::= <number> | "(" <right> ")" | <value_name>
 
 <number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 <value_definition> ::= <type_name> <value_name>
@@ -17,7 +20,7 @@
 
 <ifexpr> ::= <if>
 
-<if> ::= "if" <expr> <block>
-<while> ::= "while" <expr> <block>
+<if> ::= "if" <right> <block>
+<while> ::= "while" <right> <block>
 
 <block> ::= "{" <EL> "}"

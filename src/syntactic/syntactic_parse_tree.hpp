@@ -18,6 +18,11 @@
 
 bool isTokenExpr(string token_str)
 {
+
+    if (token_str == "<=" || token_str == ">=" || token_str == "<" || token_str == ">")
+    {
+        return true;
+    }
     const char *token = token_str.c_str();
 
     if (strchr("=+=/*", token[0]) != 0)
