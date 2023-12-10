@@ -188,8 +188,6 @@ DFANode generateNewNodeDFA(DeploymentStruct &deployment_syntax, DFANode current_
                 continue;
             }
 
-            printf("node add %s %s %d\n", token.token_str.c_str(), next_label.c_str(), LR_formula_expansion.dot);
-
             LR_formula_expansion.dot++;
             new_node.lr_item.LR_formula_map[key].LR_formula_expansion_vector.push_back(LR_formula_expansion);
         }
@@ -208,7 +206,6 @@ int recursionDFA(DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, 
     {
         string next_label = next_labels[i];
 
-        printf("next_label %s\n", next_label.c_str());
         DFANode new_node = generateNewNodeDFA(deployment_syntax, current_node, next_label);
 
         closure_expansion.nodeClosureExpansion(new_node.lr_item);

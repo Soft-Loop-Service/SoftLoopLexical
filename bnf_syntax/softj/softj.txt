@@ -1,6 +1,6 @@
 <S> ::= <EL>
 <EL> ::= <E> *
-<E> ::= <right> | <left> "=" <right> | <ifexpr>
+<E> ::= <right> | <left> "=" <right> | <ifexpr> | <while>
 
 <left> ::= <value_definition>
 <right> ::= <expr>
@@ -17,4 +17,6 @@
 <ifexpr> ::= <if>
 
 <if> ::= "if" <expr> <block>
+<while> ::= "while" <expr> <block>
+
 <block> ::= "{" <EL> "}"

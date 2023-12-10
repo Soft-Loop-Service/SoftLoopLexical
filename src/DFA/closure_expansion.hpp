@@ -110,19 +110,6 @@ private:
 
         vDeploymentTokenStruct first_set = cfirst_set_class.findFirstSetVector(latter_token);
 
-        printf("getLatterFirstSet\n");
-
-        for (int i = 0; i < latter_token.size(); i++)
-        {
-            printf("%s ", latter_token[i].token_str.c_str());
-        }
-        printf("\n");
-
-        for (int i = 0; i < first_set.size(); i++)
-        {
-            printf("%s ", first_set[i].token_str.c_str());
-        }
-        printf("\n");
         return first_set;
     }
 
@@ -148,8 +135,6 @@ private:
 
         if (token.label == is_id_TerminalSymbol)
         {
-            printf("末端記号解析 %s\n", token.token_str.c_str());
-            // lr_item.LR_formula_map[search_key].LR_formula_expansion_vector[LR_formula_expansion_vector_index].dot++;
             return;
         }
 

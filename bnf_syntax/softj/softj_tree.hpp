@@ -18,10 +18,10 @@ class SoftjTree
 private:
     vSyntacticTree *syntactic_analysis_tree;
     vProcessAnalysis *process_result;
-    VariablePossessionControl *vpc;
+    VariablePossessionUnion *vpc;
 
     template <class T>
-    void assExpr(T value, int node_index, int &address, int &size)
+    void assExpr(T value, int node_index, int &size)
     {
 
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -32,8 +32,10 @@ private:
 
         if (current_node.token == "<value_definition>")
         {
+            string value_name = child_right.token;
+            vpc->add(value, value_name, size);
 
-            vpc->add(value, address, size);
+            // vpc[0]->add(value, address, size);
             printf("d\n");
 
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
@@ -42,15 +44,18 @@ private:
         }
     }
 
-    bool getBool(int node_index){
+    bool getBool(int node_index)
+    {
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
         if (current_node.parent_token == "<number>")
         {
             int num = stoi(current_node.token);
 
-            if (num >= 1){
-                return true;;
+            if (num >= 1)
+            {
+                return true;
+                ;
             }
             return false;
         }
@@ -58,7 +63,8 @@ private:
         return false;
     }
 
-    int ifCalc(int node_index){
+    int whileCalc(int node_index)
+    {
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
         SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
@@ -66,14 +72,40 @@ private:
 
         bool ifbool = getBool(current_node.children[1]);
 
-        if (ifbool){
+        if (ifbool)
+        {
+            string message = "ループ条件式 true";
+            struct ProcessAnalysis pr = {message};
+            process_result->push_back(pr);
+            recursion(current_node.children[2]);
+            whileCalc(node_index);
+        }
+        else
+        {
+            string message = "ループ条件式 false";
+            struct ProcessAnalysis pr = {message};
+            process_result->push_back(pr);
+        }
+    }
+
+    int ifCalc(int node_index)
+    {
+        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+        SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
+        // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
+        // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
+
+        bool ifbool = getBool(current_node.children[1]);
+
+        if (ifbool)
+        {
             string message = "条件式 true";
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
-            
         }
-        else{
+        else
+        {
             string message = "条件式 false";
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
@@ -87,11 +119,10 @@ private:
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
 
-        int address;
         int size;
         int right;
         right = calc(current_node.children[1]);
-        assExpr(right, current_node.children[0], address, size);
+        assExpr(right, current_node.children[0], size);
     }
     int addition(int left, int right)
     {
@@ -126,11 +157,22 @@ private:
     int calc(int node_index)
     {
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+
+        if (current_node.parent_token == "<value_name>")
+        {
+            printf("cal get %s\n", current_node.token.c_str());
+            int val;
+            vpc->get(current_node.token, val);
+            printf("cal get2 %d\n", val);
+
+            return val;
+        }
+
         if (current_node.parent_token == "<number>")
         {
             return stoi(current_node.token);
         }
-        printf("calc %d -> %d %d\n",node_index,current_node.children[0],current_node.children[1]);
+        printf("calc %d -> %d %d\n", node_index, current_node.children[0], current_node.children[1]);
 
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
@@ -175,8 +217,8 @@ private:
         return ans;
     }
 
-    int recursion(int node_index)
-    {        
+    void recursion(int node_index)
+    {
 
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
@@ -184,41 +226,38 @@ private:
         string token = current_node.token;
         const char *token_c = token.c_str();
 
-        switch (*token_c)
-        {
-        case '<if>':
+        printf("recursion %s\n", token_c);
+
+        if (token == "<if>")
         {
             ifCalc(node_index);
+            return;
         }
-        case '=':
+        if (token == "<while>")
+        {
+            whileCalc(node_index);
+            return;
+        }
+        if (token == "=")
         {
             equal(node_index);
-            break;
+            return;
         }
-        case '+':
-        case '-':
-        case '*':
-        case '/':
+        if (token == "+" || token == "-" || token == "*" || token == "/")
         {
             calc(node_index);
-            break;
+            return;
         }
-        default:
-        {
 
-            for (int i = 0; i < current_node.children.size(); i++)
-            {
-                recursion(current_node.children[i]);
-            }
-            break;
-        }
+        for (int i = 0; i < current_node.children.size(); i++)
+        {
+            recursion(current_node.children[i]);
         }
     }
 
 public:
-    SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result , VariablePossessionControl &vpc)
+    SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result, VariablePossessionUnion &vpc)
     {
-
 
         this->syntactic_analysis_tree = &syntactic_analysis_tree;
         this->process_result = &process_result;

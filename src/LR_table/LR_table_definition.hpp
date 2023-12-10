@@ -256,7 +256,6 @@ public:
 
                     if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
                     {
-                        printf("dot数違反 %d : %s %d %d\n", c, fm_key.c_str(), LR_formula_expansion.dot, LR_formula_expansion.token_vector.size());
                         continue;
                     }
 

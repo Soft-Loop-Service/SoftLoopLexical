@@ -39,8 +39,8 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
 
     vProcessAnalysis process_result = {};
 
-    VariablePossessionControl vpc;
-    SoftjTree softjtree(syntactic_analysis_tree, process_result,vpc);
+    VariablePossessionUnion vpc;
+    SoftjTree softjtree(syntactic_analysis_tree, process_result, vpc);
 
     debugProcessResult(process_result);
     outputHtml(process_result);
