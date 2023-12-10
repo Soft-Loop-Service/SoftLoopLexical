@@ -25,13 +25,14 @@ private:
     {
 
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-        SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
-        SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
-
-        printf("assExpr %d %d %d %s\n", node_index, current_node.children[0], current_node.children[1], current_node.token.c_str());
 
         if (current_node.token == "<value_definition>")
         {
+            printf("assExpr %d %d %d %s\n", node_index, current_node.children[0], current_node.children[1], current_node.token.c_str());
+
+            SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
+            SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
+
             string value_name = child_right.token;
             vpc->add(value, value_name, size);
 
@@ -41,6 +42,18 @@ private:
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
+
+            return;
+        }
+
+        if (current_node.parent_token == "<value_name>")
+        {
+            string value_name = current_node.token;
+            vpc->add(value, value_name, size);
+            string message = "変数代入 " + current_node.token + " " + to_string(value);
+            struct ProcessAnalysis pr = {message};
+            process_result->push_back(pr);
+            return;
         }
     }
 
@@ -72,20 +85,17 @@ private:
 
         bool ifbool = getBool(current_node.children[1]);
 
-        if (ifbool)
+        while (ifbool)
         {
             string message = "ループ条件式 true";
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
-            whileCalc(node_index);
         }
-        else
-        {
-            string message = "ループ条件式 false";
-            struct ProcessAnalysis pr = {message};
-            process_result->push_back(pr);
-        }
+
+        string message = "ループ条件式 false";
+        struct ProcessAnalysis pr = {message};
+        process_result->push_back(pr);
     }
 
     int ifCalc(int node_index)

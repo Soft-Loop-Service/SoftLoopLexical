@@ -162,7 +162,6 @@ public:
         }
 
         int token_vector_size = stoi(str_v[0]);
-
         str_v.erase(str_v.begin());
 
         vDeploymentTokenStruct token_vector;
@@ -188,6 +187,8 @@ public:
         {
             return "-1";
         }
+
+        // 前から順に token_left ,
 
         string text = "";
         text += reduce_formula.token_left;
