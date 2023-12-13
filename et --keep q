@@ -1,0 +1,837 @@
+[33mcommit 2ca51ebd877f42509c93802fb8aa4537dc5f6314[m[33m ([m[1;36mHEAD -> [m[1;32mdev_2023_12_14[m[33m, [m[1;31morigin/dev_2023_12_14[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Dec 14 08:48:43 2023 +0900
+
+    字句解析の簡略化
+
+[33mcommit 5e2e74070963f47f6b874ccb5fe63b0b53b220dd[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Dec 14 08:41:31 2023 +0900
+
+    字句解析の簡略化
+
+[33mcommit f84b0bb21b40f55f2462ec70d915cde450c3e303[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Dec 14 08:20:18 2023 +0900
+
+    字句解析DFAのための共通化
+
+[33mcommit faf3a01baf0f5eb5a8d0bcb8ffe5e1ab1c10b19f[m[33m ([m[1;31morigin/dev_2023_12_13b[m[33m, [m[1;32mdev_2023_12_13b[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Dec 11 00:39:37 2023 +0900
+
+    読み込みの高速化
+
+[33mcommit 22d2d92c0b3c5d0a1287b1678b98f021cc624f40[m[33m ([m[1;31morigin/develop_process[m[33m, [m[1;32mdevelop_process[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Dec 10 22:53:02 2023 +0900
+
+    bnf function
+
+[33mcommit 27394e2435e4cd2a424a6c2193d18a362daa1ba5[m[33m ([m[1;31morigin/dev_2023_12_13[m[33m, [m[1;32mdev_2023_12_13[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Dec 10 22:37:57 2023 +0900
+
+    table rm
+
+[33mcommit 4ecb0e807b61e5051ff1447c8a9081df96cfeb8c[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Dec 10 22:36:59 2023 +0900
+
+    比較演算子
+
+[33mcommit 93bf1f5fc94f0d96afcb71793e71c1df30c8686e[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Dec 10 21:11:01 2023 +0900
+
+    while
+
+[33mcommit f52c4f59f797613cebf805957df4cdbda7ce3d73[m[33m ([m[1;31morigin/dev_2023_12_02[m[33m, [m[1;32mdev_2023_12_02[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Dec 10 20:23:46 2023 +0900
+
+    変数処理
+
+[33mcommit bb1ea80724d92d203ad93a900b92f3a8acedf825[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/dev_2023_11_23[m[33m, [m[1;31morigin/dev_2023_11_22[m[33m, [m[1;32mmain[m[33m, [m[1;32mdev_2023_11_23[m[33m, [m[1;32mdev_2023_11_22[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Nov 23 10:20:08 2023 +0900
+
+    fix node
+
+[33mcommit 831cc85746889974da2bf0bca57e79ad798a3e39[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Nov 23 10:15:00 2023 +0900
+
+    追加できない問題の修正
+
+[33mcommit 8844e4472ee61b5684dc3a5fdd3c3c0b754e3fac[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Nov 22 19:09:37 2023 +0900
+
+    クロージャー展開修正
+
+[33mcommit cff4eb06a02c955a1f3e391a5a2768bda9b91770[m[33m ([m[1;31morigin/dev_2023_11_19[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Wed Nov 22 16:46:08 2023 +0900
+
+    fix
+
+[33mcommit db310311996c974a94e01c22a6d3954a96840971[m[33m ([m[1;31morigin/develop_softj[m[33m)[m
+Merge: e6e9773 abd1658
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sun Nov 19 04:39:50 2023 +0900
+
+    Merge branch 'dev_2023_11_18_2'
+
+[33mcommit abd165834f480f5d287036d6e325bdf53705483e[m[33m ([m[1;31morigin/dev_2023_11_18_2[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sun Nov 19 04:39:14 2023 +0900
+
+    計算速度の効率化
+
+[33mcommit 2933b4326a740492ae8b808e2ee87b44f680c571[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 19:22:41 2023 +0900
+
+    変数
+
+[33mcommit 401c16d7dd6c6398aa8cdb4389d5f39e8aed1c5f[m[33m ([m[1;31morigin/dev_2023_11_18[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 16:31:59 2023 +0900
+
+    tableのファイル保存
+
+[33mcommit 98e908a7610c988fbafd6e840885d0809251e747[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 16:02:55 2023 +0900
+
+    reduce
+
+[33mcommit 5f2eb9cba2c71230797c1eac1ec1e6cf6db66ecd[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 15:30:50 2023 +0900
+
+    parse file
+
+[33mcommit 8994af02d224003aa16d8ee2ac837e39f5e5bcd9[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 14:09:32 2023 +0900
+
+    output table
+
+[33mcommit 56ea06130041c2bc3f173ffda69d97c3ba321846[m[33m ([m[1;31morigin/dev_2023_11_17[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Nov 18 12:35:42 2023 +0900
+
+    html
+
+[33mcommit aea52a1573858970aab96cb851e21405525193f4[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Fri Nov 17 15:19:40 2023 +0900
+
+    fix
+
+[33mcommit 8e8bade6f9211e09b5783b1486cdd86789bb881a[m[33m ([m[1;31morigin/dev_2023_11_15[m[33m, [m[1;32mdev_2023_11_15[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Nov 17 03:32:43 2023 +0900
+
+    代入
+
+[33mcommit ee141c88ff51e5db8a213ae896c728c325b98abd[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Nov 16 23:38:06 2023 +0900
+
+    代入
+
+[33mcommit 1fcd0adf9b6cda1e666656919eb681ac808757d9[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Nov 16 19:17:24 2023 +0900
+
+    加算命令
+
+[33mcommit df1a459910eedbc21c0d104af78daaf0cbfe5aa3[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Nov 16 17:44:25 2023 +0900
+
+    del type
+
+[33mcommit 5c36d9b0c12477a4c9b362879f4a974c59f5d2c9[m[33m ([m[1;31morigin/dev_2023_11_05[m[33m, [m[1;32mdev_2023_11_05[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 10:49:39 2023 +0900
+
+    tree
+
+[33mcommit 03f226fb1330896b0193e1d05af2f91e71232796[m[33m ([m[1;31morigin/dev_2023_11_04_2[m[33m, [m[1;31morigin/dev_2023_11_04[m[33m, [m[1;32mdev_2023_11_04_2[m[33m, [m[1;32mdev_2023_11_04[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 08:26:52 2023 +0900
+
+    new val
+
+[33mcommit 2742888d839c392431c07cfd9dc80fb2fb8cfe64[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 07:51:21 2023 +0900
+
+    process
+
+[33mcommit 0e18c220c0d99d9cc99f305548795c64676b3aca[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 05:30:48 2023 +0900
+
+    rename
+
+[33mcommit 516517addf9358d0096132c2a8a7f1bc8c663b98[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 04:25:44 2023 +0900
+
+    rename tree
+
+[33mcommit 82ae6fdb3dad4078b2a63b4d79e9a853bcc9ca57[m[33m ([m[1;31morigin/develop_language[m[33m, [m[1;31morigin/dev_2023_11_01[m[33m, [m[1;32mdevelop_language[m[33m, [m[1;32mdev_2023_11_01[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Nov 4 03:19:59 2023 +0900
+
+    数式処理
+
+[33mcommit 7e7132e51f23ca930d210d90f636a8786eb6d189[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Oct 28 10:03:33 2023 +0900
+
+    スタックマシン
+
+[33mcommit 53340119115f69d3cdc54f7e6790a0dc2a6c0b39[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Oct 28 06:32:23 2023 +0900
+
+    疑似AST
+
+[33mcommit 4f392dbb8d89e1caa07d6dd1b913914978f038a9[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Oct 28 01:42:50 2023 +0900
+
+    木の切断
+
+[33mcommit 7c904fd2312440b129c12739d2cb8f65cce3924b[m[33m ([m[1;31morigin/dev_2023_10_31[m[33m, [m[1;32mdev_2023_10_31[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Oct 27 20:01:41 2023 +0900
+
+    木構造の構築
+
+[33mcommit aee0360da50daf868375bd0fd628cb48087bb756[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Oct 27 19:53:00 2023 +0900
+
+    tree
+
+[33mcommit e855c3498de4218f24dffa16b8b00345e4e05f42[m[33m ([m[1;31morigin/dev_2023_10_30[m[33m, [m[1;32mdev_2023_10_30[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Oct 30 20:13:03 2023 +0900
+
+    fix tree
+
+[33mcommit af8e58aef7c68aa2047a3c6c748bef17bbcb93c9[m[33m ([m[1;31morigin/dev_2023_10_25[m[33m, [m[1;32mdev_2023_10_25[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Oct 27 10:19:10 2023 +0900
+
+    fix tree
+
+[33mcommit 5ee2b932cf3c1dd9a3e3c692c004e4d31fd565a8[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Oct 27 09:09:55 2023 +0900
+
+    Derivation
+
+[33mcommit 02827f76afccb8b146ed0fbb5751e5c7e7ad5dfd[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Oct 26 18:12:30 2023 +0900
+
+    build tree
+
+[33mcommit b10d7b937c6acee9705d6140500e753cf21fef1f[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Oct 26 08:47:40 2023 +0900
+
+    fix
+
+[33mcommit e6e97736edf26630b14f814778ea9047afe9c77e[m
+Merge: fc921be 8f01242
+Author: しお <66929502+Shio3001@users.noreply.github.com>
+Date:   Mon Oct 16 11:27:35 2023 +0900
+
+    Merge pull request #1 from Soft-Loop-Service/develop_language
+    
+    Develop language
+
+[33mcommit 8f0124220429a07d8b6988604a088de1e02b34e4[m[33m ([m[1;31morigin/dev_2023_10_19[m[33m, [m[1;31morigin/dev_2023_10_02[m[33m, [m[1;32mdev_2023_10_19[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Oct 16 11:22:39 2023 +0900
+
+    fix
+
+[33mcommit b9946a05591367ede1634c3918202e671d959cdb[m[33m ([m[1;31morigin/c_cpp_fix[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Oct 3 10:32:06 2023 +0900
+
+    bnf
+
+[33mcommit fc921be5b8fecb90d46110221e5be3f47633091f[m[33m ([m[1;31morigin/event3[m[33m, [m[1;31morigin/develop_tree[m[33m, [m[1;31morigin/dev_2023_10_07[m[33m, [m[1;32mevent3[m[33m, [m[1;32mdevelop_tree[m[33m, [m[1;32mdev_2023_10_07[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 15 15:47:22 2023 +0900
+
+    event用の修正
+
+[33mcommit c3ef47b023637e58199d071cff8781dfd8083d7c[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Sep 10 09:37:06 2023 +0900
+
+    BNF
+
+[33mcommit e07ef217559840a4f8bb42271074f7903780932c[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Sep 10 09:17:35 2023 +0900
+
+    BNF
+
+[33mcommit 0d7dd75b82e5ac6773e29585fac24b408fd6bf19[m[33m ([m[1;31morigin/develop[m[33m, [m[1;31morigin/dev_2023_09_07[m[33m, [m[1;32mdevelop[m[33m, [m[1;32mdev_2023_09_07[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 8 21:48:27 2023 +0900
+
+    acc
+
+[33mcommit 8228e674237ae4b12194d36879e9e72e2d7e2cc5[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 20:18:03 2023 +0900
+
+    flx クロージャー展開
+
+[33mcommit 767b62a4ca89a8b00f0709257dadbabcb659b61a[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 20:06:32 2023 +0900
+
+    flx
+
+[33mcommit 31864ef7db410890ecd6eafd121a564cfee639b4[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 18:00:31 2023 +0900
+
+    fix クロージャー展開の再帰停止処理 - 2
+
+[33mcommit 3fd893915e54dd804188252c1663216b483346e0[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 17:41:45 2023 +0900
+
+    fix クロージャー展開の再帰停止処理
+
+[33mcommit c56a2371b424f8389d912d770f8e48f30b964dbe[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 15:34:01 2023 +0900
+
+    fix table
+
+[33mcommit 6e31213bd3822010efb520ab406ef63ce9601f3b[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 14:47:10 2023 +0900
+
+    字句解析
+
+[33mcommit 6b21aabfe990d7c9e780dbc3326641778e5d2621[m[33m ([m[1;31morigin/develop_table[m[33m, [m[1;31morigin/develop_main_token[m[33m, [m[1;32mdevelop_table[m[33m, [m[1;32mdevelop_main_token[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 14:15:49 2023 +0900
+
+    token
+
+[33mcommit 2d9801e0ef8646997585f9de67505d9c69f170be[m[33m ([m[1;31morigin/dev_2023_09_06[m[33m, [m[1;32mdev_2023_09_06[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 08:13:31 2023 +0900
+
+    fix
+
+[33mcommit bb6260cbe21152fea67c1d8b90e8a8904f21134f[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 08:12:19 2023 +0900
+
+    fix 再帰
+
+[33mcommit bce8cd4d611540cbbe69c0d7a2b0bb92fb0bd31a[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 07:59:07 2023 +0900
+
+    fix 一致検索
+
+[33mcommit 3612c43e83be8c58b1ad6f91fd2e40302b34053a[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 07:46:30 2023 +0900
+
+    一致の見地
+
+[33mcommit 083a3a4f1057f65489a0db35ec9a5914cbf8d78c[m[33m ([m[1;31morigin/dev_2023_09_05[m[33m, [m[1;32mdev_2023_09_05[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 04:14:18 2023 +0900
+
+    LR構文解析表完成
+
+[33mcommit ea7c8354e0eb21908a0586b504315d8092da5a36[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 03:45:05 2023 +0900
+
+    dev reduce
+
+[33mcommit 29d6ad38f857c0f3ba28e93a85d835efb0370bde[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 02:26:38 2023 +0900
+
+    gotoの構築
+
+[33mcommit 58ff8b7153629f591f186e371fe3743907f910c2[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Sep 6 00:56:13 2023 +0900
+
+    処理の抽象化
+
+[33mcommit 62f81bdeabed8f1a657a58a84d2959fb10ab4162[m[33m ([m[1;31morigin/dev_2023_09_04_2[m[33m, [m[1;32mdev_2023_09_04_2[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Tue Sep 5 21:37:39 2023 +0900
+
+    dev 構文解析表
+
+[33mcommit 8f3535695768472085938b04819bad80d5031b3c[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Tue Sep 5 18:54:28 2023 +0900
+
+    fix
+
+[33mcommit 26210af6e72be9b306a6feae7b0af53d414af04a[m[33m ([m[1;31morigin/dev_2023_09_04[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Sep 4 23:52:04 2023 +0900
+
+    fix
+
+[33mcommit 891dfa0b9185ee6935df999d0d0b6c79342551c0[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Sep 4 02:21:41 2023 +0900
+
+    flx 重複登録の禁止
+
+[33mcommit 63f0e7873cd3e40db2e13112e024b3d55f2bb6db[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Sep 4 02:08:27 2023 +0900
+
+    flx
+
+[33mcommit f52b2c0ab3657aefebf191e6f1e812af6aa80120[m[33m ([m[1;31morigin/develop_dfa[m[33m, [m[1;31morigin/dev_2023_09_03[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Sep 4 02:00:01 2023 +0900
+
+    先読み記号の追加
+
+[33mcommit 072e346fe5b2b30a97c61b52461ec82daaac5c48[m[33m ([m[1;31morigin/dev_2023_09_01_3[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Sep 2 23:40:40 2023 +0900
+
+    LRオートマトンの受理
+
+[33mcommit 6d827176daa490d8f6b47553b3ae34e37afad4a5[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Sep 2 03:36:57 2023 +0900
+
+    先読み記号
+
+[33mcommit e1d967bcbb86336c97e5495dba3087aa709ae824[m[33m ([m[1;31morigin/dev_2023_09_01_2[m[33m, [m[1;32mdevelop_dfa[m[33m, [m[1;32mdev_2023_09_01_2[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 1 07:24:58 2023 +0900
+
+    flx 再帰の変更
+
+[33mcommit 8e03b510491ab1130e649ea10664ca46d118069d[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 1 05:33:03 2023 +0900
+
+    fix label
+
+[33mcommit 3db75e1351c0efc13e5324a2a38eac159df31935[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 1 04:49:50 2023 +0900
+
+    fix
+
+[33mcommit 78e9adbb6d2e97e8b1db0c383053d6330abed8e6[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 1 04:34:11 2023 +0900
+
+    fix 特定first集合
+
+[33mcommit a37f1233bb6d2bbd85e1ab6a334e98e6383dbeb1[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Sep 1 01:59:56 2023 +0900
+
+    dev LR(0)
+
+[33mcommit 069dafb84f5e5159c1815b1a6ff2cfc720125d11[m[33m ([m[1;31morigin/dev_2023_08_30_2[m[33m, [m[1;32mdev_2023_08_30_2[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 16:41:09 2023 +0900
+
+    dev 構文解析表の構築 itemの構築
+
+[33mcommit 63121050447276d02b7c79582a1b35e3447fa2df[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 16:24:15 2023 +0900
+
+    dev 構文解析表の作成
+
+[33mcommit 7201693690a0b7c68794da93e6e4970defb512ee[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 15:56:07 2023 +0900
+
+    dev getNextLabelDFA
+
+[33mcommit a7d112171fdaf1941611540041845f410c67ae0b[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 15:37:13 2023 +0900
+
+    クロージャー展開
+
+[33mcommit 0be28d6ceaa72c304aef98dee78bd05957ea5a0a[m[33m ([m[1;31morigin/dev_2023_08_30[m[33m, [m[1;32mdev_2023_08_30[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 10:36:51 2023 +0900
+
+    maze
+
+[33mcommit 0c71915ff084d8579db8a673c4875316ae1d99c2[m[33m ([m[1;31morigin/dev_2023_08_29[m[33m, [m[1;32mdev_2023_08_29[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 04:28:16 2023 +0900
+
+    dev
+
+[33mcommit 80dbcd76ae6963161341badec5b6c30bb9ca69a5[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 30 00:04:19 2023 +0900
+
+    dev DFA
+
+[33mcommit 2f0f05e865433b5d6ed89e9e413bd1745a6812fa[m[33m ([m[1;31morigin/dev_2023_08_28[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 29 20:31:28 2023 +0900
+
+    dev dfa
+
+[33mcommit fce81cd9c5ed70518589eb9b6fc93d006576d7ca[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 28 07:54:00 2023 +0900
+
+    flx itemset
+
+[33mcommit 19a33cd9dcd12a7eaaf0ba8b9517f7fc7517906e[m[33m ([m[1;31morigin/dev_2023_08_27[m[33m, [m[1;32mdev_2023_08_27[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Aug 27 23:45:21 2023 +0900
+
+    dev start dfa_set
+
+[33mcommit 8e5fcedcb762f3107572fbd12a767d2ae9349010[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 23:12:31 2023 +0900
+
+    fix 関数の切り分け
+
+[33mcommit 2a4345652a6ebe8c85f25909d1abbdd17bfe32ce[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 18:44:02 2023 +0900
+
+    fix filename
+
+[33mcommit 32f1d40fa0c9eb8189f1d06319e4b03ad562608a[m[33m ([m[1;31morigin/develop_parser[m[33m, [m[1;32mdevelop_parser[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 18:04:24 2023 +0900
+
+    nulls first follow
+
+[33mcommit d33db9acff322255460569e07bbfe444af5ede77[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 10:24:07 2023 +0900
+
+    flx first
+
+[33mcommit f3c78f803688a391b719292cd9cc61f9a108e568[m[33m ([m[1;31morigin/dev_2023_08_25[m[33m, [m[1;32mdev_2023_08_25[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 09:18:33 2023 +0900
+
+    flx FirstSet
+
+[33mcommit 3b2054fe51f4831b45b646cc8f46866442464eb6[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 08:07:21 2023 +0900
+
+    flx NULL集合
+
+[33mcommit 407691d4e9249a6fb033aaaac5be5a4079435953[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 03:34:55 2023 +0900
+
+    dev Follow - temkp
+
+[33mcommit bd06853cac7f337d2a908132ef2b819dabf6b27b[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 03:13:11 2023 +0900
+
+    FirstSetClass
+
+[33mcommit 7de459e5670422fdc90f41981842c5f3fd5f8d22[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 02:30:56 2023 +0900
+
+    FollowsSetClass
+
+[33mcommit 70d547b12427e34cdc8cc8631e8dc073bd6178a4[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Aug 25 00:55:35 2023 +0900
+
+    ふりだしにもどった
+
+[33mcommit acd0dea28dc0b87e2d27bcb8190e63116c1564f6[m[33m ([m[1;31morigin/dev_2023_08_21_2[m[33m, [m[1;32mdev_2023_08_21_2[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 23 11:24:05 2023 +0900
+
+    update
+
+[33mcommit 0de50eaa85aba30c28886b282b11e0e3cdab2cd6[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 17:40:11 2023 +0900
+
+    dev 木構造の構築
+
+[33mcommit 29b55e4e84f40b7f0be59f72172c413abb009f5f[m[33m ([m[1;31morigin/dev_2023_08_21[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 21 21:56:13 2023 +0900
+
+    flx
+
+[33mcommit 749cbfd0417de4adf70de8eeac7a295d8931aeaa[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 21 20:37:32 2023 +0900
+
+    flx 配列の確保方法
+
+[33mcommit af422d7d13ce0f20a9a534876e01682de14fae40[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 21 20:34:20 2023 +0900
+
+    flx 配列の確保方法
+
+[33mcommit 5494ea1807ec47b701fc0485d4e4a6ebf7188105[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 21 20:19:00 2023 +0900
+
+    fix 特定条件下でreallocがバグる
+
+[33mcommit 445fdbf1f732b5cc1eb4ba4ff0fadc17767e2678[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 10:40:11 2023 +0900
+
+    flx right
+
+[33mcommit ed2ea06c062bf88afdabc08fbd654b76f1cbb51f[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 09:54:25 2023 +0900
+
+    dev 再帰的処理
+
+[33mcommit 3c9d9db7476f9232d9613a3daec599529f733d20[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 06:11:55 2023 +0900
+
+    構造体への変更
+
+[33mcommit 2010de773c99d5851ab7ee20718290a99b5ae344[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 03:20:08 2023 +0900
+
+    dev 構造体
+
+[33mcommit eb7b7d3086fdd4fb5430f6f6c4c437daa60dc21a[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Aug 21 00:23:17 2023 +0900
+
+    flx 配列長の変更
+
+[33mcommit 7979ba1420c6a407b38bbc7079df9213ef561edd[m[33m ([m[1;31morigin/dev_2023_08_16[m[33m, [m[1;32mdev_2023_08_16[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Aug 20 21:03:02 2023 +0900
+
+    dev 第一段階でのアイテム集合の導出
+
+[33mcommit 1a73919e9a9fe156f9ef73a46235b04adcdcf922[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Aug 20 06:34:01 2023 +0900
+
+    dev uniqueの取得
+
+[33mcommit 1535471051f00e90e8a3f8408951b0871e73c8aa[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Aug 19 20:25:11 2023 +0900
+
+    dev |での分割
+
+[33mcommit da6613a464cbabb0ca536c4bec98daca8ca09abd[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Wed Aug 16 15:54:17 2023 +0900
+
+    flx 絞り込みの構造体化
+
+[33mcommit 6a58b05c84b515daad7bacc46d10800a7cf28323[m[33m ([m[1;32mdev_2023_08_12[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Aug 12 21:53:21 2023 +0900
+
+    flx メモリ確保量の修正
+
+[33mcommit edbe9afe2ac5cc3dcc6ee245db5e509649d6edcb[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Aug 12 20:35:08 2023 +0900
+
+    fix vscode - debug
+
+[33mcommit ee1db51f727b60c17010e10b17956adc511d34cd[m[33m ([m[1;31morigin/dev_2023_08_08_2[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sat Aug 12 15:44:33 2023 +0900
+
+    fix file rename
+
+[33mcommit 1794026c2e64150fdffe72fb6043c714dc54ea90[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Thu Aug 10 23:03:42 2023 +0900
+
+    flx 変数名の変更
+
+[33mcommit f48a5622c23a2b770f72a068e6b14f286d380d55[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Wed Aug 9 01:48:05 2023 +0900
+
+    flx
+
+[33mcommit 338b7fb14f57b24e22eb1f1e09842698e1a38082[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Wed Aug 9 01:43:58 2023 +0900
+
+    flx
+
+[33mcommit 817830f116a21392e041c7168d2a123487093b2b[m[33m ([m[1;31morigin/dev_2023_08_08[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 8 21:36:34 2023 +0900
+
+    fix 構造体への変更
+
+[33mcommit a06a57eb7bdff728905019781cebae2605b8217c[m[33m ([m[1;31morigin/dev_2023_08_06[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 8 20:47:47 2023 +0900
+
+    flx
+
+[33mcommit 06910e977110399e55a30992f88de96b7b4a7bf0[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 8 13:33:56 2023 +0900
+
+    dev temp
+
+[33mcommit c2d9770c3f6fff5e3fcf1e69be6d4ce2134cfbed[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 8 12:04:35 2023 +0900
+
+    flx ユニークな個数の取得
+
+[33mcommit d69d561bb7ea56c16ec664d6c39c6b9b618f9a33[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Tue Aug 8 11:39:47 2023 +0900
+
+    fix 検索
+
+[33mcommit 9f9233c50243515f16ba7de3341ea7093a718daa[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Aug 7 09:58:42 2023 +0900
+
+    applySymbolTable
+
+[33mcommit 4be978ada87e6d6ba6def7aacefe9dcf7910f39a[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sun Aug 6 22:32:55 2023 +0900
+
+    dev
+
+[33mcommit 7dc8f7f66c226a8f445a820af79d174603b22f78[m[33m ([m[1;31morigin/dev_2023_07_25[m[33m, [m[1;32mdev_2023_07_25[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Fri Jul 28 09:12:41 2023 +0900
+
+    dev BNF構文解析
+
+[33mcommit 4d1999a614b97fe6cb491c6874956f02cd399e44[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Jul 23 13:06:04 2023 +0900
+
+    記号の振り分け
+
+[33mcommit bc7ab9d2db02d1fde2e73aa79937f85e24319d79[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Jul 23 04:33:31 2023 +0900
+
+    dev 左辺と右辺の判定
+
+[33mcommit 813a1a81e81370d417cd6d6b8eab003177803abe[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Jul 23 04:19:05 2023 +0900
+
+    dev token
+
+[33mcommit 3ef0b87300d08c359ce7bb8207abb549f173653d[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sun Jul 23 03:50:04 2023 +0900
+
+    tokenの識別
+
+[33mcommit e8d00621afb71237318b3c4330338435b9f13727[m[33m ([m[1;31morigin/dev_2023_07_21[m[33m, [m[1;32mdev_2023_07_21[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Jul 22 23:55:53 2023 +0900
+
+    dev BNF purser
+
+[33mcommit f18f28a2b53374ab5166f54e9c9b39079b9b681e[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Sat Jul 22 11:15:46 2023 +0900
+
+    file movement
+
+[33mcommit 3ac830227f76251b3c34e38baf21ae7bcc415ec1[m[33m ([m[1;31morigin/dev_2023_07_20[m[33m, [m[1;32mdev_2023_07_20[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Jul 20 08:31:21 2023 +0900
+
+    dev 字句解析
+
+[33mcommit 52bc5ad674df1883d1e5a6bd9ae2df0723a87284[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Jul 20 03:34:29 2023 +0900
+
+    char size
+
+[33mcommit 7bac301898b26f0c441ad7d90f0e5e4c614d6f14[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Thu Jul 20 01:17:44 2023 +0900
+
+    test
+
+[33mcommit 642a1d5e5e5e587c13226bbafe891a1751b569df[m[33m ([m[1;31morigin/dev_2023_07_19[m[33m, [m[1;31morigin/dev_2023_07_16[m[33m, [m[1;32mdev_2023_07_19[m[33m)[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Mon Jul 17 23:08:37 2023 +0900
+
+    dev token
+
+[33mcommit f0e1f20faea1704edd02bbce2fb554ae92331df0[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sun Jul 16 14:15:05 2023 +0900
+
+    dev-token
+
+[33mcommit 4784c06364ea005d989d24073b489a790e12460e[m
+Author: Maruyama <taku2000maru@icloud.com>
+Date:   Sun Jul 16 10:19:52 2023 +0900
+
+    Alpha
+
+[33mcommit 3bb8613027025ee588071603f8d90ccef24c4ad4[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/2023-06-20lex[m[33m)[m
+Author: Shio3001 <taku2000maru@icloud.com>
+Date:   Mon Jun 19 22:53:47 2023 +0900
+
+    add lex
