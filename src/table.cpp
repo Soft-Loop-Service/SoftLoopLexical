@@ -1,8 +1,4 @@
 #include "./lexical/lexical_analysis.hpp"
-#include "./analysis/table_analysis.hpp"
-
-#include "./syntactic/syntactic_analysis_tree.hpp"
-#include "./syntactic/syntactic_parse_tree.hpp"
 
 #include "./process/process_analysis.hpp"
 

@@ -14,6 +14,18 @@
 #include <vector>
 #include <algorithm>
 
+bool isTokenSkepSyntacticAnalysis(string token_str)
+{
+    const char *token = token_str.c_str();
+
+    if (strchr("(){}[];", token[0]) != 0)
+    {
+        printf("isTokenSkepSyntacticAnalysis\n");
+        return true;
+    }
+
+    return false;
+}
 struct SyntacticTreeNode // 構文解析用
 {
     string token;
@@ -62,6 +74,10 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
         if (bnf.label == is_id_TerminalSymbol)
         {
+            if (isTokenSkepSyntacticAnalysis(bnf.token_str))
+            {
+                continue;
+            }
 
             // int node_type = getSyntacticAnalysisTreeNodeType(current_reduce_formula.token_left, bnf.token_str);
 

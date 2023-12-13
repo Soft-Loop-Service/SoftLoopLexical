@@ -17,17 +17,20 @@ int main(int argc, char *argv[])
     char *source_code = new char[source_code_size * sizeof(char)];
     loadText(source_code, "sample.txt", source_code_size);
 
+    char **token_string = new char *[token_string_arr_size * sizeof(char *)];
+    int *token_progression = new int[token_progression_arr_size * sizeof(int)];
+
+    vstring token_string_vector = lexSyntax(source_code);
+
     LRTableMultilayer LR_table_multilayer;
     inputTable(argv[1], LR_table_multilayer);
 
     printf("syntacticAnalysis\n");
 
     vReduceFormula syntactic_analysis_formula = {};
-    syntacticAnalysis(LR_table_multilayer, {}, syntactic_analysis_formula);
-
+    syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
     printf("syntacticPurseTree\n");
     vSyntacticTree syntactic_analysis_tree = {};
-
     syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree);
     vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 

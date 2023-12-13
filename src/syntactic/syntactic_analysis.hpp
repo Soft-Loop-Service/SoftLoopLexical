@@ -17,8 +17,8 @@ void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vstring token_stri
 
 void syntacticAnalysisTree(vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree)
 {
-
     commonAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree);
+    return;
 }
 
 #endif
