@@ -5,7 +5,8 @@
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
 #include "./../LR_table/LR_table_cell.hpp"
-#include "./../syntactic/syntactic_analysis_tree.hpp"
+#include "./../analysis/common_analysis.hpp"
+#include "./../analysis/common_analysis_tree.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>

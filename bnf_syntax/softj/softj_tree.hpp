@@ -9,8 +9,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 #include "./../../src/process/process_analysis_definition.hpp"
+#include "./../../src/analysis/common_analysis.hpp"
+#include "./../../src/analysis/common_analysis_tree.hpp"
 
 class SoftjTree
 {

@@ -7,7 +7,9 @@
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
 #include "./../LR_table/LR_table_cell.hpp"
-#include "./syntactic_analysis_tree.hpp"
+#include "./../analysis/common_analysis.hpp"
+#include "./../analysis/common_analysis_tree.hpp"
+
 #include "./../../bnf_syntax/softj/softj.hpp"
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +17,19 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+bool isTokenSkepSyntacticAnalysis(string token_str)
+{
+    const char *token = token_str.c_str();
+
+    if (strchr("(){}[];", token[0]) != 0)
+    {
+        printf("isTokenSkepSyntacticAnalysis\n");
+        return true;
+    }
+
+    return false;
+}
 
 bool isTokenExpr(string token_str)
 {
@@ -50,21 +65,6 @@ int isCutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index)
     }
 
     return -1;
-
-    // if (current_node.children.size() != 3)
-    // {
-    //     return -1;
-    // }
-
-    // int child1 = current_node.children[1];
-    // SyntacticTreeNode child1_node = syntactic_parse_tree[child1];
-
-    // if (!child1_node.token_label == is_id_TerminalSymbol || !isTokenExpr(child1_node.token))
-    // {
-    //     return -1;
-    // }
-
-    // return child1;
 }
 
 int cutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index)
@@ -101,6 +101,11 @@ int recursionCutSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int cur
     SyntacticTreeNode current_node = syntactic_parse_tree[current_node_index];
 
     if (current_node.children.size() == 0 && current_node.token_label != is_id_TerminalSymbol)
+    {
+        return -1;
+    }
+
+    if (isTokenSkepSyntacticAnalysis(current_node.token))
     {
         return -1;
     }

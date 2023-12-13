@@ -1,5 +1,6 @@
 #include "./lexical/lexical_analysis.hpp"
-#include "./syntactic/syntactic_analysis.hpp"
+#include "./analysis/table_analysis.hpp"
+
 #include "./syntactic/syntactic_analysis_tree.hpp"
 #include "./syntactic/syntactic_parse_tree.hpp"
 
@@ -12,6 +13,7 @@
 #include "./BNF/BNF.hpp"
 #include <fstream>
 
+// 第一引数 : 構文定義ファイル
 int main(int argc, char *argv[])
 {
     LRTableMultilayer LR_table_multilayer;

@@ -11,6 +11,5 @@
 #include <map>
 
 #include "./softj_definition.hpp"
-#include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 
 #endif

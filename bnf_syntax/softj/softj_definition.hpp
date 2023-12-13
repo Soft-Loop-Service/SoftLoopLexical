@@ -9,6 +9,5 @@
 #include <stack>
 #include <queue>
 #include <map>
-#include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 
 #endif
