@@ -123,6 +123,7 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalTok
             continue;
         }
         printf("ERROR\n");
+        exit(1);
         return;
     }
 
