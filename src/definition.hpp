@@ -158,6 +158,17 @@ void loadText(char *text, const char *file_name, int size)
 }
 
 // アルファベットであるか探索
+int isNumber(char ch)
+{
+
+    if ('0' <= ch && ch <= '9')
+    {
+        return 1;
+    }
+    return 0;
+}
+
+// アルファベットであるか探索
 int isAlphabetOrNumber(char ch)
 {
     if ('A' <= ch && ch <= 'Z')

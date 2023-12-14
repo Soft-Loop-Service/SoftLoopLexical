@@ -154,6 +154,9 @@ void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int curre
             auto it = syntactic_parse_tree[current_node_index].children.begin();
             it += i;
             syntactic_parse_tree[current_node_index].children.erase(it);
+
+            // 変更した箇所があれば、同じ条件でもう一度走査する
+            recursionSyntacticParseTree(syntactic_parse_tree, current_node_index);
             continue;
         }
 
@@ -168,6 +171,7 @@ void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int curre
 void syntacticParseTree(vSyntacticTree &syntactic_parse_tree)
 {
     recursionSyntacticParseTree(syntactic_parse_tree, 0);
+
     recursionCutExpr(syntactic_parse_tree, 0);
     debugSyntacticAnalysisTree(syntactic_parse_tree);
 }

@@ -108,11 +108,13 @@ void debugSyntacticAnalysisTree(vSyntacticTree &syntactic_analysis_tree)
 void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree, vLexicalToken token_string_vector)
 {
     int count = 0;
-    for (int i = 0; i < syntactic_analysis_tree.size(); i++)
+    int size = syntactic_analysis_tree.size();
+    for (int i = 0; i < size; i++)
     {
-        if (syntactic_analysis_tree[i].token_label == is_id_TerminalSymbol)
+        int li = size - i - 1;
+        if (syntactic_analysis_tree[li].token_label == is_id_TerminalSymbol)
         {
-            syntactic_analysis_tree[i].token = token_string_vector[count].token;
+            syntactic_analysis_tree[li].token = token_string_vector[count].token;
             count++;
         }
     }
@@ -127,6 +129,7 @@ void syntacticAnalysisTree(vReduceFormula syntactic_analysis_formula, vSyntactic
 
     recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, token_string_vector, last, -1, 0);
     syntacticAnalysisTreeSubstitution(syntactic_analysis_formula, syntactic_analysis_tree, token_string_vector);
+
     debugSyntacticAnalysisTree(syntactic_analysis_tree);
 }
 

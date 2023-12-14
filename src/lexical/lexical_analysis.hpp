@@ -47,9 +47,17 @@ vLexicalToken lexSyntax(char *source_code)
         { // 1文字記号.
             token_search_len = 1;
         }
-        else if (isAlphabetOrNumber(source_code[i_s]))
+        else if (isNumber(source_code[i_s]))
         {
             token_type = "NUM";
+            while (isNumber(source_code[i_s + token_search_len]))
+            {
+                token_search_len++;
+            }
+        }
+        else if (isAlphabetOrNumber(source_code[i_s]))
+        {
+
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
                 token_search_len++;
