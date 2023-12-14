@@ -12,7 +12,7 @@
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
 <factor> ::= <number> | "(" <right> ")" | <value_name>
 
-<number> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<number> ::= NUM
 <value_definition> ::= <type_name> <value_name>
 
 <type_name> ::= "int" | "string"

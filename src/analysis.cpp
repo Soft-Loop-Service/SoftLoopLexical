@@ -1,4 +1,6 @@
 #include "./lexical/lexical_analysis.hpp"
+#include "./lexical/lexical_analysis_definition.hpp"
+
 #include "./syntactic/syntactic_analysis.hpp"
 #include "./syntactic/syntactic_analysis_tree.hpp"
 #include "./syntactic/syntactic_parse_tree.hpp"
@@ -20,12 +22,10 @@ int main(int argc, char *argv[])
 
     char **token_string = new char *[token_string_arr_size * sizeof(char *)];
     int *token_progression = new int[token_progression_arr_size * sizeof(int)];
-
-    lexSyntax(source_code, token_string, token_progression);
-    vstring token_string_vector = getTokenString(token_string, token_progression);
+    vLexicalToken token_string_vector = lexSyntax(source_code);
 
     LRTableMultilayer LR_table_multilayer;
-    inputTable(argv[1],LR_table_multilayer);
+    inputTable(argv[1], LR_table_multilayer);
 
     printf("syntacticAnalysis\n");
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     printf("syntacticPurseTree\n");
     vSyntacticTree syntactic_analysis_tree = {};
 
-    syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree);
+    syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree, token_string_vector);
     vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
     syntacticParseTree(syntactic_parse_tree);

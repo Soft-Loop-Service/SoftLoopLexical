@@ -7,6 +7,8 @@
 #include "./../debug.hpp"
 #include "./../symbol.hpp"
 
+#include "./lexical_analysis_definition.hpp"
+
 string getToken(char *source_text, int token_search_len)
 {
     // ここから登録
@@ -17,15 +19,18 @@ string getToken(char *source_text, int token_search_len)
     return token_string;
 }
 // スキャナ
-vector<string> lexSyntax(char *source_code)
+vLexicalToken lexSyntax(char *source_code)
 {
     // source_codeとtokenのポインタを得る
-    vector<string> tokens;
+    vLexicalToken lexical_token = {};
 
     int i_s = 0; // 現在地点
     for (;;)
+
     { // 終了コードまで
         // return;
+
+        string token_type = "\t";
         int token_search_len = 0;
 
         if (source_code[i_s] == 0) // ファイル終端
@@ -44,6 +49,7 @@ vector<string> lexSyntax(char *source_code)
         }
         else if (isAlphabetOrNumber(source_code[i_s]))
         {
+            token_type = "NUM";
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
                 token_search_len++;
@@ -65,12 +71,22 @@ vector<string> lexSyntax(char *source_code)
         }
         printf("token_search_len %d\n", token_search_len);
         string current_token = getToken(&source_code[i_s], token_search_len);
-        tokens.push_back(current_token);
+
+        if (token_type == "\t")
+        {
+            token_type = current_token;
+        }
+
+        struct lexicalToken ts = {current_token, token_type};
+
+        lexical_token.push_back(ts);
         // printf("current_token_id : %d", current_token_id);
         i_s += token_search_len;
     }
-    tokens.push_back(DOLLAR);
-    return tokens;
+
+    struct lexicalToken tsd = {DOLLAR, DOLLAR};
+    lexical_token.push_back(tsd);
+    return lexical_token;
 
     // output_token_string(token_string, token_string_arr_size);
     // output_token_progression(token_string, token_progression, token_progression_endline);

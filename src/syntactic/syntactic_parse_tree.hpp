@@ -16,6 +16,19 @@
 #include <vector>
 #include <algorithm>
 
+bool isTokenSkepSyntacticAnalysis(string token_str)
+{
+    const char *token = token_str.c_str();
+
+    if (strchr("(){}[];", token[0]) != 0)
+    {
+        printf("isTokenSkepSyntacticAnalysis\n");
+        return true;
+    }
+
+    return false;
+}
+
 bool isTokenExpr(string token_str)
 {
 
@@ -101,6 +114,11 @@ int recursionCutSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int cur
     SyntacticTreeNode current_node = syntactic_parse_tree[current_node_index];
 
     if (current_node.children.size() == 0 && current_node.token_label != is_id_TerminalSymbol)
+    {
+        return -1;
+    }
+
+    if (isTokenSkepSyntacticAnalysis(current_node.token))
     {
         return -1;
     }
