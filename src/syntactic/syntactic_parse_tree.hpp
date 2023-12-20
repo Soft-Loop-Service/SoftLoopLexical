@@ -19,14 +19,7 @@
 bool isTokenSkepSyntacticAnalysis(string token_str)
 {
     const char *token = token_str.c_str();
-
-    if (strchr("(){}[];", token[0]) != 0)
-    {
-        printf("isTokenSkepSyntacticAnalysis\n");
-        return true;
-    }
-
-    return false;
+    return (strchr("(){}[];", token[0]) != 0);
 }
 
 bool isTokenExpr(string token_str)
@@ -135,6 +128,7 @@ int recursionCutSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int cur
     return late;
 }
 
+// CSTに埋め込まれている、token-typeを入力された構文に戻す関数
 void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int current_node_index)
 {
     printf("recursionSyntacticParseTree %d\n", current_node_index);
