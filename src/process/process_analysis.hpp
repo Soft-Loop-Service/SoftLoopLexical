@@ -14,7 +14,6 @@
 #include <vector>
 #include <algorithm>
 
-#include "./../../bnf_syntax/softj/softj.hpp"
 #include "./../../bnf_syntax/softj/softj_tree.hpp"
 
 #include "./process_analysis_operation.hpp"

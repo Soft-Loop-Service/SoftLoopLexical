@@ -20,6 +20,7 @@ private:
     vProcessAnalysis *process_result;
     VariablePossessionUnion *vpc;
 
+    // 代入式の解決
     template <class T>
     void assExpr(T value, int node_index, int &size)
     {
@@ -40,7 +41,7 @@ private:
             printf("d\n");
 
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
-            struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message, value_name};
             process_result->push_back(pr);
 
             return;
@@ -51,7 +52,7 @@ private:
             string value_name = current_node.token;
             vpc->add(value, value_name, size);
             string message = "変数代入 " + current_node.token + " " + to_string(value);
-            struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message, value_name};
             process_result->push_back(pr);
             return;
         }
@@ -93,6 +94,7 @@ private:
 
     int ifCalc(int node_index)
     {
+        printf("ifCalc\n");
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
         SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
@@ -106,7 +108,11 @@ private:
             string message = "条件式 true";
             struct ProcessAnalysis pr = {message};
             process_result->push_back(pr);
-            recursion(current_node.children[2]);
+
+            if (current_node.children.size() >= 3)
+            {
+                recursion(current_node.children[2]);
+            }
         }
         else
         {
@@ -187,8 +193,13 @@ private:
     }
     int calc(int node_index)
     {
-        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
+        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+        if (current_node.children.size() == 1)
+        {
+            int r = calc(current_node.children[0]);
+            return r;
+        }
         if (current_node.parent_token == "<value_name>")
         {
             printf("cal get %s\n", current_node.token.c_str());
@@ -203,6 +214,7 @@ private:
         {
             return stoi(current_node.token);
         }
+
         printf("calc %d -> %d %d\n", node_index, current_node.children[0], current_node.children[1]);
 
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];

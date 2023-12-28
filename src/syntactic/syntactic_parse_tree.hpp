@@ -8,7 +8,6 @@
 #include "./../LR_table/LR_table_definition.hpp"
 #include "./../LR_table/LR_table_cell.hpp"
 #include "./syntactic_analysis_tree.hpp"
-#include "./../../bnf_syntax/softj/softj.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

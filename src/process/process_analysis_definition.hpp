@@ -16,6 +16,11 @@ class VariableAddress;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 typedef vector<VariableAddress> vVariableAddress;
 
+struct VariableList
+{
+    /* data */
+};
+
 struct ProcessAnalysis
 {
     string message;               // 表示message
