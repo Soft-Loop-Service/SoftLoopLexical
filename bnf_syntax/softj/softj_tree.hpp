@@ -22,7 +22,7 @@ private:
 
     // 代入式の解決
     template <class T>
-    void assExpr(T value, int node_index, int &size)
+    void assExpr(T value, int node_index)
     {
 
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -35,7 +35,7 @@ private:
             SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
 
             string value_name = child_right.token;
-            vpc->add(value, value_name, size);
+            vpc->newValue(value_name,value);
 
             // vpc[0]->add(value, address, size);
             printf("d\n");
@@ -50,7 +50,7 @@ private:
         if (current_node.parent_token == "<value_name>")
         {
             string value_name = current_node.token;
-            vpc->add(value, value_name, size);
+            vpc->updateValue(value_name,value);
             string message = "変数代入 " + current_node.token + " " + to_string(value);
             struct ProcessAnalysis pr = {message, value_name};
             process_result->push_back(pr);
@@ -129,10 +129,9 @@ private:
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
 
-        int size;
         int right;
         right = calc(current_node.children[1]);
-        assExpr(right, current_node.children[0], size);
+        assExpr(right, current_node.children[0]);
     }
     int addition(int left, int right)
     {
@@ -204,7 +203,7 @@ private:
         {
             printf("cal get %s\n", current_node.token.c_str());
             int val;
-            vpc->get(current_node.token, val);
+            vpc->getValue(current_node.token, val);
             printf("cal get2 %d\n", val);
 
             return val;

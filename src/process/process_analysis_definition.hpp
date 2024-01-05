@@ -12,112 +12,65 @@
 #include "./../definition.hpp"
 
 struct ProcessAnalysis;
-class VariableAddress;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
-typedef vector<VariableAddress> vVariableAddress;
-
-struct VariableList
-{
-    /* data */
-};
 
 struct ProcessAnalysis
 {
     string message;               // 表示message
     string relationship_variable; // 関連変数
+    int layer;
     // string value;
-};
-
-class VariableAddress
-{
-    mp_s_i address_table;
-
-private:
-public:
-    VariableAddress()
-    {
-        address_table = {};
-    }
-    void put(string value_name, int address)
-    {
-        this->address_table[value_name] = address;
-    }
-    void get(string value_name, int &address)
-    {
-        address = this->address_table[value_name];
-    }
-    vector<string> get_keys(string value_name)
-    {
-        vector<string> keys;
-        for (auto it = address_table.begin(); it != address_table.end(); it++)
-        {
-            keys.push_back(it->first);
-        }
-        return keys;
-    }
-    bool has_keys(string value_name)
-    {
-        for (auto it = address_table.begin(); it != address_table.end(); it++)
-        {
-            string key = it->first;
-            if (key == value_name)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 };
 
 class VariableScope
 {
 private:
-    int depth = 0;
-    vVariableAddress address_table;
+    vmap_str_int layer_scope;
+
+    bool hasLayer(int scope, string value_name)
+    {
+        return this->layer_scope[scope].find(value_name) != this->layer_scope[scope].end();
+    }
 
 public:
     VariableScope()
     {
-        address_table = {};
-    }
-    void deep()
-    {
-        depth++;
-        VariableAddress va;
-        this->address_table.push_back(va);
-    }
-    void shallow()
-    {
-        depth--;
-        this->address_table.pop_back();
+        layer_scope = {{}};
     }
 
-    // 格納先を決める
-    void add(string value_name, int &address)
+    void putLayer(string value_name, int layer)
     {
-        int table_size = address_table.size();
-        address_table[table_size - 1].put(value_name, address);
+        int last = layer_scope.size() - 1;
+
+        layer_scope[last][value_name] = layer;
     }
 
-    // 格納先を走査する
-    void inquiry(string value_name, int &address)
+    int searchLayer(string value_name)
     {
-        address = -1;
-        for (int i = 0; i < this->address_table.size(); i++)
+        int size = layer_scope.size();
+        int last = layer_scope.size() - 1;
+
+        for (int i = 0; i < size; i++)
         {
-            int li = this->address_table.size() - i - 1;
-            bool has_key = address_table[li].has_keys(value_name);
+            int li = size - i - 1;
 
-            if (has_key)
+            if (hasLayer(li, value_name))
             {
-                address_table[li].get(value_name, address);
-                printf("inquiry haskey %d \n", address);
-
-                return;
+                int layer = layer_scope[li][value_name];
+                return layer;
             }
         }
 
-        return;
+        return - 1;
+    }
+
+    void deep()
+    {
+        layer_scope.push_back({});
+    }
+    void shallow()
+    {
+        layer_scope.pop_back();
     }
 };
 
@@ -125,7 +78,7 @@ template <typename T>
 class VariablePossession
 {
 private:
-    vector<T> variable = {};
+    map<int, T> variable = {};
 
 public:
     VariablePossession()
@@ -133,61 +86,137 @@ public:
         variable = {};
     }
 
-    void add(T value, int &address, int &size)
+    void add(int layer, T value)
     {
-        variable.push_back(value);
-
-        address = variable.size() - 1;
-        size = 1;
+        variable[layer] = value;
         return;
     }
-    void get(int address, T &data)
+    void get(int layer, T &data)
     {
-        data = variable[address];
+        data = variable[layer];
     }
 };
 
 class VariablePossessionUnion
 {
 private:
+    mp_i_s value_type_table; // その変数がどんな型なのかを管理する
     VariablePossession<int> *vp_int;
     VariablePossession<string> *vp_string;
     VariableScope *variable_scope;
+    int max_layer = 0;
+
+    void setValueTypeTable(int layer, string type)
+    {
+        this->value_type_table[layer] = type;
+    }
+    string getValueTypeTable(int layer)
+    {
+        return this->value_type_table[layer];
+    }
+    bool hasValueTypeTable(int layer)
+    {
+        return this->value_type_table.find(layer) != this->value_type_table.end();
+    }
+
+    string parseType(string element)
+    {
+        return "string";
+    }
+
+    bool isType(string type, string element)
+    {
+        return type == "string";
+    }
+    string parseType(int element)
+    {
+        return "int";
+    }
+
+    bool isType(string type, int element)
+    {
+        return type == "int";
+    }
 
 public:
     VariablePossessionUnion()
     {
+        this->value_type_table = {};
         vp_int = new VariablePossession<int>();
         vp_string = new VariablePossession<string>();
         variable_scope = new VariableScope();
-        variable_scope->deep();
     }
 
-    void add(int value, string value_name, int &size)
+    template <typename T>
+    void newValue(string name, T element)
     {
-        int address;
-        vp_int->add(value, address, size);
 
-        this->variable_scope->add(value_name, address);
-    }
-    void add(string value, string value_name, int &size)
-    {
-        int address;
-        vp_string->add(value, address, size);
+        if (variable_scope->searchLayer(name) == -1)
+        {
+            // 存在しないとき、新規追加できる
 
-        this->variable_scope->add(value_name, address);
+            int current_layer = max_layer;
+            max_layer++;
+
+            this->variable_scope->putLayer(name, current_layer);
+
+            string type = parseType(element);
+            setValueTypeTable(current_layer, type);
+            updateValue(current_layer, element);
+        }
     }
-    void get(string value_name, int &data)
+
+    template <typename T>
+    void updateValue(string name, T element)
     {
-        int address;
-        this->variable_scope->inquiry(value_name, address);
-        vp_int->get(address, data);
+        int layer = variable_scope->searchLayer(name);
+        updateValue(layer, element);
     }
-    void get(string value_name, string &data)
+    template <typename T>
+    void updateValue(int layer, T element)
     {
-        int address;
-        this->variable_scope->inquiry(value_name, address);
-        vp_string->get(address, data);
+        if (hasValueTypeTable(layer))
+        {
+
+            string type = getValueTypeTable(layer);
+
+            if (type == "string")
+            {
+                vp_string->add(layer, element);
+            }
+            if (type == "int")
+            {
+                vp_int->add(layer, element);
+            }
+        }
+    }
+
+    template <typename T>
+    void getValue(string name, T &element)
+    {
+        int layer = variable_scope->searchLayer(name);
+        getValue(layer, element);
+    }
+    template <typename T>
+    bool getValue(int layer, T &element)
+    {
+        if (!hasValueTypeTable(layer))
+        {
+            return false;
+        }
+        string type = getValueTypeTable(layer);
+        if (!isType(type, element))
+        {
+            return false;
+        }
+        if (type == "string")
+        {
+            vp_string->get(layer, element);
+        }
+        if (type == "int")
+        {
+            vp_int->get(layer, element);
+        }
     }
 };
 
