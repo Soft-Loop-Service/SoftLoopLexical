@@ -27,7 +27,7 @@ void debugProcessResult(vProcessAnalysis process_result)
     {
         ProcessAnalysis current = process_result[i];
 
-        printf("%d : %s\n", i, current.message.c_str());
+        printf("%d : %d %s\n", i, current.layer, current.message.c_str());
     }
 }
 

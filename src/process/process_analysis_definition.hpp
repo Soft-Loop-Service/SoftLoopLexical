@@ -17,9 +17,7 @@ typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 struct ProcessAnalysis
 {
     string message;               // 表示message
-    string relationship_variable; // 関連変数
-    int layer;
-    // string value;
+    int layer = 0;                  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
 };
 
 class VariableScope
@@ -61,7 +59,7 @@ public:
             }
         }
 
-        return - 1;
+        return -1;
     }
 
     void deep()
@@ -74,26 +72,36 @@ public:
     }
 };
 
-template <typename T>
 class VariablePossession
 {
 private:
-    map<int, T> variable = {};
+    map<int, int> variable_int = {};
+    map<int, string> variable_string = {};
 
 public:
     VariablePossession()
     {
-        variable = {};
+        variable_int = {};
     }
 
-    void add(int layer, T value)
+    void add(int layer, int value)
     {
-        variable[layer] = value;
+        variable_int[layer] = value;
         return;
     }
-    void get(int layer, T &data)
+    void get(int layer, int &data)
     {
-        data = variable[layer];
+        data = variable_int[layer];
+    }
+
+    void add(int layer, string value)
+    {
+        variable_string[layer] = value;
+        return;
+    }
+    void get(int layer, string &data)
+    {
+        data = variable_string[layer];
     }
 };
 
@@ -101,10 +109,9 @@ class VariablePossessionUnion
 {
 private:
     mp_i_s value_type_table; // その変数がどんな型なのかを管理する
-    VariablePossession<int> *vp_int;
-    VariablePossession<string> *vp_string;
+    VariablePossession *variable_possession;
     VariableScope *variable_scope;
-    int max_layer = 0;
+    int max_layer = 1;
 
     void setValueTypeTable(int layer, string type)
     {
@@ -142,8 +149,7 @@ public:
     VariablePossessionUnion()
     {
         this->value_type_table = {};
-        vp_int = new VariablePossession<int>();
-        vp_string = new VariablePossession<string>();
+        variable_possession = new VariablePossession();
         variable_scope = new VariableScope();
     }
 
@@ -166,6 +172,11 @@ public:
         }
     }
 
+    int getLayer(string name){
+        int layer = variable_scope->searchLayer(name);
+        return layer;
+    }
+
     template <typename T>
     void updateValue(string name, T element)
     {
@@ -179,15 +190,7 @@ public:
         {
 
             string type = getValueTypeTable(layer);
-
-            if (type == "string")
-            {
-                vp_string->add(layer, element);
-            }
-            if (type == "int")
-            {
-                vp_int->add(layer, element);
-            }
+            variable_possession->add(layer, element);
         }
     }
 
@@ -209,14 +212,8 @@ public:
         {
             return false;
         }
-        if (type == "string")
-        {
-            vp_string->get(layer, element);
-        }
-        if (type == "int")
-        {
-            vp_int->get(layer, element);
-        }
+
+        variable_possession->get(layer, element);
     }
 };
 

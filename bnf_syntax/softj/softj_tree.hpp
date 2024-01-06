@@ -41,7 +41,9 @@ private:
             printf("d\n");
 
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
-            struct ProcessAnalysis pr = {message, value_name};
+
+            int layer = vpc->getLayer(value_name);
+            struct ProcessAnalysis pr = {message, layer};
             process_result->push_back(pr);
 
             return;
@@ -52,7 +54,8 @@ private:
             string value_name = current_node.token;
             vpc->updateValue(value_name,value);
             string message = "変数代入 " + current_node.token + " " + to_string(value);
-            struct ProcessAnalysis pr = {message, value_name};
+            int layer = vpc->getLayer(value_name);
+            struct ProcessAnalysis pr = {message, layer};
             process_result->push_back(pr);
             return;
         }
@@ -80,7 +83,7 @@ private:
         while (ifbool)
         {
             string message = "ループ条件式 true";
-            struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message, 0};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
             calc_ans = calc(current_node.children[1]);
@@ -88,7 +91,7 @@ private:
         }
 
         string message = "ループ条件式 false";
-        struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message, 0};
         process_result->push_back(pr);
     }
 
@@ -106,7 +109,7 @@ private:
         if (ifbool)
         {
             string message = "条件式 true";
-            struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message,0};
             process_result->push_back(pr);
 
             if (current_node.children.size() >= 3)
@@ -117,7 +120,7 @@ private:
         else
         {
             string message = "条件式 false";
-            struct ProcessAnalysis pr = {message};
+            struct ProcessAnalysis pr = {message,0};
             process_result->push_back(pr);
         }
     }
