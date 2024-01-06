@@ -27,7 +27,7 @@ void debugProcessResult(vProcessAnalysis process_result)
     {
         ProcessAnalysis current = process_result[i];
 
-        printf("%d : %d %s\n", i, current.layer, current.message.c_str());
+        printf("%d : %d %s\n", i, current.output_layer, current.message.c_str());
     }
 }
 
@@ -42,7 +42,7 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     SoftjTree softjtree(syntactic_analysis_tree, process_result, vpc);
 
     debugProcessResult(process_result);
-    outputHtml(process_result);
+    HTMLParse::outputHtml(process_result);
 }
 
 #endif

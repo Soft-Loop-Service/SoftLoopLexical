@@ -16,8 +16,9 @@ typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 
 struct ProcessAnalysis
 {
-    string message;               // 表示message
-    int layer = 0;                  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+    string message; // 表示message
+    vint input_layer = {};
+    int output_layer = 0; // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
 };
 
 class VariableScope
@@ -46,7 +47,7 @@ public:
     int searchLayer(string value_name)
     {
         int size = layer_scope.size();
-        int last = layer_scope.size() - 1;
+        int last = size - 1;
 
         for (int i = 0; i < size; i++)
         {
@@ -159,7 +160,7 @@ public:
 
         if (variable_scope->searchLayer(name) == -1)
         {
-            // 存在しないとき、新規追加できる
+            // 存在しないとき、新規追加
 
             int current_layer = max_layer;
             max_layer++;
@@ -172,7 +173,8 @@ public:
         }
     }
 
-    int getLayer(string name){
+    int getLayer(string name)
+    {
         int layer = variable_scope->searchLayer(name);
         return layer;
     }
