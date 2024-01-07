@@ -16,6 +16,22 @@
         "isDefault": true
       },
       "detail": "コンパイラ: /usr/bin/g++"
+    },
+    {
+      "type": "cppbuild",
+      "label": "build_analysis_g++",
+
+      "command": "/usr/bin/g++",
+      "args": ["-fdiagnostics-color=always", "-std=c++2a", "${file}", "-g", "-o", "${workspaceFolder}/analysis.out"],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "コンパイラ: /usr/bin/g++"
     }
   ]
 }

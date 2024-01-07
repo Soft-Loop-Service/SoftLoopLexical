@@ -91,11 +91,7 @@ private:
             latter_token.push_back(LR_formula_expansion.token_vector[i]);
         }
 
-        // for (int i = 0; i < LR_formula_expansion.lookAhead.size(); i++)
-        // {
         latter_token.push_back(LR_formula_expansion.lookAhead[lookAhead_index]);
-        // findFirstSetVectorに対してはvDeploymentTokenStructの形で渡さねばならぬが、これが阻んでいる
-        // }
 
         return latter_token;
     }

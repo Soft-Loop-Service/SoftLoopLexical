@@ -73,11 +73,14 @@ void syntacticAnalysisProcessAccept()
 {
     printf("syntacticAnalysisProcessAccept\n");
 }
+// syntactic_analysis_formula
 
+/// @param LR_table_multilayer
+/// @param token_string_vector
+/// @param syntactic_analysis_formula // 構文解析表出力。出力ストリーム
 void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalToken token_string_vector, vReduceFormula &syntactic_analysis_formula)
 {
     sint stack_analysis; // 構文解析表スタック
-    // syntactic_analysis_formula                     // 構文解析表出力。出力ストリーム
 
     stack_analysis.push(0);
 

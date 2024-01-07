@@ -139,7 +139,7 @@ private:
     int addition(int left, int right)
     {
         string message = "加算 " + to_string(left) + " + " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
 
         return left + right;
@@ -147,49 +147,49 @@ private:
     int subtraction(int left, int right)
     {
         string message = "減算 " + to_string(left) + " - " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left - right;
     }
     int multiplication(int left, int right)
     {
         string message = "乗算 " + to_string(left) + " * " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left * right;
     }
     int division(int left, int right)
     {
         string message = "割算 " + to_string(left) + " / " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left / right;
     }
     int less(int left, int right)
     {
         string message = "比較 " + to_string(left) + " < " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left < right;
     }
     int less_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " <= " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left <= right;
     }
     int greater(int left, int right)
     {
         string message = "比較 " + to_string(left) + " > " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left > right;
     }
     int greater_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " >= " + to_string(right);
-        struct ProcessAnalysis pr = {message};
+        struct ProcessAnalysis pr = {message, {}, 0};
         process_result->push_back(pr);
         return left >= right;
     }

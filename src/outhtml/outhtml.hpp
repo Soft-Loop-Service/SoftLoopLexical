@@ -34,33 +34,33 @@ namespace HTMLParse
 
             HtmlKitElement()
             {
-                e_tag = "root";
-                e_id = "";
-                e_class = "";
-                children = {};
+                this->e_tag = "root";
+                this->e_id = "";
+                this->e_class = "";
+                this->children = {};
             }
 
             HtmlKitElement(string e_tag)
             {
-                e_tag = e_tag;
-                e_id = "";
-                e_class = "";
-                children = {};
+                this->e_tag = e_tag;
+                this->e_id = "";
+                this->e_class = "";
+                this->children = {};
             }
 
             void setEClass(string e_class)
             {
-                e_class = e_class;
+                this->e_class = e_class;
             }
 
             void setEId(string e_id)
             {
-                e_id = e_id;
+                this->e_id = e_id;
             }
 
             void setElement(string element)
             {
-                element = element;
+                this->element = element;
             }
             void add_children(int index)
             {
@@ -88,11 +88,8 @@ namespace HTMLParse
                     text += e_id;
                     text += " ";
                 }
-
                 text += ">";
-
                 return text;
-                // "<div class=hoge id=hoge></div>"
             }
             string parseHtml2()
             {
@@ -223,7 +220,7 @@ namespace HTMLParse
 
                 if (process.output_layer == unit_num)
                 {
-                    timelineLayerUnitStationOutputArea(unit_num);
+                    timelineLayerUnitStationOutputArea(layer_unit_node_index);
                     return;
                 }
 
@@ -232,7 +229,7 @@ namespace HTMLParse
 
                     if (process.input_layer[i] == unit_num)
                     {
-                        timelineLayerUnitStationInputArea(unit_num);
+                        timelineLayerUnitStationInputArea(layer_unit_node_index);
                         return;
                     }
                 }
@@ -251,9 +248,9 @@ namespace HTMLParse
             }
 
         public:
-            HtmlTimeLine(vProcessAnalysis process_result)
+            HtmlTimeLine(vProcessAnalysis *process_result_p)
             {
-                this->process_result = &process_result;
+                this->process_result = process_result_p;
                 this->html_kit_tree = HTMLKit::HtmlKitTree();
                 this->layer_length = 10;
             }
@@ -262,11 +259,16 @@ namespace HTMLParse
             {
                 for (int i = 0; i < process_result->size(); i++)
                 {
-                    ProcessAnalysis pr = (*this->process_result)[i];
+
+                    ProcessAnalysis pr = (*process_result)[i];
+
                     timelineProcessArea(0, pr);
                 }
 
-                return html_kit_tree.parseHtml();
+                string html_txt = html_kit_tree.parseHtml();
+                printf("timeline area %s\n", html_txt.c_str());
+
+                return html_txt;
             }
         };
     }
@@ -283,9 +285,14 @@ namespace HTMLParse
 
         string div = "";
 
-        Timeline::HtmlTimeLine html_timeline(process_result);
+        printf("%s\n", "outputHtml");
+
+        Timeline::HtmlTimeLine html_timeline(&process_result);
+        printf("%s\n", "outputHtml 2");
 
         string html_div = html_timeline.timelineArea();
+        printf("%s\n", "outputHtml 3");
+
         div += html_div;
 
         writing_file << text1 << endl;
