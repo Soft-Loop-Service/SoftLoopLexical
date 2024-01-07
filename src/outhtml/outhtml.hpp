@@ -34,9 +34,9 @@ namespace HTMLParse
 
             HtmlKitElement()
             {
-                this->e_tag = "root";
+                this->e_tag = "div";
                 this->e_id = "";
-                this->e_class = "";
+                this->e_class = "root";
                 this->children = {};
             }
 
@@ -175,7 +175,7 @@ namespace HTMLParse
         {
 
         private:
-            vProcessAnalysis *process_result;
+            vProcessAnalysis *process_result_p;
             HTMLKit::HtmlKitTree html_kit_tree;
 
             int layer_length = 10;
@@ -250,17 +250,17 @@ namespace HTMLParse
         public:
             HtmlTimeLine(vProcessAnalysis *process_result_p)
             {
-                this->process_result = process_result_p;
+                this->process_result_p = process_result_p;
                 this->html_kit_tree = HTMLKit::HtmlKitTree();
                 this->layer_length = 10;
             }
 
             string timelineArea()
             {
-                for (int i = 0; i < process_result->size(); i++)
+                for (int i = 0; i < process_result_p->size(); i++)
                 {
 
-                    ProcessAnalysis pr = (*process_result)[i];
+                    ProcessAnalysis pr = (*process_result_p)[i];
 
                     timelineProcessArea(0, pr);
                 }
@@ -280,7 +280,6 @@ namespace HTMLParse
         writing_file.open(filename, std::ios::out);
 
         string text1 = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>プログラムの可視化</title></head><body>";
-
         string text2 = "</body></html>";
 
         string div = "";
