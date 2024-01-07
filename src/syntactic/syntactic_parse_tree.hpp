@@ -83,7 +83,7 @@ int cutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index)
     SyntacticTreeNode new_node = syntactic_parse_tree[is_cut];
     new_node.children = current_node.children;
 
-    printf("二分木構築 %d -> %d %d %d\n", current_node_index, is_cut, syntactic_parse_tree.size(), new_node.children.size());
+    printf("二分木構築 %d -> %d %ld %ld\n", current_node_index, is_cut, syntactic_parse_tree.size(), new_node.children.size());
     auto it = new_node.children.begin();
     it += 1;
     new_node.children.erase(it);
