@@ -38,6 +38,7 @@ namespace HTMLParse
                 this->e_id = "";
                 this->e_class = "root";
                 this->children = {};
+
             }
 
             HtmlKitElement(string e_tag)
@@ -45,7 +46,8 @@ namespace HTMLParse
                 this->e_tag = e_tag;
                 this->e_id = "";
                 this->e_class = "";
-                this->children = {};
+                this->children = {};                
+
             }
 
             void setEClass(string e_class)
@@ -234,13 +236,13 @@ namespace HTMLParse
                     }
                 }
             }
-            string timelineLayerUnitStationOutputArea(int html_parent_node)
+            void timelineLayerUnitStationOutputArea(int html_parent_node)
             {
                 HTMLKit::HtmlKitElement layer_unit_station_area("div");
                 layer_unit_station_area.setEClass("layer_unit_station_output");
                 int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
             }
-            string timelineLayerUnitStationInputArea(int html_parent_node)
+            void timelineLayerUnitStationInputArea(int html_parent_node)
             {
                 HTMLKit::HtmlKitElement layer_unit_station_area("div");
                 layer_unit_station_area.setEClass("layer_unit_station_input");
@@ -257,13 +259,16 @@ namespace HTMLParse
 
             string timelineArea()
             {
+                printf("タイムライン木構造構築\n");
+
                 for (int i = 0; i < process_result_p->size(); i++)
                 {
-
                     ProcessAnalysis pr = (*process_result_p)[i];
-
                     timelineProcessArea(0, pr);
+
                 }
+
+                printf("タイムライン木構造変換\n");
 
                 string html_txt = html_kit_tree.parseHtml();
                 printf("timeline area %s\n", html_txt.c_str());
@@ -279,7 +284,16 @@ namespace HTMLParse
         std::string filename = "test.html";
         writing_file.open(filename, std::ios::out);
 
-        string text1 = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>プログラムの可視化</title></head><body>";
+        std::ifstream css_include_template("./src/outhtml/include_template.css");
+        std::string css_include_template_string((std::istreambuf_iterator<char>(css_include_template)), std::istreambuf_iterator<char>());
+
+
+        string css_style = "<style>" + css_include_template_string + "</style>";
+
+        string text1a = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
+        string text1b = "<title>プログラムの可視化</title></head><body>";
+
+        string text1 = text1a + css_style + text1b;
         string text2 = "</body></html>";
 
         string div = "";
