@@ -231,12 +231,10 @@ namespace HTMLParse
 
             void timelineLayerInputArea(int html_parent_node, ProcessAnalysis process, int unit_num)
             {
-
                 int layer_unit_node_index = timelineLayerUnitArea(html_parent_node, process, unit_num);
 
                 for (int i = 0; i < process.input_layer.size(); i++)
                 {
-
                     if (process.input_layer[i] == unit_num)
                     {
                         timelineLayerUnitStationInputArea(layer_unit_node_index);
@@ -249,11 +247,15 @@ namespace HTMLParse
 
                 int layer_unit_node_index = timelineLayerUnitArea(html_parent_node, process, unit_num);
 
-                if (process.output_layer == unit_num)
+                for (int i = 0; i < process.output_layer.size(); i++)
                 {
-                    timelineLayerUnitStationOutputArea(layer_unit_node_index);
-                    return;
+                    if (process.output_layer[i] == unit_num)
+                    {
+                        timelineLayerUnitStationOutputArea(layer_unit_node_index);
+                        return;
+                    }
                 }
+
             }
             int timelineLayerUnitArea(int html_parent_node, ProcessAnalysis process, int unit_num)
             {

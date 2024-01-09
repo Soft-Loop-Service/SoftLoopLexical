@@ -20,7 +20,9 @@ private:
     vProcessAnalysis *process_result;
     VariablePossessionUnion *vpc;
 
-    // 代入式の解決
+    LayerQueue input_layer_queue;
+    LayerQueue output_layer_queue;
+
     template <class T>
     void assExpr(T value, int node_index)
     {
@@ -43,7 +45,8 @@ private:
             string message = "変数定義代入 " + child_right.token + " " + to_string(value);
 
             int layer = vpc->getLayer(value_name);
-            struct ProcessAnalysis pr = {message, {}, layer};
+            output_layer_queue.enqueueLayerQueue(layer);
+            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
 
             return;
@@ -55,7 +58,8 @@ private:
             vpc->updateValue(value_name, value);
             string message = "変数代入 " + current_node.token + " " + to_string(value);
             int layer = vpc->getLayer(value_name);
-            struct ProcessAnalysis pr = {message, {}, layer};
+            output_layer_queue.enqueueLayerQueue(layer);
+            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
             return;
         }
@@ -83,7 +87,7 @@ private:
         while (ifbool)
         {
             string message = "ループ条件式 true";
-            struct ProcessAnalysis pr = {message, {}, 0};
+            struct ProcessAnalysis pr = {message,input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
             calc_ans = calc(current_node.children[1]);
@@ -91,7 +95,7 @@ private:
         }
 
         string message = "ループ条件式 false";
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
     }
 
@@ -109,7 +113,7 @@ private:
         if (ifbool)
         {
             string message = "条件式 true";
-            struct ProcessAnalysis pr = {message, {}, 0};
+            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
 
             if (current_node.children.size() >= 3)
@@ -120,7 +124,7 @@ private:
         else
         {
             string message = "条件式 false";
-            struct ProcessAnalysis pr = {message, {}, 0};
+            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
         }
     }
@@ -139,7 +143,7 @@ private:
     int addition(int left, int right)
     {
         string message = "加算 " + to_string(left) + " + " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message,input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
 
         return left + right;
@@ -147,49 +151,49 @@ private:
     int subtraction(int left, int right)
     {
         string message = "減算 " + to_string(left) + " - " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message,input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left - right;
     }
     int multiplication(int left, int right)
     {
         string message = "乗算 " + to_string(left) + " * " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left * right;
     }
     int division(int left, int right)
     {
         string message = "割算 " + to_string(left) + " / " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left / right;
     }
     int less(int left, int right)
     {
         string message = "比較 " + to_string(left) + " < " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(),output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left < right;
     }
     int less_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " <= " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left <= right;
     }
     int greater(int left, int right)
     {
         string message = "比較 " + to_string(left) + " > " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left > right;
     }
     int greater_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " >= " + to_string(right);
-        struct ProcessAnalysis pr = {message, {}, 0};
+        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
         process_result->push_back(pr);
         return left >= right;
     }
@@ -208,6 +212,9 @@ private:
             int val;
             vpc->getValue(current_node.token, val);
             printf("cal get2 %d\n", val);
+
+            int layer = vpc->getLayer(current_node.token.c_str());
+            input_layer_queue.enqueueLayerQueue(layer);
 
             return val;
         }

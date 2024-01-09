@@ -14,11 +14,42 @@
 struct ProcessAnalysis;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 
+class LayerQueue
+{
+private:
+    vint layer_queue = {};
+
+public:
+    LayerQueue()
+    {layer_queue = {};
+    }
+
+    void clearlayerQueue()
+    {
+        layer_queue = {};
+    }
+    void enqueueLayerQueue(int layer)
+    {
+        layer_queue.push_back(layer);
+    }
+    vint useLayerQueue()
+    {
+        vint rv = layer_queue;
+        return rv;
+    }
+    vint useClearLayerQueue()
+    {
+        vint rv = layer_queue;
+        clearlayerQueue();
+        return rv;
+    }
+};
+
 struct ProcessAnalysis
 {
     string message; // 表示message
-    vint input_layer = {};
-    int output_layer = 0; // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+    vint input_layer {};
+    vint output_layer = {}; // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
 };
 
 class VariableScope
