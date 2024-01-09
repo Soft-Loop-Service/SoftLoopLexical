@@ -64,10 +64,6 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
         if (bnf.label == is_id_TerminalSymbol)
         {
-
-            // bnf.token_str = token_string_vector[terminal_symbol_count].token;
-            // int node_type = getSyntacticAnalysisTreeNodeType(current_reduce_formula.token_left, bnf.token_str);
-
             printf("node_type : %s\n", current_reduce_formula.token_left.c_str());
 
             struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}, current_reduce_formula.token_left};

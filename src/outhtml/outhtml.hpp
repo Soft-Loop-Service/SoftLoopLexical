@@ -38,7 +38,6 @@ namespace HTMLParse
                 this->e_id = "";
                 this->e_class = "root";
                 this->children = {};
-
             }
 
             HtmlKitElement(string e_tag)
@@ -46,8 +45,7 @@ namespace HTMLParse
                 this->e_tag = e_tag;
                 this->e_id = "";
                 this->e_class = "";
-                this->children = {};                
-
+                this->children = {};
             }
 
             void setEClass(string e_class)
@@ -68,7 +66,7 @@ namespace HTMLParse
             {
                 children.push_back(index);
             }
-            string parseHtml1()
+            string parseHtmlStartTag()
             {
 
                 string text = "";
@@ -93,13 +91,13 @@ namespace HTMLParse
                 text += ">";
                 return text;
             }
-            string parseHtml2()
+            string parseHtmlElement()
             {
                 string text = "";
                 text += element;
                 return text;
             }
-            string parseHtml3()
+            string parseHtmlEndTag()
             {
                 string text = "";
                 text += "<";
@@ -120,8 +118,8 @@ namespace HTMLParse
             {
                 string text = "";
 
-                string text1 = html_kit_element[node].parseHtml1();
-                string text2 = html_kit_element[node].parseHtml2();
+                string text_start = html_kit_element[node].parseHtmlStartTag();
+                string text_end = html_kit_element[node].parseHtmlEndTag();
 
                 string text_children = "";
 
@@ -132,15 +130,15 @@ namespace HTMLParse
                     text_children += recursionParseHtml(child_node);
                 }
 
-                string text3 = html_kit_element[node].parseHtml3();
+                string text_element = html_kit_element[node].parseHtmlElement();
 
-                text += text1;
+                text += text_start;
                 text += " ";
-                text += text2;
+                text += text_element;
                 text += " ";
                 text += text_children;
                 text += " ";
-                text += text3;
+                text += text_end;
 
                 return text;
             }
@@ -207,24 +205,34 @@ namespace HTMLParse
             {
                 HTMLKit::HtmlKitElement layer_area("div");
                 layer_area.setEClass("layer");
-                int layer_node_index = html_kit_tree.add_node(html_parent_node, layer_area);
+                int layer_area_index = html_kit_tree.add_node(html_parent_node, layer_area);
+
+                HTMLKit::HtmlKitElement layer_horizontal_area("div");
+                layer_horizontal_area.setEClass("layer_horizontal");
+
+                int layer_node_index_input_index = html_kit_tree.add_node(layer_area_index, layer_horizontal_area);
+
+                HTMLKit::HtmlKitElement layer_horizontal_connection_area("div");
+                layer_horizontal_connection_area.setEClass("layer_horizontal_connection");
+                int layer_horizontal_connection = html_kit_tree.add_node(layer_area_index, layer_horizontal_connection_area);
+
+                int layer_node_index_output_index = html_kit_tree.add_node(layer_area_index, layer_horizontal_area);
 
                 for (int i = 0; i < layer_length; i++)
                 {
-                    timelineLayerUnitArea(layer_node_index, process, i);
+                    timelineLayerInputArea(layer_node_index_input_index, process, i);
+                }
+
+                for (int i = 0; i < layer_length; i++)
+                {
+                    timelineLayerOutputArea(layer_node_index_output_index, process, i);
                 }
             }
-            void timelineLayerUnitArea(int html_parent_node, ProcessAnalysis process, int unit_num)
-            {
-                HTMLKit::HtmlKitElement layer_unit_area("div");
-                layer_unit_area.setEClass("layer_unit");
-                int layer_unit_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_area);
 
-                if (process.output_layer == unit_num)
-                {
-                    timelineLayerUnitStationOutputArea(layer_unit_node_index);
-                    return;
-                }
+            void timelineLayerInputArea(int html_parent_node, ProcessAnalysis process, int unit_num)
+            {
+
+                int layer_unit_node_index = timelineLayerUnitArea(html_parent_node, process, unit_num);
 
                 for (int i = 0; i < process.input_layer.size(); i++)
                 {
@@ -236,16 +244,36 @@ namespace HTMLParse
                     }
                 }
             }
-            void timelineLayerUnitStationOutputArea(int html_parent_node)
+            void timelineLayerOutputArea(int html_parent_node, ProcessAnalysis process, int unit_num)
             {
-                HTMLKit::HtmlKitElement layer_unit_station_area("div");
-                layer_unit_station_area.setEClass("layer_unit_station_output");
-                int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
+
+                int layer_unit_node_index = timelineLayerUnitArea(html_parent_node, process, unit_num);
+
+                if (process.output_layer == unit_num)
+                {
+                    timelineLayerUnitStationOutputArea(layer_unit_node_index);
+                    return;
+                }
             }
+            int timelineLayerUnitArea(int html_parent_node, ProcessAnalysis process, int unit_num)
+            {
+                HTMLKit::HtmlKitElement layer_unit_area("div");
+                layer_unit_area.setEClass("layer_unit");
+                int layer_unit_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_area);
+
+                return layer_unit_node_index;
+            }
+
             void timelineLayerUnitStationInputArea(int html_parent_node)
             {
                 HTMLKit::HtmlKitElement layer_unit_station_area("div");
                 layer_unit_station_area.setEClass("layer_unit_station_input");
+                int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
+            }
+            void timelineLayerUnitStationOutputArea(int html_parent_node)
+            {
+                HTMLKit::HtmlKitElement layer_unit_station_area("div");
+                layer_unit_station_area.setEClass("layer_unit_station_output");
                 int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
             }
 
@@ -265,7 +293,6 @@ namespace HTMLParse
                 {
                     ProcessAnalysis pr = (*process_result_p)[i];
                     timelineProcessArea(0, pr);
-
                 }
 
                 printf("タイムライン木構造変換\n");
@@ -286,7 +313,6 @@ namespace HTMLParse
 
         std::ifstream css_include_template("./src/outhtml/include_template.css");
         std::string css_include_template_string((std::istreambuf_iterator<char>(css_include_template)), std::istreambuf_iterator<char>());
-
 
         string css_style = "<style>" + css_include_template_string + "</style>";
 

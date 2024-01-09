@@ -13,10 +13,18 @@
 }
 .layer {
   flex-grow: 1;
-  display: flex;
+
 }
 .message_text {
 }
+
+.layer_horizontal{
+  display: flex;
+}
+.layer_horizontal_connection{
+  height: 10%;
+}
+
 .layer_unit {
   aspect-ratio: 1;
   height: 48px;
