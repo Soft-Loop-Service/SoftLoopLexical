@@ -94,7 +94,12 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalTok
         int top = stack_analysis.top();
         printf("CurrentToken %s %s %d\n", current_token.c_str(), current_token_type.c_str(), top);
 
-        if (LR_table_multilayer.LR_table_accept.LR_table_column_map[current_token_type][top].getValid())
+
+        string inquiry_token_accept = LR_table_multilayer.LR_table_accept.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
+        string inquiry_token_shift = LR_table_multilayer.LR_table_shift.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
+        string inquiry_token_reduce = LR_table_multilayer.LR_table_reduce.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
+
+        if (LR_table_multilayer.LR_table_accept.LR_table_column_map[inquiry_token_accept][top].getValid())
         {
             printf("acc \n");
             output_stack("構文解析 終了", stack_analysis);
@@ -102,10 +107,10 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalTok
             return;
         }
 
-        if (LR_table_multilayer.LR_table_shift.LR_table_column_map[current_token_type][top].getValid())
+        if (LR_table_multilayer.LR_table_shift.LR_table_column_map[inquiry_token_shift][top].getValid())
         {
             printf("shift \n");
-            syntacticAnalysisProcessShift(LR_table_multilayer, current_token_type, stack_analysis);
+            syntacticAnalysisProcessShift(LR_table_multilayer, inquiry_token_shift, stack_analysis);
             output_stack("構文解析", stack_analysis);
             output_vReduceFormula("構文解析", syntactic_analysis_formula);
 
@@ -114,11 +119,11 @@ void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalTok
             continue;
         }
 
-        if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[current_token_type][top].getValid())
+        if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[inquiry_token_reduce][top].getValid())
         {
             printf("reduce \n");
 
-            syntacticAnalysisProcessReduce(LR_table_multilayer, current_token_type, stack_analysis, syntactic_analysis_formula);
+            syntacticAnalysisProcessReduce(LR_table_multilayer, inquiry_token_reduce, stack_analysis, syntactic_analysis_formula);
             output_stack("構文解析", stack_analysis);
             output_vReduceFormula("構文解析", syntactic_analysis_formula);
 

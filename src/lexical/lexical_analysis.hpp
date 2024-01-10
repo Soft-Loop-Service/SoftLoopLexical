@@ -57,6 +57,7 @@ vLexicalToken lexSyntax(char *source_code)
         }
         else if (isAlphabetOrNumber(source_code[i_s]))
         {
+            token_type = "TEXT";
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
                 token_search_len++;

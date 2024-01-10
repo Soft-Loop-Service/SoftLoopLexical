@@ -16,7 +16,7 @@
 <value_definition> ::= <type_name> <value_name>
 
 <type_name> ::= "int" | "string"
-<value_name> ::= "a" | "b" | "c"
+<value_name> ::= TEXT
 
 <ifexpr> ::= <if>
 

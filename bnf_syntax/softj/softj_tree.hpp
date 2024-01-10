@@ -81,22 +81,24 @@ private:
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
         // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
 
-        int calc_ans = calc(current_node.children[1]);
+        int calc_ans = resolution_calc_int(current_node.children[1]);
         bool ifbool = getBool(calc_ans);
 
-        output_layer_queue.enqueueLayerQueue(0);
+        
 
         while (ifbool)
         {
+            output_layer_queue.enqueueLayerQueue(0);
             string message = "ループ条件式 true";
             struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
-            calc_ans = calc(current_node.children[1]);
+            calc_ans = resolution_calc_int(current_node.children[1]);
             ifbool = getBool(calc_ans);
         }
 
         string message = "ループ条件式 false";
+        output_layer_queue.enqueueLayerQueue(0);
         struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
     }
@@ -108,7 +110,7 @@ private:
         SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
         // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
         // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
-        int calc_ans = calc(current_node.children[1]);
+        int calc_ans = resolution_calc_int(current_node.children[1]);
 
         bool ifbool = getBool(calc_ans);
         output_layer_queue.enqueueLayerQueue(0);
@@ -140,9 +142,18 @@ private:
         SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
 
         int right;
-        right = calc(current_node.children[1]);
+        right = resolution_calc_int(current_node.children[1]);
         assExpr(right, current_node.children[0]);
     }
+    string text_join(string left, string right)
+    {
+        string message = "文字列連結 " + left + " + " + right;
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
+        process_result->push_back(pr);
+
+        return left + right;
+    }
+
     int addition(int left, int right)
     {
         string message = "加算 " + to_string(left) + " + " + to_string(right);
@@ -200,23 +211,72 @@ private:
         process_result->push_back(pr);
         return left >= right;
     }
-    int calc(int node_index)
+    int equality(int left, int right)
+    {
+        string message = "比較 " + to_string(left) + " == " + to_string(right);
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
+        process_result->push_back(pr);
+        return left == right;
+    }
+    int equality(string left, string right)
+    {
+        string message = "比較 " + left + " == " + right;
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
+        process_result->push_back(pr);
+        return left == right;
+    }
+
+    
+    string resolution_calc_string(int node_index){
+        SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+        if (current_node.children.size() == 1)
+        {
+            string r = resolution_calc_string(current_node.children[0]);
+            return r;
+        }
+        if (current_node.parent_token == "<text>")
+        {
+            input_layer_queue.enqueueLayerQueue(timeline_magic_number_layer);
+            return current_node.token;
+        }
+
+
+        SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
+        SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
+
+        string left;
+        string right;
+        string ans;
+
+        left = resolution_calc_string(current_node.children[0]);
+        right = resolution_calc_string(current_node.children[1]);
+        string token = current_node.token;
+
+        if (token == "+")
+        {
+            ans = text_join(left, right);
+        }
+
+        return ans;
+    }
+    int resolution_calc_int(int node_index)
     {
 
         SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
         if (current_node.children.size() == 1)
         {
-            int r = calc(current_node.children[0]);
+            int r = resolution_calc_int(current_node.children[0]);
             return r;
         }
         if (current_node.parent_token == "<value_name>")
         {
-            printf("cal get %s\n", current_node.token.c_str());
+            string value_name = current_node.token;
+            printf("cal get %s\n", value_name.c_str());
             int val;
-            vpc->getValue(current_node.token, val);
+            vpc->getValue(value_name, val);
             printf("cal get2 %d\n", val);
 
-            int layer = vpc->getLayer(current_node.token.c_str());
+            int layer = vpc->getLayer(value_name.c_str());
             input_layer_queue.enqueueLayerQueue(layer);
 
             return val;
@@ -228,6 +288,7 @@ private:
             return stoi(current_node.token);
         }
 
+        
         printf("calc %d -> %d %d\n", node_index, current_node.children[0], current_node.children[1]);
 
         SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
@@ -236,13 +297,12 @@ private:
         int left;
         int right;
 
-        left = calc(current_node.children[0]);
-        right = calc(current_node.children[1]);
+        left = resolution_calc_int(current_node.children[0]);
+        right = resolution_calc_int(current_node.children[1]);
+        string token = current_node.token;
 
         int ans;
 
-        string token = current_node.token;
-        const char *token_c = token.c_str();
 
         if (token == "+")
         {
@@ -276,6 +336,10 @@ private:
         {
             ans = greater_equal(left, right);
         }
+        if (token == "==")
+        {
+            ans = equality(left, right);
+        }
         printf("calcSoftjTree %d : %d %s %d\n", ans, left, token.c_str(), right);
 
         return ans;
@@ -307,9 +371,9 @@ private:
             equal(node_index);
             return;
         }
-        if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=")
+        if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==")
         {
-            calc(node_index);
+            resolution_calc_int(node_index);
             return;
         }
 
