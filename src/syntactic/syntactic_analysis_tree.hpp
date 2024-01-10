@@ -20,6 +20,9 @@ struct SyntacticTreeNode // 構文解析用
     int token_label;
     vint children;
     string parent_token;
+
+    int source_code_line;
+    int source_code_column;
 };
 typedef vector<SyntacticTreeNode> vSyntacticTree;
 
@@ -111,6 +114,8 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
         if (syntactic_analysis_tree[li].token_label == is_id_TerminalSymbol)
         {
             syntactic_analysis_tree[li].token = token_string_vector[count].token;
+            syntactic_analysis_tree[li].source_code_line = token_string_vector[count].source_code_line;
+            syntactic_analysis_tree[li].source_code_column = token_string_vector[count].source_code_column;
             count++;
         }
     }

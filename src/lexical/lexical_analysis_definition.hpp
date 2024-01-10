@@ -11,6 +11,9 @@ struct lexicalToken
 {
     string token;
     string token_type;
+
+    int source_code_line;
+    int source_code_column;
 };
 
 typedef vector<lexicalToken> vLexicalToken;

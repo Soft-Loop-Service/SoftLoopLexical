@@ -182,6 +182,7 @@ namespace HTMLParse
         {
 
         private:
+            vSyntacticTree *syntactic_analysis_tree_p;
             vProcessAnalysis *process_result_p;
             HTMLKit::HtmlKitTree html_kit_tree;
 
@@ -199,6 +200,8 @@ namespace HTMLParse
                 int layer_horizontal_connection = html_kit_tree.add_node(html_parent_node, process_connection_area);
 
                 timelineMessageArea(process_node_index, process);
+                                timelineLineColumnArea(process_node_index, process);
+
                 timelineLayerArea(process_node_index, process);
             }
 
@@ -206,12 +209,56 @@ namespace HTMLParse
             {
                 HTMLKit::HtmlKitElement message_area("div");
                 message_area.addEClass("message");
+
+                if (process.process_type == is_id_process_type_error)
+                {
+                    message_area.addEClass("message_error");
+                }
+                if (process.process_type == is_id_process_type_warning)
+                {
+                    message_area.addEClass("message_warning");
+                }
+                if (process.process_type == is_id_process_type_language_error)
+                {
+                    message_area.addEClass("message_language_error");
+                }
+
                 int message_node_index = html_kit_tree.add_node(html_parent_node, message_area);
                 HTMLKit::HtmlKitElement message_text_area("span");
                 message_text_area.addEClass("message_text");
                 message_text_area.setElement(process.message);
                 html_kit_tree.add_node(message_node_index, message_text_area);
             }
+
+            void timelineLineColumnArea(int html_parent_node, ProcessAnalysis process)
+            {
+                HTMLKit::HtmlKitElement line_column_area("div");
+                line_column_area.addEClass("source_code_position");
+                int line_column_area_index = html_kit_tree.add_node(html_parent_node, line_column_area);
+
+                HTMLKit::HtmlKitElement line_area("div");
+                line_area.addEClass("source_code_position_line");
+                int line_area_index = html_kit_tree.add_node(line_column_area_index, line_area);
+
+                HTMLKit::HtmlKitElement column_area("div");
+                column_area.addEClass("source_code_position_column");
+                int column_area_index = html_kit_tree.add_node(html_parent_node, line_column_area);
+
+                int source_code_line = (*syntactic_analysis_tree_p)[process.node_index].source_code_line;
+                int source_code_column = (*syntactic_analysis_tree_p)[process.node_index].source_code_column;
+
+                HTMLKit::HtmlKitElement source_code_position_line_text_area("span");
+                source_code_position_line_text_area.addEClass("source_code_position_text");
+                source_code_position_line_text_area.setElement(to_string(source_code_line));
+                html_kit_tree.add_node(line_area_index, source_code_position_line_text_area);
+
+                HTMLKit::HtmlKitElement source_code_position_column_text_area("span");
+                source_code_position_column_text_area.addEClass("source_code_position_text");
+                source_code_position_column_text_area.setElement(to_string(source_code_column));
+                html_kit_tree.add_node(column_area_index, source_code_position_column_text_area);
+
+            }
+
             void timelineLayerArea(int html_parent_node, ProcessAnalysis process)
             {
                 HTMLKit::HtmlKitElement layer_area("div");
@@ -245,17 +292,17 @@ namespace HTMLParse
                         continue;
                     }
 
-                    if (process.process_type == 1)
+                    if (process.process_type == is_id_process_type_input)
                     {
                         timelineLayerUnitStationInputArea(layer_unit_node_index, layer_unit_station_area);
                         return;
                     }
-                    if (process.process_type == 2)
+                    if (process.process_type == is_id_process_type_ouput)
                     {
                         timelineLayerUnitStationOutputArea(layer_unit_node_index, layer_unit_station_area);
                         return;
                     }
-                    if (process.process_type == 4)
+                    if (process.process_type == is_id_process_type_logic)
                     {
                         timelineLayerUnitStationLogicArea(layer_unit_node_index, layer_unit_station_area);
                         return;
@@ -289,8 +336,9 @@ namespace HTMLParse
             }
 
         public:
-            HtmlTimeLine(vProcessAnalysis *process_result_p)
+            HtmlTimeLine(vSyntacticTree *syntactic_analysis_tree_p, vProcessAnalysis *process_result_p)
             {
+                this->syntactic_analysis_tree_p = syntactic_analysis_tree_p;
                 this->process_result_p = process_result_p;
                 this->html_kit_tree = HTMLKit::HtmlKitTree();
                 this->layer_length = 10;
@@ -320,7 +368,7 @@ namespace HTMLParse
         };
     }
 
-    void outputHtml(vProcessAnalysis process_result)
+    void outputHtml(vSyntacticTree syntactic_analysis_tree, vProcessAnalysis process_result)
     {
         std::ofstream writing_file;
         std::string filename = "test.html";
@@ -341,7 +389,7 @@ namespace HTMLParse
 
         printf("%s\n", "outputHtml");
 
-        Timeline::HtmlTimeLine html_timeline(&process_result);
+        Timeline::HtmlTimeLine html_timeline(&syntactic_analysis_tree, &process_result);
         printf("%s\n", "outputHtml 2");
 
         string html_div = html_timeline.timelineArea();

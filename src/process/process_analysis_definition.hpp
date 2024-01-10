@@ -14,7 +14,7 @@
 struct ProcessAnalysis;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 
-const int timeline_magic_number_layer = 0;
+const int is_id_timeline_magic_number_layer = 0;
 
 class LayerQueue
 {
@@ -48,11 +48,24 @@ public:
     }
 };
 
+
+const int is_id_process_type_none = 0;
+const int is_id_process_type_input = 1;
+const int is_id_process_type_ouput = 2;
+const int is_id_process_type_logic = 3;
+
+const int is_id_process_type_error = 400;
+const int is_id_process_type_warning = 401;
+const int is_id_process_type_language_error = 402;
+
+
 struct ProcessAnalysis
 {
-    int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
+    int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic 
     string message;   // 表示message
     vint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+
+    int node_index;
 };
 
 class VariableScope
@@ -205,6 +218,13 @@ public:
             setValueTypeTable(current_layer, type);
             updateValue(current_layer, element);
         }
+    }
+
+    bool hasLayer(string name){
+        int layer = variable_scope->searchLayer(name);
+
+
+        return layer != -1;
     }
 
     int getLayer(string name)

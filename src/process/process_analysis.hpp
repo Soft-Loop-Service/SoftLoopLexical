@@ -21,15 +21,15 @@
 
 #include "./../outhtml/outhtml.hpp"
 
-// void debugProcessResult(vProcessAnalysis process_result)
-// {
-//     for (int i = 0; i < process_result.size(); i++)
-//     {
-//         ProcessAnalysis current = process_result[i];
+void debugProcessResult(vProcessAnalysis process_result)
+{
+    for (int i = 0; i < process_result.size(); i++)
+    {
+        ProcessAnalysis current = process_result[i];
 
-//         printf("%d : %d %s\n", i, current.output_layer, current.message.c_str());
-//     }
-// }
+        printf("%d : %d %s\n", i, current.process_type, current.message.c_str());
+    }
+}
 
 void processAnalysis(vSyntacticTree syntactic_analysis_tree)
 {
@@ -41,8 +41,8 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     VariablePossessionUnion vpc;
     SoftjTree softjtree(syntactic_analysis_tree, process_result, vpc);
 
-    // debugProcessResult(process_result);
-    HTMLParse::outputHtml(process_result);
+    debugProcessResult(process_result);
+    HTMLParse::outputHtml(syntactic_analysis_tree  , process_result);
 }
 
 #endif
