@@ -25,7 +25,7 @@ dot
 class NullSetClass
 {
 public:
-    NullSetClass(DeploymentStruct deployment_syntax)
+    NullSetClass(BNFParse::DeploymentStruct deployment_syntax)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
@@ -44,7 +44,7 @@ public:
 
 private:
     vstring null_set;
-    DeploymentStruct deployment_syntax;
+    BNFParse::DeploymentStruct deployment_syntax;
     vstring formula_map_keys;
     vstring already_explored;
 
@@ -65,7 +65,7 @@ private:
             return true;
         }
         already_explored.push_back(current_key);
-        vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
+        BNFParse::vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
 
         if (formula_expansion_vector_size == 0)
@@ -78,7 +78,7 @@ private:
         for (int j = 0; j < formula_expansion_vector_size; j++)
         {
             int null_count = 0;
-            vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
+            BNFParse::vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
             int token_vector_size = token_vector.size();
 
@@ -126,24 +126,24 @@ private:
 class FirstSetClass
 {
 private:
-    DeploymentStruct deployment_syntax;
+    BNFParse::DeploymentStruct deployment_syntax;
     vstring null_set;
-    mp_s_Dtoken first_set;
+    BNFParse::mp_s_Dtoken first_set;
     vstring formula_map_keys;
     vstring already_explored;
 
 public:
-    FirstSetClass(DeploymentStruct deployment_syntax, vstring null_set)
+    FirstSetClass(BNFParse::DeploymentStruct deployment_syntax, vstring null_set)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
     }
-    vDeploymentTokenStruct findFirstSetVector(vDeploymentTokenStruct request_token_vector)
+    BNFParse::vDeploymentTokenStruct findFirstSetVector(BNFParse::vDeploymentTokenStruct request_token_vector)
     {
-        vDeploymentTokenStruct first_set_vecotr = {};
+        BNFParse::vDeploymentTokenStruct first_set_vecotr = {};
 
-        struct DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
+        struct BNFParse::DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
 
         // 一度すべての集合を求める
         first_set = {};
@@ -167,7 +167,7 @@ public:
                 break;
             }
 
-            vDeploymentTokenStruct current_first_set = first_set[current_key];
+            BNFParse::vDeploymentTokenStruct current_first_set = first_set[current_key];
 
             // 重複がないよう挿入
             for (int j = 0; j < current_first_set.size(); j++)
@@ -182,10 +182,10 @@ public:
         return first_set_vecotr;
     }
 
-    mp_s_Dtoken findFirstSet()
+    BNFParse::mp_s_Dtoken findFirstSet()
     {
         first_set = {};
-        struct DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
+        struct BNFParse::DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
         first_set[DOLLAR].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int i = 0; i < formula_map_size; i++)
@@ -210,11 +210,11 @@ public:
             return;
         }
         already_explored.push_back(current_key);
-        vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
+        BNFParse::vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
         int formula_expansion_vector_size = formula_expansion_vector.size();
         for (int j = 0; j < formula_expansion_vector_size; j++)
         {
-            vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
+            BNFParse::vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
             int token_vector_size = token_vector.size();
 
@@ -247,7 +247,7 @@ public:
 
                             for (int fc = 0; fc < first_set[token_str].size(); fc++)
                             {
-                                DeploymentTokenStruct fc_element = first_set[token_str][fc];
+                                BNFParse::DeploymentTokenStruct fc_element = first_set[token_str][fc];
                                 if (!hasDtoken(first_set[current_key], fc_element))
                                 {
                                     first_set[current_key].push_back(fc_element);
@@ -271,24 +271,24 @@ public:
 class FollowSetClass
 {
 private:
-    DeploymentStruct deployment_syntax;
-    mp_s_Dtoken first_set;
+    BNFParse::DeploymentStruct deployment_syntax;
+    BNFParse::mp_s_Dtoken first_set;
     vstring null_set;
-    mp_s_Dtoken follow_set;
+    BNFParse::mp_s_Dtoken follow_set;
     vstring formula_map_keys;
     vstring already_explored;
 
 public:
-    FollowSetClass(DeploymentStruct deployment_syntax, vstring null_set, mp_s_Dtoken first_set)
+    FollowSetClass(BNFParse::DeploymentStruct deployment_syntax, vstring null_set, BNFParse::mp_s_Dtoken first_set)
     {
         this->deployment_syntax = deployment_syntax;
         this->formula_map_keys = getMapKeyString(this->deployment_syntax.formula_map);
         this->null_set = null_set;
         this->first_set = first_set;
     }
-    mp_s_Dtoken findFolllowSet()
+    BNFParse::mp_s_Dtoken findFolllowSet()
     {
-        struct DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
+        struct BNFParse::DeploymentTokenStruct root_symbol = {DOLLAR, is_id_Dollar};
         follow_set[DOLLAR].push_back(root_symbol);
         int formula_map_size = this->deployment_syntax.formula_map.size();
         for (int s = 0; s < formula_map_size; s++)
@@ -312,11 +312,11 @@ public:
         for (int i = 0; i < formula_map_size; i++)
         {
             string current_key = this->formula_map_keys[i];
-            vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
+            BNFParse::vDeploymentFormulaExpansionStruct formula_expansion_vector = this->deployment_syntax.formula_map[current_key].formula_expansion_vector;
             int formula_expansion_vector_size = formula_expansion_vector.size();
             for (int j = 0; j < formula_expansion_vector_size; j++)
             {
-                vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
+                BNFParse::vDeploymentTokenStruct token_vector = formula_expansion_vector[j].token_vector;
 
                 int token_vector_size = token_vector.size();
                 for (int k = 0; k < token_vector_size; k++)
@@ -367,7 +367,7 @@ private: /// @brief
     bool findNext(string search_key, string current_key, string next_key)
     {
 
-        vDeploymentTokenStruct next_first_set = first_set[next_key];
+        BNFParse::vDeploymentTokenStruct next_first_set = first_set[next_key];
 
         for (int i = 0; i < next_first_set.size(); i++)
         {

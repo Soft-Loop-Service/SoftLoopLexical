@@ -3,7 +3,7 @@
 #ifndef __DebugBNF
 #define __DebugBNF
 
-#include "bnf_struct.hpp"
+namespace BNFParse{
 
 void output_bnf_tablef(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p )
 {
@@ -25,5 +25,7 @@ void output_bnf_tablef(BNFToken &bnf_token_p , BNFSymbol &bnf_symbol_p )
     //     printf("obt - 2 : ")
     // }
 }
+
+};
 
 #endif

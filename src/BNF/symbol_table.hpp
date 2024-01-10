@@ -13,7 +13,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+namespace BNFParse{
 /*
 SymbolTable
 非末端記号と末端記号を整理したもの
@@ -123,5 +123,5 @@ int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p)
     // bnf_symbol_p.symbol_len = resizeNull(bnf_symbol_p.symbol_string_array, bnf_symbol_p.symbol_len);
     return count;
 }
-
+};
 #endif

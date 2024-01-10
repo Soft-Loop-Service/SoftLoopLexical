@@ -44,7 +44,7 @@ private:
 
             if (vpc->hasLayer(value_name)){
                 int layer = vpc->getLayer(value_name);
-                struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"定義済み変数名の再宣言", {layer} ,  node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"定義済み変数名の再宣言", {layer} ,  node_index};
                 process_result->push_back(pr);
             }
 
@@ -57,7 +57,7 @@ private:
 
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
             process_result->push_back(pr);
 
             return;
@@ -70,7 +70,7 @@ private:
 
             if (!(vpc->hasLayer(value_name))){
                 int layer = vpc->getLayer(value_name);
-                struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"未定義変数への代入", {layer},  node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"未定義変数への代入", {layer},  node_index};
                 process_result->push_back(pr);
             }
 
@@ -78,7 +78,7 @@ private:
             string message = "変数代入 " + current_node.token + " " + to_string(value);
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = ProcessVisualization::{is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
             process_result->push_back(pr);
             return;
         }

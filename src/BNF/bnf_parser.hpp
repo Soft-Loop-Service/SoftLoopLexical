@@ -12,7 +12,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+namespace BNFParse{
 // EBNF記法に沿う
 
 /// labelingBnf
@@ -240,5 +240,5 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
 
     return loop;
 }
-
+};
 #endif

@@ -13,6 +13,8 @@
 #include <iostream>
 #include <vector>
 #include <set>
+
+namespace BNFParse{
 // typedef std::vector<DeploymentGroupStruct> vDeploymentGroupStruct;
 struct DeploymentStruct;
 struct DeploymentFormulaStruct;
@@ -128,5 +130,5 @@ DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbo
 
     return deployment_syntax;
 }
-
+};
 #endif

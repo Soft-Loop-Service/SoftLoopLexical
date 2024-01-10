@@ -16,7 +16,6 @@
 
 #include "./../../bnf_syntax/softj/softj_tree.hpp"
 
-#include "./process_analysis_operation.hpp"
 #include "./process_analysis_definition.hpp"
 
 #include "./../outhtml/outhtml.hpp"

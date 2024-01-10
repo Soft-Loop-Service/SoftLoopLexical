@@ -29,7 +29,7 @@ struct LRTableMultilayer
     LRTableMakeAccept<LRTableAcceptCell> LR_table_accept;
 };
 
-int generateLRtable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol terminal_symbol, RetrieveSymbol nonterminal_symbol,
+int generateLRtable(vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol terminal_symbol, BNFParse::RetrieveSymbol nonterminal_symbol,
                     LRTableMultilayer &LR_table_multilayer)
 {
     LR_table_multilayer = LRTableMultilayer{

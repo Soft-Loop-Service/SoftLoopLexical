@@ -11,7 +11,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+namespace BNFParse{
 void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right)
 {
     vstring ans = {};
@@ -99,5 +99,5 @@ void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSy
     }
     dequeueBNFRight(bnf_que, bnf_right_tokens);
 }
-
+};
 #endif

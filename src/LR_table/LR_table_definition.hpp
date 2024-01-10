@@ -171,7 +171,7 @@ public:
         this->LR_table_column_map[cstr] = new_column;
     }
     LRTable() {}
-    LRTable(vDFANode dfa_node_graph, BNFToken &bnf_token_p, RetrieveSymbol symbol)
+    LRTable(vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol symbol)
     {
         this->dfa_node_graph = dfa_node_graph;
         this->column_length = dfa_node_graph.size();
@@ -283,7 +283,7 @@ public:
                 for (int j = 0; j < LR_formula.LR_formula_expansion_vector.size(); j++)
                 {
                     LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
-                    vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
+                    BNFParse::vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
 
                     if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
                     {

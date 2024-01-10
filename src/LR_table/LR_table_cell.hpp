@@ -159,7 +159,7 @@ public:
 struct ReduceFormula // 構文解析用
 {
     string token_left;                   // 左辺
-    vDeploymentTokenStruct token_vector; // 展開したBNFの右辺
+    BNFParse::vDeploymentTokenStruct token_vector; // 展開したBNFの右辺
 };
 typedef vector<ReduceFormula> vReduceFormula;
 
@@ -172,7 +172,7 @@ private:
     bool is_valid = false;
 
 public:
-    void setCell(string token_left, vDeploymentTokenStruct token_vector)
+    void setCell(string token_left, BNFParse::vDeploymentTokenStruct token_vector)
     {
         this->reduce_formula = ReduceFormula{token_left, token_vector};
         this->is_valid = true;
@@ -191,7 +191,7 @@ public:
 
         int token_vector_size = stoi(loader->road_token());
 
-        vDeploymentTokenStruct token_vector;
+        BNFParse::vDeploymentTokenStruct token_vector;
 
         for (int i = 0; i < token_vector_size; i++)
         {
@@ -200,7 +200,7 @@ public:
 
             string token_str = loader->road_token();
 
-            token_vector.push_back(DeploymentTokenStruct{token_str, label});
+            token_vector.push_back(BNFParse::DeploymentTokenStruct{token_str, label});
         }
 
         this->reduce_formula = ReduceFormula{text_left, token_vector};

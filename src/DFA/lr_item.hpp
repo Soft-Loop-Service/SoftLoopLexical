@@ -45,9 +45,9 @@ struct LRItemFormulaStruct
 /*構造体 展開した式
 lookAhead : 先読み記号
 */
-struct LRItemFormulaExpansionStruct : DeploymentFormulaExpansionStruct
+struct LRItemFormulaExpansionStruct : BNFParse::DeploymentFormulaExpansionStruct
 {
-    vDeploymentTokenStruct lookAhead;
+    BNFParse::vDeploymentTokenStruct lookAhead;
     int dot;
 };
 struct DFANode

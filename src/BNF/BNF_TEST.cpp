@@ -19,7 +19,7 @@
 #include "./../LR_table/LR_table.hpp"
 #include "./../LR_table/LR_table_definition.hpp"
 #include "./../LR_table/LR_table_cell.hpp"
-
+namespace BNFParse{
 int main()
 {
     char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
@@ -91,4 +91,4 @@ int main()
     // for (int i = 0; i < sl_len ; i++){
     //     printf("nonterminal_symbol : %d %d" , nonterminal_symbol_left_array[i] , bnf_symbol.symbol_table_array[nonterminal_symbol_left_array[i]] );
     // }
-}
+}};

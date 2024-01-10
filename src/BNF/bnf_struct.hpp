@@ -10,7 +10,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+namespace BNFParse{
 struct stest
 {
     int test;
@@ -56,5 +56,5 @@ struct RetrieveSymbol
     int len;
     /* data */
 };
-
+};
 #endif

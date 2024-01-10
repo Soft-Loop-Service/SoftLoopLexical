@@ -63,7 +63,7 @@ void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, 
 
     for (int i = size - 1; i >= 0; i--)
     {
-        DeploymentTokenStruct bnf = current_reduce_formula.token_vector[i];
+        BNFParse::DeploymentTokenStruct bnf = current_reduce_formula.token_vector[i];
 
         if (bnf.label == is_id_TerminalSymbol)
         {

@@ -12,7 +12,7 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-
+namespace BNFParse{
 int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, int *array, int len, int current_number)
 {
     // printf("searchRetrieveSymbolTableDuplication %d\n", len);
@@ -118,5 +118,5 @@ int retrieveSymbolTable(BNFToken &bnf_token_p, RetrieveSymbol &retrieve_symbol, 
     retrieve_symbol.len = len;
     return len;
 }
-
+};
 #endif
