@@ -19,7 +19,7 @@ class SoftjTree
 
 private:
     vSyntacticTree *syntactic_analysis_tree;
-    vProcessAnalysis *process_result;
+    ProcessVisualization::vProcessAnalysis *process_result;
     ProcessVisualization::VariablePossessionUnion *vpc;
 
     ProcessVisualization::LayerQueue input_layer_queue;
@@ -142,7 +142,7 @@ private:
         if (ifbool)
         {
             string message = "条件式 true";
-            struct ProcessVisualization::ProcessAnalysis pr = {ProcessAnalysis::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
             process_result->push_back(pr);
 
             if (current_node.children.size() >= 3)
@@ -157,7 +157,7 @@ private:
         else
         {
             string message = "条件式 false";
-            struct ProcessVisualization::ProcessAnalysis pr = {ProcessAnalysis::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),   node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),   node_index};
             process_result->push_back(pr);
         }
     }
