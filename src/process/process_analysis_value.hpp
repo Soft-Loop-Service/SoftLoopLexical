@@ -1,6 +1,8 @@
 
-#ifndef __PRAD
-#define __PRAD
+#ifndef __PRAV
+#define __PRAV
+
+#include "./process_analysis_definition.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,9 +15,5 @@
 
 
 namespace ProcessVisualization{
-struct ProcessAnalysis;
-typedef std::vector<ProcessAnalysis> vProcessAnalysis;
-
-const int is_id_timeline_magic_number_layer = 0;
 };
 #endif

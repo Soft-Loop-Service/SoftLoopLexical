@@ -11,6 +11,8 @@
 
 #include "./../../src/syntactic/syntactic_analysis_tree.hpp"
 #include "./../../src/process/process_analysis_definition.hpp"
+#include "./../../src/process/process_analysis_function.hpp"
+#include "./../../src/process/process_analysis_value.hpp"
 
 class SoftjTree
 {
@@ -18,10 +20,10 @@ class SoftjTree
 private:
     vSyntacticTree *syntactic_analysis_tree;
     vProcessAnalysis *process_result;
-    VariablePossessionUnion *vpc;
+    ProcessVisualization::VariablePossessionUnion *vpc;
 
-    LayerQueue input_layer_queue;
-    LayerQueue output_layer_queue;
+    ProcessVisualization::LayerQueue input_layer_queue;
+    ProcessVisualization::LayerQueue output_layer_queue;
 
     template <class T>
     void assExpr(T value, int node_index)
@@ -42,7 +44,7 @@ private:
 
             if (vpc->hasLayer(value_name)){
                 int layer = vpc->getLayer(value_name);
-                struct ProcessAnalysis pr = {is_id_process_type_error ,"定義済み変数名の再宣言", {layer} ,  node_index};
+                struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"定義済み変数名の再宣言", {layer} ,  node_index};
                 process_result->push_back(pr);
             }
 
@@ -55,7 +57,7 @@ private:
 
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = {is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
+            struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
             process_result->push_back(pr);
 
             return;
@@ -68,7 +70,7 @@ private:
 
             if (!(vpc->hasLayer(value_name))){
                 int layer = vpc->getLayer(value_name);
-                struct ProcessAnalysis pr = {is_id_process_type_error ,"未定義変数への代入", {layer},  node_index};
+                struct ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"未定義変数への代入", {layer},  node_index};
                 process_result->push_back(pr);
             }
 
@@ -76,7 +78,7 @@ private:
             string message = "変数代入 " + current_node.token + " " + to_string(value);
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = {is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
+            struct ProcessAnalysis pr = ProcessVisualization::{is_id_process_type_ouput ,message, output_layer_queue.useClearLayerQueue(),node_index};
             process_result->push_back(pr);
             return;
         }
@@ -107,16 +109,21 @@ private:
         {
             output_layer_queue.enqueueLayerQueue(0);
             string message = "ループ条件式 true";
-            struct ProcessAnalysis pr = {is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
             process_result->push_back(pr);
+
+            vpc->deep();
+
             recursion(current_node.children[2]);
             calc_ans = resolution_calc_int(current_node.children[1]);
             ifbool = getBool(calc_ans);
+
+            vpc->shallow();
         }
 
         string message = "ループ条件式 false";
         output_layer_queue.enqueueLayerQueue(0);
-        struct ProcessAnalysis pr = {is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
         process_result->push_back(pr);
     }
 
@@ -135,18 +142,22 @@ private:
         if (ifbool)
         {
             string message = "条件式 true";
-            struct ProcessAnalysis pr = {is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessAnalysis::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),  node_index};
             process_result->push_back(pr);
 
             if (current_node.children.size() >= 3)
             {
+                vpc->deep();
+
                 recursion(current_node.children[2]);
+
+                vpc->shallow();
             }
         }
         else
         {
             string message = "条件式 false";
-            struct ProcessAnalysis pr = {is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),   node_index};
+            struct ProcessVisualization::ProcessAnalysis pr = {ProcessAnalysis::is_id_process_type_logic ,message, output_layer_queue.useClearLayerQueue(),   node_index};
             process_result->push_back(pr);
         }
     }
@@ -165,7 +176,7 @@ private:
     string text_join(string left, string right)
     {
         string message = "文字列連結 " + left + " + " + right;
-        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
 
         return left + right;
@@ -174,7 +185,7 @@ private:
     int addition(int left, int right,int node_index)
     {
         string message = "加算 " + to_string(left) + " + " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(), node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(), node_index};
         process_result->push_back(pr);
 
         return left + right;
@@ -182,28 +193,28 @@ private:
     int subtraction(int left, int right, int node_index)
     {
         string message = "減算 " + to_string(left) + " - " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left - right;
     }
     int multiplication(int left, int right, int node_index)
     {
         string message = "乗算 " + to_string(left) + " * " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left * right;
     }
     int division(int left, int right, int node_index)
     {
         string message = "割算 " + to_string(left) + " / " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left / right;
     }
     int less(int left, int right, int node_index)
     {
         string message = "比較 " + to_string(left) + " < " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left < right;
     }
@@ -211,35 +222,35 @@ private:
 
     {
         string message = "比較 " + to_string(left) + " <= " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left <= right;
     }
     int greater(int left, int right,int node_index)
     {
         string message = "比較 " + to_string(left) + " > " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left > right;
     }
     int greater_equal(int left, int right,int node_index)
     {
         string message = "比較 " + to_string(left) + " >= " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left >= right;
     }
     int equality(int left, int right,int node_index)
     {
         string message = "比較 " + to_string(left) + " == " + to_string(right);
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left == right;
     }
     int equality(string left, string right,int node_index)
     {
         string message = "比較 " + left + " == " + right;
-        struct ProcessAnalysis pr = {is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
+        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input,message,input_layer_queue.useClearLayerQueue(),node_index};
         process_result->push_back(pr);
         return left == right;
     }
@@ -254,7 +265,7 @@ private:
         }
         if (current_node.parent_token == "<text>")
         {
-            input_layer_queue.enqueueLayerQueue(is_id_timeline_magic_number_layer);
+            input_layer_queue.enqueueLayerQueue(ProcessVisualization::is_id_timeline_magic_number_layer);
             return current_node.token;
         }
 
@@ -294,7 +305,15 @@ private:
             vpc->getValue(value_name, val);
             printf("cal get2 %d\n", val);
 
-            int layer = vpc->getLayer(value_name.c_str());
+            bool hasLayer = vpc->hasLayer(value_name);
+
+            if (!hasLayer){
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error ,"未定義変数のアクセス", {},  node_index};
+                process_result->push_back(pr);
+                return 0;
+            }
+
+            int layer = vpc->getLayer(value_name);
             input_layer_queue.enqueueLayerQueue(layer);
 
             return val;
@@ -302,7 +321,7 @@ private:
 
         if (current_node.parent_token == "<number>")
         {
-            input_layer_queue.enqueueLayerQueue(is_id_timeline_magic_number_layer);
+            input_layer_queue.enqueueLayerQueue(ProcessVisualization::is_id_timeline_magic_number_layer);
             return stoi(current_node.token);
         }
 
@@ -404,7 +423,7 @@ private:
     }
 
 public:
-    SoftjTree(vSyntacticTree &syntactic_analysis_tree, vProcessAnalysis &process_result, VariablePossessionUnion &vpc)
+    SoftjTree(vSyntacticTree &syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis &process_result, ProcessVisualization::VariablePossessionUnion &vpc)
     {
 
         this->syntactic_analysis_tree = &syntactic_analysis_tree;

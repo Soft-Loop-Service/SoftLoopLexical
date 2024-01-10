@@ -20,12 +20,13 @@
 #include "./process_analysis_definition.hpp"
 
 #include "./../outhtml/outhtml.hpp"
+namespace ProcessVisualization{
 
-void debugProcessResult(vProcessAnalysis process_result)
+void debugProcessResult(ProcessVisualization::vProcessAnalysis process_result)
 {
     for (int i = 0; i < process_result.size(); i++)
     {
-        ProcessAnalysis current = process_result[i];
+        ProcessVisualization::ProcessAnalysis current = process_result[i];
 
         printf("%d : %d %s\n", i, current.process_type, current.message.c_str());
     }
@@ -36,13 +37,13 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     printf("processAnalysis\n");
     vint parent_stack = {};
 
-    vProcessAnalysis process_result = {};
+    ProcessVisualization::vProcessAnalysis process_result = {};
 
-    VariablePossessionUnion vpc;
+    ProcessVisualization::VariablePossessionUnion vpc;
     SoftjTree softjtree(syntactic_analysis_tree, process_result, vpc);
 
     debugProcessResult(process_result);
     HTMLParse::outputHtml(syntactic_analysis_tree  , process_result);
 }
-
+}
 #endif

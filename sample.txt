@@ -1,13 +1,4 @@
-int abc = 0
-int abc = 0
-int abc = 0
-int abc = 0
-int abc = 0
-int abc = 0
-int abc = 0
-
-while (abc < 5){
-    abc = abc + 1
+if (1){
+    int a = 0
 }
-
-b = 5
+b = a

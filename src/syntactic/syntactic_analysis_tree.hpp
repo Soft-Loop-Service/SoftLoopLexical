@@ -108,6 +108,10 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
 {
     int count = 0;
     int size = syntactic_analysis_tree.size();
+
+    int last_line = -1;
+    int last_column = -1;
+
     for (int i = 0; i < size; i++)
     {
         int li = size - i - 1;
@@ -116,7 +120,16 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
             syntactic_analysis_tree[li].token = token_string_vector[count].token;
             syntactic_analysis_tree[li].source_code_line = token_string_vector[count].source_code_line;
             syntactic_analysis_tree[li].source_code_column = token_string_vector[count].source_code_column;
+
+            last_line = syntactic_analysis_tree[li].source_code_line;
+            last_column = syntactic_analysis_tree[li].source_code_column;
+
             count++;
+        }
+        else
+        {
+            syntactic_analysis_tree[li].source_code_line = last_line;
+            syntactic_analysis_tree[li].source_code_column = last_column;
         }
     }
 }

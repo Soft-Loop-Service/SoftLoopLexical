@@ -6,6 +6,9 @@
 #include "./syntactic/syntactic_parse_tree.hpp"
 
 #include "./process/process_analysis.hpp"
+#include "./process/process_analysis_definition.hpp"
+#include "./process/process_analysis_function.hpp"
+#include "./process/process_analysis_value.hpp"
 
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
@@ -39,7 +42,7 @@ int main(int argc, char *argv[])
     vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
     syntacticParseTree(syntactic_parse_tree);
-    processAnalysis(syntactic_parse_tree);
+    ProcessVisualization::processAnalysis(syntactic_parse_tree);
 
     // ソースコードは用済み
 }

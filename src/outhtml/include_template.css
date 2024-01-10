@@ -1,19 +1,30 @@
 .root {
   width: 90vw;
 }
+.timeline{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.timeline_left{
+
+}
+
+.timeline_right{
+  flex-grow: 1;
+}
 
 .process_connection{
   height: 24px;
 }
 
-
 .process {
-  width: 100%;
   display: flex;
   flex-direction: row;
+  height: 48px;
 }
 .message {
-  /* width: 20%; */
   width: 20%;
   min-width: 200px;
 
@@ -24,7 +35,7 @@
 }
 
 .source_code_position{
-  width: 100px;
+  width: 24px;
   
   display: flex;
   align-items: center;
@@ -32,7 +43,7 @@
 }
 
 .layer {
-  flex-grow: 1;
+  
   display: flex;
   flex-direction: column;
 }
@@ -54,10 +65,11 @@
 
 .layer_horizontal{
   display: flex;
+  height: 100%;
 }
 .layer_unit {
   aspect-ratio: 1;
-  height: 48px;
+  height: 100%;
 
   display: flex;
   justify-content: center;

@@ -183,12 +183,23 @@ namespace HTMLParse
 
         private:
             vSyntacticTree *syntactic_analysis_tree_p;
-            vProcessAnalysis *process_result_p;
+            ProcessVisualization::vProcessAnalysis *process_result_p;
             HTMLKit::HtmlKitTree html_kit_tree;
 
             int layer_length = 10;
 
-            void timelineProcessArea(int html_parent_node, ProcessAnalysis process)
+            void timelineLeftArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
+            {
+                int process_node_index = timelineCommonArea(html_parent_node, process);
+                timelineMessageArea(process_node_index, process);
+                timelineLineColumnArea(process_node_index, process);
+            }
+            void timelineRightArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
+            {
+                int process_node_index = timelineCommonArea(html_parent_node, process);
+                timelineLayerArea(process_node_index, process);
+            }
+            int timelineCommonArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
             {
                 HTMLKit::HtmlKitElement process_area("div");
                 process_area.addEClass("process");
@@ -199,26 +210,23 @@ namespace HTMLParse
                 process_connection_area.addEClass("process_connection");
                 int layer_horizontal_connection = html_kit_tree.add_node(html_parent_node, process_connection_area);
 
-                timelineMessageArea(process_node_index, process);
-                                timelineLineColumnArea(process_node_index, process);
-
-                timelineLayerArea(process_node_index, process);
+                return process_node_index;
             }
 
-            void timelineMessageArea(int html_parent_node, ProcessAnalysis process)
+            void timelineMessageArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
             {
                 HTMLKit::HtmlKitElement message_area("div");
                 message_area.addEClass("message");
 
-                if (process.process_type == is_id_process_type_error)
+                if (process.process_type == ProcessVisualization::is_id_process_type_error)
                 {
                     message_area.addEClass("message_error");
                 }
-                if (process.process_type == is_id_process_type_warning)
+                if (process.process_type == ProcessVisualization::is_id_process_type_warning)
                 {
                     message_area.addEClass("message_warning");
                 }
-                if (process.process_type == is_id_process_type_language_error)
+                if (process.process_type == ProcessVisualization::is_id_process_type_language_error)
                 {
                     message_area.addEClass("message_language_error");
                 }
@@ -230,7 +238,7 @@ namespace HTMLParse
                 html_kit_tree.add_node(message_node_index, message_text_area);
             }
 
-            void timelineLineColumnArea(int html_parent_node, ProcessAnalysis process)
+            void timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
             {
                 HTMLKit::HtmlKitElement line_column_area("div");
                 line_column_area.addEClass("source_code_position");
@@ -256,10 +264,9 @@ namespace HTMLParse
                 source_code_position_column_text_area.addEClass("source_code_position_text");
                 source_code_position_column_text_area.setElement(to_string(source_code_column));
                 html_kit_tree.add_node(column_area_index, source_code_position_column_text_area);
-
             }
 
-            void timelineLayerArea(int html_parent_node, ProcessAnalysis process)
+            void timelineLayerArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
             {
                 HTMLKit::HtmlKitElement layer_area("div");
                 layer_area.addEClass("layer");
@@ -278,7 +285,7 @@ namespace HTMLParse
                 }
             }
 
-            void timelineLayerInputArea(int html_parent_node, ProcessAnalysis process, int unit_num)
+            void timelineLayerInputArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num)
             {
                 int layer_unit_node_index = timelineLayerUnitArea(html_parent_node, process, unit_num);
 
@@ -292,17 +299,17 @@ namespace HTMLParse
                         continue;
                     }
 
-                    if (process.process_type == is_id_process_type_input)
+                    if (process.process_type == ProcessVisualization::is_id_process_type_input)
                     {
                         timelineLayerUnitStationInputArea(layer_unit_node_index, layer_unit_station_area);
                         return;
                     }
-                    if (process.process_type == is_id_process_type_ouput)
+                    if (process.process_type == ProcessVisualization::is_id_process_type_ouput)
                     {
                         timelineLayerUnitStationOutputArea(layer_unit_node_index, layer_unit_station_area);
                         return;
                     }
-                    if (process.process_type == is_id_process_type_logic)
+                    if (process.process_type == ProcessVisualization::is_id_process_type_logic)
                     {
                         timelineLayerUnitStationLogicArea(layer_unit_node_index, layer_unit_station_area);
                         return;
@@ -310,7 +317,7 @@ namespace HTMLParse
                 }
             }
 
-            int timelineLayerUnitArea(int html_parent_node, ProcessAnalysis process, int unit_num)
+            int timelineLayerUnitArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num)
             {
                 HTMLKit::HtmlKitElement layer_unit_area("div");
                 layer_unit_area.addEClass("layer_unit");
@@ -336,7 +343,7 @@ namespace HTMLParse
             }
 
         public:
-            HtmlTimeLine(vSyntacticTree *syntactic_analysis_tree_p, vProcessAnalysis *process_result_p)
+            HtmlTimeLine(vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p)
             {
                 this->syntactic_analysis_tree_p = syntactic_analysis_tree_p;
                 this->process_result_p = process_result_p;
@@ -352,10 +359,24 @@ namespace HTMLParse
                 timeline_area.addEClass("timeline");
                 int timeline_area_index = html_kit_tree.add_node(0, timeline_area);
 
+                HTMLKit::HtmlKitElement timeline_left_area("div");
+                timeline_left_area.addEClass("timeline_left");
+                HTMLKit::HtmlKitElement timeline_right_area("div");
+                timeline_right_area.addEClass("timeline_right");
+
+                int timeline_left_index = html_kit_tree.add_node(timeline_area_index, timeline_left_area);
+                int timeline_right_index = html_kit_tree.add_node(timeline_area_index, timeline_right_area);
+
                 for (int i = 0; i < process_result_p->size(); i++)
                 {
-                    ProcessAnalysis pr = (*process_result_p)[i];
-                    timelineProcessArea(timeline_area_index, pr);
+                    ProcessVisualization::ProcessAnalysis pr = (*process_result_p)[i];
+                    timelineLeftArea(timeline_left_index , pr);
+                }
+
+                for (int i = 0; i < process_result_p->size(); i++)
+                {
+                    ProcessVisualization::ProcessAnalysis pr = (*process_result_p)[i];
+                    timelineRightArea(timeline_right_index , pr);
                 }
 
                 printf("タイムライン木構造変換\n");
@@ -368,7 +389,7 @@ namespace HTMLParse
         };
     }
 
-    void outputHtml(vSyntacticTree syntactic_analysis_tree, vProcessAnalysis process_result)
+    void outputHtml(vSyntacticTree syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis process_result)
     {
         std::ofstream writing_file;
         std::string filename = "test.html";
