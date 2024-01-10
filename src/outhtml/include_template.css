@@ -1,6 +1,12 @@
 .root {
   width: 90vw;
 }
+
+.process_connection{
+  height: 24px;
+}
+
+
 .process {
   width: 100%;
   display: flex;
@@ -28,22 +34,17 @@
 .layer_horizontal{
   display: flex;
 }
-.layer_horizontal_connection{
-  height: 24px;
-}
-
 .layer_unit {
   aspect-ratio: 1;
-  height: 24px;
+  height: 48px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.layer_unit_station_output,
-.layer_unit_station_input {
+.layer_unit_station{
   border-radius: 50%;
-  height: 10px;
+  height: 50%;
   aspect-ratio: 1;
   border: 4px solid;
 }
@@ -53,4 +54,7 @@
 }
 .layer_unit_station_input {
   border-color: rgb(200, 50, 10);
+}
+.layer_unit_station_logic{
+  border-color: rgb(50, 200, 10);
 }

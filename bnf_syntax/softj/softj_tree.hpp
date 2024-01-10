@@ -46,7 +46,7 @@ private:
 
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+            struct ProcessAnalysis pr = {2,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
 
             return;
@@ -59,7 +59,7 @@ private:
             string message = "変数代入 " + current_node.token + " " + to_string(value);
             int layer = vpc->getLayer(value_name);
             output_layer_queue.enqueueLayerQueue(layer);
-            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+            struct ProcessAnalysis pr = {2,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
             return;
         }
@@ -84,10 +84,12 @@ private:
         int calc_ans = calc(current_node.children[1]);
         bool ifbool = getBool(calc_ans);
 
+        output_layer_queue.enqueueLayerQueue(0);
+
         while (ifbool)
         {
             string message = "ループ条件式 true";
-            struct ProcessAnalysis pr = {message,input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+            struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
             recursion(current_node.children[2]);
             calc_ans = calc(current_node.children[1]);
@@ -95,7 +97,7 @@ private:
         }
 
         string message = "ループ条件式 false";
-        struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+        struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
     }
 
@@ -109,11 +111,12 @@ private:
         int calc_ans = calc(current_node.children[1]);
 
         bool ifbool = getBool(calc_ans);
+        output_layer_queue.enqueueLayerQueue(0);
 
         if (ifbool)
         {
             string message = "条件式 true";
-            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+            struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
 
             if (current_node.children.size() >= 3)
@@ -124,7 +127,7 @@ private:
         else
         {
             string message = "条件式 false";
-            struct ProcessAnalysis pr = {message, input_layer_queue.useClearLayerQueue(), output_layer_queue.useClearLayerQueue()};
+            struct ProcessAnalysis pr = {4,message, output_layer_queue.useClearLayerQueue()};
             process_result->push_back(pr);
         }
     }
@@ -143,7 +146,7 @@ private:
     int addition(int left, int right)
     {
         string message = "加算 " + to_string(left) + " + " + to_string(right);
-        struct ProcessAnalysis pr = {message,input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
 
         return left + right;
@@ -151,49 +154,49 @@ private:
     int subtraction(int left, int right)
     {
         string message = "減算 " + to_string(left) + " - " + to_string(right);
-        struct ProcessAnalysis pr = {message,input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left - right;
     }
     int multiplication(int left, int right)
     {
         string message = "乗算 " + to_string(left) + " * " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left * right;
     }
     int division(int left, int right)
     {
         string message = "割算 " + to_string(left) + " / " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left / right;
     }
     int less(int left, int right)
     {
         string message = "比較 " + to_string(left) + " < " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(),output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left < right;
     }
     int less_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " <= " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left <= right;
     }
     int greater(int left, int right)
     {
         string message = "比較 " + to_string(left) + " > " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left > right;
     }
     int greater_equal(int left, int right)
     {
         string message = "比較 " + to_string(left) + " >= " + to_string(right);
-        struct ProcessAnalysis pr = {message, input_layer_queue.useLayerQueue(), output_layer_queue.useLayerQueue()};
+        struct ProcessAnalysis pr = {1,message,input_layer_queue.useClearLayerQueue()};
         process_result->push_back(pr);
         return left >= right;
     }
@@ -221,6 +224,7 @@ private:
 
         if (current_node.parent_token == "<number>")
         {
+            input_layer_queue.enqueueLayerQueue(timeline_magic_number_layer);
             return stoi(current_node.token);
         }
 

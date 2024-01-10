@@ -14,6 +14,8 @@
 struct ProcessAnalysis;
 typedef std::vector<ProcessAnalysis> vProcessAnalysis;
 
+const int timeline_magic_number_layer = 0;
+
 class LayerQueue
 {
 private:
@@ -21,7 +23,8 @@ private:
 
 public:
     LayerQueue()
-    {layer_queue = {};
+    {
+        layer_queue = {};
     }
 
     void clearlayerQueue()
@@ -47,9 +50,9 @@ public:
 
 struct ProcessAnalysis
 {
-    string message; // 表示message
-    vint input_layer {};
-    vint output_layer = {}; // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+    int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
+    string message;   // 表示message
+    vint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
 };
 
 class VariableScope
