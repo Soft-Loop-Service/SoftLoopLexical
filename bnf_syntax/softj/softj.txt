@@ -10,13 +10,15 @@
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
-<factor> ::= <number> | "(" <right> ")" | <value_name>
+<factor> ::= <number> | "(" <right> ")" | <value_name> | <text>
 
 <number> ::= NUM
 <value_definition> ::= <type_name> <value_name>
 
 <type_name> ::= "int" | "string"
 <value_name> ::= TEXT
+
+<text> ::= """ TEXT """ | "'" TEXT "'" | """ NUM """ | "'" NUM "'" | """ """ | "'" "'"
 
 <ifexpr> ::= <if>
 

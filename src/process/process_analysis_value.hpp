@@ -117,14 +117,14 @@ public:
     void newValue(string name, T element , int definition_node)
     {
 
-        if (variable_scope->searchLayer(name) == -1)
+        if (variable_scope->search(name) == -1)
         {
             // 存在しないとき、新規追加
 
             int current_layer = max_layer;
             max_layer++;
 
-            this->variable_scope->putLayer(name, current_layer);
+            this->variable_scope->put(name, current_layer);
 
             string type = parseType(element);
             setValueTypeTable(current_layer, type);
@@ -149,7 +149,7 @@ public:
     template <typename T>
     void updateValue(string name, T element)
     {
-        int layer = variable_scope->searchLayer(name);
+        int layer = variable_scope->search(name);
         updateValue(layer, element);
     }
     template <typename T>
@@ -166,7 +166,7 @@ public:
     template <typename T>
     void getValue(string name, T &element)
     {
-        int layer = variable_scope->searchLayer(name);
+        int layer = variable_scope->search(name);
         getValue(layer, element);
     }
     template <typename T>

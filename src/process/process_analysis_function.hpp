@@ -13,6 +13,10 @@
 
 namespace ProcessVisualization
 {
+    class FunctionUnit;
+    typedef vector<FunctionUnit> vFunctionUnit;
+    typedef map<int,FunctionUnit> mapFunctionUnit;
+
     class FunctionUnit
     {
     private:
@@ -38,8 +42,11 @@ namespace ProcessVisualization
             this->argument_value.push_back({type, name});
         }
 
-        bool isMatchType(vArgument match_argument_value)
-        {
+        string getFunctionName(){
+            return this->function_name;
+        }
+
+        bool isMatchType(vstring match_argument_value){
             if (this->argument_value.size() != match_argument_value.size())
             {
                 return false;
@@ -47,7 +54,7 @@ namespace ProcessVisualization
 
             for (int i = 0; i < match_argument_value.size(); i++)
             {
-                if (this->argument_value[i].type != match_argument_value[i].type)
+                if (this->argument_value[i].type != match_argument_value[i])
                 {
                     return false;
                 }
@@ -55,15 +62,95 @@ namespace ProcessVisualization
 
             return true;
         }
+
+        bool isMatchType(vArgument match_argument_value)
+        {
+            vstring types = {};
+
+            for (int i = 0 ; i < match_argument_value.size() ; i++){
+                types.push_back(match_argument_value[i].type);
+            }
+        }
+    };
+
+    class FunctionPossession
+    {
+    private:
+        mapFunctionUnit function_set;
+
+    public:
+        FunctionPossession()
+        {
+            function_set = {};
+        }
+
+        void add(int address, FunctionUnit value)
+        {
+            function_set[address] = value;
+            return;
+        }
+        void get(int address, FunctionUnit &data)
+        {
+            data = function_set[address];
+        }
     };
 
     class FunctionPossessionUnion
     {
-        private:
+    private:
+        int max_function_address = 1;
+        ProcessScope *function_scope;
+        FunctionPossession *function_possession;
 
-        public:
-        FunctionPossessionUnion(){
+    public:
+        FunctionPossessionUnion()
+        {
+            function_scope = new ProcessScope();
+            function_possession = new FunctionPossession();
+        }
 
+        void addFunction(FunctionUnit af)
+        {
+            int current_function_address = max_function_address;
+            function_possession->add(current_function_address,af); 
+            function_scope->put(af.getFunctionName(),current_function_address);
+            max_function_address++;
+        }
+
+
+
+        int hasFunction(string function_name,  vstring function_types){
+            vint function_address_vector = function_scope->search_all(function_name);
+
+            for (int i = 0 ; i < function_address_vector.size() ; i++){
+                int address = function_address_vector[i];
+
+                FunctionUnit function_unit;
+                function_possession->get(address,function_unit);
+                
+                if (function_unit.isMatchType(function_types)){
+                    return address;
+                }
+            }
+
+            return -1;
+        }
+
+        FunctionUnit getFunction(string function_name,  vstring function_types){
+            int address = hasFunction(function_name , function_types);
+            FunctionUnit function_unit;
+            function_possession->get(address,function_unit);
+            return function_unit;
+        }
+
+
+        void deep()
+        {
+            function_scope->deep();
+        }
+        void shallow()
+        {
+            function_scope->shallow();
         }
     };
 

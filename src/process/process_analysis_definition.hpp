@@ -21,7 +21,7 @@ namespace ProcessVisualization
 
     struct VariableProcessEnumeration;
     typedef std::vector<VariableProcessEnumeration> vVariableProcessEnumeration;
-    typedef std::map<string, VariableProcessEnumeration> mapVariableProcessEnumeration;
+    typedef std::map<int, VariableProcessEnumeration> mapVariableProcessEnumeration;
 
     const int is_id_timeline_magic_number_layer = 0;
 
@@ -35,7 +35,7 @@ namespace ProcessVisualization
     {
         string type;
         string name;
-        string definition_node;
+        int definition_node;
     };
 
     class LayerQueue
@@ -108,6 +108,26 @@ namespace ProcessVisualization
         {
             int last = layer_scope.size() - 1;
             layer_scope[last][value_name] = layer;
+        }
+
+        vint search_all(string value_name){
+
+            vint search = {};
+
+            int size = layer_scope.size();
+            int last = size - 1;
+
+            for (int i = 0; i < size; i++)
+            {
+                int li = size - i - 1;
+
+                if (has(li, value_name))
+                {
+                    int layer = layer_scope[li][value_name];
+                    search.push_back(layer);
+                }
+            }
+            return search;
         }
 
         int search(string value_name)
