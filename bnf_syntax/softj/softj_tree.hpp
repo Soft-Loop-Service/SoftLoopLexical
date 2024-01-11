@@ -48,7 +48,7 @@ private:
                 process_result->push_back(pr);
             }
 
-            vpc->newValue(value_name, value);
+            vpc->newValue(value_name, value,node_index);
 
             // vpc[0]->add(value, address, size);
             printf("d\n");

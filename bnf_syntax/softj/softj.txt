@@ -22,7 +22,7 @@
 
 <if> ::= "if" <right> <block>
 <while> ::= "while" <right> <block>
-<function> ::= <value_definition> "(" <parameter> ")" <block>
-<parameter> ::= <value_definition> * | 
+<function> ::= <value_definition> "(" <argument> ")" <block>
+<argument> ::= <value_definition> * | 
 
 <block> ::= "{" <EL> "}"

@@ -184,6 +184,7 @@ namespace HTMLParse
         private:
             vSyntacticTree *syntactic_analysis_tree_p;
             ProcessVisualization::vProcessAnalysis *process_result_p;
+            ProcessVisualization::VariablePossessionUnion *variable_possession_union_p;
             HTMLKit::HtmlKitTree html_kit_tree;
 
             int layer_length = 10;
@@ -343,12 +344,15 @@ namespace HTMLParse
             }
 
         public:
-            HtmlTimeLine(vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p)
+            HtmlTimeLine(vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p ,ProcessVisualization::VariablePossessionUnion *variable_possession_union_p)
             {
                 this->syntactic_analysis_tree_p = syntactic_analysis_tree_p;
                 this->process_result_p = process_result_p;
+                this->variable_possession_union_p = variable_possession_union_p;
                 this->html_kit_tree = HTMLKit::HtmlKitTree();
-                this->layer_length = 10;
+
+                ProcessVisualization::mapVariableProcessEnumeration  variable_enumeration_map = variable_possession_union_p->getVariableProcessEnumeration();
+                this->layer_length = variable_enumeration_map.size();
             }
 
             string timelineArea()
@@ -389,7 +393,7 @@ namespace HTMLParse
         };
     }
 
-    void outputHtml(vSyntacticTree syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis process_result)
+    void outputHtml(vSyntacticTree syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis process_result , ProcessVisualization::VariablePossessionUnion variable_possession_union)
     {
         std::ofstream writing_file;
         std::string filename = "test.html";
@@ -410,7 +414,7 @@ namespace HTMLParse
 
         printf("%s\n", "outputHtml");
 
-        Timeline::HtmlTimeLine html_timeline(&syntactic_analysis_tree, &process_result);
+        Timeline::HtmlTimeLine html_timeline(&syntactic_analysis_tree, &process_result , &variable_possession_union);
         printf("%s\n", "outputHtml 2");
 
         string html_div = html_timeline.timelineArea();
