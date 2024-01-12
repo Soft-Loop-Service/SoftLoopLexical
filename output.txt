@@ -1,18 +1,27 @@
-read_size : sample.txt 40
+read_size : sample.txt 68
 token_search_len 3
 token_search_len 4
 token_search_len 1
 token_search_len 1
 token_search_len 1
 token_search_len 3
+token_search_len 4
+token_search_len 1
+token_search_len 3
 token_search_len 1
 token_search_len 1
 token_search_len 1
+token_search_len 3
+token_search_len 1
+token_search_len 1
+token_search_len 1
+token_search_len 1
+token_search_len 3
 token_search_len 1
 token_search_len 1
 token_search_len 4
 token_search_len 1
-token_search_len 1
+token_search_len 4
 token_search_len 1
 token_search_len 1
 inputTable
@@ -1825,7 +1834,7 @@ Shift : top : 0
 構文解析 top : 299 0 
 構文解析 結果 : 
 
-CurrentToken hoge TEXT 299
+CurrentToken text TEXT 299
 reduce 
 Reduce : token_left : <type_name> 1 top2 : 0 top2 sta : <type_name> 0
 top2 state : 302
@@ -1834,13 +1843,13 @@ top2 end : 0
 構文解析 top : 302 0 
 構文解析 結果 : <type_name> 
 
-CurrentToken hoge TEXT 302
+CurrentToken text TEXT 302
 shift 
 Shift : top : 302 
 構文解析 top : 304 302 0 
 構文解析 結果 : <type_name> 
 
-CurrentToken ( ( 304
+CurrentToken = = 304
 reduce 
 Reduce : token_left : <value_name> 1 top2 : 302 top2 sta : <value_name> 302
 top2 state : 303
@@ -1849,7 +1858,7 @@ top2 end : 302
 構文解析 top : 303 302 0 
 構文解析 結果 : <type_name> <value_name> 
 
-CurrentToken ( ( 303
+CurrentToken = = 303
 reduce 
 Reduce : token_left : <value_definition> 2 top2 : 0 top2 sta : <value_definition> 0
 top2 state : 164
@@ -1858,53 +1867,230 @@ top2 end : 0
 構文解析 top : 164 0 
 構文解析 結果 : <type_name> <value_name> <value_definition> 
 
+CurrentToken = = 164
+reduce 
+Reduce : token_left : <left> 1 top2 : 0 top2 sta : <left> 0
+top2 state : 3
+top2 end : 0
+
+構文解析 top : 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> 
+
+CurrentToken = = 3
+shift 
+Shift : top : 3 
+構文解析 top : 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> 
+
+CurrentToken 6 NUM 4
+shift 
+Shift : top : 4 
+構文解析 top : 120 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> 
+
+CurrentToken ; ; 120
+reduce 
+Reduce : token_left : <number> 1 top2 : 4 top2 sta : <number> 4
+top2 state : 13
+top2 end : 4
+
+構文解析 top : 13 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> 
+
+CurrentToken ; ; 13
+reduce 
+Reduce : token_left : <factor> 1 top2 : 4 top2 sta : <factor> 4
+top2 state : 137
+top2 end : 4
+
+構文解析 top : 137 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> 
+
+CurrentToken ; ; 137
+reduce 
+Reduce : token_left : <term> 1 top2 : 4 top2 sta : <term> 4
+top2 state : 140
+top2 end : 4
+
+構文解析 top : 140 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> 
+
+CurrentToken ; ; 140
+reduce 
+Reduce : token_left : <expr> 1 top2 : 4 top2 sta : <expr> 4
+top2 state : 147
+top2 end : 4
+
+構文解析 top : 147 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> 
+
+CurrentToken ; ; 147
+reduce 
+Reduce : token_left : <comparison> 1 top2 : 4 top2 sta : <comparison> 4
+top2 state : 7
+top2 end : 4
+
+構文解析 top : 7 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> 
+
+CurrentToken ; ; 7
+reduce 
+Reduce : token_left : <comparison_equal> 1 top2 : 4 top2 sta : <comparison_equal> 4
+top2 state : 148
+top2 end : 4
+
+構文解析 top : 148 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> 
+
+CurrentToken ; ; 148
+reduce 
+Reduce : token_left : <right> 1 top2 : 4 top2 sta : <right> 4
+top2 state : 5
+top2 end : 4
+
+構文解析 top : 5 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
+
+CurrentToken ; ; 5
+shift 
+Shift : top : 5 
+構文解析 top : 6 5 4 3 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
+
+CurrentToken int TEXT 6
+reduce 
+Reduce : token_left : <E> 4 top2 : 0 top2 sta : <E> 0
+top2 state : 161
+top2 end : 0
+
+構文解析 top : 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> 
+
+CurrentToken int TEXT 161
+shift 
+Shift : top : 161 
+構文解析 top : 299 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> 
+
+CurrentToken hoge TEXT 299
+reduce 
+Reduce : token_left : <type_name> 1 top2 : 161 top2 sta : <type_name> 161
+top2 state : 302
+top2 end : 161
+
+構文解析 top : 302 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> 
+
+CurrentToken hoge TEXT 302
+shift 
+Shift : top : 302 
+構文解析 top : 304 302 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> 
+
+CurrentToken ( ( 304
+reduce 
+Reduce : token_left : <value_name> 1 top2 : 302 top2 sta : <value_name> 302
+top2 state : 303
+top2 end : 302
+
+構文解析 top : 303 302 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> 
+
+CurrentToken ( ( 303
+reduce 
+Reduce : token_left : <value_definition> 2 top2 : 161 top2 sta : <value_definition> 161
+top2 state : 164
+top2 end : 161
+
+構文解析 top : 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> 
+
 CurrentToken ( ( 164
 shift 
 Shift : top : 164 
-構文解析 top : 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> 
+構文解析 top : 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> 
 
-CurrentToken ) ) 165
+CurrentToken int TEXT 165
+shift 
+Shift : top : 165 
+構文解析 top : 169 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> 
+
+CurrentToken b TEXT 169
 reduce 
-Reduce : token_left : <argument> 0 top2 : 165 top2 sta : <argument> 165
+Reduce : token_left : <type_name> 1 top2 : 165 top2 sta : <type_name> 165
+top2 state : 172
+top2 end : 165
+
+構文解析 top : 172 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> 
+
+CurrentToken b TEXT 172
+shift 
+Shift : top : 172 
+構文解析 top : 174 172 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> 
+
+CurrentToken ) ) 174
+reduce 
+Reduce : token_left : <value_name> 1 top2 : 172 top2 sta : <value_name> 172
+top2 state : 173
+top2 end : 172
+
+構文解析 top : 173 172 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> 
+
+CurrentToken ) ) 173
+reduce 
+Reduce : token_left : <value_definition> 2 top2 : 165 top2 sta : <value_definition> 165
+top2 state : 166
+top2 end : 165
+
+構文解析 top : 166 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> 
+
+CurrentToken ) ) 166
+reduce 
+Reduce : token_left : <argument> 1 top2 : 165 top2 sta : <argument> 165
 top2 state : 175
 top2 end : 165
 
-構文解析 top : 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> 
+構文解析 top : 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> 
 
 CurrentToken ) ) 175
 shift 
 Shift : top : 175 
-構文解析 top : 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> 
+構文解析 top : 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> 
 
 CurrentToken { { 176
 shift 
 Shift : top : 176 
-構文解析 top : 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> 
+構文解析 top : 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> 
 
 CurrentToken int TEXT 177
 shift 
 Shift : top : 177 
-構文解析 top : 299 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> 
+構文解析 top : 299 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> 
 
-CurrentToken a TEXT 299
+CurrentToken c TEXT 299
 reduce 
 Reduce : token_left : <type_name> 1 top2 : 177 top2 sta : <type_name> 177
 top2 state : 302
 top2 end : 177
 
-構文解析 top : 302 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> 
+構文解析 top : 302 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> 
 
-CurrentToken a TEXT 302
+CurrentToken c TEXT 302
 shift 
 Shift : top : 302 
-構文解析 top : 304 302 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> 
+構文解析 top : 304 302 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> 
 
 CurrentToken = = 304
 reduce 
@@ -1912,8 +2098,8 @@ Reduce : token_left : <value_name> 1 top2 : 302 top2 sta : <value_name> 302
 top2 state : 303
 top2 end : 302
 
-構文解析 top : 303 302 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> 
+構文解析 top : 303 302 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> 
 
 CurrentToken = = 303
 reduce 
@@ -1921,8 +2107,8 @@ Reduce : token_left : <value_definition> 2 top2 : 177 top2 sta : <value_definiti
 top2 state : 190
 top2 end : 177
 
-構文解析 top : 190 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> 
+構文解析 top : 190 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> 
 
 CurrentToken = = 190
 reduce 
@@ -1930,47 +2116,86 @@ Reduce : token_left : <left> 1 top2 : 177 top2 sta : <left> 177
 top2 state : 180
 top2 end : 177
 
-構文解析 top : 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
+構文解析 top : 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
 
 CurrentToken = = 180
 shift 
 Shift : top : 180 
-構文解析 top : 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
+構文解析 top : 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
 
-CurrentToken 3 NUM 181
+CurrentToken b TEXT 181
 shift 
 Shift : top : 181 
-構文解析 top : 120 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
+構文解析 top : 156 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> 
 
-CurrentToken ; ; 120
+CurrentToken * * 156
 reduce 
-Reduce : token_left : <number> 1 top2 : 181 top2 sta : <number> 181
-top2 state : 13
+Reduce : token_left : <value_name> 1 top2 : 181 top2 sta : <value_name> 181
+top2 state : 151
 top2 end : 181
 
-構文解析 top : 13 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> 
+構文解析 top : 151 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> 
 
-CurrentToken ; ; 13
+CurrentToken * * 151
 reduce 
 Reduce : token_left : <factor> 1 top2 : 181 top2 sta : <factor> 181
 top2 state : 137
 top2 end : 181
 
-構文解析 top : 137 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> 
+構文解析 top : 137 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> 
 
-CurrentToken ; ; 137
+CurrentToken * * 137
 reduce 
 Reduce : token_left : <term> 1 top2 : 181 top2 sta : <term> 181
 top2 state : 140
 top2 end : 181
 
-構文解析 top : 140 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> 
+構文解析 top : 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> 
+
+CurrentToken * * 140
+shift 
+Shift : top : 140 
+構文解析 top : 12 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> 
+
+CurrentToken 100 NUM 12
+shift 
+Shift : top : 12 
+構文解析 top : 120 12 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> 
+
+CurrentToken ; ; 120
+reduce 
+Reduce : token_left : <number> 1 top2 : 12 top2 sta : <number> 12
+top2 state : 13
+top2 end : 12
+
+構文解析 top : 13 12 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> 
+
+CurrentToken ; ; 13
+reduce 
+Reduce : token_left : <factor> 1 top2 : 12 top2 sta : <factor> 12
+top2 state : 121
+top2 end : 12
+
+構文解析 top : 121 12 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> 
+
+CurrentToken ; ; 121
+reduce 
+Reduce : token_left : <term> 3 top2 : 181 top2 sta : <term> 181
+top2 state : 140
+top2 end : 181
+
+構文解析 top : 140 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> 
 
 CurrentToken ; ; 140
 reduce 
@@ -1978,8 +2203,8 @@ Reduce : token_left : <expr> 1 top2 : 181 top2 sta : <expr> 181
 top2 state : 147
 top2 end : 181
 
-構文解析 top : 147 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> 
+構文解析 top : 147 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> 
 
 CurrentToken ; ; 147
 reduce 
@@ -1987,8 +2212,8 @@ Reduce : token_left : <comparison> 1 top2 : 181 top2 sta : <comparison> 181
 top2 state : 7
 top2 end : 181
 
-構文解析 top : 7 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> 
+構文解析 top : 7 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> 
 
 CurrentToken ; ; 7
 reduce 
@@ -1996,8 +2221,8 @@ Reduce : token_left : <comparison_equal> 1 top2 : 181 top2 sta : <comparison_equ
 top2 state : 148
 top2 end : 181
 
-構文解析 top : 148 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> 
+構文解析 top : 148 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> 
 
 CurrentToken ; ; 148
 reduce 
@@ -2005,14 +2230,14 @@ Reduce : token_left : <right> 1 top2 : 181 top2 sta : <right> 181
 top2 state : 182
 top2 end : 181
 
-構文解析 top : 182 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
+構文解析 top : 182 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
 
 CurrentToken ; ; 182
 shift 
 Shift : top : 182 
-構文解析 top : 183 182 181 180 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
+構文解析 top : 183 182 181 180 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
 
 CurrentToken } } 183
 reduce 
@@ -2020,8 +2245,8 @@ Reduce : token_left : <E> 4 top2 : 177 top2 sta : <E> 177
 top2 state : 188
 top2 end : 177
 
-構文解析 top : 188 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> 
+構文解析 top : 188 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> 
 
 CurrentToken } } 188
 reduce 
@@ -2029,8 +2254,8 @@ Reduce : token_left : <EL> 0 top2 : 188 top2 sta : <EL> 188
 top2 state : 189
 top2 end : 188
 
-構文解析 top : 189 188 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> 
+構文解析 top : 189 188 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> 
 
 CurrentToken } } 189
 reduce 
@@ -2038,14 +2263,14 @@ Reduce : token_left : <EL> 2 top2 : 177 top2 sta : <EL> 177
 top2 state : 310
 top2 end : 177
 
-構文解析 top : 310 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> 
+構文解析 top : 310 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> 
 
 CurrentToken } } 310
 shift 
 Shift : top : 310 
-構文解析 top : 311 310 177 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> 
+構文解析 top : 311 310 177 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> 
 
 CurrentToken hoge TEXT 311
 reduce 
@@ -2053,32 +2278,32 @@ Reduce : token_left : <block> 3 top2 : 176 top2 sta : <block> 176
 top2 state : 312
 top2 end : 176
 
-構文解析 top : 312 176 175 165 164 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> 
+構文解析 top : 312 176 175 165 164 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> 
 
 CurrentToken hoge TEXT 312
 reduce 
-Reduce : token_left : <function> 5 top2 : 0 top2 sta : <function> 0
+Reduce : token_left : <function> 5 top2 : 161 top2 sta : <function> 161
 top2 state : 159
-top2 end : 0
+top2 end : 161
 
-構文解析 top : 159 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> 
+構文解析 top : 159 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> 
 
 CurrentToken hoge TEXT 159
 reduce 
-Reduce : token_left : <E> 1 top2 : 0 top2 sta : <E> 0
+Reduce : token_left : <E> 1 top2 : 161 top2 sta : <E> 161
 top2 state : 161
-top2 end : 0
+top2 end : 161
 
-構文解析 top : 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> 
+構文解析 top : 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> 
 
 CurrentToken hoge TEXT 161
 shift 
 Shift : top : 161 
-構文解析 top : 305 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> 
+構文解析 top : 305 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> 
 
 CurrentToken ( ( 305
 reduce 
@@ -2086,38 +2311,38 @@ Reduce : token_left : <value_name> 1 top2 : 161 top2 sta : <value_name> 161
 top2 state : 163
 top2 end : 161
 
-構文解析 top : 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
+構文解析 top : 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
 
 CurrentToken ( ( 163
 shift 
 Shift : top : 163 
-構文解析 top : 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
+構文解析 top : 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
 
-CurrentToken 4 NUM 152
+CurrentToken text TEXT 152
 shift 
 Shift : top : 152 
-構文解析 top : 73 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
+構文解析 top : 112 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> 
 
-CurrentToken ) ) 73
+CurrentToken ) ) 112
 reduce 
-Reduce : token_left : <number> 1 top2 : 152 top2 sta : <number> 152
-top2 state : 65
+Reduce : token_left : <value_name> 1 top2 : 152 top2 sta : <value_name> 152
+top2 state : 104
 top2 end : 152
 
-構文解析 top : 65 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> 
+構文解析 top : 104 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> 
 
-CurrentToken ) ) 65
+CurrentToken ) ) 104
 reduce 
 Reduce : token_left : <factor> 1 top2 : 152 top2 sta : <factor> 152
 top2 state : 90
 top2 end : 152
 
-構文解析 top : 90 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> 
+構文解析 top : 90 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> 
 
 CurrentToken ) ) 90
 reduce 
@@ -2125,8 +2350,8 @@ Reduce : token_left : <term> 1 top2 : 152 top2 sta : <term> 152
 top2 state : 93
 top2 end : 152
 
-構文解析 top : 93 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> 
+構文解析 top : 93 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> 
 
 CurrentToken ) ) 93
 reduce 
@@ -2134,8 +2359,8 @@ Reduce : token_left : <expr> 1 top2 : 152 top2 sta : <expr> 152
 top2 state : 100
 top2 end : 152
 
-構文解析 top : 100 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> 
+構文解析 top : 100 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> 
 
 CurrentToken ) ) 100
 reduce 
@@ -2143,8 +2368,8 @@ Reduce : token_left : <comparison> 1 top2 : 152 top2 sta : <comparison> 152
 top2 state : 59
 top2 end : 152
 
-構文解析 top : 59 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> 
+構文解析 top : 59 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> 
 
 CurrentToken ) ) 59
 reduce 
@@ -2152,8 +2377,8 @@ Reduce : token_left : <comparison_equal> 1 top2 : 152 top2 sta : <comparison_equ
 top2 state : 101
 top2 end : 152
 
-構文解析 top : 101 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> 
+構文解析 top : 101 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> 
 
 CurrentToken ) ) 101
 reduce 
@@ -2161,8 +2386,8 @@ Reduce : token_left : <right> 1 top2 : 152 top2 sta : <right> 152
 top2 state : 109
 top2 end : 152
 
-構文解析 top : 109 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
+構文解析 top : 109 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> 
 
 CurrentToken ) ) 109
 reduce 
@@ -2170,14 +2395,14 @@ Reduce : token_left : <value_enumeration> 1 top2 : 152 top2 sta : <value_enumera
 top2 state : 153
 top2 end : 152
 
-構文解析 top : 153 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> 
+構文解析 top : 153 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> 
 
 CurrentToken ) ) 153
 shift 
 Shift : top : 153 
-構文解析 top : 154 153 152 163 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> 
+構文解析 top : 154 153 152 163 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> 
 
 CurrentToken ; ; 154
 reduce 
@@ -2185,8 +2410,8 @@ Reduce : token_left : <function_message_passing> 4 top2 : 161 top2 sta : <functi
 top2 state : 155
 top2 end : 161
 
-構文解析 top : 155 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> 
+構文解析 top : 155 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> 
 
 CurrentToken ; ; 155
 reduce 
@@ -2194,14 +2419,14 @@ Reduce : token_left : <right> 1 top2 : 161 top2 sta : <right> 161
 top2 state : 1
 top2 end : 161
 
-構文解析 top : 1 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> 
+構文解析 top : 1 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> 
 
 CurrentToken ; ; 1
 shift 
 Shift : top : 1 
-構文解析 top : 2 1 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> 
+構文解析 top : 2 1 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> 
 
 CurrentToken $ $ 2
 reduce 
@@ -2209,8 +2434,8 @@ Reduce : token_left : <E> 2 top2 : 161 top2 sta : <E> 161
 top2 state : 161
 top2 end : 161
 
-構文解析 top : 161 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> 
+構文解析 top : 161 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> 
 
 CurrentToken $ $ 161
 reduce 
@@ -2218,8 +2443,17 @@ Reduce : token_left : <EL> 0 top2 : 161 top2 sta : <EL> 161
 top2 state : 162
 top2 end : 161
 
+構文解析 top : 162 161 161 161 0 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> 
+
+CurrentToken $ $ 162
+reduce 
+Reduce : token_left : <EL> 2 top2 : 161 top2 sta : <EL> 161
+top2 state : 162
+top2 end : 161
+
 構文解析 top : 162 161 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> 
 
 CurrentToken $ $ 162
 reduce 
@@ -2228,7 +2462,7 @@ top2 state : 162
 top2 end : 161
 
 構文解析 top : 162 161 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> 
 
 CurrentToken $ $ 162
 reduce 
@@ -2237,7 +2471,7 @@ top2 state : 418
 top2 end : 0
 
 構文解析 top : 418 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> <EL> 
 
 CurrentToken $ $ 418
 reduce 
@@ -2246,101 +2480,148 @@ top2 state : 419
 top2 end : 0
 
 構文解析 top : 419 0 
-構文解析 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> <S> 
+構文解析 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> <EL> <S> 
 
 CurrentToken $ $ 419
 acc 
 構文解析 終了 top : 419 0 
-構文解析 終了 結果 : <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> <S> 
+構文解析 終了 結果 : <type_name> <value_name> <value_definition> <left> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <type_name> <value_name> <value_definition> <type_name> <value_name> <value_definition> <argument> <type_name> <value_name> <value_definition> <left> <value_name> <factor> <term> <number> <factor> <term> <expr> <comparison> <comparison_equal> <right> <E> <EL> <EL> <block> <function> <E> <value_name> <value_name> <factor> <term> <expr> <comparison> <comparison_equal> <right> <value_enumeration> <function_message_passing> <right> <E> <EL> <EL> <EL> <EL> <S> 
 syntacticPurseTree
-探索 現在:36 親:-1
-探索 現在:35 親:0
+探索 現在:55 親:-1
+探索 現在:54 親:0
 接続 0 - 1
-探索 現在:34 親:1
+探索 現在:53 親:1
 接続 1 - 2
-探索 現在:33 親:2
+探索 現在:52 親:2
 接続 2 - 3
-探索 現在:32 親:2
-接続 2 - 4
+探索 現在:51 親:3
+接続 3 - 4
+探索 現在:50 親:3
+接続 3 - 5
 node_type : <E>
-探索 現在:31 親:4
-接続 4 - 6
-探索 現在:30 親:6
-接続 6 - 7
+探索 現在:49 親:5
+接続 5 - 7
+探索 現在:48 親:7
+接続 7 - 8
 node_type : <function_message_passing>
-探索 現在:29 親:7
-接続 7 - 9
-探索 現在:28 親:9
-接続 9 - 10
-探索 現在:27 親:10
+探索 現在:47 親:8
+接続 8 - 10
+探索 現在:46 親:10
 接続 10 - 11
-探索 現在:26 親:11
+探索 現在:45 親:11
 接続 11 - 12
-探索 現在:25 親:12
+探索 現在:44 親:12
 接続 12 - 13
-探索 現在:24 親:13
+探索 現在:43 親:13
 接続 13 - 14
-探索 現在:23 親:14
+探索 現在:42 親:14
 接続 14 - 15
-探索 現在:22 親:15
+探索 現在:41 親:15
 接続 15 - 16
-node_type : <number>
+探索 現在:40 親:16
+接続 16 - 17
+node_type : <value_name>
 node_type : <function_message_passing>
-探索 現在:21 親:7
-接続 7 - 19
+探索 現在:39 親:8
+接続 8 - 20
 node_type : <value_name>
-探索 現在:20 親:1
-接続 1 - 21
-探索 現在:19 親:21
-接続 21 - 22
-探索 現在:18 親:22
+探索 現在:38 親:2
+接続 2 - 22
+探索 現在:37 親:22
 接続 22 - 23
+探索 現在:36 親:23
+接続 23 - 24
 node_type : <block>
-探索 現在:17 親:23
-接続 23 - 25
-探索 現在:16 親:25
-接続 25 - 26
-探索 現在:15 親:25
-接続 25 - 27
+探索 現在:35 親:24
+接続 24 - 26
+探索 現在:34 親:26
+接続 26 - 27
+探索 現在:33 親:26
+接続 26 - 28
 node_type : <E>
-探索 現在:14 親:27
-接続 27 - 29
-探索 現在:13 親:29
-接続 29 - 30
-探索 現在:12 親:30
+探索 現在:32 親:28
+接続 28 - 30
+探索 現在:31 親:30
 接続 30 - 31
-探索 現在:11 親:31
+探索 現在:30 親:31
 接続 31 - 32
-探索 現在:10 親:32
+探索 現在:29 親:32
 接続 32 - 33
-探索 現在:9 親:33
+探索 現在:28 親:33
 接続 33 - 34
-探索 現在:8 親:34
+探索 現在:27 親:34
 接続 34 - 35
+探索 現在:26 親:35
+接続 35 - 36
 node_type : <number>
-node_type : <E>
-探索 現在:7 親:27
-接続 27 - 38
-探索 現在:6 親:38
-接続 38 - 39
-探索 現在:5 親:39
+node_type : <term>
+探索 現在:25 親:34
+接続 34 - 39
+探索 現在:24 親:39
 接続 39 - 40
+探索 現在:23 親:40
+接続 40 - 41
 node_type : <value_name>
-探索 現在:4 親:39
-接続 39 - 42
+node_type : <E>
+探索 現在:22 親:28
+接続 28 - 44
+探索 現在:21 親:44
+接続 44 - 45
+探索 現在:20 親:45
+接続 45 - 46
+node_type : <value_name>
+探索 現在:19 親:45
+接続 45 - 48
 node_type : <type_name>
 node_type : <block>
 node_type : <function>
-探索 現在:3 親:22
-接続 22 - 46
-node_type : <function>
-探索 現在:2 親:22
-接続 22 - 48
-探索 現在:1 親:48
-接続 48 - 49
+探索 現在:18 親:23
+接続 23 - 52
+探索 現在:17 親:52
+接続 52 - 53
+探索 現在:16 親:53
+接続 53 - 54
 node_type : <value_name>
-探索 現在:0 親:48
-接続 48 - 51
+探索 現在:15 親:53
+接続 53 - 56
+node_type : <type_name>
+node_type : <function>
+探索 現在:14 親:23
+接続 23 - 59
+探索 現在:13 親:59
+接続 59 - 60
+node_type : <value_name>
+探索 現在:12 親:59
+接続 59 - 62
+node_type : <type_name>
+探索 現在:11 親:1
+接続 1 - 64
+node_type : <E>
+探索 現在:10 親:64
+接続 64 - 66
+探索 現在:9 親:66
+接続 66 - 67
+探索 現在:8 親:67
+接続 67 - 68
+探索 現在:7 親:68
+接続 68 - 69
+探索 現在:6 親:69
+接続 69 - 70
+探索 現在:5 親:70
+接続 70 - 71
+探索 現在:4 親:71
+接続 71 - 72
+node_type : <number>
+node_type : <E>
+探索 現在:3 親:64
+接続 64 - 75
+探索 現在:2 親:75
+接続 75 - 76
+探索 現在:1 親:76
+接続 76 - 77
+node_type : <value_name>
+探索 現在:0 親:76
+接続 76 - 79
 node_type : <type_name>
 node 0 * * * * 
 token <S>
@@ -2352,309 +2633,477 @@ node 1 * * * *
 token <EL>
 token label 110
 parent token <S>
-children 21 2 
+children 64 2 
 
 node 2 * * * * 
 token <EL>
 token label 110
 parent token <EL>
-children 4 3 
+children 22 3 
 
 node 3 * * * * 
 token <EL>
 token label 110
 parent token <EL>
-children 
+children 5 4 
 
 node 4 * * * * 
+token <EL>
+token label 110
+parent token <EL>
+children 
+
+node 5 * * * * 
 token <E>
 token label 110
 parent token <EL>
-children 6 5 
+children 7 6 
 
-node 5 * * * * 
+node 6 * * * * 
 token ;
 token label 140
 parent token <E>
 children 
 
-node 6 * * * * 
+node 7 * * * * 
 token <right>
 token label 110
 parent token <E>
-children 7 
+children 8 
 
-node 7 * * * * 
+node 8 * * * * 
 token <function_message_passing>
 token label 110
 parent token <right>
-children 19 18 9 8 
+children 20 19 10 9 
 
-node 8 * * * * 
+node 9 * * * * 
 token )
 token label 140
 parent token <function_message_passing>
 children 
 
-node 9 * * * * 
+node 10 * * * * 
 token <value_enumeration>
 token label 110
 parent token <function_message_passing>
-children 10 
-
-node 10 * * * * 
-token <right>
-token label 110
-parent token <value_enumeration>
 children 11 
 
 node 11 * * * * 
-token <comparison_equal>
+token <right>
 token label 110
-parent token <right>
+parent token <value_enumeration>
 children 12 
 
 node 12 * * * * 
-token <comparison>
+token <comparison_equal>
 token label 110
-parent token <comparison_equal>
+parent token <right>
 children 13 
 
 node 13 * * * * 
-token <expr>
+token <comparison>
 token label 110
-parent token <comparison>
+parent token <comparison_equal>
 children 14 
 
 node 14 * * * * 
-token <term>
+token <expr>
 token label 110
-parent token <expr>
+parent token <comparison>
 children 15 
 
 node 15 * * * * 
-token <factor>
+token <term>
 token label 110
-parent token <term>
+parent token <expr>
 children 16 
 
 node 16 * * * * 
-token <number>
+token <factor>
 token label 110
-parent token <factor>
+parent token <term>
 children 17 
 
 node 17 * * * * 
-token 4
-token label 140
-parent token <number>
-children 
+token <value_name>
+token label 110
+parent token <factor>
+children 18 
 
 node 18 * * * * 
+token text
+token label 140
+parent token <value_name>
+children 
+
+node 19 * * * * 
 token (
 token label 140
 parent token <function_message_passing>
 children 
 
-node 19 * * * * 
+node 20 * * * * 
 token <value_name>
 token label 110
 parent token <function_message_passing>
-children 20 
+children 21 
 
-node 20 * * * * 
+node 21 * * * * 
 token hoge
 token label 140
 parent token <value_name>
 children 
 
-node 21 * * * * 
+node 22 * * * * 
 token <E>
 token label 110
 parent token <EL>
-children 22 
+children 23 
 
-node 22 * * * * 
+node 23 * * * * 
 token <function>
 token label 110
 parent token <E>
-children 48 47 46 45 23 
+children 59 58 52 51 24 
 
-node 23 * * * * 
+node 24 * * * * 
 token <block>
 token label 110
 parent token <function>
-children 44 25 24 
+children 50 26 25 
 
-node 24 * * * * 
+node 25 * * * * 
 token }
 token label 140
 parent token <block>
 children 
 
-node 25 * * * * 
+node 26 * * * * 
 token <EL>
 token label 110
 parent token <block>
-children 27 26 
+children 28 27 
 
-node 26 * * * * 
+node 27 * * * * 
 token <EL>
 token label 110
 parent token <EL>
 children 
 
-node 27 * * * * 
+node 28 * * * * 
 token <E>
 token label 110
 parent token <EL>
-children 38 37 29 28 
+children 44 43 30 29 
 
-node 28 * * * * 
+node 29 * * * * 
 token ;
 token label 140
 parent token <E>
 children 
 
-node 29 * * * * 
+node 30 * * * * 
 token <right>
 token label 110
 parent token <E>
-children 30 
-
-node 30 * * * * 
-token <comparison_equal>
-token label 110
-parent token <right>
 children 31 
 
 node 31 * * * * 
-token <comparison>
+token <comparison_equal>
 token label 110
-parent token <comparison_equal>
+parent token <right>
 children 32 
 
 node 32 * * * * 
-token <expr>
+token <comparison>
 token label 110
-parent token <comparison>
+parent token <comparison_equal>
 children 33 
 
 node 33 * * * * 
-token <term>
+token <expr>
 token label 110
-parent token <expr>
+parent token <comparison>
 children 34 
 
 node 34 * * * * 
+token <term>
+token label 110
+parent token <expr>
+children 39 38 35 
+
+node 35 * * * * 
 token <factor>
 token label 110
 parent token <term>
-children 35 
-
-node 35 * * * * 
-token <number>
-token label 110
-parent token <factor>
 children 36 
 
 node 36 * * * * 
-token 3
+token <number>
+token label 110
+parent token <factor>
+children 37 
+
+node 37 * * * * 
+token 100
 token label 140
 parent token <number>
 children 
 
-node 37 * * * * 
+node 38 * * * * 
+token *
+token label 140
+parent token <term>
+children 
+
+node 39 * * * * 
+token <term>
+token label 110
+parent token <term>
+children 40 
+
+node 40 * * * * 
+token <factor>
+token label 110
+parent token <term>
+children 41 
+
+node 41 * * * * 
+token <value_name>
+token label 110
+parent token <factor>
+children 42 
+
+node 42 * * * * 
+token b
+token label 140
+parent token <value_name>
+children 
+
+node 43 * * * * 
 token =
 token label 140
 parent token <E>
 children 
 
-node 38 * * * * 
+node 44 * * * * 
 token <left>
 token label 110
 parent token <E>
-children 39 
+children 45 
 
-node 39 * * * * 
+node 45 * * * * 
 token <value_definition>
 token label 110
 parent token <left>
-children 42 40 
+children 48 46 
 
-node 40 * * * * 
+node 46 * * * * 
 token <value_name>
 token label 110
 parent token <value_definition>
-children 41 
+children 47 
 
-node 41 * * * * 
-token a
+node 47 * * * * 
+token c
 token label 140
 parent token <value_name>
 children 
 
-node 42 * * * * 
+node 48 * * * * 
 token <type_name>
 token label 110
 parent token <value_definition>
-children 43 
+children 49 
 
-node 43 * * * * 
+node 49 * * * * 
 token int
 token label 140
 parent token <type_name>
 children 
 
-node 44 * * * * 
+node 50 * * * * 
 token {
 token label 140
 parent token <block>
 children 
 
-node 45 * * * * 
+node 51 * * * * 
 token )
 token label 140
 parent token <function>
 children 
 
-node 46 * * * * 
+node 52 * * * * 
 token <argument>
 token label 110
 parent token <function>
+children 53 
+
+node 53 * * * * 
+token <value_definition>
+token label 110
+parent token <argument>
+children 56 54 
+
+node 54 * * * * 
+token <value_name>
+token label 110
+parent token <value_definition>
+children 55 
+
+node 55 * * * * 
+token b
+token label 140
+parent token <value_name>
 children 
 
-node 47 * * * * 
+node 56 * * * * 
+token <type_name>
+token label 110
+parent token <value_definition>
+children 57 
+
+node 57 * * * * 
+token int
+token label 140
+parent token <type_name>
+children 
+
+node 58 * * * * 
 token (
 token label 140
 parent token <function>
 children 
 
-node 48 * * * * 
+node 59 * * * * 
 token <value_definition>
 token label 110
 parent token <function>
-children 51 49 
+children 62 60 
 
-node 49 * * * * 
+node 60 * * * * 
 token <value_name>
 token label 110
 parent token <value_definition>
-children 50 
+children 61 
 
-node 50 * * * * 
+node 61 * * * * 
 token hoge
 token label 140
 parent token <value_name>
 children 
 
-node 51 * * * * 
+node 62 * * * * 
 token <type_name>
 token label 110
 parent token <value_definition>
-children 52 
+children 63 
 
-node 52 * * * * 
+node 63 * * * * 
+token int
+token label 140
+parent token <type_name>
+children 
+
+node 64 * * * * 
+token <E>
+token label 110
+parent token <EL>
+children 75 74 66 65 
+
+node 65 * * * * 
+token ;
+token label 140
+parent token <E>
+children 
+
+node 66 * * * * 
+token <right>
+token label 110
+parent token <E>
+children 67 
+
+node 67 * * * * 
+token <comparison_equal>
+token label 110
+parent token <right>
+children 68 
+
+node 68 * * * * 
+token <comparison>
+token label 110
+parent token <comparison_equal>
+children 69 
+
+node 69 * * * * 
+token <expr>
+token label 110
+parent token <comparison>
+children 70 
+
+node 70 * * * * 
+token <term>
+token label 110
+parent token <expr>
+children 71 
+
+node 71 * * * * 
+token <factor>
+token label 110
+parent token <term>
+children 72 
+
+node 72 * * * * 
+token <number>
+token label 110
+parent token <factor>
+children 73 
+
+node 73 * * * * 
+token 6
+token label 140
+parent token <number>
+children 
+
+node 74 * * * * 
+token =
+token label 140
+parent token <E>
+children 
+
+node 75 * * * * 
+token <left>
+token label 110
+parent token <E>
+children 76 
+
+node 76 * * * * 
+token <value_definition>
+token label 110
+parent token <left>
+children 79 77 
+
+node 77 * * * * 
+token <value_name>
+token label 110
+parent token <value_definition>
+children 78 
+
+node 78 * * * * 
+token text
+token label 140
+parent token <value_name>
+children 
+
+node 79 * * * * 
+token <type_name>
+token label 110
+parent token <value_definition>
+children 80 
+
+node 80 * * * * 
 token int
 token label 140
 parent token <type_name>
@@ -2663,184 +3112,254 @@ children
 recursionSyntacticParseTree 0
 node 0 0 child change 1 -> 1
 recursionSyntacticParseTree 1
-node 1 0 child change 21 -> 22
-recursionSyntacticParseTree 22
-node 22 0 child change 48 -> 48
-recursionSyntacticParseTree 48
-node 48 0 child change 51 -> 52
-recursionSyntacticParseTree 52
-node 48 1 child change 49 -> 50
-recursionSyntacticParseTree 50
-node 22 1 child change 47 -> -1
-recursionSyntacticParseTree 22
-node 22 0 child change 48 -> 48
-recursionSyntacticParseTree 48
-node 48 0 child change 52 -> 52
-recursionSyntacticParseTree 52
-node 48 1 child change 50 -> 50
-recursionSyntacticParseTree 50
-node 22 1 child change 46 -> -1
-recursionSyntacticParseTree 22
-node 22 0 child change 48 -> 48
-recursionSyntacticParseTree 48
-node 48 0 child change 52 -> 52
-recursionSyntacticParseTree 52
-node 48 1 child change 50 -> 50
-recursionSyntacticParseTree 50
-node 22 1 child change 45 -> -1
-recursionSyntacticParseTree 22
-node 22 0 child change 48 -> 48
-recursionSyntacticParseTree 48
-node 48 0 child change 52 -> 52
-recursionSyntacticParseTree 52
-node 48 1 child change 50 -> 50
-recursionSyntacticParseTree 50
-node 22 1 child change 23 -> 23
-recursionSyntacticParseTree 23
-node 23 0 child change 44 -> -1
-recursionSyntacticParseTree 23
-node 23 0 child change 25 -> 25
-recursionSyntacticParseTree 25
-node 25 0 child change 27 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 38 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 42 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 40 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 29 -> 36
-recursionSyntacticParseTree 36
-node 27 3 child change 28 -> -1
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 25 1 child change 26 -> -1
-recursionSyntacticParseTree 25
-node 25 0 child change 27 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 23 1 child change 24 -> -1
-recursionSyntacticParseTree 23
-node 23 0 child change 25 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 23 0 child change 27 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 22 1 child change 23 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 22 1 child change 27 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
-node 22 1 child change 27 -> 27
-recursionSyntacticParseTree 27
-node 27 0 child change 39 -> 39
-recursionSyntacticParseTree 39
-node 39 0 child change 43 -> 43
-recursionSyntacticParseTree 43
-node 39 1 child change 41 -> 41
-recursionSyntacticParseTree 41
-node 27 1 child change 37 -> 37
-recursionSyntacticParseTree 37
-node 27 2 child change 36 -> 36
-recursionSyntacticParseTree 36
+node 1 0 child change 64 -> 64
+recursionSyntacticParseTree 64
+node 64 0 child change 75 -> 76
+recursionSyntacticParseTree 76
+node 76 0 child change 79 -> 80
+recursionSyntacticParseTree 80
+node 76 1 child change 77 -> 78
+recursionSyntacticParseTree 78
+node 64 1 child change 74 -> 74
+recursionSyntacticParseTree 74
+node 64 2 child change 66 -> 73
+recursionSyntacticParseTree 73
+node 64 3 child change 65 -> -1
+recursionSyntacticParseTree 64
+node 64 0 child change 76 -> 76
+recursionSyntacticParseTree 76
+node 76 0 child change 80 -> 80
+recursionSyntacticParseTree 80
+node 76 1 child change 78 -> 78
+recursionSyntacticParseTree 78
+node 64 1 child change 74 -> 74
+recursionSyntacticParseTree 74
+node 64 2 child change 73 -> 73
+recursionSyntacticParseTree 73
 node 1 1 child change 2 -> 2
 recursionSyntacticParseTree 2
-node 2 0 child change 4 -> 4
-recursionSyntacticParseTree 4
-node 4 0 child change 6 -> 7
-recursionSyntacticParseTree 7
-node 7 0 child change 19 -> 20
-recursionSyntacticParseTree 20
-node 7 1 child change 18 -> -1
-recursionSyntacticParseTree 7
-node 7 0 child change 20 -> 20
-recursionSyntacticParseTree 20
-node 7 1 child change 9 -> 17
-recursionSyntacticParseTree 17
-node 7 2 child change 8 -> -1
-recursionSyntacticParseTree 7
-node 7 0 child change 20 -> 20
-recursionSyntacticParseTree 20
-node 7 1 child change 17 -> 17
-recursionSyntacticParseTree 17
-node 7 1 child change 17 -> 17
-recursionSyntacticParseTree 17
-node 4 1 child change 5 -> -1
-recursionSyntacticParseTree 4
-node 4 0 child change 7 -> 7
-recursionSyntacticParseTree 7
-node 7 0 child change 20 -> 20
-recursionSyntacticParseTree 20
-node 7 1 child change 17 -> 17
-recursionSyntacticParseTree 17
-node 2 1 child change 3 -> -1
-recursionSyntacticParseTree 2
-node 2 0 child change 4 -> 7
-recursionSyntacticParseTree 7
-node 7 0 child change 20 -> 20
-recursionSyntacticParseTree 20
-node 7 1 child change 17 -> 17
-recursionSyntacticParseTree 17
+node 2 0 child change 22 -> 23
+recursionSyntacticParseTree 23
+node 23 0 child change 59 -> 59
+recursionSyntacticParseTree 59
+node 59 0 child change 62 -> 63
+recursionSyntacticParseTree 63
+node 59 1 child change 60 -> 61
+recursionSyntacticParseTree 61
+node 23 1 child change 58 -> -1
+recursionSyntacticParseTree 23
+node 23 0 child change 59 -> 59
+recursionSyntacticParseTree 59
+node 59 0 child change 63 -> 63
+recursionSyntacticParseTree 63
+node 59 1 child change 61 -> 61
+recursionSyntacticParseTree 61
+node 23 1 child change 52 -> 53
+recursionSyntacticParseTree 53
+node 53 0 child change 56 -> 57
+recursionSyntacticParseTree 57
+node 53 1 child change 54 -> 55
+recursionSyntacticParseTree 55
+node 23 2 child change 51 -> -1
+recursionSyntacticParseTree 23
+node 23 0 child change 59 -> 59
+recursionSyntacticParseTree 59
+node 59 0 child change 63 -> 63
+recursionSyntacticParseTree 63
+node 59 1 child change 61 -> 61
+recursionSyntacticParseTree 61
+node 23 1 child change 53 -> 53
+recursionSyntacticParseTree 53
+node 53 0 child change 57 -> 57
+recursionSyntacticParseTree 57
+node 53 1 child change 55 -> 55
+recursionSyntacticParseTree 55
+node 23 2 child change 24 -> 24
+recursionSyntacticParseTree 24
+node 24 0 child change 50 -> -1
+recursionSyntacticParseTree 24
+node 24 0 child change 26 -> 26
+recursionSyntacticParseTree 26
+node 26 0 child change 28 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 44 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 48 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 46 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 30 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 39 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 35 -> 37
+recursionSyntacticParseTree 37
+node 28 3 child change 29 -> -1
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 26 1 child change 27 -> -1
+recursionSyntacticParseTree 26
+node 26 0 child change 28 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 24 1 child change 25 -> -1
+recursionSyntacticParseTree 24
+node 24 0 child change 26 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 24 0 child change 28 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 23 2 child change 24 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 23 1 child change 53 -> 53
+recursionSyntacticParseTree 53
+node 53 0 child change 57 -> 57
+recursionSyntacticParseTree 57
+node 53 1 child change 55 -> 55
+recursionSyntacticParseTree 55
+node 23 2 child change 28 -> 28
+recursionSyntacticParseTree 28
+node 28 0 child change 45 -> 45
+recursionSyntacticParseTree 45
+node 45 0 child change 49 -> 49
+recursionSyntacticParseTree 49
+node 45 1 child change 47 -> 47
+recursionSyntacticParseTree 47
+node 28 1 child change 43 -> 43
+recursionSyntacticParseTree 43
+node 28 2 child change 34 -> 34
+recursionSyntacticParseTree 34
+node 34 0 child change 42 -> 42
+recursionSyntacticParseTree 42
+node 34 1 child change 38 -> 38
+recursionSyntacticParseTree 38
+node 34 2 child change 37 -> 37
+recursionSyntacticParseTree 37
+node 2 1 child change 3 -> 3
+recursionSyntacticParseTree 3
+node 3 0 child change 5 -> 5
+recursionSyntacticParseTree 5
+node 5 0 child change 7 -> 8
+recursionSyntacticParseTree 8
+node 8 0 child change 20 -> 21
+recursionSyntacticParseTree 21
+node 8 1 child change 19 -> -1
+recursionSyntacticParseTree 8
+node 8 0 child change 21 -> 21
+recursionSyntacticParseTree 21
+node 8 1 child change 10 -> 18
+recursionSyntacticParseTree 18
+node 8 2 child change 9 -> -1
+recursionSyntacticParseTree 8
+node 8 0 child change 21 -> 21
+recursionSyntacticParseTree 21
+node 8 1 child change 18 -> 18
+recursionSyntacticParseTree 18
+node 8 1 child change 18 -> 18
+recursionSyntacticParseTree 18
+node 5 1 child change 6 -> -1
+recursionSyntacticParseTree 5
+node 5 0 child change 8 -> 8
+recursionSyntacticParseTree 8
+node 8 0 child change 21 -> 21
+recursionSyntacticParseTree 21
+node 8 1 child change 18 -> 18
+recursionSyntacticParseTree 18
+node 3 1 child change 4 -> -1
+recursionSyntacticParseTree 3
+node 3 0 child change 5 -> 8
+recursionSyntacticParseTree 8
+node 8 0 child change 21 -> 21
+recursionSyntacticParseTree 21
+node 8 1 child change 18 -> 18
+recursionSyntacticParseTree 18
 isTokenExpr
-二分木構築 27 -> 37 53 3
+二分木構築 64 -> 74 81 3
+isTokenExpr
+二分木構築 28 -> 43 81 3
+isTokenExpr
+二分木構築 34 -> 38 81 3
 node 0 * * * * 
 token <S>
 token label 110
@@ -2851,333 +3370,523 @@ node 1 * * * *
 token <EL>
 token label 110
 parent token <S>
-children 22 2 
+children 64 2 
 
 node 2 * * * * 
 token <EL>
 token label 110
 parent token <EL>
-children 7 
+children 23 3 
 
 node 3 * * * * 
 token <EL>
 token label 110
 parent token <EL>
-children 
+children 8 
 
 node 4 * * * * 
+token <EL>
+token label 110
+parent token <EL>
+children 
+
+node 5 * * * * 
 token <E>
 token label 110
 parent token <EL>
-children 7 
+children 8 
 
-node 5 * * * * 
+node 6 * * * * 
 token ;
 token label 140
 parent token <E>
 children 
 
-node 6 * * * * 
+node 7 * * * * 
 token <right>
 token label 110
 parent token <E>
-children 7 
+children 8 
 
-node 7 * * * * 
+node 8 * * * * 
 token <function_message_passing>
 token label 110
 parent token <right>
-children 20 17 
+children 21 18 
 
-node 8 * * * * 
+node 9 * * * * 
 token )
 token label 140
 parent token <function_message_passing>
 children 
 
-node 9 * * * * 
+node 10 * * * * 
 token <value_enumeration>
 token label 110
 parent token <function_message_passing>
-children 10 
-
-node 10 * * * * 
-token <right>
-token label 110
-parent token <value_enumeration>
 children 11 
 
 node 11 * * * * 
-token <comparison_equal>
+token <right>
 token label 110
-parent token <right>
+parent token <value_enumeration>
 children 12 
 
 node 12 * * * * 
-token <comparison>
+token <comparison_equal>
 token label 110
-parent token <comparison_equal>
+parent token <right>
 children 13 
 
 node 13 * * * * 
-token <expr>
+token <comparison>
 token label 110
-parent token <comparison>
+parent token <comparison_equal>
 children 14 
 
 node 14 * * * * 
-token <term>
+token <expr>
 token label 110
-parent token <expr>
+parent token <comparison>
 children 15 
 
 node 15 * * * * 
-token <factor>
+token <term>
 token label 110
-parent token <term>
+parent token <expr>
 children 16 
 
 node 16 * * * * 
-token <number>
+token <factor>
 token label 110
-parent token <factor>
+parent token <term>
 children 17 
 
 node 17 * * * * 
-token 4
-token label 140
-parent token <number>
-children 
+token <value_name>
+token label 110
+parent token <factor>
+children 18 
 
 node 18 * * * * 
+token text
+token label 140
+parent token <value_name>
+children 
+
+node 19 * * * * 
 token (
 token label 140
 parent token <function_message_passing>
 children 
 
-node 19 * * * * 
+node 20 * * * * 
 token <value_name>
 token label 110
 parent token <function_message_passing>
-children 20 
+children 21 
 
-node 20 * * * * 
+node 21 * * * * 
 token hoge
 token label 140
 parent token <value_name>
 children 
 
-node 21 * * * * 
+node 22 * * * * 
 token <E>
 token label 110
 parent token <EL>
-children 22 
+children 23 
 
-node 22 * * * * 
+node 23 * * * * 
 token <function>
 token label 110
 parent token <E>
-children 48 27 
+children 59 53 28 
 
-node 23 * * * * 
+node 24 * * * * 
 token <block>
 token label 110
 parent token <function>
-children 27 
+children 28 
 
-node 24 * * * * 
+node 25 * * * * 
 token }
 token label 140
 parent token <block>
 children 
 
-node 25 * * * * 
+node 26 * * * * 
 token <EL>
 token label 110
 parent token <block>
-children 27 
+children 28 
 
-node 26 * * * * 
+node 27 * * * * 
 token <EL>
 token label 110
 parent token <EL>
 children 
 
-node 27 * * * * 
+node 28 * * * * 
 token =
 token label 140
 parent token <E>
-children 39 36 
+children 45 34 
 
-node 28 * * * * 
+node 29 * * * * 
 token ;
 token label 140
 parent token <E>
 children 
 
-node 29 * * * * 
+node 30 * * * * 
 token <right>
 token label 110
 parent token <E>
-children 30 
-
-node 30 * * * * 
-token <comparison_equal>
-token label 110
-parent token <right>
 children 31 
 
 node 31 * * * * 
-token <comparison>
+token <comparison_equal>
 token label 110
-parent token <comparison_equal>
+parent token <right>
 children 32 
 
 node 32 * * * * 
-token <expr>
+token <comparison>
 token label 110
-parent token <comparison>
+parent token <comparison_equal>
 children 33 
 
 node 33 * * * * 
-token <term>
+token <expr>
 token label 110
-parent token <expr>
+parent token <comparison>
 children 34 
 
 node 34 * * * * 
+token *
+token label 140
+parent token <term>
+children 42 37 
+
+node 35 * * * * 
 token <factor>
 token label 110
 parent token <term>
-children 35 
-
-node 35 * * * * 
-token <number>
-token label 110
-parent token <factor>
 children 36 
 
 node 36 * * * * 
-token 3
+token <number>
+token label 110
+parent token <factor>
+children 37 
+
+node 37 * * * * 
+token 100
 token label 140
 parent token <number>
 children 
 
-node 37 * * * * 
+node 38 * * * * 
+token *
+token label 140
+parent token <term>
+children 
+
+node 39 * * * * 
+token <term>
+token label 110
+parent token <term>
+children 40 
+
+node 40 * * * * 
+token <factor>
+token label 110
+parent token <term>
+children 41 
+
+node 41 * * * * 
+token <value_name>
+token label 110
+parent token <factor>
+children 42 
+
+node 42 * * * * 
+token b
+token label 140
+parent token <value_name>
+children 
+
+node 43 * * * * 
 token =
 token label 140
 parent token <E>
 children 
 
-node 38 * * * * 
+node 44 * * * * 
 token <left>
 token label 110
 parent token <E>
-children 39 
+children 45 
 
-node 39 * * * * 
+node 45 * * * * 
 token <value_definition>
 token label 110
 parent token <left>
-children 43 41 
+children 49 47 
 
-node 40 * * * * 
+node 46 * * * * 
 token <value_name>
 token label 110
 parent token <value_definition>
-children 41 
+children 47 
 
-node 41 * * * * 
-token a
+node 47 * * * * 
+token c
 token label 140
 parent token <value_name>
 children 
 
-node 42 * * * * 
+node 48 * * * * 
 token <type_name>
 token label 110
 parent token <value_definition>
-children 43 
+children 49 
 
-node 43 * * * * 
+node 49 * * * * 
 token int
 token label 140
 parent token <type_name>
 children 
 
-node 44 * * * * 
+node 50 * * * * 
 token {
 token label 140
 parent token <block>
 children 
 
-node 45 * * * * 
+node 51 * * * * 
 token )
 token label 140
 parent token <function>
 children 
 
-node 46 * * * * 
+node 52 * * * * 
 token <argument>
 token label 110
 parent token <function>
+children 53 
+
+node 53 * * * * 
+token <value_definition>
+token label 110
+parent token <argument>
+children 57 55 
+
+node 54 * * * * 
+token <value_name>
+token label 110
+parent token <value_definition>
+children 55 
+
+node 55 * * * * 
+token b
+token label 140
+parent token <value_name>
 children 
 
-node 47 * * * * 
+node 56 * * * * 
+token <type_name>
+token label 110
+parent token <value_definition>
+children 57 
+
+node 57 * * * * 
+token int
+token label 140
+parent token <type_name>
+children 
+
+node 58 * * * * 
 token (
 token label 140
 parent token <function>
 children 
 
-node 48 * * * * 
+node 59 * * * * 
 token <value_definition>
 token label 110
 parent token <function>
-children 52 50 
+children 63 61 
 
-node 49 * * * * 
+node 60 * * * * 
 token <value_name>
 token label 110
 parent token <value_definition>
-children 50 
+children 61 
 
-node 50 * * * * 
+node 61 * * * * 
 token hoge
 token label 140
 parent token <value_name>
 children 
 
-node 51 * * * * 
+node 62 * * * * 
 token <type_name>
 token label 110
 parent token <value_definition>
-children 52 
+children 63 
 
-node 52 * * * * 
+node 63 * * * * 
+token int
+token label 140
+parent token <type_name>
+children 
+
+node 64 * * * * 
+token =
+token label 140
+parent token <E>
+children 76 73 
+
+node 65 * * * * 
+token ;
+token label 140
+parent token <E>
+children 
+
+node 66 * * * * 
+token <right>
+token label 110
+parent token <E>
+children 67 
+
+node 67 * * * * 
+token <comparison_equal>
+token label 110
+parent token <right>
+children 68 
+
+node 68 * * * * 
+token <comparison>
+token label 110
+parent token <comparison_equal>
+children 69 
+
+node 69 * * * * 
+token <expr>
+token label 110
+parent token <comparison>
+children 70 
+
+node 70 * * * * 
+token <term>
+token label 110
+parent token <expr>
+children 71 
+
+node 71 * * * * 
+token <factor>
+token label 110
+parent token <term>
+children 72 
+
+node 72 * * * * 
+token <number>
+token label 110
+parent token <factor>
+children 73 
+
+node 73 * * * * 
+token 6
+token label 140
+parent token <number>
+children 
+
+node 74 * * * * 
+token =
+token label 140
+parent token <E>
+children 
+
+node 75 * * * * 
+token <left>
+token label 110
+parent token <E>
+children 76 
+
+node 76 * * * * 
+token <value_definition>
+token label 110
+parent token <left>
+children 80 78 
+
+node 77 * * * * 
+token <value_name>
+token label 110
+parent token <value_definition>
+children 78 
+
+node 78 * * * * 
+token text
+token label 140
+parent token <value_name>
+children 
+
+node 79 * * * * 
+token <type_name>
+token label 110
+parent token <value_definition>
+children 80 
+
+node 80 * * * * 
 token int
 token label 140
 parent token <type_name>
 children 
 
 processAnalysis
-preparationValueEnumeration int 17
-preparationFunctionMessagePassing 20 17 hoge 1
-extractValueDefinition int hoge 48
-FunctionUnit  hoge int 27 arg :
+preparationValueEnumeration unsettled 18
+preparationFunctionMessagePassing 21 18 hoge 1
+extractValueDefinition int hoge 59
+extractValueDefinition int b 53
+preparationFunction hoge int 23
+FunctionUnit  hoge int 28 arg :b int ,
 recursion <S>
+recursion <EL>
+recursion =
+assExpr 76 80 78 <value_definition>
+d
 recursion <EL>
 recursion <function>
 recursion <EL>
 recursion <function_message_passing>
 recursion hoge
-変数の解決(引数) hoge 20
-関数呼び出し要求 20
-対象関数の特定  -1
-存在しない関数
-recursion 4
+変数の解決(引数) hoge 21
+関数呼び出し要求 21
+引数型の書き換え unsettled -> int
+対象関数の特定 hoge 28
+関数取得 hoge 28 hoge 1
+オーバーライドの解決 unsettled : int b
+引数型の書き換え unsettled -> int
+変数の解決 text 18
+cal get text
+recursion =
+assExpr 45 49 47 <value_definition>
+calc 34 -> 42 37
+変数の解決 b 42
+cal get b
+calcSoftjTree 600 : 6 * 100
+d
+recursion text
+変数の解決(引数) text 18
+0 : 2 変数定義代入 text 6
+1 : 1 乗算 6 * 100
+2 : 2 変数定義代入 c 600
 outputHtml
 outputHtml 2
 タイムライン木構造構築
 タイムライン木構造変換
-timeline area <div >   <div class=" timeline">   <div class=" timeline_left">   </div> <div class=" timeline_right">   </div> </div> </div>
+timeline area <div >   <div class=" timeline">   <div class=" timeline_left">   <div class=" process">   <div class=" message">   <span class=" message_text"> 変数定義代入 text 6  </span> </div> <div class=" source_code_position">   <div class=" source_code_position_line">   <span class=" source_code_position_text"> 2  </span> </div> </div> <div class=" source_code_position">   <span class=" source_code_position_text"> 3  </span> </div> </div> <div class=" process_connection">   </div> <div class=" process">   <div class=" message">   <span class=" message_text"> 乗算 6 * 100  </span> </div> <div class=" source_code_position">   <div class=" source_code_position_line">   <span class=" source_code_position_text"> 5  </span> </div> </div> <div class=" source_code_position">   <span class=" source_code_position_text"> 6  </span> </div> </div> <div class=" process_connection">   </div> <div class=" process">   <div class=" message">   <span class=" message_text"> 変数定義代入 c 600  </span> </div> <div class=" source_code_position">   <div class=" source_code_position_line">   <span class=" source_code_position_text"> 5  </span> </div> </div> <div class=" source_code_position">   <span class=" source_code_position_text"> 3  </span> </div> </div> <div class=" process_connection">   </div> </div> <div class=" timeline_right">   <div class=" process">   <div class=" layer">   <div class=" layer_horizontal">   <div class=" layer_unit">   </div> <div class=" layer_unit">   <div class=" layer_unit_station layer_unit_station_output">   </div> </div> <div class=" layer_unit">   </div> </div> </div> </div> <div class=" process_connection">   </div> <div class=" process">   <div class=" layer">   <div class=" layer_horizontal">   <div class=" layer_unit">   <div class=" layer_unit_station layer_unit_station_input">   </div> </div> <div class=" layer_unit">   <div class=" layer_unit_station layer_unit_station_input">   </div> </div> <div class=" layer_unit">   <div class=" layer_unit_station layer_unit_station_input">   </div> </div> </div> </div> </div> <div class=" process_connection">   </div> <div class=" process">   <div class=" layer">   <div class=" layer_horizontal">   <div class=" layer_unit">   </div> <div class=" layer_unit">   </div> <div class=" layer_unit">   </div> </div> </div> </div> <div class=" process_connection">   </div> </div> </div> </div>
 outputHtml 3

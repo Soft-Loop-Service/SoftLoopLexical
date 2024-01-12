@@ -352,7 +352,9 @@ namespace LanguageSpecifications
 
                     if (ve.type == "unsettled")
                     {
-                        types.push_back(vpu->getType(ve.token));
+                        string new_type = vpu->getType(ve.token);
+                        printf("引数型の書き換え unsettled -> %s\n" , new_type.c_str());
+                        types.push_back(new_type);
                         continue;
                     }
 
@@ -378,6 +380,13 @@ namespace LanguageSpecifications
                     printf("オーバーライドの解決 %s : %s %s\n", passing_argument.type.c_str(), function_argument.type.c_str(), function_argument.name.c_str());
 
                     string value_type = passing_argument.type;
+
+                    if (passing_argument.type == "unsettled")
+                    {
+                        string new_type = vpu->getType(passing_argument.token);
+                        printf("引数型の書き換え unsettled -> %s\n" , new_type.c_str());
+                        value_type = new_type;
+                    }
 
                     string value_ans;
                     if (value_type == "string")

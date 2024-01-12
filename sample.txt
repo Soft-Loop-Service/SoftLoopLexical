@@ -1,7 +1,8 @@
 
+int text = 6;
 
-int hoge(){
-    int a = 3;
+int hoge(int b){
+    int c = b * 100;
 }
 
-hoge(4);
+hoge(text);
