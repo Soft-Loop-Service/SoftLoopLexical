@@ -26,6 +26,7 @@ typedef std::queue<int> quint;
 typedef std::queue<std::string> qustr;
 typedef std::vector<std::queue<int>> vquint;
 typedef std::vector<std::map<string,int>> vmap_str_int;
+typedef std::vector<std::map<string,vint>> vmap_str_vint;
 
 typedef std::map<std::string, bool> mapstrbool;
 // typedef std::map<std::string, int> mapstrint;

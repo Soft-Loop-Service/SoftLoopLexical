@@ -1,4 +1,13 @@
-hoge(1,abc,"hello");
-hoge(1,abc,"hello");
-hoge(1,abc,"hello");
-hoge(1,abc,"hello",hage(1,abc,"hello"));
+int a = 0;
+int hoge(int b , int c){
+ a = a + b;
+ a = a + c;
+}
+
+int hoge(int d){
+ a = a + d;
+}
+
+hoge(3,4);
+
+hoge(3);

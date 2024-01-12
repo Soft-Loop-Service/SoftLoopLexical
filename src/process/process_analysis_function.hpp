@@ -37,6 +37,7 @@ namespace ProcessVisualization
         FunctionUnit()
         {
             argument_value = {{}};
+            function_node = -1;
         }
         FunctionUnit(string function_name, string return_type, vArgument argument_value, int function_node)
         {
@@ -44,6 +45,13 @@ namespace ProcessVisualization
             this->return_type = return_type;
             this->argument_value = argument_value;
             this->function_node = function_node;
+
+            printf("FunctionUnit  %s %s %d arg :",function_name.c_str() , return_type.c_str() , function_node);
+
+            for (int i = 0 ; i < argument_value.size() ; i++){
+                printf("%s %s ,",argument_value[i].name.c_str(),argument_value[i].type.c_str());
+            }
+            printf("\n");
         }
         void addArgumentValue(string type, string name)
         {
