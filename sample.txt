@@ -1,4 +1,4 @@
 hoge(1,abc,"hello");
 hoge(1,abc,"hello");
 hoge(1,abc,"hello");
-hoge(1,abc,"hello");
+hoge(1,abc,"hello",hage(1,abc,"hello"));

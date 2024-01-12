@@ -50,11 +50,19 @@ namespace ProcessVisualization
             this->argument_value.push_back({type, name});
         }
 
+        int getFunctionNode()
+        {
+            return this->function_node;
+        }
         string getFunctionName()
         {
             return this->function_name;
         }
 
+        vArgument getArgumentValue()
+        {
+            return this->argument_value;
+        }
         bool isMatchType(vstring match_argument_value)
         {
             if (this->argument_value.size() != match_argument_value.size())

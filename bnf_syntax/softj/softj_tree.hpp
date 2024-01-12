@@ -31,7 +31,7 @@ namespace LanguageSpecifications
             vValueEnumeration argument;
         };
         typedef vector<FunctionMessagePassing> vFunctionMessagePassing;
-        typedef map<int ,FunctionMessagePassing> m_i_FunctionMessagePassing;
+        typedef map<int, FunctionMessagePassing> m_i_FunctionMessagePassing;
 
         class SoftjTree
         {
@@ -45,7 +45,6 @@ namespace LanguageSpecifications
             ProcessVisualization::LayerQueue input_layer_queue;
             ProcessVisualization::LayerQueue output_layer_queue;
             m_i_FunctionMessagePassing function_message_passing_map;
-
 
             void assExpr(int left_index, int right_index)
             {
@@ -336,6 +335,60 @@ namespace LanguageSpecifications
                 return ans;
             }
 
+            // nodeを返す
+            ProcessVisualization::FunctionUnit functionMessagePassin(int node_index)
+            {
+
+                FunctionMessagePassing fmp = function_message_passing_map[node_index];
+                vValueEnumeration vve = fmp.argument;
+
+                vstring types = {};
+
+                for (int i = 0; i < vve.size(); i++)
+                {
+                    ValueEnumeration ve = vve[i];
+                    types.push_back(ve.type);
+                }
+                ProcessVisualization::FunctionUnit function_unit = fpu->getFunction(fmp.function_name, types);
+                return function_unit;
+            }
+
+            void resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp)
+            {
+
+                ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
+                vpu->deep(); // 引数解決層
+                for (int i = 0; i < fmp.argument.size(); i++)
+                {
+                    ValueEnumeration passing_argument = fmp.argument[i];
+                    ProcessVisualization::Argument function_argument = function_argument_vector[i];
+
+                    string value_type = passing_argument.type;
+
+                    string value_ans;
+                    if (value_type == "string")
+                    {
+                        string value_string = resolutionCalcString(passing_argument.node_index);
+                        vpu->newValue(function_argument.name, value_string, passing_argument.node_index);
+                        value_ans = value_string;
+                    }
+
+                    if (value_type == "int")
+                    {
+                        int value_int = resolutionCalcInt(passing_argument.node_index);
+                        vpu->newValue(function_argument.name, value_int, passing_argument.node_index);
+                        value_ans = to_string(value_int);
+                    }
+                }
+
+                vpu->deep(); // 関数実行層
+
+                int recursion_node = function_unit.getFunctionNode();
+                recursion(recursion_node);
+
+                vpu->shallow();
+                vpu->shallow();
+            }
             void functionMessagePassingVoid(int node_index)
             {
             }
@@ -358,6 +411,13 @@ namespace LanguageSpecifications
 
                 if (current_node.parent_token == "<value_name>")
                 {
+
+                    if (hasMapKey(function_message_passing_map, node_index))
+                    {
+                        int r = functionMessagePassingInt(node_index);
+                        return r;
+                    }
+
                     string value_name = current_node.token;
                     printf("cal get %s\n", value_name.c_str());
                     int val;
@@ -539,14 +599,14 @@ namespace LanguageSpecifications
 
                     if (child_node.parent_token == "<number>")
                     {
-                        struct ValueEnumeration ve = {"number", child_node_index};
+                        struct ValueEnumeration ve = {"int", child_node_index};
                         args_type.push_back(ve);
                         continue;
                     }
 
                     if (child_node.parent_token == "<text>")
                     {
-                        struct ValueEnumeration ve = {"text", child_node_index};
+                        struct ValueEnumeration ve = {"string", child_node_index};
                         args_type.push_back(ve);
                         continue;
                     }
@@ -561,12 +621,11 @@ namespace LanguageSpecifications
 
                 SyntacticTreeNode node_left = (*syntactic_analysis_tree)[child_node_left_index];
 
-
                 vValueEnumeration args_type = {};
                 preparationValueEnumeration(child_node_right_index, args_type);
                 struct FunctionMessagePassing fmp = {node_left.token, child_node_left_index, args_type};
 
-                printf("preparationFunctionMessagePassing %s %d\n",node_left.token.c_str(),child_node_left_index);
+                printf("preparationFunctionMessagePassing %s %d\n", node_left.token.c_str(), child_node_left_index);
 
                 function_message_passing_map[child_node_left_index] = fmp;
             }

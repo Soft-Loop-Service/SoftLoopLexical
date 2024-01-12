@@ -68,6 +68,12 @@ bool hasKeyMap(vector<T> keys, T key)
 }
 
 template <typename T, typename Y>
+bool hasMapKey(std::map<Y, T> mp,Y key)
+{
+    return mp.find(key) != mp.end();
+}
+
+template <typename T, typename Y>
 std::vector<Y> getMapKeyString(std::map<Y, T> mp)
 {
     std::vector<Y> keys;
