@@ -1,13 +1,13 @@
-int a = 0;
-int hoge(int b , int c){
- a = a + b;
- a = a + c;
+
+
+int hoge(string d){
+ string k = d;
 }
+
 
 int hoge(int d){
- a = a + d;
+ int b = d;
 }
 
-hoge(3,4);
-
-hoge(3);
+hoge("hello");
+hoge(100);

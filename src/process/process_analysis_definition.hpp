@@ -91,7 +91,7 @@ namespace ProcessVisualization
     class ProcessScope
     {
     private:
-        vmap_str_int layer_scope;
+        vmap_str_vint layer_scope;
 
         bool has(int scope, string value_name)
         {
@@ -107,10 +107,11 @@ namespace ProcessVisualization
         void put(string value_name, int layer)
         {
             int last = layer_scope.size() - 1;
-            layer_scope[last][value_name] = layer;
+            layer_scope[last][value_name].push_back(layer);
         }
 
-        vint searchAll(string value_name){
+        vint searchAll(string value_name)
+        {
 
             vint search = {};
 
@@ -123,14 +124,19 @@ namespace ProcessVisualization
 
                 if (has(li, value_name))
                 {
-                    int layer = layer_scope[li][value_name];
-                    search.push_back(layer);
+                    vint layers = layer_scope[li][value_name];
+
+                    for (int k = 0; k < layers.size(); k++)
+                    {
+                        search.push_back(layers[k]);
+                    }
                 }
             }
             return search;
         }
 
-        int searchDeep(int search_layer){
+        int searchDeep(int search_layer)
+        {
             int size = layer_scope.size();
             int last = size - 1;
 
@@ -139,9 +145,15 @@ namespace ProcessVisualization
                 int li = size - i - 1;
                 vstring name_keys = getMapKeyString(layer_scope[li]);
 
-                for (int j = 0 ; j < name_keys.size(); j ++){
-                    if(layer_scope[li][name_keys[j]] == search_layer){
-                        return i;
+                for (int j = 0; j < name_keys.size(); j++)
+                {
+
+                    for (int k = 0; k < layer_scope[li][name_keys[j]].size(); k++)
+                    {
+                        if (layer_scope[li][name_keys[j]][k] == search_layer)
+                        {
+                            return i;
+                        }
                     }
                 }
             }
@@ -160,7 +172,7 @@ namespace ProcessVisualization
 
                 if (has(li, value_name))
                 {
-                    int layer = layer_scope[li][value_name];
+                    int layer = layer_scope[li][value_name][layer_scope[li][value_name].size() - 1];
                     return layer;
                 }
             }

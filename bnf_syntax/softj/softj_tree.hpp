@@ -310,15 +310,20 @@ namespace LanguageSpecifications
                     string r = resolutionCalcString(current_node.children[0]);
                     return r;
                 }
+                
+                if (current_node.parent_token == "<value_name>")
+                {
+                    string rv_val;
+                    resolutionCalcValue(node_index, rv_val);
+                    return rv_val;
+                }
+
+
                 if (current_node.token_label == is_id_TerminalSymbol)
                 {
                     input_layer_queue.enqueueLayerQueue(ProcessVisualization::is_id_timeline_magic_number_layer);
                     return current_node.token;
                 }
-
-                SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
-                SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
-
                 string left;
                 string right;
                 string ans;
@@ -358,11 +363,7 @@ namespace LanguageSpecifications
 
             void resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp)
             {
-
                 ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
-
-                
-
                 vpu->deep(); // 引数解決層
 
                 for (int i = 0; i < fmp.argument.size(); i++)
@@ -398,14 +399,17 @@ namespace LanguageSpecifications
                 vpu->shallow();
                 vpu->shallow();
             }
-            void functionMessagePassingVoid(int node_index)
+
+            void resolutionCalcFunction(int node_index)
             {
-            }
-            string functionMessagePassingString(int node_index)
-            {
-            }
-            void functionMessagePassingInt(int node_index)
-            {
+                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+
+                printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
+                if (!hasMapKey(function_message_passing_map, node_index))
+                {
+                    return;
+                }
+                
                 printf("関数呼び出し要求 %d\n", node_index);
                 FunctionMessagePassing fmp = function_message_passing_map[node_index];
                 ProcessVisualization::FunctionUnit function_unit = functionMessagePassing(node_index);
@@ -419,21 +423,8 @@ namespace LanguageSpecifications
                 resolutionFunctionMessagePassing(function_unit, fmp);
             }
 
-            void resolutionCalcFunction(int node_index)
-            {
-                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-
-                printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
-                if (hasMapKey(function_message_passing_map, node_index))
-                {
-                    
-                    functionMessagePassingInt(node_index);
-                    return;
-                }
-            }
-
             template <typename T>
-            void resolutionCalcValue(int node_index, T &rv_value)
+            bool resolutionCalcValue(int node_index, T &rv_value)
             {
                 SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
@@ -441,9 +432,8 @@ namespace LanguageSpecifications
 
                 string value_name = current_node.token;
                 printf("cal get %s\n", value_name.c_str());
-                int val;
+                T val;
                 vpu->getValue(value_name, val);
-                printf("cal get2 %d\n", val);
 
                 bool hasLayer = vpu->hasLayer(value_name);
 
@@ -451,15 +441,14 @@ namespace LanguageSpecifications
                 {
                     struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数のアクセス", {}, node_index};
                     process_result->push_back(pr);
-                    rv_value = 0;
-                    return;
+                    return false;
                 }
 
                 int layer = vpu->getLayer(value_name);
                 input_layer_queue.enqueueLayerQueue(layer);
 
                 rv_value = val;
-                return;
+                return true;
             }
 
             int resolutionCalcInt(int node_index)
@@ -636,7 +625,7 @@ namespace LanguageSpecifications
 
                 if (node.parent_token == "<value_name>")
                 {
-                    struct ValueEnumeration ve = {"value", node_index};
+                    struct ValueEnumeration ve = {"unsettled", node_index};
                     args_type.push_back(ve);
                     printf("preparationValueEnumeration %s %d\n",ve.type.c_str() , node_index);
                     return;
