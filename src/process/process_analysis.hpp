@@ -46,5 +46,6 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     debugProcessResult(process_result);
     HTMLParse::outputHtml(syntactic_analysis_tree  , process_result , variable_possession_union);
 }
+
 }
 #endif

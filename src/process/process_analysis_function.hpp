@@ -15,7 +15,7 @@ namespace ProcessVisualization
 {
     class FunctionUnit;
     typedef vector<FunctionUnit> vFunctionUnit;
-    typedef map<int,FunctionUnit> mapFunctionUnit;
+    typedef map<int, FunctionUnit> mapFunctionUnit;
 
     class FunctionUnit
     {
@@ -42,11 +42,13 @@ namespace ProcessVisualization
             this->argument_value.push_back({type, name});
         }
 
-        string getFunctionName(){
+        string getFunctionName()
+        {
             return this->function_name;
         }
 
-        bool isMatchType(vstring match_argument_value){
+        bool isMatchType(vstring match_argument_value)
+        {
             if (this->argument_value.size() != match_argument_value.size())
             {
                 return false;
@@ -67,7 +69,8 @@ namespace ProcessVisualization
         {
             vstring types = {};
 
-            for (int i = 0 ; i < match_argument_value.size() ; i++){
+            for (int i = 0; i < match_argument_value.size(); i++)
+            {
                 types.push_back(match_argument_value[i].type);
             }
         }
@@ -112,23 +115,30 @@ namespace ProcessVisualization
         void addFunction(FunctionUnit af)
         {
             int current_function_address = max_function_address;
-            function_possession->add(current_function_address,af); 
-            function_scope->put(af.getFunctionName(),current_function_address);
+            function_possession->add(current_function_address, af);
+            function_scope->put(af.getFunctionName(), current_function_address);
             max_function_address++;
         }
 
+        bool hasFunction(string function_name)
+        {
+            vint function_address_vector = function_scope->searchAll(function_name);
+            return function_address_vector.size() > 0;
+        }
 
+        int hasFunction(string function_name, vstring function_types)
+        {
+            vint function_address_vector = function_scope->searchAll(function_name);
 
-        int hasFunction(string function_name,  vstring function_types){
-            vint function_address_vector = function_scope->search_all(function_name);
-
-            for (int i = 0 ; i < function_address_vector.size() ; i++){
+            for (int i = 0; i < function_address_vector.size(); i++)
+            {
                 int address = function_address_vector[i];
 
                 FunctionUnit function_unit;
-                function_possession->get(address,function_unit);
-                
-                if (function_unit.isMatchType(function_types)){
+                function_possession->get(address, function_unit);
+
+                if (function_unit.isMatchType(function_types))
+                {
                     return address;
                 }
             }
@@ -136,13 +146,13 @@ namespace ProcessVisualization
             return -1;
         }
 
-        FunctionUnit getFunction(string function_name,  vstring function_types){
-            int address = hasFunction(function_name , function_types);
+        FunctionUnit getFunction(string function_name, vstring function_types)
+        {
+            int address = hasFunction(function_name, function_types);
             FunctionUnit function_unit;
-            function_possession->get(address,function_unit);
+            function_possession->get(address, function_unit);
             return function_unit;
         }
-
 
         void deep()
         {

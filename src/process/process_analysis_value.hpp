@@ -112,6 +112,12 @@ public:
         return this->variable_enumeration_map;
     }
 
+    int searchDeep(string value_name){
+        int layer = getLayer(value_name);
+        int rv = variable_scope->searchDeep(layer);
+        return rv;
+    }
+
 
     void deep()
     {

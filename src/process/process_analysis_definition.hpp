@@ -110,7 +110,7 @@ namespace ProcessVisualization
             layer_scope[last][value_name] = layer;
         }
 
-        vint search_all(string value_name){
+        vint searchAll(string value_name){
 
             vint search = {};
 
@@ -128,6 +128,25 @@ namespace ProcessVisualization
                 }
             }
             return search;
+        }
+
+        int searchDeep(int search_layer){
+            int size = layer_scope.size();
+            int last = size - 1;
+
+            for (int i = 0; i < size; i++)
+            {
+                int li = size - i - 1;
+                vstring name_keys = getMapKeyString(layer_scope[li]);
+
+                for (int j = 0 ; j < name_keys.size(); j ++){
+                    if(layer_scope[li][name_keys[j]] == search_layer){
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
         }
 
         int search(string value_name)

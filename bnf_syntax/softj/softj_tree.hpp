@@ -48,6 +48,7 @@ namespace LanguageSpecifications
                     int layer = vpu->getLayer(value_name);
                     struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "定義済み変数名の再宣言", {layer}, left_index};
                     process_result->push_back(pr);
+                    return;
                 }
 
                 string value_ans = "";
@@ -83,11 +84,13 @@ namespace LanguageSpecifications
 
                 string value_name = current_node.token;
 
+
                 if (!(vpu->hasLayer(value_name)))
                 {
                     int layer = vpu->getLayer(value_name);
                     struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数への代入", {layer}, left_index};
                     process_result->push_back(pr);
+                    return;
                 }
 
                 string value_type = vpu->getType(value_name);
@@ -114,6 +117,10 @@ namespace LanguageSpecifications
                 process_result->push_back(pr);
                 return;
             }
+        }
+
+        void functionMessagePassing(int node_index){
+
         }
 
         bool getBool(int val)
