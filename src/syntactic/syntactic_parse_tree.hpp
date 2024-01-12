@@ -164,7 +164,6 @@ void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int curre
 void syntacticParseTree(vSyntacticTree &syntactic_parse_tree)
 {
     recursionSyntacticParseTree(syntactic_parse_tree, 0);
-
     recursionCutExpr(syntactic_parse_tree, 0);
     debugSyntacticAnalysisTree(syntactic_parse_tree);
 }

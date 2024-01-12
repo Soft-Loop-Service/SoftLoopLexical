@@ -15,7 +15,7 @@
 <number> ::= NUM
 <value_definition> ::= <type_name> <value_name>
 
-<type_name> ::= "int" | "string"
+<type_name> ::= "int" | "string" | "void"
 <value_name> ::= TEXT
 
 <text> ::= """ TEXT """ | "'" TEXT "'" | """ NUM """ | "'" NUM "'" | """ """ | "'" "'"

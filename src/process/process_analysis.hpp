@@ -40,7 +40,7 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
 
     ProcessVisualization::VariablePossessionUnion variable_possession_union;
      ProcessVisualization::FunctionPossessionUnion function_possession_union;
-    LanguageSpecifications::SoftjTree softjtree(syntactic_analysis_tree, process_result, variable_possession_union,function_possession_union);
+    LanguageSpecifications::Softj::SoftjTree softjtree(syntactic_analysis_tree, process_result, variable_possession_union,function_possession_union);
     
 
     debugProcessResult(process_result);

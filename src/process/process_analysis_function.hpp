@@ -17,6 +17,14 @@ namespace ProcessVisualization
     typedef vector<FunctionUnit> vFunctionUnit;
     typedef map<int, FunctionUnit> mapFunctionUnit;
 
+    class FunctionMessagePassingUnit
+    {
+    private:
+        string function_name;
+        vstring types;
+    public:
+    };
+
     class FunctionUnit
     {
     private:
