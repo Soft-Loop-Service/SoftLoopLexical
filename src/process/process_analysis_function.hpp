@@ -89,7 +89,7 @@ namespace ProcessVisualization
             return true;
         }
 
-        bool isMatchType(vArgument match_argument_value)
+        vstring isMatchType(vArgument match_argument_value)
         {
             vstring types = {};
 
@@ -97,6 +97,8 @@ namespace ProcessVisualization
             {
                 types.push_back(match_argument_value[i].type);
             }
+
+            return types;
         }
     };
 

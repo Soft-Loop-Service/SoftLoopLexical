@@ -1,6 +1,6 @@
 <S> ::= <EL>
 <EL> ::= <E> *
-<E> ::= <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function>
+<E> ::= <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function> | <return>
 
 <left> ::= <value_definition> | <value_name>
 <right> ::= <comparison_equal> | <function_message_passing>
@@ -28,5 +28,6 @@
 <function_message_passing> ::= <value_name> "(" <value_enumeration> ")"
 <argument> ::= <value_definition> "," <argument>  | <value_definition> |
 <value_enumeration> ::= <right> "," <value_enumeration>  | <right> |
+<return> ::= "return" | "return" <right>
 
 <block> ::= "{" <EL> "}"

@@ -20,7 +20,9 @@ namespace LanguageSpecifications
         struct ValueEnumeration
         {
             string type;
+
             int node_index;
+            string token;
         };
         typedef vector<ValueEnumeration> vValueEnumeration;
 
@@ -139,10 +141,6 @@ namespace LanguageSpecifications
             bool getBool(int val)
             {
                 return val > 0;
-            }
-
-            int functionCalc(int node_index)
-            {
             }
 
             int whileCalc(int node_index)
@@ -310,14 +308,13 @@ namespace LanguageSpecifications
                     string r = resolutionCalcString(current_node.children[0]);
                     return r;
                 }
-                
+
                 if (current_node.parent_token == "<value_name>")
                 {
                     string rv_val;
                     resolutionCalcValue(node_index, rv_val);
                     return rv_val;
                 }
-
 
                 if (current_node.token_label == is_id_TerminalSymbol)
                 {
@@ -352,6 +349,13 @@ namespace LanguageSpecifications
                 for (int i = 0; i < vve.size(); i++)
                 {
                     ValueEnumeration ve = vve[i];
+
+                    if (ve.type == "unsettled")
+                    {
+                        types.push_back(vpu->getType(ve.token));
+                        continue;
+                    }
+
                     types.push_back(ve.type);
                 }
                 ProcessVisualization::FunctionUnit function_unit = fpu->getFunction(fmp.function_name, types);
@@ -409,13 +413,20 @@ namespace LanguageSpecifications
                 {
                     return;
                 }
-                
+
                 printf("関数呼び出し要求 %d\n", node_index);
                 FunctionMessagePassing fmp = function_message_passing_map[node_index];
                 ProcessVisualization::FunctionUnit function_unit = functionMessagePassing(node_index);
 
-                if (function_unit.getFunctionNode() == -1){
+                if (function_unit.getFunctionNode() == -1)
+                {
                     printf("存在しない関数\n");
+                    return;
+                }
+
+                if (function_unit.getFunctionNode() == -2)
+                {
+                    printf("空関数\n");
                     return;
                 }
 
@@ -599,13 +610,12 @@ namespace LanguageSpecifications
             {
                 SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
 
-                    if (node.token == "<value_definition>")
-                    {
-                        ProcessVisualization::Argument rvarg = extractValueDefinition(node_index);
-                        extract_args.push_back(rvarg);
-                        return;
-                    }
-
+                if (node.token == "<value_definition>")
+                {
+                    ProcessVisualization::Argument rvarg = extractValueDefinition(node_index);
+                    extract_args.push_back(rvarg);
+                    return;
+                }
 
                 for (int i = 0; i < node.children.size(); i++)
                 {
@@ -625,26 +635,26 @@ namespace LanguageSpecifications
 
                 if (node.parent_token == "<value_name>")
                 {
-                    struct ValueEnumeration ve = {"unsettled", node_index};
+                    struct ValueEnumeration ve = {"unsettled", node_index, node.token};
                     args_type.push_back(ve);
-                    printf("preparationValueEnumeration %s %d\n",ve.type.c_str() , node_index);
+                    printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                     return;
                 }
 
                 if (node.parent_token == "<number>")
                 {
-                    struct ValueEnumeration ve = {"int", node_index};
-                    
+                    struct ValueEnumeration ve = {"int", node_index, node.token};
+
                     args_type.push_back(ve);
-                    printf("preparationValueEnumeration %s %d\n",ve.type.c_str() , node_index);
+                    printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                     return;
                 }
 
                 if (node.parent_token == "<text>")
                 {
-                    struct ValueEnumeration ve = {"string", node_index};
+                    struct ValueEnumeration ve = {"string", node_index, node.token};
                     args_type.push_back(ve);
-                    printf("preparationValueEnumeration %s %d\n",ve.type.c_str() , node_index);
+                    printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                     return;
                 }
 
@@ -653,8 +663,7 @@ namespace LanguageSpecifications
                     int child_node_index = node.children[i];
                     SyntacticTreeNode child_node = (*syntactic_analysis_tree)[child_node_index];
 
-                        preparationValueEnumeration(child_node_index, args_type);
-                       
+                    preparationValueEnumeration(child_node_index, args_type);
                 }
             }
 
@@ -662,15 +671,21 @@ namespace LanguageSpecifications
             {
                 SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
                 int child_node_left_index = node.children[0];
-                int child_node_right_index = node.children[1];
 
                 SyntacticTreeNode node_left = (*syntactic_analysis_tree)[child_node_left_index];
 
                 vValueEnumeration args_type = {};
-                preparationValueEnumeration(child_node_right_index, args_type);
+
+                int child_node_right_index = -1;
+                if (node.children.size() == 2)
+                {
+                    child_node_right_index = node.children[1];
+                    preparationValueEnumeration(child_node_right_index, args_type);
+                }
+
                 struct FunctionMessagePassing fmp = {node_left.token, child_node_left_index, args_type};
 
-                printf("preparationFunctionMessagePassing %d %d %s %d\n", child_node_left_index,child_node_right_index,node_left.token.c_str(), args_type.size());
+                printf("preparationFunctionMessagePassing %d %d %s %d\n", child_node_left_index, child_node_right_index, node_left.token.c_str(), args_type.size());
 
                 function_message_passing_map[child_node_left_index] = fmp;
             }
@@ -683,13 +698,33 @@ namespace LanguageSpecifications
 
                 // 変数の名前と戻り地の定義
                 ProcessVisualization::Argument function_definition = extractValueDefinition(node.children[0]);
-                ;
 
-                // 引数一覧
-                extractArgument(node.children[1], extract_args);
+                if (node.children.size() == 1)
+                {
+                    return;
+                }
 
+                if (node.children.size() == 2)
+                {
+                    if ((*syntactic_analysis_tree)[node.children[1]].token == "<value_definition>")
+                    {
+                        extractArgument(node.children[1], extract_args);
+                        ProcessVisualization::FunctionUnit function_unit(function_definition.name, function_definition.type, extract_args, -2);
+                        fpu->addFunction(function_unit);
+                    }
+                    else
+                    {
+                        ProcessVisualization::FunctionUnit function_unit(function_definition.name, function_definition.type, extract_args, node.children[1]);
+                        fpu->addFunction(function_unit);
+                    }
+                    return;
+                }
+
+                int arg_node = node.children[1];
                 int block_node = node.children[2];
 
+                // 引数一覧
+                extractArgument(arg_node, extract_args);
                 printf("preparationFunction %s %s %d\n", function_definition.name.c_str(), function_definition.type.c_str(), node_index);
                 ProcessVisualization::FunctionUnit function_unit(function_definition.name, function_definition.type, extract_args, block_node);
                 fpu->addFunction(function_unit);
