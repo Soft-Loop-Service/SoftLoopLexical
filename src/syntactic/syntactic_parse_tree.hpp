@@ -18,7 +18,7 @@
 bool isTokenSkepSyntacticAnalysis(string token_str)
 {
     const char *token = token_str.c_str();
-    return (strchr("(){}[];\'\"", token[0]) != 0);
+    return (strchr("(){}[];,\'\"", token[0]) != 0);
 }
 
 bool isTokenExpr(string token_str)

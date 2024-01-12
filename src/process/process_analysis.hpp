@@ -39,7 +39,9 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
     ProcessVisualization::vProcessAnalysis process_result = {};
 
     ProcessVisualization::VariablePossessionUnion variable_possession_union;
-    SoftjTree softjtree(syntactic_analysis_tree, process_result, variable_possession_union);
+     ProcessVisualization::FunctionPossessionUnion function_possession_union;
+    LanguageSpecifications::SoftjTree softjtree(syntactic_analysis_tree, process_result, variable_possession_union,function_possession_union);
+    
 
     debugProcessResult(process_result);
     HTMLParse::outputHtml(syntactic_analysis_tree  , process_result , variable_possession_union);

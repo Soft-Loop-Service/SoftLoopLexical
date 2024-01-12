@@ -78,7 +78,8 @@
     "fstream": "cpp",
     "cinttypes": "cpp",
     "iomanip": "cpp",
-    "filesystem": "cpp"
+    "filesystem": "cpp",
+    "__memory": "cpp"
   },
 
   "C_Cpp.errorSquiggles": "enabled"

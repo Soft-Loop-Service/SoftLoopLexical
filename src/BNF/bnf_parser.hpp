@@ -218,7 +218,7 @@ int parseBnf(char *source_code, BNFToken &bnf_token_p)
                 token_search_len++;
             }
         }
-        else if (strchr("+*[](){}\'\"", source_code[i_s]) != 0)
+        else if (strchr("+*[](){};,\'\"", source_code[i_s]) != 0)
         { // or記号
             token_search_len = 1;
         }

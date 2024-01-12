@@ -21,6 +21,7 @@ class VariablePossession
 private:
     map<int, int> variable_int = {};
     map<int, string> variable_string = {};
+    map<int , string >variable_type = {};
 
 public:
     VariablePossession()
@@ -28,9 +29,15 @@ public:
         variable_int = {};
     }
 
+    string getType(int layer){
+
+        return variable_type[layer];
+    }
+
     void add(int layer, int value)
     {
         variable_int[layer] = value;
+        variable_type[layer] = "int";
         return;
     }
     void get(int layer, int &data)
@@ -41,6 +48,8 @@ public:
     void add(int layer, string value)
     {
         variable_string[layer] = value;
+        variable_type[layer] = "string";
+
         return;
     }
     void get(int layer, string &data)
@@ -138,6 +147,13 @@ public:
     bool hasLayer(string name){
         int layer = variable_scope->search(name);
         return layer != -1;
+    }
+
+    string getType(string name)
+    {
+        int layer = variable_scope->search(name);
+        string type = variable_possession->getType(layer);
+        return type;
     }
 
     int getLayer(string name)

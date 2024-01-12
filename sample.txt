@@ -1,1 +1,2 @@
-string i = "1"
+int test(int a, string b){
+}
