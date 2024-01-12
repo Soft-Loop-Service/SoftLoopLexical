@@ -353,7 +353,7 @@ namespace LanguageSpecifications
                     if (ve.type == "unsettled")
                     {
                         string new_type = vpu->getType(ve.token);
-                        printf("引数型の書き換え unsettled -> %s\n" , new_type.c_str());
+                        printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
                         types.push_back(new_type);
                         continue;
                     }
@@ -384,7 +384,7 @@ namespace LanguageSpecifications
                     if (passing_argument.type == "unsettled")
                     {
                         string new_type = vpu->getType(passing_argument.token);
-                        printf("引数型の書き換え unsettled -> %s\n" , new_type.c_str());
+                        printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
                         value_type = new_type;
                     }
 
@@ -407,6 +407,9 @@ namespace LanguageSpecifications
                 vpu->deep(); // 関数実行層
 
                 int recursion_node = function_unit.getFunctionNode();
+
+                string return_type = function_unit.getReturnType();
+
                 recursion(recursion_node);
 
                 vpu->shallow();
@@ -550,17 +553,55 @@ namespace LanguageSpecifications
 
                 return ans;
             }
-
-            void recursion(int node_index)
+            void recursionString(int node_index)
             {
 
                 SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-
-                // char *text = current_node.token.c_str();
                 string token = current_node.token;
-                const char *token_c = token.c_str();
+                if (token == "+" || token == "==")
+                {
+                    resolutionCalcString(node_index);
+                    return;
+                }
+                if (token == "<return>")
+                {
+                    return;
+                }
+                for (int i = 0; i < current_node.children.size(); i++)
+                {
+                    syntaxBranch(current_node.children[i]);
+                }
+                return;
+            }
+            void recursion(int node_index)
+            {
+                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+                string token = current_node.token;
 
-                printf("recursion %s\n", token_c);
+                if (token == "return")
+                {
+                    return;
+                }
+                if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==")
+                {
+                    resolutionCalcInt(node_index);
+                    return;
+                }
+
+                syntaxBranch(node_index);
+
+                for (int i = 0; i < current_node.children.size(); i++)
+                {
+                    recursion(current_node.children[i]);
+                }
+                return;
+            }
+
+            bool syntaxBranch(int node_index)
+            {
+                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+                string token = current_node.token;
+                printf("recursion %s\n", token.c_str());
 
                 if (token == "<if>")
                 {
@@ -575,7 +616,6 @@ namespace LanguageSpecifications
 
                 if (current_node.parent_token == "<value_name>")
                 {
-
                     resolutionCalcFunction(node_index);
                     return;
                 }
@@ -591,16 +631,7 @@ namespace LanguageSpecifications
                     return;
                 }
 
-                if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==")
-                {
-                    resolutionCalcInt(node_index);
-                    return;
-                }
-
-                for (int i = 0; i < current_node.children.size(); i++)
-                {
-                    recursion(current_node.children[i]);
-                }
+                return;
             }
 
             ProcessVisualization::Argument extractValueDefinition(int node_index)

@@ -66,7 +66,10 @@ namespace ProcessVisualization
         {
             return this->function_name;
         }
-
+        string getReturnType()
+        {
+            return this->return_type;
+        }
         vArgument getArgumentValue()
         {
             return this->argument_value;
