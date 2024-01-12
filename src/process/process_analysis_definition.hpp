@@ -38,10 +38,19 @@ namespace ProcessVisualization
         int definition_node;
     };
 
+    struct LayerQueuePoint
+    {
+        int layer;
+        string text = "";
+    };
+
+    typedef vector<LayerQueuePoint> vLayerQueuePoint;
+    
+
     class LayerQueue
     {
     private:
-        vint layer_queue = {};
+        vLayerQueuePoint layer_queue = {};
 
     public:
         LayerQueue()
@@ -55,16 +64,28 @@ namespace ProcessVisualization
         }
         void enqueueLayerQueue(int layer)
         {
-            layer_queue.push_back(layer);
+            struct LayerQueuePoint lqp = {layer};
+            layer_queue.push_back(lqp);
         }
-        vint useLayerQueue()
+        void enqueueLayerQueue(int layer, int text_int)
         {
-            vint rv = layer_queue;
+            string text = to_string(text_int);
+            struct LayerQueuePoint lqp = {layer,text};
+            layer_queue.push_back(lqp);
+        }
+        void enqueueLayerQueue(int layer, string text)
+        {
+            struct LayerQueuePoint lqp = {layer,text};
+            layer_queue.push_back(lqp);
+        }
+        vLayerQueuePoint useLayerQueue()
+        {
+            vLayerQueuePoint rv = layer_queue;
             return rv;
         }
-        vint useClearLayerQueue()
+        vLayerQueuePoint useClearLayerQueue()
         {
-            vint rv = layer_queue;
+            vLayerQueuePoint rv = layer_queue;
             clearlayerQueue();
             return rv;
         }
@@ -74,6 +95,7 @@ namespace ProcessVisualization
     const int is_id_process_type_input = 1;
     const int is_id_process_type_ouput = 2;
     const int is_id_process_type_logic = 3;
+    const int is_id_process_type_function = 4;
 
     const int is_id_process_type_error = 400;
     const int is_id_process_type_warning = 401;
@@ -83,7 +105,7 @@ namespace ProcessVisualization
     {
         int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
         string message;   // 表示message
-        vint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+        vLayerQueuePoint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
 
         int node_index;
     };
@@ -175,6 +197,20 @@ namespace ProcessVisualization
                     int layer = layer_scope[li][value_name][layer_scope[li][value_name].size() - 1];
                     return layer;
                 }
+            }
+
+            return -1;
+        }
+
+        int searchLast(string value_name)
+        {
+            int size = layer_scope.size();
+            int last = size - 1;
+
+            if (has(last, value_name))
+            {
+                int layer = layer_scope[last][value_name][layer_scope[last][value_name].size() - 1];
+                return layer;
             }
 
             return -1;

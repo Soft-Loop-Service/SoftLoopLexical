@@ -16,13 +16,13 @@
 }
 
 .process_connection{
-  height: 24px;
+  height: 12px;
 }
 
 .process {
   display: flex;
   flex-direction: row;
-  height: 48px;
+  height: 24px;
 }
 .message {
   width: 20%;

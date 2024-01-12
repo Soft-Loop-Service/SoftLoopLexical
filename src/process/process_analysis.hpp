@@ -27,7 +27,13 @@ void debugProcessResult(ProcessVisualization::vProcessAnalysis process_result)
     {
         ProcessVisualization::ProcessAnalysis current = process_result[i];
 
-        printf("%d : %d %s\n", i, current.process_type, current.message.c_str());
+        printf("%d : %2d %s : ", i, current.process_type, current.message.c_str());
+        
+        for (int j = 0 ; j < current.layer.size() ; j++){
+            printf(" %d",current.layer[j].layer);
+        }
+
+        printf("\n");
     }
 }
 

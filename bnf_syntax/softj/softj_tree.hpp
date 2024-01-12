@@ -48,6 +48,8 @@ namespace LanguageSpecifications
             ProcessVisualization::LayerQueue output_layer_queue;
             m_i_FunctionMessagePassing function_message_passing_map;
 
+            bool is_action_return = false;
+
             void assExpr(int left_index, int right_index)
             {
 
@@ -66,7 +68,8 @@ namespace LanguageSpecifications
                     if (vpu->hasLayer(value_name))
                     {
                         int layer = vpu->getLayer(value_name);
-                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "定義済み変数名の再宣言", {layer}, left_index};
+                        struct ProcessVisualization::LayerQueuePoint lq = {layer};
+                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "定義済み変数名の再宣言", {lq}, left_index};
                         process_result->push_back(pr);
                         return;
                     }
@@ -107,7 +110,8 @@ namespace LanguageSpecifications
                     if (!(vpu->hasLayer(value_name)))
                     {
                         int layer = vpu->getLayer(value_name);
-                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数への代入", {layer}, left_index};
+                        struct ProcessVisualization::LayerQueuePoint lq = {layer};
+                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数への代入", {lq}, left_index};
                         process_result->push_back(pr);
                         return;
                     }
@@ -318,7 +322,7 @@ namespace LanguageSpecifications
 
                 if (current_node.token_label == is_id_TerminalSymbol)
                 {
-                    input_layer_queue.enqueueLayerQueue(ProcessVisualization::is_id_timeline_magic_number_layer);
+                    // input_layer_queue.enqueueLayerQueue(ProcessVisualization::is_id_timeline_magic_number_layer);
                     return current_node.token;
                 }
                 string left;
@@ -370,8 +374,13 @@ namespace LanguageSpecifications
             void resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp)
             {
                 ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
-                vpu->deep(); // 引数解決層
 
+                input_layer_queue.enqueueLayerQueue(0);
+                string message = "関数実行 " + function_unit.getFunctionName() + "";
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), function_unit.getFunctionNode()};
+                process_result->push_back(pr);
+
+                vpu->deep(); // 引数解決層
                 for (int i = 0; i < fmp.argument.size(); i++)
                 {
                     ValueEnumeration passing_argument = fmp.argument[i];
@@ -410,10 +419,18 @@ namespace LanguageSpecifications
 
                 string return_type = function_unit.getReturnType();
 
+                is_action_return = false;
                 recursion(recursion_node);
+                is_action_return = false;
 
                 vpu->shallow();
                 vpu->shallow();
+
+                input_layer_queue.enqueueLayerQueue(0);
+                message = "関数収束 " + function_unit.getFunctionName() + "";
+                pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), function_unit.getFunctionNode()};
+                process_result->push_back(pr);
+
             }
 
             void resolutionCalcFunction(int node_index)
@@ -441,7 +458,9 @@ namespace LanguageSpecifications
                     printf("空関数\n");
                     return;
                 }
-
+                string message = "関数呼び出し " + function_unit.getFunctionName() + "";
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), node_index};
+                process_result->push_back(pr);
                 printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
                 resolutionFunctionMessagePassing(function_unit, fmp);
             }
@@ -467,9 +486,6 @@ namespace LanguageSpecifications
                     return false;
                 }
 
-                int layer = vpu->getLayer(value_name);
-                input_layer_queue.enqueueLayerQueue(layer);
-
                 rv_value = val;
                 return true;
             }
@@ -488,6 +504,11 @@ namespace LanguageSpecifications
                 {
                     int rv_val;
                     resolutionCalcValue(node_index, rv_val);
+
+                    int layer = vpu->getLayer(current_node.token);
+                    input_layer_queue.enqueueLayerQueue(layer, rv_val);
+                    printf("ログ格納enqueueLayerQueue %d %d\n",layer,rv_val);
+
                     return rv_val;
                 }
 
@@ -553,56 +574,22 @@ namespace LanguageSpecifications
 
                 return ans;
             }
-            void recursionString(int node_index)
-            {
 
-                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-                string token = current_node.token;
-                if (token == "+" || token == "==")
-                {
-                    resolutionCalcString(node_index);
-                    return;
-                }
-                if (token == "<return>")
-                {
-                    return;
-                }
-                for (int i = 0; i < current_node.children.size(); i++)
-                {
-                    syntaxBranch(current_node.children[i]);
-                }
-                return;
-            }
             void recursion(int node_index)
             {
                 SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
                 string token = current_node.token;
 
-                if (token == "return")
+                if (is_action_return)
                 {
                     return;
                 }
+
                 if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==")
                 {
                     resolutionCalcInt(node_index);
                     return;
                 }
-
-                syntaxBranch(node_index);
-
-                for (int i = 0; i < current_node.children.size(); i++)
-                {
-                    recursion(current_node.children[i]);
-                }
-                return;
-            }
-
-            bool syntaxBranch(int node_index)
-            {
-                SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-                string token = current_node.token;
-                printf("recursion %s\n", token.c_str());
-
                 if (token == "<if>")
                 {
                     ifCalc(node_index);
@@ -614,12 +601,14 @@ namespace LanguageSpecifications
                     return;
                 }
 
+                // 単独でvalue_nameが存在する場合は、関数呼び出し等である
                 if (current_node.parent_token == "<value_name>")
                 {
                     resolutionCalcFunction(node_index);
                     return;
                 }
 
+                // 関数は前処理ですでに解析されている
                 if (token == "<function>")
                 {
                     return;
@@ -630,7 +619,10 @@ namespace LanguageSpecifications
                     equal(node_index);
                     return;
                 }
-
+                for (int i = 0; i < current_node.children.size(); i++)
+                {
+                    recursion(current_node.children[i]);
+                }
                 return;
             }
 

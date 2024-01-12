@@ -292,30 +292,41 @@ namespace HTMLParse
 
                 HTMLKit::HtmlKitElement layer_unit_station_area("div");
                 layer_unit_station_area.addEClass("layer_unit_station");
+                int station_area_index;
+                string text;
 
                 for (int i = 0; i < process.layer.size(); i++)
                 {
-                    if (process.layer[i] != unit_num)
+                    if (process.layer[i].layer != unit_num)
                     {
                         continue;
                     }
-
                     if (process.process_type == ProcessVisualization::is_id_process_type_input)
                     {
-                        timelineLayerUnitStationInputArea(layer_unit_node_index, layer_unit_station_area);
-                        return;
+                        station_area_index = timelineLayerUnitStationInputArea(layer_unit_node_index, layer_unit_station_area);
+                        text = process.layer[i].text;
+                        break;
                     }
                     if (process.process_type == ProcessVisualization::is_id_process_type_ouput)
                     {
-                        timelineLayerUnitStationOutputArea(layer_unit_node_index, layer_unit_station_area);
-                        return;
+                        station_area_index = timelineLayerUnitStationOutputArea(layer_unit_node_index, layer_unit_station_area);
+                        text = process.layer[i].text;
+                        break;
                     }
                     if (process.process_type == ProcessVisualization::is_id_process_type_logic)
                     {
-                        timelineLayerUnitStationLogicArea(layer_unit_node_index, layer_unit_station_area);
-                        return;
+                        station_area_index = timelineLayerUnitStationLogicArea(layer_unit_node_index, layer_unit_station_area);
+                        text = process.layer[i].text;
+                        break;
                     }
+                    return;
                 }
+
+
+                HTMLKit::HtmlKitElement station_message("span");
+                station_message.addEClass("station_message");
+                station_message.setElement(text);
+                html_kit_tree.add_node(station_area_index, station_message);
             }
 
             int timelineLayerUnitArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num)
@@ -323,24 +334,26 @@ namespace HTMLParse
                 HTMLKit::HtmlKitElement layer_unit_area("div");
                 layer_unit_area.addEClass("layer_unit");
                 int layer_unit_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_area);
-
                 return layer_unit_node_index;
             }
 
-            void timelineLayerUnitStationInputArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
+            int timelineLayerUnitStationInputArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
             {
                 layer_unit_station_area.addEClass("layer_unit_station_input");
                 int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
+                return layer_unit_station_node_index;
             }
-            void timelineLayerUnitStationOutputArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
+            int timelineLayerUnitStationOutputArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
             {
                 layer_unit_station_area.addEClass("layer_unit_station_output");
                 int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
+                return layer_unit_station_node_index;
             }
-            void timelineLayerUnitStationLogicArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
+            int timelineLayerUnitStationLogicArea(int html_parent_node, HTMLKit::HtmlKitElement layer_unit_station_area)
             {
                 layer_unit_station_area.addEClass("layer_unit_station_logic");
                 int layer_unit_station_node_index = html_kit_tree.add_node(html_parent_node, layer_unit_station_area);
+                return layer_unit_station_node_index;
             }
 
         public:

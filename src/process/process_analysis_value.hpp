@@ -132,7 +132,7 @@ public:
     void newValue(string name, T element , int definition_node)
     {
 
-        if (variable_scope->search(name) == -1)
+        if (variable_scope->searchLast(name) == -1)
         {
             // 存在しないとき、新規追加
 

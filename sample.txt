@@ -1,17 +1,11 @@
 
 int text = 0;
-int c = 3;
 int hoge(int b){
-    c = c + 1;
-
-    if (c > 40){
-        return
+    if (b < 10){
+        b = b + 1;
+        hoge(b);
     }
-
-    if (c < 100){
-        hoge(1);
-    }
-
+    
 }
 
 hoge(text);
