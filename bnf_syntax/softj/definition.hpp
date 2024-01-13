@@ -18,6 +18,11 @@ namespace LanguageSpecifications
 {
     namespace SoftjLanguage
     {
+            bool getBool(int val)
+            {
+                return val > 0;
+            }
+
         struct ValueEnumeration
         {
             string type;
