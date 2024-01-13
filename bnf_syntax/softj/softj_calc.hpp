@@ -1,6 +1,6 @@
 
-#ifndef __SOFTJTREE
-#define __SOFTJTREE
+#ifndef __SOFTJCALC
+#define __SOFTJCALC
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,16 +13,17 @@
 #include "./../../src/process/process_analysis_definition.hpp"
 #include "./../../src/process/process_analysis_function.hpp"
 #include "./../../src/process/process_analysis_value.hpp"
+#include "./softj_tree.hpp"
+#include "./softj_definition.hpp"
+
 namespace LanguageSpecifications
 {
     namespace SoftjLanguage
     {
-
-            class SoftjTree{
-
-            };
-        
-    };
+        class SoftjCalc
+        {
+        };
+    }
 };
 
 #endif

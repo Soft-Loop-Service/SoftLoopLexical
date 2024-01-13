@@ -14,7 +14,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "./../../bnf_syntax/softj/softj_tree.hpp"
+#include "./../../bnf_syntax/softj/soft.hpp"
 
 #include "./process_analysis_definition.hpp"
 
@@ -46,7 +46,7 @@ void processAnalysis(vSyntacticTree syntactic_analysis_tree)
 
     ProcessVisualization::VariablePossessionUnion variable_possession_union;
      ProcessVisualization::FunctionPossessionUnion function_possession_union;
-    LanguageSpecifications::Softj::SoftjTree softjtree(syntactic_analysis_tree, process_result, variable_possession_union,function_possession_union);
+    LanguageSpecifications::Softj::Softj softjtree(syntactic_analysis_tree, process_result, variable_possession_union,function_possession_union);
     
 
     debugProcessResult(process_result);
