@@ -18,7 +18,6 @@
 #include "./../../bnf_syntax/softj/softj_tree.hpp"
 #include "./../process/process_analysis_definition.hpp"
 
-#include "./html_kit.hpp"
 #include "./json_kit.hpp"
 
 #include "./timeline.hpp"
@@ -49,7 +48,7 @@ namespace HTMLParse
 
         printf("%s\n", "outputHtml");
 
-        Timeline::HtmlTimeLine html_timeline(&syntactic_analysis_tree, &process_result , &variable_possession_union);
+        Timeline::Timeline html_timeline(&syntactic_analysis_tree, &process_result , &variable_possession_union);
         printf("%s\n", "outputHtml 2");
 
         string html_div = html_timeline.timelineArea();
