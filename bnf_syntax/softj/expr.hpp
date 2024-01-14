@@ -48,14 +48,14 @@ namespace LanguageSpecifications
 
                     if (value_type == "string")
                     {
-                        string value_string = resolutionCalcString(right_index);
+                        string value_string = resolutionTreeCalcString(right_index);
                         vpu->newValue(value_name, value_string, left_index);
                         value_ans = value_string;
                     }
 
                     if (value_type == "int")
                     {
-                        int value_int = resolutionCalcInt(right_index);
+                        int value_int = resolutionTreeCalcInt(right_index);
                         vpu->newValue(value_name, value_int, left_index);
                         value_ans = to_string(value_int);
                     }
@@ -91,14 +91,14 @@ namespace LanguageSpecifications
 
                     if (value_type == "string")
                     {
-                        string value_string = resolutionCalcString(right_index);
+                        string value_string = resolutionTreeCalcString(right_index);
                         vpu->updateValue(value_name, value_string);
                         value_ans = value_string;
                     }
 
                     if (value_type == "int")
                     {
-                        int value_int = resolutionCalcInt(right_index);
+                        int value_int = resolutionTreeCalcInt(right_index);
                         vpu->updateValue(value_name, value_int);
                         value_ans = to_string(value_int);
                     }

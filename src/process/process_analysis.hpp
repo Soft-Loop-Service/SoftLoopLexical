@@ -18,7 +18,7 @@
 
 #include "./process_analysis_definition.hpp"
 
-#include "./../outhtml/outhtml.hpp"
+#include "./../html_kit/outhtml.hpp"
 namespace ProcessVisualization{
 
 void debugProcessResult(ProcessVisualization::vProcessAnalysis process_result)

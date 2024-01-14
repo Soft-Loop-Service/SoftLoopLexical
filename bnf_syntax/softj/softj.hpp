@@ -24,6 +24,14 @@
 #include "./resolution.hpp"
 #include "./softj_tree.hpp"
 
-//このファイルはinclude用なので、消さないように
+// このファイルはinclude用なので、消さないように
 
+namespace LanguageSpecifications
+{
+    namespace SoftjLanguage
+    {
+
+        class Softj;
+    }
+};
 #endif

@@ -27,6 +27,12 @@ namespace LanguageSpecifications
 {
     namespace SoftjLanguage
     {
+        struct ValueEnumeration;
+        struct FunctionMessagePassing;
+        typedef vector<ValueEnumeration> vValueEnumeration;
+        typedef vector<FunctionMessagePassing> vFunctionMessagePassing;
+        typedef map<int, FunctionMessagePassing> m_i_FunctionMessagePassing;
+
         struct ValueEnumeration
         {
             string type;
@@ -34,7 +40,6 @@ namespace LanguageSpecifications
             int node_index;
             string token;
         };
-        typedef vector<ValueEnumeration> vValueEnumeration;
 
         struct FunctionMessagePassing
         {
@@ -42,8 +47,6 @@ namespace LanguageSpecifications
             int node_index;
             vValueEnumeration argument;
         };
-        typedef vector<FunctionMessagePassing> vFunctionMessagePassing;
-        typedef map<int, FunctionMessagePassing> m_i_FunctionMessagePassing;
 
         class Softj
         {
@@ -90,10 +93,14 @@ namespace LanguageSpecifications
             void recursion(int);
             void preparationTree();
             
-            string resolutionCalcString(int node_index);
             void resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
             void resolutionCalcFunction(int node_index);
+            string resolutionCalcString(int node_index);
             int resolutionCalcInt(int node_index);
+
+            string resolutionTreeCalcString(int node_index);
+            int resolutionTreeCalcInt(int node_index);
+
 
             template <typename T>
             bool resolutionCalcValue(int node_index, T &rv_value);

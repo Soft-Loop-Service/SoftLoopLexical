@@ -1,11 +1,9 @@
+int a = 0;
+int b = 1;
 
-int text = 0;
-int hoge(int b){
-    if (b < 10){
-        b = b + 1;
-        hoge(b);
-    }
+while (b < 100){
+    int temp = b;
+    b = a + b;
+    a = temp;
     
 }
-
-hoge(text);

@@ -32,7 +32,7 @@ namespace LanguageSpecifications
 
             if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==")
             {
-                resolutionCalcInt(node_index);
+                resolutionTreeCalcInt(node_index);
                 return;
             }
             if (token == "<if>")

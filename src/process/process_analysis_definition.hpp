@@ -90,13 +90,14 @@ namespace ProcessVisualization
             return rv;
         }
     };
+    const int is_id_process_type_life_time_start = 1;
+    const int is_id_process_type_life_time_end = 1;
 
-    const int is_id_process_type_none = 0;
-    const int is_id_process_type_input = 1;
-    const int is_id_process_type_ouput = 2;
-    const int is_id_process_type_logic = 3;
-    const int is_id_process_type_function = 4;
-
+    const int is_id_process_type_none = 100;
+    const int is_id_process_type_input = 101;
+    const int is_id_process_type_ouput = 102;
+    const int is_id_process_type_logic = 103;
+    const int is_id_process_type_function = 104;
     const int is_id_process_type_error = 400;
     const int is_id_process_type_warning = 401;
     const int is_id_process_type_language_error = 402;

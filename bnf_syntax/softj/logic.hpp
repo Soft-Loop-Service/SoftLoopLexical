@@ -27,7 +27,7 @@ namespace LanguageSpecifications
                 // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
                 // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
 
-                int calc_ans = resolutionCalcInt(current_node.children[1]);
+                int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
                 bool ifbool = getBool(calc_ans);
 
                 while (ifbool)
@@ -40,7 +40,7 @@ namespace LanguageSpecifications
                     vpu->deep();
 
                     recursion(current_node.children[2]);
-                    calc_ans = resolutionCalcInt(current_node.children[1]);
+                    calc_ans = resolutionTreeCalcInt(current_node.children[1]);
                     ifbool = getBool(calc_ans);
 
                     vpu->shallow();
@@ -59,7 +59,7 @@ namespace LanguageSpecifications
                 SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
                 // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
                 // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
-                int calc_ans = resolutionCalcInt(current_node.children[1]);
+                int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
 
                 bool ifbool = getBool(calc_ans);
                 output_layer_queue.enqueueLayerQueue(0);
