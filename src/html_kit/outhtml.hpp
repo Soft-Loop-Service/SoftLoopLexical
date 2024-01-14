@@ -38,27 +38,18 @@ namespace HTMLParse
 
         string css_style = "<style>" + css_include_template_string + "</style>";
 
-        string text1a = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">";
-        string text1b = "<title>プログラムの可視化</title></head><body>";
-
-        string text1 = text1a + css_style + text1b;
-        string text2 = "</body></html>";
-
-        string div = "";
-
-        printf("%s\n", "outputHtml");
-
         Timeline::Timeline html_timeline(&syntactic_analysis_tree, &process_result , &variable_possession_union);
-        printf("%s\n", "outputHtml 2");
+        string javascript_element = "";
+        javascript_element +=  "<script type=\"text/javascript\"> " + html_timeline.timelineArea() + " </script>";
 
-        string html_div = html_timeline.timelineArea();
-        printf("%s\n", "outputHtml 3");
+        string html_meta = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>プログラムの可視化</title></head>";
+        string html_header = css_style + javascript_element;
 
-        div += html_div;
+        string html_body = "";
 
-        writing_file << text1 << endl;
-        writing_file << div << endl;
-        writing_file << text2 << endl;
+        writing_file << html_meta << endl;
+        writing_file << html_header << endl;
+        writing_file << html_body << endl;
 
         writing_file.close();
     }

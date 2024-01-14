@@ -107,7 +107,6 @@ namespace ProcessVisualization
         int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
         string message;   // 表示message
         vLayerQueuePoint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
-
         int node_index;
     };
 
