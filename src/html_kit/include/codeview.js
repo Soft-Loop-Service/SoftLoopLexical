@@ -2,6 +2,8 @@
 let codeview_states = [];
 let timeline_states = [];
 
+let focus_process = -1;
+
 const getTokenElement = (order) =>{
     const text = "token" + order;
     const token_element = document.getElementById(text);
@@ -95,6 +97,7 @@ const messageClick = (process_order) => {
     codeview_states[token_order].setHtmlClass("linking");
     timeline_states[process_order].setHtmlClass("linking");
     console.log(codeview_states[token_order]);
+    focus_process = process_order;
 };
 
 
@@ -116,3 +119,11 @@ const messageHoverOut = (process_order) => {
     console.log(codeview_states[token_order]);
 };
 
+const process_back = () => {
+    focus_process = Math.max(focus_process - 1 , 0);
+    messageClick(focus_process);
+}
+const process_next = () => {
+    focus_process = Math.min(focus_process + 1 , meta_data.process_length - 1);
+    messageClick(focus_process);
+}
