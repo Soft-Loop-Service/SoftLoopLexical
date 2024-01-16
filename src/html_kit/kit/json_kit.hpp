@@ -1,9 +1,6 @@
 
 #ifndef __JSONKIT
 #define __JSONKIT
-
-#include "./../syntactic/syntactic_analysis_tree.hpp"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,9 +9,9 @@
 #include <algorithm>
 #include <fstream>
 
-#include "./../../bnf_syntax/softj/softj_tree.hpp"
-#include "./../process/process_analysis_definition.hpp"
 
+#include "./../../../bnf_syntax/softj/softj_tree.hpp"
+#include "./../../process/process_analysis_definition.hpp"
 
 namespace HTMLParse
 {

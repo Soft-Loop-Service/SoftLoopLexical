@@ -38,75 +38,24 @@ namespace ProcessVisualization
         int definition_node;
     };
 
-    struct LayerQueuePoint
-    {
-        int layer;
-        string text = "";
-    };
-
-    typedef vector<LayerQueuePoint> vLayerQueuePoint;
-    
-
-    class LayerQueue
-    {
-    private:
-        vLayerQueuePoint layer_queue = {};
-
-    public:
-        LayerQueue()
-        {
-            layer_queue = {};
-        }
-
-        void clearlayerQueue()
-        {
-            layer_queue = {};
-        }
-        void enqueueLayerQueue(int layer)
-        {
-            struct LayerQueuePoint lqp = {layer};
-            layer_queue.push_back(lqp);
-        }
-        void enqueueLayerQueue(int layer, int text_int)
-        {
-            string text = to_string(text_int);
-            struct LayerQueuePoint lqp = {layer,text};
-            layer_queue.push_back(lqp);
-        }
-        void enqueueLayerQueue(int layer, string text)
-        {
-            struct LayerQueuePoint lqp = {layer,text};
-            layer_queue.push_back(lqp);
-        }
-        vLayerQueuePoint useLayerQueue()
-        {
-            vLayerQueuePoint rv = layer_queue;
-            return rv;
-        }
-        vLayerQueuePoint useClearLayerQueue()
-        {
-            vLayerQueuePoint rv = layer_queue;
-            clearlayerQueue();
-            return rv;
-        }
-    };
-    const int is_id_process_type_life_time_start = 1;
-    const int is_id_process_type_life_time_end = 1;
-
-    const int is_id_process_type_none = 100;
-    const int is_id_process_type_input = 101;
-    const int is_id_process_type_ouput = 102;
-    const int is_id_process_type_logic = 103;
-    const int is_id_process_type_function = 104;
-    const int is_id_process_type_error = 400;
-    const int is_id_process_type_warning = 401;
-    const int is_id_process_type_language_error = 402;
+    const string is_id_process_type_life_time_start = "layer_unit_station_start";
+    const string is_id_process_type_life_time_end = "layer_unit_station_end";
+    const string is_id_process_type_true = "layer_unit_station_true";
+    const string is_id_process_type_false = "layer_unit_station_false";
+    const string is_id_process_type_none = "layer_unit_station_none";
+    const string is_id_process_type_input = "layer_unit_station_input";
+    const string is_id_process_type_ouput = "layer_unit_station_output";
+    const string is_id_process_type_logic = "layer_unit_station_logic";
+    const string is_id_process_type_function = "layer_unit_station_function";
+    const string is_id_process_type_error = "layer_unit_station_error";
+    const string is_id_process_type_warning = "layer_unit_station_warning";
+    const string is_id_process_type_language_error = "layer_unit_station_language_error";
 
     struct ProcessAnalysis
     {
-        int process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
+        string process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
         string message;   // 表示message
-        vLayerQueuePoint layer = {};  // 0:指定なし -1:直前のlayerに合わせる -2:直後のレイヤーに合わせる
+        int depth;
         int node_index;
     };
 

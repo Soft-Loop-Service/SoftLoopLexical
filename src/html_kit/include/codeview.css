@@ -1,0 +1,33 @@
+.source_code_view {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  overflow: scroll;
+}
+
+.source_code_view_scroll {
+  min-width: 100%;
+  min-height: 100%;
+  background-color: black;
+}
+
+.codeline {
+  /* height: 40px; */
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.token {
+  color: white;
+  font-size: 30px;
+  margin-right: 12px;
+}
+
+
+.codeline  .linking{
+  background-color: rgba(255,255,255,0.5);
+}
+
+.codeline  .timeline_hover{
+  background-color: rgba(255,255,255,0.2);
+}

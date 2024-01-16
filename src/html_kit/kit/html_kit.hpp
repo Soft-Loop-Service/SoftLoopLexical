@@ -2,11 +2,6 @@
 #ifndef __HTMLKIT
 #define __HTMLKIT
 
-#include "./../LR_table/LR_table.hpp"
-#include "./../LR_table/LR_table_definition.hpp"
-#include "./../LR_table/LR_table_cell.hpp"
-#include "./../syntactic/syntactic_analysis_tree.hpp"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,8 +10,8 @@
 #include <algorithm>
 #include <fstream>
 
-#include "./../../bnf_syntax/softj/softj_tree.hpp"
-#include "./../process/process_analysis_definition.hpp"
+#include "./../../../bnf_syntax/softj/softj_tree.hpp"
+#include "./../../process/process_analysis_definition.hpp"
 namespace HTMLParse
 {
     namespace HTMLKit
@@ -31,13 +26,15 @@ namespace HTMLParse
             vstring e_class;
             string element;
             vint children;
+            mapstr event;
 
             HtmlKitElement()
             {
-                this->e_tag = "div";
+                this->e_tag = "";
                 this->e_id = "";
                 this->e_class = {};
                 this->children = {};
+                this->event = {};
             }
 
             HtmlKitElement(string e_tag)
@@ -46,11 +43,16 @@ namespace HTMLParse
                 this->e_id = "";
                 this->e_class = {};
                 this->children = {};
+                this->event = {};
             }
 
             void addEClass(string e)
             {
                 this->e_class.push_back(e);
+            }
+            void addEvent(string n, string e)
+            {
+                this->event[n] = e;
             }
 
             void setEId(string e_id)
@@ -68,12 +70,25 @@ namespace HTMLParse
             }
             string parseHtmlStartTag()
             {
+                if (e_tag == "")
+                {
+                    return "";
+                }
 
                 string text = "";
 
                 text += "<";
                 text += e_tag;
                 text += " ";
+
+                vstring event_keys = getMapKeyString(event);
+                for (int i = 0; i < event_keys.size(); i++)
+                {
+                    text += event_keys[i];
+                    text += "=";
+                    text += event[event_keys[i]];
+                    text += " ";
+                }
 
                 if (1 <= e_class.size())
                 {
@@ -92,7 +107,9 @@ namespace HTMLParse
                 if (e_id != "")
                 {
                     text += "id=";
+                    text += "\"";
                     text += e_id;
+                    text += "\"";
                     text += " ";
                 }
                 text += ">";
@@ -100,12 +117,20 @@ namespace HTMLParse
             }
             string parseHtmlElement()
             {
+                if (e_tag == "")
+                {
+                    return "";
+                }
                 string text = "";
                 text += element;
                 return text;
             }
             string parseHtmlEndTag()
             {
+                if (e_tag == "")
+                {
+                    return "";
+                }
                 string text = "";
                 text += "<";
                 text += "/";

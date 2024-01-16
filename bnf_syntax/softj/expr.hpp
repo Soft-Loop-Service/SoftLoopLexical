@@ -37,10 +37,7 @@ namespace LanguageSpecifications
 
                     if (vpu->hasLayer(value_name))
                     {
-                        int layer = vpu->getLayer(value_name);
-                        struct ProcessVisualization::LayerQueuePoint lq = {layer};
-                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "定義済み変数名の再宣言", {lq}, left_index};
-                        process_result->push_back(pr);
+
                         return;
                     }
 
@@ -64,11 +61,6 @@ namespace LanguageSpecifications
 
                     string message = "変数定義代入 " + child_right.token + " " + value_ans;
 
-                    int layer = vpu->getLayer(value_name);
-                    output_layer_queue.enqueueLayerQueue(layer);
-                    struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput, message, output_layer_queue.useClearLayerQueue(), left_index};
-                    process_result->push_back(pr);
-
                     return;
                 }
 
@@ -79,10 +71,6 @@ namespace LanguageSpecifications
 
                     if (!(vpu->hasLayer(value_name)))
                     {
-                        int layer = vpu->getLayer(value_name);
-                        struct ProcessVisualization::LayerQueuePoint lq = {layer};
-                        struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数への代入", {lq}, left_index};
-                        process_result->push_back(pr);
                         return;
                     }
 
@@ -104,10 +92,7 @@ namespace LanguageSpecifications
                     }
 
                     string message = "変数代入 " + current_node.token + " " + value_ans;
-                    int layer = vpu->getLayer(value_name);
-                    output_layer_queue.enqueueLayerQueue(layer);
-                    struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_ouput, message, output_layer_queue.useClearLayerQueue(), left_index};
-                    process_result->push_back(pr);
+
                     return;
                 }
             }

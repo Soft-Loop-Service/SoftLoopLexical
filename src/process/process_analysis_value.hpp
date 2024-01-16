@@ -66,6 +66,7 @@ private:
     ProcessScope *variable_scope;
     mapVariableProcessEnumeration variable_enumeration_map;
     int max_layer = 1;
+    int depth = 0;
 
     void setValueTypeTable(int layer, string type)
     {
@@ -106,6 +107,8 @@ public:
         this->variable_enumeration_map = {};
         variable_possession = new VariablePossession();
         variable_scope = new ProcessScope();
+
+        this->depth = 0;
     }
 
     mapVariableProcessEnumeration getVariableProcessEnumeration(){
@@ -118,14 +121,20 @@ public:
         return rv;
     }
 
-
+    int getDepth(){
+        return this->depth;
+    }
     void deep()
     {
         variable_scope->deep();
+        this->depth ++;
     }
     void shallow()
     {
+
         variable_scope->shallow();
+        this->depth --;
+        
     }
 
     template <typename T>

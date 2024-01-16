@@ -23,6 +23,7 @@ struct SyntacticTreeNode // 構文解析用
 
     int source_code_line;
     int source_code_column;
+    int token_order;
 };
 typedef vector<SyntacticTreeNode> vSyntacticTree;
 
@@ -111,6 +112,7 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
 
     int last_line = -1;
     int last_column = -1;
+    int last_token_order = -1;
 
     for (int i = 0; i < size; i++)
     {
@@ -120,9 +122,11 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
             syntactic_analysis_tree[li].token = token_string_vector[count].token;
             syntactic_analysis_tree[li].source_code_line = token_string_vector[count].source_code_line;
             syntactic_analysis_tree[li].source_code_column = token_string_vector[count].source_code_column;
+            syntactic_analysis_tree[li].token_order = token_string_vector[count].token_order;
 
             last_line = syntactic_analysis_tree[li].source_code_line;
             last_column = syntactic_analysis_tree[li].source_code_column;
+            last_token_order =  syntactic_analysis_tree[li].token_order;
 
             count++;
         }
@@ -130,6 +134,7 @@ void syntacticAnalysisTreeSubstitution(vReduceFormula syntactic_analysis_formula
         {
             syntactic_analysis_tree[li].source_code_line = last_line;
             syntactic_analysis_tree[li].source_code_column = last_column;
+            syntactic_analysis_tree[li].token_order = last_token_order;
         }
     }
 }

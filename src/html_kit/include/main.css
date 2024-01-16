@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+}
+
+.system {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.left_side {
+  width: 60vw;
+  position: relative;
+}
+.right_side {
+  flex-grow: 1;
+}
+
+.codeview_upper_side {
+  height: 100%;
+}
+
+.codeview_bottom_side {
+  height: 60px;
+  width: 300px;
+  position: absolute;
+  background-color: white;
+  bottom: 0;
+  right: 0;
+}
+
+.dli-chevron-left {
+  display: inline-block;
+  vertical-align: middle;
+  color: #333;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
+  border: 0.1em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateX(25%) rotate(-135deg);
+}
+
+.dli-chevron-right {
+  display: inline-block;
+  vertical-align: middle;
+  color: #333;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
+  border: 0.1em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateX(-25%) rotate(45deg);
+}
+
+.dividing_border{
+  width: 4px;
+  height: 100%;
+  background-color:aquamarine;
+}

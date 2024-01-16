@@ -26,8 +26,10 @@ vLexicalToken lexSyntax(char *source_code)
 
     int source_code_line = 1;
     int source_code_column = 1;
+    int indent_depth = 0;
 
     int i_s = 0; // 現在地点
+    int token_count = 0;
     for (;;)
 
     { // 終了コードまで
@@ -44,24 +46,26 @@ vLexicalToken lexSyntax(char *source_code)
         if (source_code[i_s] == '\n' || source_code[i_s] == '\r')
         { // 改行
             source_code_column = 1;
-            source_code_line ++;
+            source_code_line++;
+            indent_depth = 0;
 
             i_s++;
             continue;
         }
         if (source_code[i_s] == ' ' || source_code[i_s] == '\t')
         { // スペース、タブ.
+            indent_depth++;
             i_s++;
             continue;
         }
         if (strchr("(){}[]{};,", source_code[i_s]) != 0)
         { // 1文字記号.
-            source_code_column ++;
+            source_code_column++;
             token_search_len = 1;
         }
         else if (isNumber(source_code[i_s]))
         {
-            source_code_column ++;
+            source_code_column++;
             token_type = "NUM";
             while (isNumber(source_code[i_s + token_search_len]))
             {
@@ -70,7 +74,7 @@ vLexicalToken lexSyntax(char *source_code)
         }
         else if (isAlphabetOrNumber(source_code[i_s]))
         {
-            source_code_column ++;
+            source_code_column++;
             token_type = "TEXT";
             while (isAlphabetOrNumber(source_code[i_s + token_search_len]))
             {
@@ -79,14 +83,14 @@ vLexicalToken lexSyntax(char *source_code)
         }
         else if (strchr("=+-*/!%&~|<>?:.#_", source_code[i_s]) != 0)
         { // 現在文字が普通の記号.
-            source_code_column ++;
+            source_code_column++;
 
             while (strchr("=+-*/!%&~|<>?:.#_", source_code[i_s + token_search_len]) != 0 && source_code[i_s + token_search_len] != 0)
                 token_search_len++;
         }
         else if (strchr("\'\"\\", source_code[i_s]) != 0)
         { // 特殊1文字記号
-            source_code_column ++;
+            source_code_column++;
             token_search_len = 1;
         }
         else
@@ -102,14 +106,15 @@ vLexicalToken lexSyntax(char *source_code)
             token_type = current_token;
         }
 
-        struct lexicalToken ts = {current_token, token_type , source_code_line ,source_code_column};
+        struct LexicalToken ts = {current_token, token_type, source_code_line, source_code_column,indent_depth,token_count};
 
         lexical_token.push_back(ts);
         // printf("current_token_id : %d", current_token_id);
         i_s += token_search_len;
+        token_count++;
     }
 
-    struct lexicalToken tsd = {DOLLAR, DOLLAR};
+    struct LexicalToken tsd = {DOLLAR, DOLLAR};
     lexical_token.push_back(tsd);
     return lexical_token;
 

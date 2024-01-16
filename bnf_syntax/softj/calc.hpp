@@ -29,10 +29,10 @@ namespace LanguageSpecifications
                 SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
                 assExpr(current_node.children[0], current_node.children[1]);
             }
-            inline string Softj::text_join(string left, string right)
+            inline string Softj::text_join(string left, string right, int node_index)
             {
                 string message = "文字列連結 " + left + " + " + right;
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue()};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth()};
                 process_result->push_back(pr);
 
                 return left + right;
@@ -41,7 +41,7 @@ namespace LanguageSpecifications
             inline int Softj::addition(int left, int right, int node_index)
             {
                 string message = "加算 " + to_string(left) + " + " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
 
                 return left + right;
@@ -49,28 +49,28 @@ namespace LanguageSpecifications
             inline int Softj::subtraction(int left, int right, int node_index)
             {
                 string message = "減算 " + to_string(left) + " - " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left - right;
             }
             inline int Softj::multiplication(int left, int right, int node_index)
             {
                 string message = "乗算 " + to_string(left) + " * " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left * right;
             }
             inline int Softj::division(int left, int right, int node_index)
             {
                 string message = "割算 " + to_string(left) + " / " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left / right;
             }
             inline int Softj::less(int left, int right, int node_index)
             {
                 string message = "比較 " + to_string(left) + " < " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left < right;
             }
@@ -78,35 +78,35 @@ namespace LanguageSpecifications
 
             {
                 string message = "比較 " + to_string(left) + " <= " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left <= right;
             }
             inline int Softj::greater(int left, int right, int node_index)
             {
                 string message = "比較 " + to_string(left) + " > " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left > right;
             }
             inline int Softj::greater_equal(int left, int right, int node_index)
             {
                 string message = "比較 " + to_string(left) + " >= " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left >= right;
             }
             inline int Softj::equality(int left, int right, int node_index)
             {
                 string message = "比較 " + to_string(left) + " == " + to_string(right);
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left == right;
             }
             inline int Softj::equality(string left, string right, int node_index)
             {
                 string message = "比較 " + left + " == " + right;
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, input_layer_queue.useClearLayerQueue(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index};
                 process_result->push_back(pr);
                 return left == right;
             }

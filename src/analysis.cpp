@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
     syntacticParseTree(syntactic_parse_tree);
-    ProcessVisualization::processAnalysis(syntactic_parse_tree);
+    ProcessVisualization::processAnalysis(syntactic_parse_tree,token_string_vector);
 
     // ソースコードは用済み
 }

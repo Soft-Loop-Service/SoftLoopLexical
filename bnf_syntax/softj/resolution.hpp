@@ -91,7 +91,7 @@ namespace LanguageSpecifications
 
                 if (token == "+")
                 {
-                    ans = text_join(left, right);
+                    ans = text_join(left, right,node_index);
                 }
 
                 return ans;
@@ -125,9 +125,6 @@ namespace LanguageSpecifications
                 {
                     int rv_val;
                     resolutionCalcValue(node_index, rv_val);
-
-                    int layer = vpu->getLayer(current_node.token);
-                    input_layer_queue.enqueueLayerQueue(layer, rv_val);
 
                     return rv_val;
                 }

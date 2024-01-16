@@ -54,10 +54,7 @@ namespace LanguageSpecifications
             {
                 ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
 
-                input_layer_queue.enqueueLayerQueue(0);
-                string message = "関数実行 " + function_unit.getFunctionName() + "";
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), function_unit.getFunctionNode()};
-                process_result->push_back(pr);
+                int depth =  vpu->getDepth();
 
                 vpu->deep(); // 引数解決層
                 for (int i = 0; i < fmp.argument.size(); i++)
@@ -92,29 +89,28 @@ namespace LanguageSpecifications
                     }
                 }
 
-                vpu->deep(); // 関数実行層
+                // vpu->deep(); // 関数実行層
 
                 int recursion_node = function_unit.getFunctionNode();
-
                 string return_type = function_unit.getReturnType();
+
+                process_result->push_back({ProcessVisualization::is_id_process_type_logic, "関数実行", depth,function_unit.getFunctionNode()});
 
                 is_action_return = false;
                 recursion(recursion_node);
                 is_action_return = false;
+                process_result->push_back({ProcessVisualization::is_id_process_type_logic, "関数終了", depth,function_unit.getFunctionNode()});
 
+                // vpu->shallow();
                 vpu->shallow();
-                vpu->shallow();
-
-                input_layer_queue.enqueueLayerQueue(0);
-                message = "関数収束 " + function_unit.getFunctionName() + "";
-                pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), function_unit.getFunctionNode()};
-                process_result->push_back(pr);
 
             }
 
             inline void Softj::resolutionCalcFunction(int node_index)
             {
                 SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+
+                process_result->push_back({ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(),node_index});
 
                 printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
                 if (!hasMapKey(function_message_passing_map, node_index))
@@ -137,9 +133,7 @@ namespace LanguageSpecifications
                     printf("空関数\n");
                     return;
                 }
-                string message = "関数呼び出し " + function_unit.getFunctionName() + "";
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_function, message, input_layer_queue.useClearLayerQueue(), node_index};
-                process_result->push_back(pr);
+
                 printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
                 resolutionFunctionMessagePassing(function_unit, fmp);
             }

@@ -57,8 +57,6 @@ namespace LanguageSpecifications
             ProcessVisualization::VariablePossessionUnion *vpu;
             ProcessVisualization::FunctionPossessionUnion *fpu;
 
-            ProcessVisualization::LayerQueue input_layer_queue;
-            ProcessVisualization::LayerQueue output_layer_queue;
             m_i_FunctionMessagePassing function_message_passing_map;
 
             bool is_action_return = false;
@@ -70,7 +68,7 @@ namespace LanguageSpecifications
 
         public:
             int equal(int node_index);
-            string text_join(string left, string right);
+            string text_join(string left, string right,int node_index);
             int addition(int left, int right, int node_index);
             int subtraction(int left, int right, int node_index);
             int multiplication(int left, int right, int node_index);
