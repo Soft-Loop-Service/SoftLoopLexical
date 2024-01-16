@@ -5,6 +5,4 @@ while (b < 100){
     int temp = b;
     b = a + b;
     a = temp;
-    
-    int c = 0;
 }

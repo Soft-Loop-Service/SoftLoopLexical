@@ -7,6 +7,8 @@
 
   width: 100%;
   height: 100%;
+
+  position: static;
 }
 
 .timeline_scroll{
@@ -14,10 +16,11 @@
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+  margin-bottom: 100px;
 }
 
 .timeline_left{
-
+  
 }
 
 .timeline_right{
@@ -39,7 +42,8 @@
 
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-left: 4px;
   padding-right: 4px;
 }
 

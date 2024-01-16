@@ -23,7 +23,8 @@ namespace LanguageSpecifications
         inline int Softj::whileCalc(int node_index)
         {
             SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-            SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
+            int child0_node_index = current_node.children[0];
+            SyntacticTreeNode child0 = (*syntactic_analysis_tree)[child0_node_index];
             // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
             // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
 
@@ -32,7 +33,7 @@ namespace LanguageSpecifications
 
             while (ifbool)
             {
-                process_result->push_back({ProcessVisualization::is_id_process_type_true, "while条件分岐", vpu->getDepth(), node_index});
+                process_result->push_back({ProcessVisualization::is_id_process_type_true, "while 条件分岐", vpu->getDepth(), child0_node_index});
 
                 vpu->deep();
 
@@ -43,14 +44,15 @@ namespace LanguageSpecifications
                 vpu->shallow();
             }
 
-            process_result->push_back({ProcessVisualization::is_id_process_type_false, "while条件分岐", vpu->getDepth(), node_index});
+            process_result->push_back({ProcessVisualization::is_id_process_type_false, "while 条件分岐", vpu->getDepth(), child0_node_index});
         }
 
         inline int Softj::ifCalc(int node_index)
         {
             printf("ifCalc\n");
             SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-            SyntacticTreeNode child0 = (*syntactic_analysis_tree)[current_node.children[0]];
+            int child0_node_index = current_node.children[0];
+            SyntacticTreeNode child0 = (*syntactic_analysis_tree)[child0_node_index];
             // SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
             // SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
             int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
@@ -62,8 +64,8 @@ namespace LanguageSpecifications
 
                 if (current_node.children.size() >= 3)
                 {
-                    string message = "if条件分岐";
-                    struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_true, message, vpu->getDepth(), node_index};
+                    string message = "if 条件分岐";
+                    struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_true, message, vpu->getDepth(), child0_node_index};
                     process_result->push_back(pr);
 
                     vpu->deep();
@@ -76,7 +78,7 @@ namespace LanguageSpecifications
             else
             {
                 string message = "if条件分岐";
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_false, message, vpu->getDepth(), node_index};
+                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_false, message, vpu->getDepth(), child0_node_index};
                 process_result->push_back(pr);
             }
         }

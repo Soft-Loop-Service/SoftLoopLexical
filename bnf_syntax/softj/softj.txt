@@ -1,8 +1,8 @@
 <S> ::= <EL>
 <EL> ::= <E> *
-<E> ::= <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function> | <return>
+<E> ::= <left> ";" | <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function> | <return>　";"
 
-<left> ::= <value_definition> | <value_name>
+<left> ::= <value_definition> | <array_definition> | <value_name>
 <right> ::= <comparison_equal> | <function_message_passing>
 
 <comparison_equal> ::= <comparison_equal> "==" <comparison> | <comparison>
@@ -14,6 +14,7 @@
 
 <number> ::= NUM
 <value_definition> ::= <type_name> <value_name>
+<array_definition> ::= <array_name> <value_name>
 
 <type_name> ::= "int" | "string" | "void"
 <value_name> ::= TEXT
@@ -21,7 +22,6 @@
 <text> ::= """ TEXT """ | "'" TEXT "'" | """ NUM """ | "'" NUM "'" | """ """ | "'" "'"
 
 <ifexpr> ::= <if>
-
 <if> ::= "if" <right> <block>
 <while> ::= "while" <right> <block>
 <function> ::= <value_definition> "(" <argument> ")" <block>

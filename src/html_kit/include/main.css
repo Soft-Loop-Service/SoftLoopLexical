@@ -11,10 +11,11 @@ body {
 
 .left_side {
   width: 60vw;
-  position: relative;
+  
 }
 .right_side {
   flex-grow: 1;
+  position: relative;
 }
 
 .codeview_upper_side {
@@ -22,12 +23,7 @@ body {
 }
 
 .codeview_bottom_side {
-  height: 60px;
-  width: 300px;
-  position: absolute;
-  background-color: white;
-  bottom: 0;
-  right: 0;
+
 }
 
 .dli-chevron-left {

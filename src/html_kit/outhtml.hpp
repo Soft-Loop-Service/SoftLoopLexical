@@ -68,10 +68,10 @@ namespace HTMLParse
         string body_str_sta = "<body>";
         string body_str_end = "</body>";
 
-        string upper_str_sta = "<div class=\"codeview_upper_side\">";
-        string upper_str_end = "</div>";
-        string bottom_str_sta = "<div class=\"codeview_bottom_side\">";
-        string bottom_str_end = "</div>";
+        string codeview_upper_str_sta = "<div class=\"codeview_upper_side\">";
+        string codeview_upper_str_end = "</div>";
+        string codeview_bottom_str_sta = "<div class=\"codeview_bottom_side\">";
+        string codeview_bottom_str_end = "</div>";
 
 
         string left_str_sta = "<div class=\"left_side\">";
@@ -91,19 +91,20 @@ namespace HTMLParse
         writing_file << sys_str_sta << endl;
 
         writing_file<< left_str_sta << endl;
-        writing_file<< upper_str_sta << endl;
+        writing_file<< codeview_upper_str_sta << endl;
         writing_file << html_source_code_view_body << endl;
-        writing_file<< upper_str_end << endl;
+        writing_file<< codeview_upper_str_end << endl;
 
-        writing_file<< bottom_str_sta << endl;
-        writing_file << html_controller_stream_string << endl;
-        writing_file<< bottom_str_end << endl;
+        writing_file<< codeview_bottom_str_sta << endl;
+        writing_file<< codeview_bottom_str_end << endl;
         
         writing_file<< left_str_end << endl;
 
         writing_file << dividing_border << endl;
         writing_file<< right_str_sta << endl;
         writing_file << html_timeline_body << endl;
+        writing_file << html_controller_stream_string << endl;
+
         writing_file<< right_str_end << endl;
 
         writing_file << sys_str_end << endl;

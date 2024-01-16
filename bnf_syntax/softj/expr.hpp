@@ -43,14 +43,14 @@ namespace LanguageSpecifications
 
                     string value_ans = "";
 
-                    if (value_type == "string")
+                    if (value_type == "string" && right_index >= 0)
                     {
                         string value_string = resolutionTreeCalcString(right_index);
                         vpu->newValue(value_name, value_string, left_index);
                         value_ans = value_string;
                     }
 
-                    if (value_type == "int")
+                    if (value_type == "int" && right_index >= 0)
                     {
                         int value_int = resolutionTreeCalcInt(right_index);
                         vpu->newValue(value_name, value_int, left_index);
@@ -59,7 +59,7 @@ namespace LanguageSpecifications
 
                     printf("d\n");
 
-                    string message = "変数定義代入 " + child_right.token + " " + value_ans;
+                    process_result->push_back({ProcessVisualization::is_id_process_type_ouput, "変数定義", vpu->getDepth(), left_index});
 
                     return;
                 }
@@ -91,7 +91,7 @@ namespace LanguageSpecifications
                         value_ans = to_string(value_int);
                     }
 
-                    string message = "変数代入 " + current_node.token + " " + value_ans;
+                    process_result->push_back({ProcessVisualization::is_id_process_type_ouput, "変数代入", vpu->getDepth(), left_index});
 
                     return;
                 }
