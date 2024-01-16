@@ -1,25 +1,29 @@
 <S> ::= <EL>
 <EL> ::= <E> *
-<E> ::= <left> ";" | <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function> | <return>　";"
+<E> ::= <left> ";" | <right> ";" | <left> "=" <right> ";" | <ifexpr> | <while> | <function> | <return> ";"
 
-<left> ::= <value_definition> | <array_definition> | <value_name>
-<right> ::= <comparison_equal> | <function_message_passing>
+<left> ::= <value_definition> | <array_definition> | <value_name> | <array_name>
+<right> ::= <comparison_equal> | <function_message_passing> | <new_array>
 
 <comparison_equal> ::= <comparison_equal> "==" <comparison> | <comparison>
 <comparison> ::= <comparison> "<" <expr> | <comparison> "<=" <expr> | <comparison> ">" <expr> | <comparison> ">=" <expr> | <expr>
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
 <term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
-<factor> ::= <number> | "(" <right> ")" | <value_name> | <text>
+<factor> ::= <number> | "(" <right> ")" | <value_name> | <array_name> | <text>
 
 <number> ::= NUM
 <value_definition> ::= <type_name> <value_name>
-<array_definition> ::= <array_name> <value_name>
+<array_definition> ::= <type_name> <array_length> <value_name>
 
 <type_name> ::= "int" | "string" | "void"
 <value_name> ::= TEXT
 
 <text> ::= """ TEXT """ | "'" TEXT "'" | """ NUM """ | "'" NUM "'" | """ """ | "'" "'"
+
+<array_name> ::= <value_name> <array_length>
+<array_length> ::= "[" <right> "]" <array_length> | "[" "]" <array_length> | 
+<new_array> ::= new <type_name> <array_length>
 
 <ifexpr> ::= <if>
 <if> ::= "if" <right> <block>

@@ -21,14 +21,14 @@
 int main(int argc, char *argv[])
 {
     char *source_code = new char[source_code_size * sizeof(char)];
-    loadText(source_code, "sample.txt", source_code_size);
+    loadText(source_code, argv[1], source_code_size);
 
     char **token_string = new char *[token_string_arr_size * sizeof(char *)];
     int *token_progression = new int[token_progression_arr_size * sizeof(int)];
     vLexicalToken token_string_vector = lexSyntax(source_code);
 
     LRTableMultilayer LR_table_multilayer;
-    inputTable(argv[1], LR_table_multilayer);
+    inputTable("table.txt", LR_table_multilayer);
 
     printf("syntacticAnalysis\n");
 
