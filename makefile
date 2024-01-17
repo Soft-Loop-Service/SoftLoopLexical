@@ -3,6 +3,7 @@ FLD_SRC = ./src
 BIN_SRC = ./bin
 SRCS_SRC = $(wildcard $(FLD_SRC)/*/*.cpp) $(wildcard $(FLD_SRC)/*/*/*.cpp) $(wildcard $(FLD_SRC)/*/*/*/*.cpp) $(wildcard $(FLD_SRC)/*/*/*/*/*.cpp)
 ANALYSIS_SRC = ./src/analysis.cpp $(SRCS_SRC)
+TABLE_SRC = ./src/table.cpp $(SRCS_SRC)
 
 FILES = ""
 
@@ -19,8 +20,17 @@ endef
 builday:
 	@echo "$(ANALYSIS_SRC)"
 	rm -f $(wildcard $(BIN_SRC)/*.o)
-	g++ -std=c++2a -o hoge $(wildcard $(ANALYSIS_SRC))
+	g++ -std=c++2a -o analysis.out $(wildcard $(ANALYSIS_SRC))
 
+
+buildtable:
+	@echo "$(TABLE_SRC)"
+	rm -f $(wildcard $(BIN_SRC)/*.o)
+	g++ -std=c++2a -o table.out $(wildcard $(TABLE_SRC))
+
+
+
+	
 
 
 	

@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
     ProcessVisualization::ProcessAnalysisTimeline process_timeline;
     ProcessVisualization::VariablePossessionUnion variable_possession_union;
     ProcessVisualization::FunctionPossessionUnion function_possession_union;
-    LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_analysis_tree, process_timeline, variable_possession_union, function_possession_union);
+    LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_parse_tree, process_timeline, variable_possession_union, function_possession_union);
     softjtree.calc();
     debugProcessResult(process_timeline);
-    HTMLParse::outputHtml(syntactic_analysis_tree, process_timeline, variable_possession_union, token_string_vector);
+    HTMLParse::outputHtml(syntactic_parse_tree, process_timeline, variable_possession_union, token_string_vector);
     // ソースコードは用済み
 }

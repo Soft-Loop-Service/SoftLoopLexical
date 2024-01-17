@@ -24,6 +24,8 @@ namespace LanguageSpecifications
         void Softj::calc()
         {
             preparationTree();
+
+            printf("recursion start\n");
             recursion(0);
         };
     }

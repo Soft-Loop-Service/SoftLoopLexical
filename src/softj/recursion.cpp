@@ -17,8 +17,16 @@ namespace LanguageSpecifications
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
             string token = current_node.token;
 
+            printf("node_index %d\n",node_index);
+
             if (is_action_return)
             {
+                return;
+            }
+
+            if (token == "=")
+            {
+                equal(node_index);
                 return;
             }
 
@@ -55,11 +63,6 @@ namespace LanguageSpecifications
                 return;
             }
 
-            if (token == "=")
-            {
-                equal(node_index);
-                return;
-            }
             for (int i = 0; i < current_node.children.size(); i++)
             {
                 recursion(current_node.children[i]);
