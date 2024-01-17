@@ -3,8 +3,7 @@
 #ifndef __BNF
 #define __BNF
 #include "./../definition.hpp"
-#include "./../DFA/dfa.hpp"
-#include "./../LR_table/LR_table.hpp"
+#include "./../symbol.hpp"
 
 namespace BNFParse
 {
@@ -36,7 +35,7 @@ namespace BNFParse
     int parseBnf(char *source_code, BNFToken &bnf_token_p);
     void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right);
     void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mp_s_i &bnf_right_map);
-    int bnfMain(char *bnf_file_name, LRTable::LRTableMultilayer &LR_table_multilayer);
+    
     int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, int *array, int len, int current_number);
     int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &retrieve_symbol, int target_id);
     int retrieveSymbolTable(BNFToken &bnf_token_p, RetrieveSymbol &retrieve_symbol, int target_id);

@@ -1,13 +1,5 @@
+#include "./bnf.hpp"
 
-#include "./../definition.hpp"
-#include "./../symbol.hpp"
-#include "./BNF.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
 namespace BNFParse{
 void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right)
 {

@@ -1,13 +1,4 @@
-
-
-#include "./../definition.hpp"
-#include "./BNF.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
+#include "./bnf.hpp"
 
 namespace BNFParse
 {

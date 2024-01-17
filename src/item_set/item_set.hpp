@@ -6,7 +6,7 @@
 #include "./../definition.hpp"
 #include "./../debug.hpp"
 #include "./../symbol.hpp"
-#include "./../BNF/BNF.hpp"
+#include "./../BNF/bnf.hpp"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -22,7 +22,7 @@ namespace Syntactic
     typedef vector<SyntacticTreeNode> vSyntacticTree;
 
     void output_vReduceFormula(string name, LRTable::vReduceFormula v);
-    void syntacticAnalysisProcessShift(LRTable::LR_table_multilayer, string token_tyoke, sint &stack_analysis);
+    void syntacticAnalysisProcessShift(LRTable::LRTableMultilayer LR_table_multilayer , string token_tyoke, sint &stack_analysis);
     void syntacticAnalysisProcessReduce(LRTable::LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis,LRTable::vReduceFormula &syntactic_analysis_formula);
     void syntacticAnalysisProcessAccept();
     void syntacticAnalysisProcess(LRTable::LRTableMultilayer LR_table_multilayer, LexicalAnalysis::vLexicalToken token_string_vector, LRTable::vReduceFormula &syntactic_analysis_formula);

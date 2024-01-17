@@ -1,13 +1,5 @@
+#include "./bnf.hpp"
 
-#include "./../definition.hpp"
-#include "./BNF.hpp"
-#include "./../symbol.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
 namespace BNFParse
 {
     int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, int *array, int len, int current_number)

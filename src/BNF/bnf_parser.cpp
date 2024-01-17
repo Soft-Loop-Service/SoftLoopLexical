@@ -1,13 +1,5 @@
+#include "./bnf.hpp"
 
-#include "./../definition.hpp"
-#include "./BNF.hpp"
-#include "./../symbol.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
 namespace BNFParse
 {
     // EBNF記法に沿う

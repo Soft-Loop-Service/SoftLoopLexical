@@ -1,14 +1,3 @@
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-#include "./../definition.hpp"
-
 #include "./process_analysis.hpp"
 namespace ProcessVisualization
 {

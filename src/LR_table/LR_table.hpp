@@ -8,10 +8,12 @@
 #define LR_table_operation_accept 'a'
 #define LR_table_operation_goto 'g'
 #include "./../DFA/dfa.hpp"
+#include "./../BNF/bnf.hpp"
 
 namespace LRTable
 {
 
+    int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer);
     int generateLRtable(DFAParse::vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol terminal_symbol, BNFParse::RetrieveSymbol nonterminal_symbol,
                         LRTableMultilayer &LR_table_multilayer);
 

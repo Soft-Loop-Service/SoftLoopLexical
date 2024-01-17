@@ -1,19 +1,5 @@
-
-
-#include "./../definition.hpp"
-#include "./../symbol.hpp"
-#include "./../BNF/BNF.hpp"
-
-#include "./../item_set/item_set.hpp"
-#include "./../DFA/dfa.hpp"
 #include "./LR_table.hpp"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-#include <map>
 
 namespace LRTable
 {

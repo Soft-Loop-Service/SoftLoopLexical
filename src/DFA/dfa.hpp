@@ -1,8 +1,14 @@
 
 #ifndef __DFA
 #define __DFA
-#include "./../BNF/BNF.hpp"
+#include "./../BNF/bnf.hpp"
 #include "./../definition.hpp"
+#include "./../item_set/item_set.hpp"
+
+
+#define ROOT_DFA_SYMBOL "<_S>"
+#define START_DFA_SYMBOL "<S>"
+
 
 namespace DFAParse
 {
@@ -10,12 +16,6 @@ namespace DFAParse
     class ClosureExpansion;
 
     typedef std::queue<LRItemStruct> quLRItemStruct;
-    bool isDfaEqual(DFANode a_node, DFANode b_node);
-    int generateDFARoot(DFANode &root_dfa_node);
-    vstring getNextLabelDFA(DFANode current_node);
-    int recursionDFA(BNFParse::DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, int current_node_index);
-    void outputDFA(vDFANode dfa_node_graph);
-    vDFANode generateDFA(BNFParse::DeploymentStruct deployment_syntax);
 
     struct LRItemStruct;
     struct LRItemFormulaStruct;
@@ -24,6 +24,15 @@ namespace DFAParse
     typedef std::vector<LRItemFormulaStruct> vLRItemFormulaStruct;
     typedef std::vector<LRItemFormulaExpansionStruct> vLRItemFormulaExpansionStruct;
     typedef std::map<string, LRItemFormulaStruct> mapLRItemFormulaStruct;
+
+    bool isDfaEqual(DFANode a_node, DFANode b_node);
+    int generateDFARoot(DFANode &root_dfa_node);
+    vstring getNextLabelDFA(DFANode current_node);
+    int recursionDFA(BNFParse::DeploymentStruct &deployment_syntax, vDFANode &dfa_node_graph, int current_node_index);
+    void outputDFA(vDFANode dfa_node_graph);
+    vDFANode generateDFA(BNFParse::DeploymentStruct deployment_syntax);
+
+
     /*
     DFANodeはLRItemStructの機能に加えて他nodeの事も考えることができる。LRItemStructはコンポジションである
     */

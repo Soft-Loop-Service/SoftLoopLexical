@@ -144,8 +144,8 @@ namespace HTMLParse
             string parseJson();
         };
 
-        void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector);
-    };
+    };        void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector);
+
 };
 
 #endif

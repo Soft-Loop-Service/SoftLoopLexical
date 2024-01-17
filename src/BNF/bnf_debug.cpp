@@ -1,5 +1,5 @@
 
-#include "./BNF.hpp"
+#include "./bnf.hpp"
 
 namespace BNFParse
 {

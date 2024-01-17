@@ -1,9 +1,3 @@
-// 字句解析定義ファイル
-
-#include "./../definition.hpp"
-#include "./../debug.hpp"
-#include "./../symbol.hpp"
-
 #include "./lexical_analysis.hpp"
 
 namespace LexicalAnalysis

@@ -2,6 +2,10 @@
 #ifndef __PRA
 #define __PRA
 #include "./../definition.hpp"
+#include "./../DFA/dfa.hpp"
+#include "./../syntactic/syntactic_analysis.hpp"
+#include "./../softj/softj.hpp"
+#include "./../html_kit/html_kit.hpp"
 
 namespace ProcessVisualization
 {

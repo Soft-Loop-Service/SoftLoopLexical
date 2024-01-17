@@ -1,17 +1,5 @@
-
-#include "./../definition.hpp"
-#include "./../symbol.hpp"
-#include "./../BNF/BNF.hpp"
 #include "./dfa.hpp"
 
-#include "./../item_set/item_set.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-#include <algorithm>
 
 /*
 dot と tokenの関係は以下の通り
