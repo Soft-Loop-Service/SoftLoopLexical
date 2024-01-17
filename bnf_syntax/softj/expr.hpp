@@ -78,7 +78,7 @@ namespace LanguageSpecifications
                 }
 
 
-                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列定義", vpu->getDepth(), left_index);
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "変数定義", vpu->getDepth(), left_index);
                 process_timeline->pushProcessAnalysis(pr);
 
                 return;
