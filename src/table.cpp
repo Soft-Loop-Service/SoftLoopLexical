@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     LRTable::LRTableMultilayer LR_table_multilayer;
-    BNFParse::bnfMain(argv[1], LR_table_multilayer);
+    LRTable::bnfMain(argv[1], LR_table_multilayer);
 
     LRTable::LRTable table_accept = LR_table_multilayer.LR_table_accept;
     LRTable::LRTable table_goto = LR_table_multilayer.LR_table_goto;

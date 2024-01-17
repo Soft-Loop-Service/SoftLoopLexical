@@ -4,6 +4,7 @@
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
 #include "./BNF/BNF.hpp"
+#include "./input_table.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -12,23 +13,23 @@ int main(int argc, char *argv[])
 
     char **token_string = new char *[token_string_arr_size * sizeof(char *)];
     int *token_progression = new int[token_progression_arr_size * sizeof(int)];
-    vLexicalToken token_string_vector = lexSyntax(source_code);
+    LexicalAnalysis::vLexicalToken token_string_vector = LexicalAnalysis::lexSyntax(source_code);
 
-    LRTableMultilayer LR_table_multilayer;
+    LRTable::LRTableMultilayer LR_table_multilayer;
     inputTable("table.txt", LR_table_multilayer);
 
     printf("syntacticAnalysis\n");
 
-    vReduceFormula syntactic_analysis_formula = {};
-    syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
+    LRTable::vReduceFormula syntactic_analysis_formula = {};
+    Syntactic::syntacticAnalysis(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
 
     printf("syntacticPurseTree\n");
-    vSyntacticTree syntactic_analysis_tree = {};
+    Syntactic::vSyntacticTree syntactic_analysis_tree = {};
 
-    syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree, token_string_vector);
-    vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
+    Syntactic::syntacticAnalysisTree(syntactic_analysis_formula, syntactic_analysis_tree, token_string_vector);
+    Syntactic::vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
-    syntacticParseTree(syntactic_parse_tree);
+    Syntactic::syntacticParseTree(syntactic_parse_tree);
     ProcessVisualization::processAnalysis(syntactic_parse_tree,token_string_vector);
 
     // ソースコードは用済み

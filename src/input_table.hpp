@@ -1,17 +1,9 @@
-#include "./lexical/lexical_analysis.hpp"
-#include "./syntactic/syntactic_analysis.hpp"
-#include "./syntactic/syntactic_analysis_tree.hpp"
-#include "./syntactic/syntactic_parse_tree.hpp"
-
-#include "./process/process_analysis.hpp"
 
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
-#include "./LR_table/LR_table_definition.hpp"
-#include "./LR_table/LR_table_cell.hpp"
-#include "./BNF/BNF.hpp"
 
-int inputTable(string table_file, LRTableMultilayer &LR_table_multilayer)
+
+int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilayer)
 {
     std::ifstream ifs(table_file);
     printf("inputTable\n");
@@ -38,11 +30,11 @@ int inputTable(string table_file, LRTableMultilayer &LR_table_multilayer)
     getline(ifs, table_shift_string);
     printf("%s\n", table_shift_string.c_str());
 
-    LR_table_multilayer = LRTableMultilayer{
-        LRTableMakeGoto<LRTableGotoCell>(table_goto_string),
-        LRTableMakeShift<LRTableShiftCell>(table_shift_string),
-        LRTableMakeReduce<LRTableReduceCell>(table_reduce_string),
-        LRTableMakeAccept<LRTableAcceptCell>(table_accept_string)};
+    LR_table_multilayer = LRTable::LRTableMultilayer{
+        LRTable::LRTableMakeGoto<LRTable::LRTableGotoCell>(table_goto_string),
+        LRTable::LRTableMakeShift<LRTable::LRTableShiftCell>(table_shift_string),
+        LRTable::LRTableMakeReduce<LRTable::LRTableReduceCell>(table_reduce_string),
+        LRTable::LRTableMakeAccept<LRTable::LRTableAcceptCell>(table_accept_string)};
 
     LR_table_multilayer.LR_table_goto.debug();
     LR_table_multilayer.LR_table_shift.debug();
