@@ -25,9 +25,10 @@ namespace LanguageSpecifications
             {
 
                 SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-                SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
-                SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
-                assExpr(current_node.children[0], current_node.children[1]);
+
+                int left = current_node.children[0];
+                int right = current_node.children.size() >= 2 ? current_node.children[1] : -1;
+                assExpr(left, right);
             }
             inline string Softj::text_join(string left, string right, int node_index)
             {

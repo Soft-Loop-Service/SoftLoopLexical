@@ -22,6 +22,7 @@
 #include "./preparation.hpp"
 #include "./recursion.hpp"
 #include "./resolution.hpp"
+#include "./array.hpp"
 #include "./softj_tree.hpp"
 
 // このファイルはinclude用なので、消さないように

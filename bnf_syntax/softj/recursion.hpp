@@ -45,7 +45,11 @@ namespace LanguageSpecifications
                 whileCalc(node_index);
                 return;
             }
-
+            if (token == "<new_array>" || token == "<array_name>")
+            {
+                resolutionTreeCalcArray(node_index);
+                return;
+            }
             // 単独でvalue_nameが存在する場合は、関数呼び出し等である
             if (current_node.parent_token == "<value_name>")
             {

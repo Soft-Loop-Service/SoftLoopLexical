@@ -25,12 +25,14 @@ namespace ProcessVisualization
 
     const int is_id_timeline_magic_number_layer = 0;
 
+    //引数用
     struct Argument
     {
         string type;
         string name;
     };
 
+    //
     struct VariableProcessEnumeration
     {
         string type;

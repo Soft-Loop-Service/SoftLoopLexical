@@ -98,7 +98,12 @@ namespace LanguageSpecifications
 
             string resolutionTreeCalcString(int node_index);
             int resolutionTreeCalcInt(int node_index);
-
+            
+            void resolutionCalcArray(int node_index, int &pointer);
+            void resolutionCalcNewArray(int node_index, int pointer);
+            int resolutionTreeCalcArray(int node_index);
+            void resolutionCalcArrayLength(int node_index , vint &length_list);
+            void resolutionCalcMakeArray(int pointer, vint  &length_list ,string array_type,int depth);
 
             template <typename T>
             bool resolutionCalcValue(int node_index, T &rv_value);

@@ -34,9 +34,10 @@ typedef std::map<std::string, string> mapstr;
 typedef std::map<std::string, int> mp_s_i; // mp を生成
 typedef std::map<int, int> mp_i_i;         // mp を生成
 typedef std::map<int, string> mp_i_s;
-typedef std::map<std::string, vint> mp_s_vint;       // mp を生成
-typedef std::map<std::string, v2int> mp_s_v2int;     // を生成
-typedef std::map<std::string, vstring> mp_s_vstring; // を生成
+typedef std::map<int, vint> mp_i_vint;       
+typedef std::map<std::string, vint> mp_s_vint;       
+typedef std::map<std::string, v2int> mp_s_v2int;     
+typedef std::map<std::string, vstring> mp_s_vstring; 
 
 using namespace std;
 
