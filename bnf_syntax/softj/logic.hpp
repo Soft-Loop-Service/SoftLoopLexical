@@ -33,7 +33,8 @@ namespace LanguageSpecifications
 
             while (ifbool)
             {
-                process_result->push_back({ProcessVisualization::is_id_process_type_true, "while 条件分岐", vpu->getDepth(), child0_node_index});
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, "while 条件分岐", vpu->getDepth(), child0_node_index);
+                process_timeline->pushProcessAnalysis(pr);
 
                 vpu->deep();
 
@@ -44,7 +45,9 @@ namespace LanguageSpecifications
                 vpu->shallow();
             }
 
-            process_result->push_back({ProcessVisualization::is_id_process_type_false, "while 条件分岐", vpu->getDepth(), child0_node_index});
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_false, "while 条件分岐", vpu->getDepth(), child0_node_index);
+                process_timeline->pushProcessAnalysis(pr);
+
         }
 
         inline int Softj::ifCalc(int node_index)
@@ -65,8 +68,11 @@ namespace LanguageSpecifications
                 if (current_node.children.size() >= 3)
                 {
                     string message = "if 条件分岐";
-                    struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_true, message, vpu->getDepth(), child0_node_index};
-                    process_result->push_back(pr);
+
+
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, message, vpu->getDepth(), child0_node_index);
+                process_timeline->pushProcessAnalysis(pr);
+
 
                     vpu->deep();
 
@@ -78,8 +84,9 @@ namespace LanguageSpecifications
             else
             {
                 string message = "if条件分岐";
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_false, message, vpu->getDepth(), child0_node_index};
-                process_result->push_back(pr);
+
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_false, message, vpu->getDepth(), child0_node_index);
+                process_timeline->pushProcessAnalysis(pr);
             }
         }
 

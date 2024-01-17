@@ -21,8 +21,9 @@
 namespace HTMLParse
 {
 
-    void outputHtml(vSyntacticTree syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis process_result, ProcessVisualization::VariablePossessionUnion variable_possession_union,vLexicalToken token_string_vector)
+    void outputHtml(vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union,vLexicalToken token_string_vector)
     {
+        ProcessVisualization::vProcessAnalysis process_result  = process_timeline.getProcessResult();
         std::ofstream writing_file;
         std::string filename = "test.html";
         writing_file.open(filename, std::ios::out);

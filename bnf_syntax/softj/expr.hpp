@@ -27,7 +27,6 @@ namespace LanguageSpecifications
 
             if (current_left_node.token == "<array_definition>")
             {
-
                 SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_left_node.children[0]];
                 SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_left_node.children[1]];
 
@@ -40,6 +39,10 @@ namespace LanguageSpecifications
                     int pointer = resolutionTreeCalcArray(right_index);
                     vpu->newPointerValue(value_name, pointer, left_index);
                 }
+
+
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列配置", vpu->getDepth(), left_index);
+                process_timeline->pushProcessAnalysis(pr);
             }
 
             if (current_left_node.token == "<value_definition>")
@@ -71,21 +74,22 @@ namespace LanguageSpecifications
                     int value_int = resolutionTreeCalcInt(right_index);
                     vpu->newValue(value_name, value_int, left_index);
                     value_ans = to_string(value_int);
-                    printf("value_ans %d\n",value_int);
+                    printf("value_ans %d\n", value_int);
                 }
 
-                
 
-                process_result->push_back({ProcessVisualization::is_id_process_type_ouput, "変数定義", vpu->getDepth(), left_index});
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列定義", vpu->getDepth(), left_index);
+                process_timeline->pushProcessAnalysis(pr);
 
                 return;
             }
 
-            if (current_left_node.token == "<array_name>"){
+            if (current_left_node.token == "<array_name>")
+            {
                 int pointer = resolutionTreeCalcArray(left_index);
                 string value_type = vpu->getType(pointer);
                 string value_ans = "";
-                printf("array_name value_ans %d %s\n",pointer,value_type.c_str());
+                printf("array_name value_ans %d %s\n", pointer, value_type.c_str());
 
                 if (value_type == "string")
                 {
@@ -99,8 +103,11 @@ namespace LanguageSpecifications
                     int value_int = resolutionTreeCalcInt(right_index);
                     vpu->updateValue(pointer, value_int);
                     value_ans = to_string(value_int);
-                    
                 }
+
+
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列代入", vpu->getDepth(), left_index);
+                process_timeline->pushProcessAnalysis(pr);
             }
 
             if (current_left_node.parent_token == "<value_name>")
@@ -134,7 +141,8 @@ namespace LanguageSpecifications
                     value_ans = to_string(value_int);
                 }
 
-                process_result->push_back({ProcessVisualization::is_id_process_type_ouput, "変数代入", vpu->getDepth(), left_index});
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "変数代入", vpu->getDepth(), left_index);
+                process_timeline->pushProcessAnalysis(pr);
 
                 return;
             }

@@ -23,6 +23,7 @@
 
 <array_name> ::= <value_name> <array_length>
 <array_length> ::= "[" <right> "]" <array_length> | "[" "]" <array_length> | 
+
 <new_array> ::= new <type_name> <array_length>
 
 <ifexpr> ::= <if>

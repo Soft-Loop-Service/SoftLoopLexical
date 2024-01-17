@@ -242,7 +242,7 @@ namespace HTMLParse
                     }
                 }
                 
-                this->depth_length = max_depth_length;
+                this->depth_length = max_depth_length + 1;
             }
 
             string getBody()

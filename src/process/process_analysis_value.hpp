@@ -138,9 +138,8 @@ namespace ProcessVisualization
         }
         void shallow()
         {
-
             variable_scope->shallow();
-            this->depth--;
+            this->depth = max(depth - 1 , 0);
         }
 
         // int linkPointerValue(int pointer , int value){

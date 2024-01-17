@@ -35,8 +35,8 @@ namespace LanguageSpecifications
 
             if (!hasLayer)
             {
-                struct ProcessVisualization::ProcessAnalysis pr = {ProcessVisualization::is_id_process_type_error, "未定義変数のアクセス", {}, node_index};
-                process_result->push_back(pr);
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義変数のアクセス", {}, node_index);
+                process_timeline->pushProcessAnalysis(pr);
                 return false;
             }
 

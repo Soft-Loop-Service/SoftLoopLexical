@@ -53,7 +53,7 @@ namespace LanguageSpecifications
 
         private:
             vSyntacticTree *syntactic_analysis_tree;
-            ProcessVisualization::vProcessAnalysis *process_result;
+            ProcessVisualization::ProcessAnalysisTimeline *process_timeline;
             ProcessVisualization::VariablePossessionUnion *vpu;
             ProcessVisualization::FunctionPossessionUnion *fpu;
 
@@ -109,11 +109,11 @@ namespace LanguageSpecifications
             bool resolutionCalcValue(int node_index, T &rv_value);
             
         public:
-            Softj(vSyntacticTree &syntactic_analysis_tree, ProcessVisualization::vProcessAnalysis &process_result, ProcessVisualization::VariablePossessionUnion &vpu, ProcessVisualization::FunctionPossessionUnion &fpu)
+            Softj(vSyntacticTree &syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline &process_timeline, ProcessVisualization::VariablePossessionUnion &vpu, ProcessVisualization::FunctionPossessionUnion &fpu)
             {
                 this->function_message_passing_map = {};
                 this->syntactic_analysis_tree = &syntactic_analysis_tree;
-                this->process_result = &process_result;
+                this->process_timeline = &process_timeline;
                 this->vpu = &vpu;
                 this->fpu = &fpu;
                 

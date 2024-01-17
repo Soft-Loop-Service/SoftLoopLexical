@@ -13,8 +13,9 @@
 
 namespace ProcessVisualization
 {
-    struct ProcessAnalysis;
+    class ProcessAnalysis;
     typedef std::vector<ProcessAnalysis> vProcessAnalysis;
+    class ProcessAnalysisTimeline;
 
     struct Argument;
     typedef std::vector<Argument> vArgument;
@@ -25,7 +26,7 @@ namespace ProcessVisualization
 
     const int is_id_timeline_magic_number_layer = 0;
 
-    //引数用
+    // 引数用
     struct Argument
     {
         string type;
@@ -53,12 +54,39 @@ namespace ProcessVisualization
     const string is_id_process_type_warning = "layer_unit_station_warning";
     const string is_id_process_type_language_error = "layer_unit_station_language_error";
 
-    struct ProcessAnalysis
+    class ProcessAnalysis
     {
+    public:
         string process_type; // 0:None(非表示無効) 1:input 2:output 3:error 4:logic
-        string message;   // 表示message
+        string message;      // 表示message
         int depth;
         int node_index;
+
+        ProcessAnalysis(string process_type, string message, int depth, int node_index)
+        {
+            this->process_type = process_type;
+            this->message = message;
+            this->depth = depth;
+            this->node_index = node_index;
+        }
+    };
+
+    class ProcessAnalysisTimeline
+    {
+    private:
+        vProcessAnalysis process_result;
+
+    public:
+        ProcessAnalysisTimeline()
+        {
+            process_result = {};
+        }
+        void pushProcessAnalysis(ProcessAnalysis pr){
+            process_result.push_back(pr);
+        }
+        vProcessAnalysis getProcessResult(){
+            return process_result;
+        }
     };
 
     class ProcessScope

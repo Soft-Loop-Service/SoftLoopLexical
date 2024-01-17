@@ -98,12 +98,16 @@ namespace LanguageSpecifications
             SyntacticTreeNode function_node = (*syntactic_analysis_tree)[function_node_index];
             int function_name_node_index = function_node.children[0];
 
-            process_result->push_back({ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index});
+
+            ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index);
+            process_timeline->pushProcessAnalysis(pr);
 
             is_action_return = false;
             recursion(recursion_node);
             is_action_return = false;
-            process_result->push_back({ProcessVisualization::is_id_process_type_logic, "関数終了", depth, function_name_node_index});
+
+            ProcessVisualization::ProcessAnalysis pr2(ProcessVisualization::is_id_process_type_logic, "関数終了", depth, function_name_node_index);
+            process_timeline->pushProcessAnalysis(pr2);
 
             // vpu->shallow();
             vpu->shallow();
@@ -113,8 +117,8 @@ namespace LanguageSpecifications
         {
             SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
-            process_result->push_back({ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(), node_index});
-
+            ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(), node_index);
+            process_timeline->pushProcessAnalysis(pr);
             printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
             if (!hasMapKey(function_message_passing_map, node_index))
             {
