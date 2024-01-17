@@ -1,11 +1,18 @@
-#include "./LR_table.hpp"
+
+#ifndef __LRTABLET
+#define __LRTABLET
+
+#include "./LR_table_definition.hpp"
+#include "./../DFA/dfa.hpp"
+#include "./../BNF/bnf.hpp"
+#include "./../definition.hpp"
+#include "./../symbol.hpp"
 
 namespace LRTable
 {
-
-    LRTableFoundation::LRTableFoundation(string table_string)
+    template<typename T>
+    LRTableFoundation<T>::LRTableFoundation(string table_string)
     {
-
         LRTableLoad *loader = new LRTableLoad(table_string);
 
         int width = stoi(loader->road_token());
@@ -48,7 +55,8 @@ namespace LRTable
         printf("LRTable end %d %d \n", width, height);
     }
 
-    string LRTable::outputTable()
+    template<typename T>
+    inline string LRTableFoundation<T>::outputTable()
     {
         vstring cell_que = {};
 
@@ -106,10 +114,14 @@ namespace LRTable
 
         return header_text + " " + template_text + main_text;
     }
-    void LRTable::inputTabke() {}
+    template<typename T>
+    inline void LRTableFoundation<T>::inputTabke() {}
 
-    void LRTable::makeTable();
-    void LRTable::debug()
+    template<typename T>
+    inline void LRTableFoundation<T>::makeTable() {};
+
+    template<typename T>
+    inline void LRTableFoundation<T>::debug()
     {
         vstring keys = getMapKeyString(this->LR_table_column_map);
         printf("%2s: ", "");
@@ -131,7 +143,8 @@ namespace LRTable
         }
     }
 
-    void LRTable::addSymbol(string cstr)
+    template<typename T>
+    inline void LRTableFoundation<T>::addSymbol(string cstr)
     {
         vector<T> new_column = {};
         for (int j = 0; j < column_length; j++)
@@ -141,8 +154,12 @@ namespace LRTable
         }
         this->LR_table_column_map[cstr] = new_column;
     }
-    LRTable::LRTable() {}
-    LRTable::LRTable(DFAParse::vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol symbol)
+
+    template<typename T>
+    inline LRTableFoundation<T>::LRTableFoundation() {}
+
+    template<typename T>
+    inline LRTableFoundation<T>::LRTableFoundation(DFAParse::vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol symbol)
     {
         this->dfa_node_graph = dfa_node_graph;
         this->column_length = dfa_node_graph.size();
@@ -163,7 +180,8 @@ namespace LRTable
 
     // virtual void makeTable();
 
-    void LRTableMakeGoto::makeTable()
+    template <typename U>
+    inline void LRTableMakeGoto<U>::makeTable()
     {
         for (int i = 0; i < this->column_length; i++)
         {
@@ -186,8 +204,8 @@ namespace LRTable
             }
         }
     }
-
-    void LRTableMakeShift::makeTable()
+    template <typename U>
+    inline void LRTableMakeShift<U>::makeTable()
     {
         for (int i = 0; i < this->column_length; i++)
         {
@@ -210,23 +228,24 @@ namespace LRTable
         }
     };
 
-    void LRTableMakeReduce::makeTable()
+    template <typename U>
+    inline void LRTableMakeReduce<U>::makeTable()
     {
         for (int c = 0; c < this->column_length; c++)
         {
-            LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
-            mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
+            DFAParse::LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
+            DFAParse::mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
 
             vstring LR_formula_map_keys = getMapKeyString(LR_formula_map);
 
             for (int i = 0; i < LR_formula_map_keys.size(); i++)
             {
                 string fm_key = LR_formula_map_keys[i];
-                LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
+                DFAParse::LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
 
                 for (int j = 0; j < LR_formula.LR_formula_expansion_vector.size(); j++)
                 {
-                    LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
+                    DFAParse::LRItemFormulaExpansionStruct LR_formula_expansion = LR_formula.LR_formula_expansion_vector[j];
                     BNFParse::vDeploymentTokenStruct lookAhead = LR_formula_expansion.lookAhead;
 
                     if (LR_formula_expansion.dot != LR_formula_expansion.token_vector.size())
@@ -245,19 +264,20 @@ namespace LRTable
         }
     };
 
-    void makeTable()
+    template <typename U>
+    inline void LRTableMakeAccept<U>::makeTable()
     {
         for (int c = 1; c < this->column_length; c++)
         {
-            LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
-            mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
+            DFAParse::LRItemStruct lr_item = this->dfa_node_graph[c].lr_item;
+            DFAParse::mapLRItemFormulaStruct LR_formula_map = lr_item.LR_formula_map;
 
             vstring LR_formula_map_keys = getMapKeyString(LR_formula_map);
 
             for (int i = 0; i < LR_formula_map_keys.size(); i++)
             {
                 string fm_key = LR_formula_map_keys[i];
-                LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
+                DFAParse::LRItemFormulaStruct LR_formula = LR_formula_map[fm_key];
 
                 if (fm_key == ROOT_DFA_SYMBOL)
                 {
@@ -267,3 +287,6 @@ namespace LRTable
         }
     };
 };
+
+
+#endif

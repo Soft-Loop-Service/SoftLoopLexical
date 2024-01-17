@@ -80,10 +80,32 @@ namespace LanguageSpecifications
             void resolutionCalcMakeArray(int pointer, vint &length_list, string array_type, int depth);
 
             template <typename T>
-            bool resolutionCalcValue(int node_index, T &rv_value);
+            bool resolutionCalcValue(int node_index, T &rv_value)
+            {
+                Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+
+                printf("変数の解決 %s %d\n", current_node.token.c_str(), node_index);
+
+                string value_name = current_node.token;
+                printf("cal get %s\n", value_name.c_str());
+                T val;
+                vpu->getValue(value_name, val);
+
+                bool hasLayer = vpu->hasLayer(value_name);
+
+                if (!hasLayer)
+                {
+                    ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義変数のアクセス", {}, node_index);
+                    process_timeline->pushProcessAnalysis(pr);
+                    return false;
+                }
+
+                rv_value = val;
+                return true;
+            }
 
         public:
-            Softj(Syntactic::vSyntacticTree &syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline &process_timeline, ProcessVisualization::VariablePossessionUnion &vpu, ProcessVisualization::FunctionPossessionUnion &fpu) {}
+            Softj(Syntactic::vSyntacticTree &syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline &process_timeline, ProcessVisualization::VariablePossessionUnion &vpu, ProcessVisualization::FunctionPossessionUnion &fpu);
             void calc();
         };
     };

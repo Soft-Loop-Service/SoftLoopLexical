@@ -165,37 +165,6 @@ namespace ProcessVisualization
         }
     }
 
-    template <typename T>
-    void VariablePossessionUnion::newLinkPointerValue(int pointer, T element)
-    {
-
-        int current_layer = pointer;
-        string type = parseType(element);
-        setValueTypeTable(current_layer, type);
-        updateValue(current_layer, element);
-    }
-
-    template <typename T>
-    void VariablePossessionUnion::newValue(string name, T element, int definition_node)
-    {
-        if (variable_scope->searchLast(name) == -1)
-        {
-            // 存在しないとき、新規追加
-
-            int current_layer = max_layer;
-            max_layer++;
-
-            this->variable_scope->put(name, current_layer);
-
-            string type = parseType(element);
-            setValueTypeTable(current_layer, type);
-            updateValue(current_layer, element);
-
-            struct VariableProcessEnumeration new_variable_enumeration = {type, name, definition_node};
-            variable_enumeration_map[current_layer] = new_variable_enumeration;
-        }
-    }
-
     bool VariablePossessionUnion::hasLayer(string name)
     {
         int layer = variable_scope->search(name);
@@ -221,48 +190,5 @@ namespace ProcessVisualization
         return layer;
     }
 
-    template <typename T>
-    void VariablePossessionUnion::updateValue(string name, T element)
-    {
-        int layer = variable_scope->search(name);
-        updateValue(layer, element);
-    }
-    template <typename T>
-    void VariablePossessionUnion::updateValueNoCheck(int layer, T element)
-    {
-        string type = getValueTypeTable(layer);
-        variable_possession->add(layer, element);
-    }
-
-    template <typename T>
-    void VariablePossessionUnion::updateValue(int layer, T element)
-    {
-        if (hasValueTypeTable(layer))
-        {
-            updateValueNoCheck(layer, element);
-        }
-    }
-
-    template <typename T>
-    void VariablePossessionUnion::getValue(string name, T &element)
-    {
-        int layer = variable_scope->search(name);
-        getValue(layer, element);
-    }
-    template <typename T>
-    bool VariablePossessionUnion::getValue(int layer, T &element)
-    {
-        if (!hasValueTypeTable(layer))
-        {
-            return false;
-        }
-        string type = getValueTypeTable(layer);
-        if (!isType(type, element))
-        {
-            return false;
-        }
-
-        variable_possession->get(layer, element);
-    };
 
 };

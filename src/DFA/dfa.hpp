@@ -15,11 +15,11 @@ namespace DFAParse
     struct DFANode;
     class ClosureExpansion;
 
-    typedef std::queue<LRItemStruct> quLRItemStruct;
 
     struct LRItemStruct;
     struct LRItemFormulaStruct;
     struct LRItemFormulaExpansionStruct;
+    typedef std::queue<LRItemStruct> quLRItemStruct;
     typedef std::vector<DFANode> vDFANode;
     typedef std::vector<LRItemFormulaStruct> vLRItemFormulaStruct;
     typedef std::vector<LRItemFormulaExpansionStruct> vLRItemFormulaExpansionStruct;

@@ -140,4 +140,3 @@ namespace Syntactic
         debugSyntacticAnalysisTree(syntactic_analysis_tree);
     }
 };
-#endif

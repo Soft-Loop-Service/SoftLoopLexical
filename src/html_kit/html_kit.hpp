@@ -11,59 +11,6 @@
 namespace HTMLParse
 {
 
-    namespace Conversion
-    {
-        class SourceCodeView
-        {
-        private:
-            Syntactic::vSyntacticTree *syntactic_analysis_tree_p;
-            ProcessVisualization::vProcessAnalysis *process_result_p;
-            ProcessVisualization::VariablePossessionUnion *variable_possession_union_p;
-            HTMLKit::HtmlKitTree html_kit_tree;
-            LexicalAnalysis::vLexicalToken *token_string_vector_p;
-
-            void tokenConversion(int parent_index);
-            int codelineBlock(int parent_index);
-            void tokenBlock(int token_index, int parent_index, LexicalAnalysis::LexicalToken lexical_token);
-
-        public:
-            SourceCodeView(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p);
-            string getBody();
-        };
-
-        class Timeline
-        {
-
-        private:
-            Syntactic::vSyntacticTree *syntactic_analysis_tree_p;
-            ProcessVisualization::vProcessAnalysis *process_result_p;
-            ProcessVisualization::VariablePossessionUnion *variable_possession_union_p;
-            JsonKit::JsonKitTree json_kit_tree_process;
-            JsonKit::JsonKitTree json_kit_tree_meta;
-
-            HTMLKit::HtmlKitTree html_kit_tree;
-            LexicalAnalysis::vLexicalToken *token_string_vector_p;
-
-            int depth_length;
-            void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineRightArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            int timelineCommonArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineMessageArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineLayerArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineLayerInputArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
-            int timelineLayerUnitArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
-            void timelineLayerUnitStationArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, HTMLKit::HtmlKitElement layer_unit_station_area);
-            void meta_data();
-            void process_group();
-            void process(int process_index, int kit_index);
-
-        public:
-            Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p);
-            string getBody();
-            string getJson();
-        };
-    }
     namespace HTMLKit
     {
         class HtmlKitElement;
@@ -144,7 +91,62 @@ namespace HTMLParse
             string parseJson();
         };
 
-    };        void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector);
+    };
+
+    namespace Conversion
+    {
+        class SourceCodeView
+        {
+        private:
+            Syntactic::vSyntacticTree *syntactic_analysis_tree_p;
+            ProcessVisualization::vProcessAnalysis *process_result_p;
+            ProcessVisualization::VariablePossessionUnion *variable_possession_union_p;
+            HTMLKit::HtmlKitTree html_kit_tree;
+            LexicalAnalysis::vLexicalToken *token_string_vector_p;
+
+            void tokenConversion(int parent_index);
+            int codelineBlock(int parent_index);
+            void tokenBlock(int token_index, int parent_index, LexicalAnalysis::LexicalToken lexical_token);
+
+        public:
+            SourceCodeView(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p);
+            string getBody();
+        };
+
+        class Timeline
+        {
+
+        private:
+            Syntactic::vSyntacticTree *syntactic_analysis_tree_p;
+            ProcessVisualization::vProcessAnalysis *process_result_p;
+            ProcessVisualization::VariablePossessionUnion *variable_possession_union_p;
+            JsonKit::JsonKitTree json_kit_tree_process;
+            JsonKit::JsonKitTree json_kit_tree_meta;
+
+            HTMLKit::HtmlKitTree html_kit_tree;
+            LexicalAnalysis::vLexicalToken *token_string_vector_p;
+
+            int depth_length;
+            void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineRightArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            int timelineCommonArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineMessageArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineLayerArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineLayerInputArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
+            int timelineLayerUnitArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
+            void timelineLayerUnitStationArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, HTMLKit::HtmlKitElement layer_unit_station_area);
+            void meta_data();
+            void process_group();
+            void process(int process_index, int kit_index);
+
+        public:
+            Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p);
+            string getBody();
+            string getJson();
+        };
+    }
+    void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector);
 
 };
 

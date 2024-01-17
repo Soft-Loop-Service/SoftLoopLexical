@@ -35,12 +35,12 @@ namespace Syntactic
         printf("\n");
     }
 
-    void syntacticAnalysisProcessReduce(LRTable::LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis, vReduceFormula &syntactic_analysis_formula)
+    void syntacticAnalysisProcessReduce(LRTable::LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis, LRTable::vReduceFormula &syntactic_analysis_formula)
     {
         printf("Reduce : ");
 
         int top = stack_analysis.top();
-        ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token_tyoke][top].getCell();
+        LRTable::ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token_tyoke][top].getCell();
 
         syntactic_analysis_formula.push_back(state);
 
@@ -74,7 +74,7 @@ namespace Syntactic
     /// @param LR_table_multilayer
     /// @param token_string_vector
     /// @param syntactic_analysis_formula // 構文解析表出力。出力ストリーム
-    void syntacticAnalysisProcess(LRTable::LRTableMultilayer LR_table_multilayer, vLexicalToken token_string_vector, vReduceFormula &syntactic_analysis_formula)
+    void syntacticAnalysisProcess(LRTable::LRTableMultilayer LR_table_multilayer, LexicalAnalysis::vLexicalToken token_string_vector, LRTable::vReduceFormula &syntactic_analysis_formula)
     {
         sint stack_analysis; // 構文解析表スタック
 
@@ -132,7 +132,7 @@ namespace Syntactic
 
         return;
     }
-    void syntacticAnalysis(LRTable::LRTableMultilayer LR_table_multilayer, vLexicalToken token_string_vector, vReduceFormula &syntactic_analysis_formula)
+    void syntacticAnalysis(LRTable::LRTableMultilayer LR_table_multilayer, LexicalAnalysis::vLexicalToken token_string_vector,LRTable::vReduceFormula &syntactic_analysis_formula)
     {
         syntacticAnalysisProcess(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
         return;

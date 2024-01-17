@@ -11,39 +11,17 @@ namespace LanguageSpecifications
 {
     namespace SoftjLanguage
     {
-        template <typename T>
-        inline bool Softj::resolutionCalcValue(int node_index, T &rv_value)
+
+
+        string Softj::resolutionCalcString(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
-            printf("変数の解決 %s %d\n", current_node.token.c_str(), node_index);
-
-            string value_name = current_node.token;
-            printf("cal get %s\n", value_name.c_str());
-            T val;
-            vpu->getValue(value_name, val);
-
-            bool hasLayer = vpu->hasLayer(value_name);
-
-            if (!hasLayer)
+            if (current_node.token == "<array_name>")
             {
-                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義変数のアクセス", {}, node_index);
-                process_timeline->pushProcessAnalysis(pr);
-                return false;
-            }
-
-            rv_value = val;
-            return true;
-        }
-
-        inline string Softj::resolutionCalcString(int node_index)
-        {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
-
-            if (current_node.token == "<array_name>"){
                 int pointer = resolutionTreeCalcArray(node_index);
-                string rv_val; 
-                vpu->getValue(pointer ,rv_val );
+                string rv_val;
+                vpu->getValue(pointer, rv_val);
                 return rv_val;
             }
 
@@ -60,7 +38,7 @@ namespace LanguageSpecifications
             }
         }
 
-        inline string Softj::resolutionTreeCalcString(int node_index)
+        string Softj::resolutionTreeCalcString(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
             if (current_node.children.size() == 1)
@@ -89,14 +67,15 @@ namespace LanguageSpecifications
 
             return ans;
         }
-        inline int Softj::resolutionCalcInt(int node_index)
+        int Softj::resolutionCalcInt(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
-            if (current_node.token == "<array_name>"){
+            if (current_node.token == "<array_name>")
+            {
                 int pointer = resolutionTreeCalcArray(node_index);
-                int rv_val; 
-                vpu->getValue(pointer ,rv_val );
+                int rv_val;
+                vpu->getValue(pointer, rv_val);
                 return rv_val;
             }
 
@@ -112,7 +91,7 @@ namespace LanguageSpecifications
                 return stoi(current_node.token);
             }
         }
-        inline int Softj::resolutionTreeCalcInt(int node_index)
+        int Softj::resolutionTreeCalcInt(int node_index)
         {
 
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];

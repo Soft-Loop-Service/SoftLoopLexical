@@ -17,6 +17,8 @@ namespace ProcessVisualization
     struct VariableProcessEnumeration;
     typedef std::vector<VariableProcessEnumeration> vVariableProcessEnumeration;
     typedef std::map<int, VariableProcessEnumeration> mapVariableProcessEnumeration;
+
+    class FunctionUnit;
     typedef vector<FunctionUnit> vFunctionUnit;
     typedef map<int, FunctionUnit> mapFunctionUnit;
 
@@ -51,19 +53,6 @@ namespace ProcessVisualization
         string name;
         int definition_node;
     };
-
-    const string is_id_process_type_life_time_start = "layer_unit_station_start";
-    const string is_id_process_type_life_time_end = "layer_unit_station_end";
-    const string is_id_process_type_true = "layer_unit_station_true";
-    const string is_id_process_type_false = "layer_unit_station_false";
-    const string is_id_process_type_none = "layer_unit_station_none";
-    const string is_id_process_type_input = "layer_unit_station_input";
-    const string is_id_process_type_ouput = "layer_unit_station_output";
-    const string is_id_process_type_logic = "layer_unit_station_logic";
-    const string is_id_process_type_function = "layer_unit_station_function";
-    const string is_id_process_type_error = "layer_unit_station_error";
-    const string is_id_process_type_warning = "layer_unit_station_warning";
-    const string is_id_process_type_language_error = "layer_unit_station_language_error";
 
     class ProcessAnalysis
     {
@@ -215,28 +204,86 @@ namespace ProcessVisualization
         vint getArrayPointers(int array_pointer);
         int getArrayPointer(string array_name);
         void newPointerValue(string name, int pointer, int definition_node);
-        template <typename T>
-        void newLinkPointerValue(int pointer, T element);
 
-        template <typename T>
-        void newValue(string name, T element, int definition_node);
+    template <typename T>
+    void newLinkPointerValue(int pointer, T element)
+    {
+
+        int current_layer = pointer;
+        string type = parseType(element);
+        setValueTypeTable(current_layer, type);
+        updateValue(current_layer, element);
+    }
+
+    template <typename T>
+    void newValue(string name, T element, int definition_node)
+    {
+        if (variable_scope->searchLast(name) == -1)
+        {
+            // 存在しないとき、新規追加
+
+            int current_layer = max_layer;
+            max_layer++;
+
+            this->variable_scope->put(name, current_layer);
+
+            string type = parseType(element);
+            setValueTypeTable(current_layer, type);
+            updateValue(current_layer, element);
+
+            struct VariableProcessEnumeration new_variable_enumeration = {type, name, definition_node};
+            variable_enumeration_map[current_layer] = new_variable_enumeration;
+        }
+    }
+
         bool hasLayer(string name);
         string getType(string name);
         string getType(int layer);
         int getLayer(string name);
-        template <typename T>
-        void updateValue(string name, T element);
-        template <typename T>
-        void updateValueNoCheck(int layer, T element);
-        template <typename T>
-        void updateValue(int layer, T element);
 
         template <typename T>
-        void getValue(string name, T &element);
+        void updateValue(string name, T element)
+        {
+            int layer = variable_scope->search(name);
+            updateValue(layer, element);
+        }
         template <typename T>
-        bool getValue(int layer, T &element);
+        void updateValueNoCheck(int layer, T element)
+        {
+            string type = getValueTypeTable(layer);
+            variable_possession->add(layer, element);
+        }
 
+        template <typename T>
+        void updateValue(int layer, T element)
+        {
+            if (hasValueTypeTable(layer))
+            {
+                updateValueNoCheck(layer, element);
+            }
+        }
 
+        template <typename T>
+        void getValue(string name, T &element)
+        {
+            int layer = variable_scope->search(name);
+            getValue(layer, element);
+        }
+        template <typename T>
+        bool getValue(int layer, T &element)
+        {
+            if (!hasValueTypeTable(layer))
+            {
+                return false;
+            }
+            string type = getValueTypeTable(layer);
+            if (!isType(type, element))
+            {
+                return false;
+            }
+
+            variable_possession->get(layer, element);
+        };
     };
 
     // void debugProcessResult(ProcessAnalysisTimeline process_timeline);
