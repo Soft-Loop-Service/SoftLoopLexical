@@ -10,10 +10,10 @@ int main(int argc, char *argv[])
     LRTable::LRTableMultilayer LR_table_multilayer;
     LRTable::bnfMain(argv[1], LR_table_multilayer);
 
-    LRTable::LRTable table_accept = LR_table_multilayer.LR_table_accept;
-    LRTable::LRTable table_goto = LR_table_multilayer.LR_table_goto;
-    LRTable::LRTable table_reduce = LR_table_multilayer.LR_table_reduce;
-    LRTable::LRTable table_shift = LR_table_multilayer.LR_table_shift;
+    LRTable::LRTableFoundation table_accept = LR_table_multilayer.LR_table_accept;
+    LRTable::LRTableFoundation table_goto = LR_table_multilayer.LR_table_goto;
+    LRTable::LRTableFoundation table_reduce = LR_table_multilayer.LR_table_reduce;
+    LRTable::LRTableFoundation table_shift = LR_table_multilayer.LR_table_shift;
 
     string table_accept_string = table_accept.outputTable();
     string table_goto_string = table_goto.outputTable();

@@ -9,6 +9,8 @@
 #define LR_table_operation_goto 'g'
 #include "./../DFA/dfa.hpp"
 #include "./../BNF/bnf.hpp"
+#include "./../definition.hpp"
+#include "./../symbol.hpp"
 
 namespace LRTable
 {
@@ -18,7 +20,7 @@ namespace LRTable
                         LRTableMultilayer &LR_table_multilayer);
 
     template <typename T>
-    class LRTable
+    class LRTableFoundation
     {
     protected:
         DFAParse::vDFANode dfa_node_graph;
@@ -33,48 +35,48 @@ namespace LRTable
         void makeTable();
         void debug();
         void addSymbol(string cstr);
-        LRTable();
-        LRTable(string table_string);
-        LRTable( DFAParse::vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol symbol);
+        LRTableFoundation();
+        LRTableFoundation(string table_string);
+        LRTableFoundation( DFAParse::vDFANode dfa_node_graph, BNFParse::BNFToken &bnf_token_p, BNFParse::RetrieveSymbol symbol);
     };
 
     template <typename U>
-    class LRTableMakeGoto : public LRTable<U>
+    class LRTableMakeGoto : public LRTableFoundation<U>
     {
 
     public:
-        using LRTable<U>::LRTable;
+        using LRTableFoundation<U>::LRTableFoundation;
         // LRTableMakeGoto() {}
     };
 
     template <typename U>
-    class LRTableMakeShift : public LRTable<U>
+    class LRTableMakeShift : public LRTableFoundation<U>
     {
 
     public:
-        using LRTable<U>::LRTable;
+        using LRTableFoundation<U>::LRTableFoundation;
         // LRTableMakeShift(){};
 
         void makeTable();
     };
 
     template <typename U>
-    class LRTableMakeReduce : public LRTable<U>
+    class LRTableMakeReduce : public LRTableFoundation<U>
     {
 
     public:
-        using LRTable<U>::LRTable;
+        using LRTableFoundation<U>::LRTableFoundation;
         void makeTable();
 
         // LRTableMakeReduce(){};
     };
 
     template <typename U>
-    class LRTableMakeAccept : public LRTable<U>
+    class LRTableMakeAccept : public LRTableFoundation<U>
     {
 
     public:
-        using LRTable<U>::LRTable;
+        using LRTableFoundation<U>::LRTableFoundation;
         // LRTableMakeAccept();
 
         void makeTable();

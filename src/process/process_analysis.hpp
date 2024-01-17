@@ -4,8 +4,6 @@
 #include "./../definition.hpp"
 #include "./../DFA/dfa.hpp"
 #include "./../syntactic/syntactic_analysis.hpp"
-#include "./../softj/softj.hpp"
-#include "./../html_kit/html_kit.hpp"
 
 namespace ProcessVisualization
 {
@@ -241,8 +239,8 @@ namespace ProcessVisualization
 
     };
 
-    void debugProcessResult(ProcessAnalysisTimeline process_timeline);
-    void processAnalysis(Syntactic::vSyntacticTree syntactic_analysis_tree, LexicalAnalysis::vLexicalToken token_string_vector);
+    // void debugProcessResult(ProcessAnalysisTimeline process_timeline);
+    // void processAnalysis(Syntactic::vSyntacticTree syntactic_analysis_tree, LexicalAnalysis::vLexicalToken token_string_vector);
 };
 
 #endif

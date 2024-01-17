@@ -15,7 +15,7 @@ namespace LRTable
         struct BNFParse::BNFToken bnf_token;
         struct BNFParse::BNFSymbol bnf_symbol;
 
-        bnf_token.token_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char **));
+        bnf_token.token_string_array = (char **)calloc(BNFParse::bnf_token_arr_len, sizeof(char **));
         bnf_token.token_len = parseBnf(bnf_source, bnf_token);
         bnf_token.token_label_array = (int *)calloc(bnf_token.token_len, sizeof(int));
         bnf_token.nonterminal_symbol_len = 0;
@@ -41,11 +41,11 @@ namespace LRTable
         BNFParse::retrieveSymbolTable(bnf_token, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
         // 左辺の数を取得する
 
-        struct RetrieveSymbol terminal_symbol;
+        struct BNFParse::RetrieveSymbol terminal_symbol;
         // 末端記号の配列を取得する
         BNFParse::retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
 
-        struct RetrieveSymbol symbols;
+        struct BNFParse::RetrieveSymbol symbols;
         BNFParse::concatenateArrayRetrieveSymbol(symbols, nonterminal_symbol_left, terminal_symbol);
 
         // struct RetrieveSymbol symbol_right;
@@ -56,7 +56,7 @@ namespace LRTable
 
         // ItemSetStruct item_set = generateItemSet(deployment_syntax);
         DFAParse::vDFANode dfa_node_graph = DFAParse::generateDFA(deployment_syntax);
-        LRTable::generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_multilayer);
+        generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_multilayer);
 
         // 左辺の数を取得する
 

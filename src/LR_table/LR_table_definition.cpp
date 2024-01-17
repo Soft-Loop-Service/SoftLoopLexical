@@ -3,7 +3,7 @@
 namespace LRTable
 {
 
-    LRTable::LRTable(string table_string)
+    LRTableFoundation::LRTableFoundation(string table_string)
     {
 
         LRTableLoad *loader = new LRTableLoad(table_string);

@@ -3,8 +3,10 @@
 #include "./process/process_analysis.hpp"
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
-#include "./BNF/BNF.hpp"
+#include "./BNF/bnf.hpp"
 #include "./input_table.hpp"
+#include "./softj/softj.hpp"
+#include "./html_kit/html_kit.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +32,16 @@ int main(int argc, char *argv[])
     Syntactic::vSyntacticTree syntactic_parse_tree = syntactic_analysis_tree;
 
     Syntactic::syntacticParseTree(syntactic_parse_tree);
-    ProcessVisualization::processAnalysis(syntactic_parse_tree,token_string_vector);
+    // ProcessVisualization::processAnalysis(syntactic_parse_tree, token_string_vector);
 
+    vint parent_stack = {};
+
+    ProcessVisualization::ProcessAnalysisTimeline process_timeline;
+    ProcessVisualization::VariablePossessionUnion variable_possession_union;
+    ProcessVisualization::FunctionPossessionUnion function_possession_union;
+    LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_analysis_tree, process_timeline, variable_possession_union, function_possession_union);
+    softjtree.calc();
+    debugProcessResult(process_timeline);
+    HTMLParse::outputHtml(syntactic_analysis_tree, process_timeline, variable_possession_union, token_string_vector);
     // ソースコードは用済み
 }

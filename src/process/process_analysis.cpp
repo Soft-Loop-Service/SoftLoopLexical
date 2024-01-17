@@ -149,21 +149,5 @@ namespace ProcessVisualization
         }
     }
 
-    void processAnalysis(Syntactic::vSyntacticTree syntactic_analysis_tree, LexicalAnalysis::vLexicalToken token_string_vector)
-    {
-        printf("processAnalysis\n");
-        vint parent_stack = {};
-
-        ProcessAnalysisTimeline process_timeline;
-
-        VariablePossessionUnion variable_possession_union;
-        FunctionPossessionUnion function_possession_union;
-        LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_analysis_tree, process_timeline, variable_possession_union, function_possession_union);
-        softjtree.calc();
-
-        debugProcessResult(process_timeline);
-        HTMLParse::outputHtml(syntactic_analysis_tree, process_timeline, variable_possession_union, token_string_vector);
-    }
-
 
 };
