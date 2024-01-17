@@ -1,26 +1,19 @@
 #include "./lexical/lexical_analysis.hpp"
 #include "./syntactic/syntactic_analysis.hpp"
-#include "./syntactic/syntactic_analysis_tree.hpp"
-#include "./syntactic/syntactic_parse_tree.hpp"
-
 #include "./process/process_analysis.hpp"
-
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
-#include "./LR_table/LR_table_definition.hpp"
-#include "./LR_table/LR_table_cell.hpp"
 #include "./BNF/BNF.hpp"
-#include <fstream>
 
 int main(int argc, char *argv[])
 {
-    LRTableMultilayer LR_table_multilayer;
+    LRTable::LRTableMultilayer LR_table_multilayer;
     BNFParse::bnfMain(argv[1], LR_table_multilayer);
 
-    LRTable table_accept = LR_table_multilayer.LR_table_accept;
-    LRTable table_goto = LR_table_multilayer.LR_table_goto;
-    LRTable table_reduce = LR_table_multilayer.LR_table_reduce;
-    LRTable table_shift = LR_table_multilayer.LR_table_shift;
+    LRTable::LRTable table_accept = LR_table_multilayer.LR_table_accept;
+    LRTable::LRTable table_goto = LR_table_multilayer.LR_table_goto;
+    LRTable::LRTable table_reduce = LR_table_multilayer.LR_table_reduce;
+    LRTable::LRTable table_shift = LR_table_multilayer.LR_table_shift;
 
     string table_accept_string = table_accept.outputTable();
     string table_goto_string = table_goto.outputTable();

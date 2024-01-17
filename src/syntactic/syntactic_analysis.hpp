@@ -1,146 +1,43 @@
 
-#ifndef __SYNTAXA
-#define __SYNTAXA
-
+#ifndef __SYNTDT
+#define __SYNTDT
+#include "./../definition.hpp"
 #include "./../LR_table/LR_table.hpp"
-#include "./../LR_table/LR_table_definition.hpp"
-#include "./../LR_table/LR_table_cell.hpp"
-#include "./../lexical/lexical_analysis_definition.hpp"
+#include "./../symbol.hpp"
+#include "./../lexical/lexical_analysis.hpp"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-void output_vReduceFormula(string name, vReduceFormula v)
+namespace Syntactic
 {
-    printf("%s 結果 : ", name.c_str());
-    int vsize = v.size();
-    for (int i = 0; i < vsize; i++)
+    struct SyntacticTreeNode // 構文解析用
     {
-        // printf("%s ", v[vsize - i - 1].token_left.c_str());
-        printf("%s ", v[i].token_left.c_str());
-    }
-    printf("\n");
+        string token;
+        int token_label;
+        vint children;
+        string parent_token;
+
+        int source_code_line;
+        int source_code_column;
+        int token_order;
+    };
+    typedef vector<SyntacticTreeNode> vSyntacticTree;
+
+    void output_vReduceFormula(string name, LRTable::vReduceFormula v);
+    void syntacticAnalysisProcessShift(LRTable::LR_table_multilayer, string token_tyoke, sint &stack_analysis);
+    void syntacticAnalysisProcessReduce(LRTable::LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis,LRTable::vReduceFormula &syntactic_analysis_formula);
+    void syntacticAnalysisProcessAccept();
+    void syntacticAnalysisProcess(LRTable::LRTableMultilayer LR_table_multilayer, LexicalAnalysis::vLexicalToken token_string_vector, LRTable::vReduceFormula &syntactic_analysis_formula);
+    void syntacticAnalysis(LRTable::LRTableMultilayer LR_table_multilayer, LexicalAnalysis::vLexicalToken token_string_vector, LRTable::vReduceFormula &syntactic_analysis_formula);
+    bool isTokenSkepSyntacticAnalysis(string token_str);
+    bool isTokenExpr(string token_str);
+    int isCutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index);
+    int cutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index);
+    int recursionCutExpr(vSyntacticTree &syntactic_parse_tree, int current_node_index);
+    int recursionCutSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int current_node_index);
+    void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int current_node_index);
+    void syntacticParseTree(vSyntacticTree &syntactic_parse_tree);
+    void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, LRTable::vReduceFormula &syntactic_analysis_formula, LexicalAnalysis::vLexicalToken token_string_vector, int &search_first_index, int parent_node_index, int depth);
+    void debugSyntacticAnalysisTree(vSyntacticTree &syntactic_analysis_tree);
+    void syntacticAnalysisTreeSubstitution(LRTable::vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree, LexicalAnalysis::vLexicalToken token_string_vector);
+    void syntacticAnalysisTree(LRTable::vReduceFormula syntactic_analysis_formula, vSyntacticTree &syntactic_analysis_tree, LexicalAnalysis::vLexicalToken token_string_vector);
 }
-
-// 入力を一つ消費して、指定された値をpushする
-void syntacticAnalysisProcessShift(LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis)
-{
-    printf("Shift : ");
-    int top = stack_analysis.top();
-
-    printf("top : %d ", top);
-
-    int next_state = LR_table_multilayer.LR_table_shift.LR_table_column_map[token_tyoke][top].getCell();
-    stack_analysis.push(next_state);
-    printf("\n");
-}
-
-void syntacticAnalysisProcessReduce(LRTableMultilayer LR_table_multilayer, string token_tyoke, sint &stack_analysis, vReduceFormula &syntactic_analysis_formula)
-{
-    printf("Reduce : ");
-
-    int top = stack_analysis.top();
-    ReduceFormula state = LR_table_multilayer.LR_table_reduce.LR_table_column_map[token_tyoke][top].getCell();
-
-    syntactic_analysis_formula.push_back(state);
-
-    printf("token_left : %s %d ", state.token_left.c_str(), state.token_vector.size());
-
-    for (int i = 0; i < state.token_vector.size(); i++)
-    {
-        stack_analysis.pop();
-    }
-
-    int top2 = stack_analysis.top();
-    printf("top2 : %d ", top2);
-    printf("top2 sta : %s %d\n", state.token_left.c_str(), top2);
-
-    int next_state = LR_table_multilayer.LR_table_goto.LR_table_column_map[state.token_left][top2].getCell();
-
-    printf("top2 state : %d\n", next_state);
-
-    stack_analysis.push(next_state);
-
-    printf("top2 end : %d\n", top2);
-    printf("\n");
-}
-
-void syntacticAnalysisProcessAccept()
-{
-    printf("syntacticAnalysisProcessAccept\n");
-}
-// syntactic_analysis_formula
-
-/// @param LR_table_multilayer
-/// @param token_string_vector
-/// @param syntactic_analysis_formula // 構文解析表出力。出力ストリーム
-void syntacticAnalysisProcess(LRTableMultilayer LR_table_multilayer, vLexicalToken token_string_vector, vReduceFormula &syntactic_analysis_formula)
-{
-    sint stack_analysis; // 構文解析表スタック
-
-    stack_analysis.push(0);
-
-    int i = 0;
-    while (i < token_string_vector.size())
-    {
-
-        string current_token = token_string_vector[i].token;
-        string current_token_type = token_string_vector[i].token_type;
-
-        int top = stack_analysis.top();
-        printf("CurrentToken %s %s %d\n", current_token.c_str(), current_token_type.c_str(), top);
-
-
-        string inquiry_token_accept = LR_table_multilayer.LR_table_accept.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
-        string inquiry_token_shift = LR_table_multilayer.LR_table_shift.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
-        string inquiry_token_reduce = LR_table_multilayer.LR_table_reduce.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
-
-        if (LR_table_multilayer.LR_table_accept.LR_table_column_map[inquiry_token_accept][top].getValid())
-        {
-            printf("acc \n");
-            output_stack("構文解析 終了", stack_analysis);
-            output_vReduceFormula("構文解析 終了", syntactic_analysis_formula);
-            return;
-        }
-
-        if (LR_table_multilayer.LR_table_shift.LR_table_column_map[inquiry_token_shift][top].getValid())
-        {
-            printf("shift \n");
-            syntacticAnalysisProcessShift(LR_table_multilayer, inquiry_token_shift, stack_analysis);
-            output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", syntactic_analysis_formula);
-
-            printf("\n");
-            i++;
-            continue;
-        }
-
-        if (LR_table_multilayer.LR_table_reduce.LR_table_column_map[inquiry_token_reduce][top].getValid())
-        {
-            printf("reduce \n");
-
-            syntacticAnalysisProcessReduce(LR_table_multilayer, inquiry_token_reduce, stack_analysis, syntactic_analysis_formula);
-            output_stack("構文解析", stack_analysis);
-            output_vReduceFormula("構文解析", syntactic_analysis_formula);
-
-            printf("\n");
-            continue;
-        }
-        printf("ERROR\n");
-        exit(1);
-        return;
-    }
-
-    return;
-}
-void syntacticAnalysis(LRTableMultilayer LR_table_multilayer, vLexicalToken token_string_vector, vReduceFormula &syntactic_analysis_formula)
-{
-    syntacticAnalysisProcess(LR_table_multilayer, token_string_vector, syntactic_analysis_formula);
-    return;
-}
-
 #endif

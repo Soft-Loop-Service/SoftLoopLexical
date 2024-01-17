@@ -1,109 +1,118 @@
 
+
 #ifndef __BNF
 #define __BNF
-
 #include "./../definition.hpp"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <iostream>
-#include <vector>
-
-#include "./bnf_parser.hpp"
-#include "./bnf_struct.hpp"
-
-#include "./bnf_debug.hpp"
-#include "./bnf_deployment.hpp"
-
-#include "./symbol_table.hpp"
-#include "./../debug.hpp"
-
-#include "./../definition.hpp"
-
-#include "./retrieve_symbol_table.hpp"
-#include "./../item_set/item_set.hpp"
 #include "./../DFA/dfa.hpp"
-#include "./../DFA/dfa_calc.hpp"
-
 #include "./../LR_table/LR_table.hpp"
-#include "./../LR_table/LR_table_definition.hpp"
-#include "./../LR_table/LR_table_cell.hpp"
 
 namespace BNFParse
 {
-    int bnfMain(char *bnf_file_name, LRTableMultilayer &LR_table_multilayer)
-    {
-        char *bnf_source = (char *)calloc(source_code_size, sizeof(char *));
-        printf("bnf_file_name %s\n", bnf_file_name);
-        loadText(bnf_source, bnf_file_name, source_code_size);
-        // loadText(bnf_source, "./src/BNF/BNF3.txt", source_code_size);
-        // loadText(bnf_source, "./BNF3.txt", source_code_size);
-        // loadText(bnf_source, "./BNF.txt", source_code_size);
+    const int bnf_token_len = 50; // BNFトークンの最大長
+    const int bnf_token_arr_len = 500;
 
-        struct BNFToken bnf_token;
-        struct BNFSymbol bnf_symbol;
+    struct stest;
+    struct BNFToken;
+    struct BNFSymbol;
+    struct RetrieveSymbol;
 
-        bnf_token.token_string_array = (char **)calloc(bnf_token_arr_len, sizeof(char **));
-        bnf_token.token_len = parseBnf(bnf_source, bnf_token);
-        bnf_token.token_label_array = (int *)calloc(bnf_token.token_len, sizeof(int));
-        bnf_token.nonterminal_symbol_len = 0;
-        bnf_token.terminal_symbol_len = 0;
+    struct DeploymentStruct;
+    struct DeploymentFormulaStruct;
+    struct DeploymentFormulaExpansionStruct;
+    struct DeploymentTokenStruct;
+    typedef std::vector<DeploymentStruct> vDeploymentStruct;
+    typedef std::vector<DeploymentFormulaStruct> vDeploymentFormulaStruct;
+    typedef std::vector<DeploymentFormulaExpansionStruct> vDeploymentFormulaExpansionStruct;
+    typedef std::vector<DeploymentTokenStruct> vDeploymentTokenStruct;
+    typedef std::map<string, DeploymentFormulaStruct> mapDeploymentFormulaStruct;
+    typedef std::map<std::string, vDeploymentTokenStruct> mp_s_Dtoken; // を生成
 
-        // // printf("token_len\n %d", token_len);
-        free(bnf_source);
+    void output_bnf_tablef(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p);
+    void concatenateArrayRetrieveSymbol(RetrieveSymbol &newdata, RetrieveSymbol &data1, RetrieveSymbol &data2);
+    char *get_bnf_arr(BNFToken &bnf_token_p, int number);
+    bool hasDtoken(vector<DeploymentTokenStruct> keys, DeploymentTokenStruct key);
+    DeploymentStruct expansionDeployment(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, RetrieveSymbol &symbols);
+    int labelingBnf(BNFToken &bnf_token_p);
+    int parseBnf(char *source_code, BNFToken &bnf_token_p);
+    void dequeueBNFRight(qustr &bnf_que, v2string &bnf_right);
+    void generateBNFRight(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &nonterminal_symbol_left, int current_left, v2string &bnf_right_tokens, mp_s_i &bnf_right_map);
+    int bnfMain(char *bnf_file_name, LRTable::LRTableMultilayer &LR_table_multilayer);
+    int searchRetrieveSymbolTableDuplication(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, int *array, int len, int current_number);
+    int retrieveSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p, RetrieveSymbol &retrieve_symbol, int target_id);
+    int retrieveSymbolTable(BNFToken &bnf_token_p, RetrieveSymbol &retrieve_symbol, int target_id);
+    int insertSymbolTable(char *current_token_string, char **symbol_string_array, int symbol_len);
+    int generateSymbolTable(BNFToken &bnf_token_p, BNFSymbol &bnf_symbol_p);
+};
 
-        // output_token_string(bnf_token.token_string_array, bnf_token.token_len);
+struct BNFParse::stest
+{
+    int test;
+};
 
-        labelingBnf(bnf_token);
+/*
+BNFToken
+token_string_array    : tokenの一覧
+token_label_array     : tokenの役割
+token_len       : tokenの数
+nonterminal_symbol_len : 非末端記号の数
+terminal_symbol_len    : 末端記号の数
+*/
+struct BNFParse::BNFToken
+{
+    char **token_string_array;
+    int *token_label_array;
+    int token_len;
+    int nonterminal_symbol_len;
+    int terminal_symbol_len;
+};
 
-        bnf_symbol.symbol_len = bnf_token.nonterminal_symbol_len + bnf_token.terminal_symbol_len;
-        bnf_symbol.symbol_table_array = (int *)calloc(bnf_token.token_len, sizeof(int));
-        bnf_symbol.symbol_string_array = (char **)calloc(bnf_token.token_len, sizeof(char **));
-        printf("bnf_token %d %d %d %d\n", bnf_token.token_len, bnf_symbol.symbol_len, bnf_token.nonterminal_symbol_len, bnf_token.terminal_symbol_len);
-        int unique_symbol_len = generateSymbolTable(bnf_token, bnf_symbol);
+/*
+symbol_table_array        : token_string と symbol_stringの関連付け。 index番号(token_string) : 要素(symbol_string)の格納位置
+symbol_string_array       : ユニークなシンボル一覧
+unique_symbol_len   : ユニークなシンボルの数
+symbol_len          : 述べシンボルの数
+*/
+struct BNFParse::BNFSymbol
+{
+    int *symbol_table_array;
+    char **symbol_string_array;
+    int unique_symbol_len;
+    int symbol_len;
+};
 
-        printf("char size %ld %ld %ld\n", sizeof(char **), sizeof(char *), sizeof(char));
+/*
+array   : arrayとsymbol_stringの関連付け。要素番号=symbol_stringの格納場所
+*/
+struct BNFParse::RetrieveSymbol
+{
+    int *array;
+    int len;
+    /* data */
+};
 
-        struct RetrieveSymbol nonterminal_symbol_left;
-        // 左辺非末端記号の配列を取得する
-        retrieveSymbolTable(bnf_token, nonterminal_symbol_left, is_id_NonterminalSymbolLeft);
-        // 左辺の数を取得する
+struct BNFParse::DeploymentStruct
+{
+    mapDeploymentFormulaStruct formula_map;
+    // vDeploymentStruct children;
+};
 
-        struct RetrieveSymbol terminal_symbol;
-        // 末端記号の配列を取得する
-        retrieveSymbolTable(bnf_token, bnf_symbol, terminal_symbol, is_id_TerminalSymbol);
+// 構造体 式
+struct BNFParse::DeploymentFormulaStruct
+{
+    vDeploymentFormulaExpansionStruct formula_expansion_vector;
+};
 
-        struct RetrieveSymbol symbols;
-        concatenateArrayRetrieveSymbol(symbols, nonterminal_symbol_left, terminal_symbol);
+// 構造体 展開した式
+struct BNFParse::DeploymentFormulaExpansionStruct
+{
+    vDeploymentTokenStruct token_vector;
+    int formula_expansion_label;
+};
 
-        // struct RetrieveSymbol symbol_right;
-        // 左辺非末端記号の配列を取得する
-        // retrieveSymbolTable(bnf_token, bnf_symbol, symbol_right, is_id_TerminalSymbol);
-
-        DeploymentStruct deployment_syntax = expansionDeployment(bnf_token, bnf_symbol, nonterminal_symbol_left, symbols);
-
-        // ItemSetStruct item_set = generateItemSet(deployment_syntax);
-        vDFANode dfa_node_graph = generateDFA(deployment_syntax);
-
-        generateLRtable(dfa_node_graph, bnf_token, terminal_symbol, nonterminal_symbol_left, LR_table_multilayer);
-
-        // 左辺の数を取得する
-
-        // vAutomaton *automaton_graph = new Automaton[unique_symbol_len];
-
-        // vAutomaton automaton_graph = {};
-        // generateAutomaton(automaton_graph, bnf_token, bnf_symbol, nonterminal_symbol_left);
-
-        free((bnf_token.token_label_array));
-        free((bnf_token.token_string_array));
-        free((bnf_symbol.symbol_string_array));
-        free((bnf_symbol.symbol_table_array));
-        // output_bnf_tablef(bnf_token, bnf_symbol);
-
-        // for (int i = 0; i < sl_len ; i++){
-        //     printf("nonterminal_symbol : %d %d" , nonterminal_symbol_left_array[i] , bnf_symbol.symbol_table_array[nonterminal_symbol_left_array[i]] );
-        // }
-    }
+// 構造体 token
+struct BNFParse::DeploymentTokenStruct
+{
+    string token_str;
+    int label;
 };
 #endif

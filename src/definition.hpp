@@ -9,6 +9,8 @@
 #include <stack>
 #include <queue>
 #include <map>
+#include <algorithm>
+#include <fstream>
 
 typedef unsigned char uchar;
 typedef std::vector<char> vchar;
