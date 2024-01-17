@@ -1,7 +1,7 @@
 #include "./lexical/lexical_analysis.hpp"
 #include "./syntactic/syntactic_analysis.hpp"
 #include "./process/process_analysis.hpp"
-#include "definition.hpp"
+#include "./definition.hpp"
 #include "./LR_table/LR_table.hpp"
 #include "./BNF/bnf.hpp"
 #include "./input_table.hpp"

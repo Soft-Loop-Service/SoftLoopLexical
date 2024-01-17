@@ -56,7 +56,7 @@ const int token_progression_arr_size = 10000; // 変数の最大数
 const int source_code_size = 1000000;
 
 template <typename T>
-bool hasKeyMap(vector<T> keys, T key)
+inline bool hasKeyMap(vector<T> keys, T key)
 {
     bool flag = false;
     for (size_t i = 0; i < keys.size(); i++)
@@ -72,13 +72,13 @@ bool hasKeyMap(vector<T> keys, T key)
 }
 
 template <typename T, typename Y>
-bool hasMapKey(std::map<Y, T> mp,Y key)
+inline bool hasMapKey(std::map<Y, T> mp,Y key)
 {
     return mp.find(key) != mp.end();
 }
 
 template <typename T, typename Y>
-std::vector<Y> getMapKeyString(std::map<Y, T> mp)
+inline std::vector<Y> getMapKeyString(std::map<Y, T> mp)
 {
     std::vector<Y> keys;
     auto begin = mp.begin(), end = mp.end();
@@ -92,7 +92,7 @@ std::vector<Y> getMapKeyString(std::map<Y, T> mp)
     return keys;
 }
 
-bool getTwoDimensionalArray(int **data, int one, int two)
+inline bool getTwoDimensionalArray(int **data, int one, int two)
 {
     data = (int **)calloc(one, sizeof(int *));
     if (data == NULL)
@@ -125,7 +125,7 @@ resizeCharNull
 第一引数    : 対象となる配列
 第二引数    : 変更したい長さ
 */
-int resizeArray(int *data, int len)
+inline int resizeArray(int *data, int len)
 {
     int size = len * sizeof(int);
 
@@ -138,7 +138,7 @@ int resizeArray(int *data, int len)
     return size;
 }
 
-int resizeArray(char **str, int len)
+inline int resizeArray(char **str, int len)
 {
 
     int size = len * sizeof(char *);
@@ -158,7 +158,7 @@ int resizeArray(char **str, int len)
 }
 
 /* プログラム・ファイルを読み込むための関数 text / filename / size(読み込むサイズ)*/
-void loadText(char *text, const char *file_name, int size)
+inline void loadText(char *text, const char *file_name, int size)
 {
     FILE *fp = fopen(file_name, "rb");
     int read_size = fread(text, 1, size - 1, fp);
@@ -169,7 +169,7 @@ void loadText(char *text, const char *file_name, int size)
 }
 
 // アルファベットであるか探索
-int isNumber(char ch)
+inline int isNumber(char ch)
 {
 
     if ('0' <= ch && ch <= '9')
@@ -180,7 +180,7 @@ int isNumber(char ch)
 }
 
 // アルファベットであるか探索
-int isAlphabetOrNumber(char ch)
+inline int isAlphabetOrNumber(char ch)
 {
     if ('A' <= ch && ch <= 'Z')
     {

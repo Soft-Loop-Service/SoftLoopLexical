@@ -39,17 +39,17 @@
 #define is_id_Multiplication 1110 // 掛け算記号
 #define is_id_Division 1111       // 割り算記号
 
-bool is_symbol_parentheses_left(int t)
+inline bool is_symbol_parentheses_left(int t)
 {
     return t == is_id_ParenthesisLeft || t == is_id_BracketLeft || t == is_id_CurlyBracketLeft;
 }
 
-bool is_symbol_parentheses_right(int t)
+inline bool is_symbol_parentheses_right(int t)
 {
     return t == is_id_ParenthesisRight || t == is_id_BracketRight || t == is_id_CurlyBracketRight;
 }
 
-bool is_symbol_operator(int t)
+inline bool is_symbol_operator(int t)
 {
     switch (t)
     {
@@ -66,7 +66,7 @@ bool is_symbol_operator(int t)
     }
 }
 
-bool is_for_automaton(int t)
+inline bool is_for_automaton(int t)
 {
     switch (t)
     {

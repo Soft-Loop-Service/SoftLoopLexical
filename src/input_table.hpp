@@ -1,9 +1,13 @@
 
+#ifndef __INPUT_TABLE
+#define __INPUT_TABLE
+
+
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
 
 
-int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilayer)
+inline int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilayer)
 {
     std::ifstream ifs(table_file);
     printf("inputTable\n");
@@ -43,3 +47,5 @@ int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilaye
 
     printf("inputTable end\n");
 }
+
+#endif

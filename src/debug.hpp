@@ -3,7 +3,7 @@
 #define __Debug
 #include "definition.hpp"
 
-int helloWorld(string text)
+inline int helloWorld(string text)
 {
     if (text == "hello world")
     {
@@ -15,7 +15,7 @@ int helloWorld(string text)
     }
 }
 
-void output_stack(string name, sint v)
+inline void output_stack(string name, sint v)
 {
     printf("%s top : ", name.c_str());
     int vsize = v.size();
@@ -27,7 +27,7 @@ void output_stack(string name, sint v)
     printf("\n");
 }
 
-void output_vector(string name, vstring v)
+inline void output_vector(string name, vstring v)
 {
     printf("%s 配列長 : %d\n", name.c_str(), v.size());
     for (int i = 0; i < v.size(); i++)
@@ -36,14 +36,14 @@ void output_vector(string name, vstring v)
     }
 }
 
-void output_token_string(char **token_string, int line)
+inline void output_token_string(char **token_string, int line)
 {
     for (int i = 0; i < line; i++)
     {
         printf("output_token_string :%d %s\n", i, *&token_string[i]);
     }
 }
-void output_token_progression(char **token_string, int *token_progression, int line)
+inline void output_token_progression(char **token_string, int *token_progression, int line)
 {
     for (int i = 0; i < line; i++)
     {
@@ -57,7 +57,7 @@ void output_token_progression(char **token_string, int *token_progression, int l
     }
 }
 
-int output_labeling_bnf(char **token_string, int *token_label, int token_len)
+inline int output_labeling_bnf(char **token_string, int *token_label, int token_len)
 {
     for (int i = 0; i < token_len; i++)
     {
