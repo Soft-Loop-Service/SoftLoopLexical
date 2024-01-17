@@ -106,7 +106,7 @@ namespace LanguageSpecifications
                 }
 
 
-                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列代入", vpu->getDepth(), left_index);
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "配列代入", vpu->getDepth(), current_left_node.children[0]);
                 process_timeline->pushProcessAnalysis(pr);
             }
 

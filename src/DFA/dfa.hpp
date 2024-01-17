@@ -19,7 +19,6 @@
 #include <vector>
 
 bool isDfaEqual(DFANode a_node, DFANode b_node)
-
 {
     mapLRItemFormulaStruct a_LR_formula_map = a_node.lr_item.LR_formula_map;
     mapLRItemFormulaStruct b_LR_formula_map = b_node.lr_item.LR_formula_map;

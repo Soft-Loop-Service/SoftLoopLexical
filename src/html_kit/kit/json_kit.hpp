@@ -56,21 +56,14 @@ namespace HTMLParse
                 this->children = {};
             }
 
-            JsonKitElement(string type, string element)
+            JsonKitElement(string type, string name)
             {
                 this->e_type = type;
-                this->e_name = "";
-                this->element = element;
+                this->e_name = name;
+                this->element = "";
                 this->children = {};
             }
 
-            JsonKitElement(string type, int element)
-            {
-                this->e_type = type;
-                this->e_name = "";
-                this->element = to_string(element);
-                this->children = {};
-            }
 
             JsonKitElement(string type, string name, string e)
             {

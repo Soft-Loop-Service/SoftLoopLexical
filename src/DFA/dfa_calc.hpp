@@ -19,6 +19,7 @@
 #include <algorithm>
 // class DfaNode;
 // typedef std::vector<DfaNode> vDfaNode;
-typedef std::queue<LRItemStruct> quLRItemStruct;
+
+    typedef std::queue<LRItemStruct> quLRItemStruct;
 
 #endif
