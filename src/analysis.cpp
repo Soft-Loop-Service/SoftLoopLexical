@@ -36,8 +36,10 @@ int main(int argc, char *argv[])
 
     vint parent_stack = {};
 
-    ProcessVisualization::ProcessAnalysisTimeline process_timeline;
-    ProcessVisualization::VariablePossessionUnion variable_possession_union;
+    ProcessVisualization::VariablePossession variable_possession;
+    ProcessVisualization::VariablePossessionUnion variable_possession_union(variable_possession);
+
+    ProcessVisualization::ProcessAnalysisTimeline process_timeline(variable_possession_union,variable_possession);
     ProcessVisualization::FunctionPossessionUnion function_possession_union;
     LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_parse_tree, process_timeline, variable_possession_union, function_possession_union);
     softjtree.calc();

@@ -10,8 +10,8 @@ body {
 }
 
 .left_side {
-  width: 60vw;
-  
+  width: 70vw;
+  height: 100%;
 }
 .right_side {
   flex-grow: 1;
@@ -19,11 +19,12 @@ body {
 }
 
 .codeview_upper_side {
-  height: 100%;
+  /* height: 100%; */
+  height: 60vh;
 }
 
 .codeview_bottom_side {
-
+  height: 40vh;
 }
 
 .dli-chevron-left {

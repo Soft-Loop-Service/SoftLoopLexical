@@ -92,11 +92,13 @@ namespace LanguageSpecifications
 
             int array_pointer;
             vpu->getValue(array_index_node.token, array_pointer);
+            printf("配列アドレスの解決 %d\n", array_pointer);
+
             for (int i = 0; i < length_list.size(); i++)
             {
                 vint pointers = vpu->getArrayPointers(array_pointer);
                 array_pointer = pointers[length_list[i]];
-                printf("array_pointer %d\n", array_pointer);
+                printf("配列アドレスの解決(次元) %d %d\n",length_list[i], array_pointer);
             }
 
             pointer = array_pointer;

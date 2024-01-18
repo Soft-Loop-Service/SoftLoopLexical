@@ -10,12 +10,55 @@ namespace ProcessVisualization
         this->node_index = node_index;
     }
 
-    ProcessAnalysisTimeline::ProcessAnalysisTimeline()
+    map<int, string> VariablePossession::getVariableType()
     {
+        return variable_type;
+    }
+    map<int, string> VariablePossession::getVariableString()
+    {
+        return variable_string;
+    }
+    map<int, int> VariablePossession::getVariableInt()
+    {
+        return variable_int;
+    }
+    void ProcessAnalysis::setVariablePossession(VariablePossession &vp)
+    {
+        this->variable_possession = new VariablePossession();
+        this->variable_possession->setVariablePossession(vp);
+    }
+
+    void ProcessAnalysis::setPointerValueTable(mp_i_vint pvt)
+    {
+        this->pointer_value_table = pvt;
+    }
+
+    ProcessAnalysisTimeline::ProcessAnalysisTimeline(VariablePossessionUnion &vpu,VariablePossession &vp)
+    {
+        variable_possession_union = &vpu;
+        variable_possession = &vp;
         process_result = {};
     }
     void ProcessAnalysisTimeline::pushProcessAnalysis(ProcessAnalysis pr)
     {
+        VariablePossession vp;
+        mp_i_vint pointer_value_table;
+        if (process_result.size() == 0){
+            vp = variable_possession->copy();
+            pointer_value_table = variable_possession_union->getPointerValueTable();
+        }
+        else{
+            vp = variable_possession->getUpdateVariable();
+            vint update_pointer_value_table =  variable_possession_union->getUpdatePointerValueTable();
+            mp_i_vint all_pointer =  variable_possession_union->getPointerValueTable();
+            for (int i = 0 ; i < update_pointer_value_table.size() ;i++){
+                int up = update_pointer_value_table[i];
+                pointer_value_table[up] = all_pointer[up];
+            }
+        }
+        
+        pr.setPointerValueTable(pointer_value_table);
+        pr.setVariablePossession(vp);
         process_result.push_back(pr);
     }
     vProcessAnalysis ProcessAnalysisTimeline::getProcessResult()
@@ -135,19 +178,14 @@ namespace ProcessVisualization
     void debugProcessResult(ProcessAnalysisTimeline process_timeline)
     {
         vProcessAnalysis process_result = process_timeline.getProcessResult();
+
         for (int i = 0; i < process_result.size(); i++)
         {
             ProcessAnalysis current = process_result[i];
 
             printf("%d : %2s %s : ", i, current.process_type.c_str(), current.message.c_str());
-
-            // for (int j = 0 ; j < current.layer.size() ; j++){
-            //     printf(" %d",current.layer[j].layer);
-            // }
-
             printf("\n");
         }
     }
-
 
 };

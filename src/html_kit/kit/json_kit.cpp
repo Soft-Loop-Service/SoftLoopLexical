@@ -56,6 +56,13 @@ namespace HTMLParse
             this->children = {};
         }
 
+        void JsonKitElement::set_element(string e){
+            this->element = e;
+        }
+        void JsonKitElement::set_element(int e){
+            this->element = to_string(e);
+        }
+
         void JsonKitElement::add_children(int index)
         {
             children.push_back(index);
@@ -88,6 +95,11 @@ namespace HTMLParse
         {
             if (isValue())
             {
+                if (element == "" && children.size() > 0)
+                {
+                    return "\"" + e_name + "\" :";
+                }
+
                 if (e_name == "")
                 {
                     return "\"" + element + "\"";
@@ -107,7 +119,6 @@ namespace HTMLParse
 
         string JsonKitTree::recursionParseJson(int node)
         {
-            printf("recursionParseJson %d\n", node);
             string text = "";
 
             string text_start = json_kit_element[node].parseJsonStart();
@@ -137,8 +148,6 @@ namespace HTMLParse
             text += text_children;
             text += " ";
             text += text_end;
-
-            printf("recursionParseJson(戻) %s\n", text.c_str());
 
             return text;
         }

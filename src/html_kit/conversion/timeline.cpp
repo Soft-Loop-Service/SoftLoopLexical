@@ -150,6 +150,38 @@ namespace HTMLParse
 
                 JsonKit::JsonKitElement process_length("value", "process_length", process_result_p->size());
                 json_kit_tree_meta.add_node(meta_data_index, process_length);
+
+                JsonKit::JsonKitElement variable_enumeration("value", "variable_enumeration");
+                int variable_enumeration_node = json_kit_tree_meta.add_node(meta_data_index, variable_enumeration);
+
+                JsonKit::JsonKitElement variable_enumeration_dist("dist");
+                int variable_enumeration_dist_node = json_kit_tree_meta.add_node(variable_enumeration_node, variable_enumeration_dist);
+
+
+                vint ve_keys = getMapKeyString(variable_enumeration_map);
+                for (int i = 0 ; i< ve_keys.size() ; i++){
+                    int layer = ve_keys[i];
+                    ProcessVisualization::VariableProcessEnumeration ve = variable_enumeration_map[layer];
+                        
+                    JsonKit::JsonKitElement variable_enumeration_value_name("value", to_string(ve.layer));
+                    int variable_enumeration_value_name_node = json_kit_tree_meta.add_node(variable_enumeration_dist_node, variable_enumeration_value_name);
+
+                    JsonKit::JsonKitElement variable_enumeration_value_dist("dist");
+                    int variable_enumeration_value_dist_node = json_kit_tree_meta.add_node(variable_enumeration_value_name_node, variable_enumeration_value_dist);
+
+                    JsonKit::JsonKitElement variable_enumeration_name("value", "name",ve.name);
+                    json_kit_tree_meta.add_node(variable_enumeration_value_dist_node, variable_enumeration_name);
+
+                    JsonKit::JsonKitElement variable_enumeration_type("value", "type",ve.type);
+                    json_kit_tree_meta.add_node(variable_enumeration_value_dist_node, variable_enumeration_type);
+
+                    JsonKit::JsonKitElement variable_enumeration_layer("value", "layer",ve.layer);
+                    json_kit_tree_meta.add_node(variable_enumeration_value_dist_node, variable_enumeration_layer);
+
+                    JsonKit::JsonKitElement variable_enumeration_definition("value", "definition_node",ve.definition_node);
+                    json_kit_tree_meta.add_node(variable_enumeration_value_dist_node, variable_enumeration_definition);
+
+                }
             }
 
             void Timeline::process_group()
@@ -189,6 +221,55 @@ namespace HTMLParse
                 JsonKit::JsonKitElement process_type("value", "process_type", process_unit.process_type);
                 json_kit_tree_process.add_node(process_kit_index, process_type);
 
+                JsonKit::JsonKitElement variable("value", "variable");
+                int variable_node_index = json_kit_tree_process.add_node(process_kit_index, variable);
+
+                JsonKit::JsonKitElement variable_dist("dist");
+                int variable_dist_index = json_kit_tree_process.add_node(variable_node_index, variable_dist);
+
+                mp_i_s variable_type = process_unit.variable_possession->getVariableType();
+                mp_i_i variable_int= process_unit.variable_possession->getVariableInt();
+                mp_i_s variable_string = process_unit.variable_possession->getVariableString();
+
+                vint int_keys = getMapKeyString(variable_int);
+                vint str_keys = getMapKeyString(variable_string);
+                for (int i = 0; i <  int_keys.size(); i++){
+                    int layer = int_keys[i];
+                    JsonKit::JsonKitElement variable_inside_int("value", to_string(layer) , to_string(variable_int[layer]) );
+                    json_kit_tree_process.add_node(variable_dist_index, variable_inside_int);
+                }
+                for (int i = 0; i <  str_keys.size(); i++){
+                    int layer = str_keys[i];
+                    JsonKit::JsonKitElement variable_inside_str("value", to_string(layer) , variable_string[layer] );
+                    json_kit_tree_process.add_node(variable_dist_index, variable_inside_str);
+                }
+
+                JsonKit::JsonKitElement pointer("value", "pointer");
+                int pinter_node_index = json_kit_tree_process.add_node(process_kit_index, pointer);
+
+                JsonKit::JsonKitElement pointer_dist("dist");
+                int pointer_dist_index = json_kit_tree_process.add_node(pinter_node_index, pointer_dist);
+
+                vint pointer_keys = getMapKeyString(process_unit.pointer_value_table);
+                for (int i = 0; i <  pointer_keys.size(); i++){
+
+                    JsonKit::JsonKitElement pointer_vector_value("value", to_string(pointer_keys[i]));
+                    int pointer_value_index = json_kit_tree_process.add_node(pointer_dist_index, pointer_vector_value);
+
+                   JsonKit::JsonKitElement pointer_vector_value_list("array");
+                    int pointer_value_list_index = json_kit_tree_process.add_node(pointer_value_index, pointer_vector_value_list);
+
+
+                    vint pointer_vector = process_unit.pointer_value_table[pointer_keys[i]];                    
+                    for (int j = 0 ; j < pointer_vector.size() ; j++){
+                        int p = pointer_vector[j];
+                        JsonKit::JsonKitElement pointer_data("value");
+                        pointer_data.set_element(p);
+                        json_kit_tree_process.add_node(pointer_value_list_index, pointer_data);
+
+                    }
+                }
+                
             }
 
             Timeline::Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p,LexicalAnalysis::vLexicalToken *token_string_vector_p)
@@ -200,7 +281,7 @@ namespace HTMLParse
                 this->html_kit_tree = HTMLKit::HtmlKitTree();
                 this->token_string_vector_p = token_string_vector_p;
 
-                ProcessVisualization::mapVariableProcessEnumeration variable_enumeration_map = variable_possession_union_p->getVariableProcessEnumeration();
+                this->variable_enumeration_map = variable_possession_union_p->getVariableProcessEnumeration();
 
                 int max_depth_length = 0;
 

@@ -73,6 +73,8 @@ namespace HTMLParse
             JsonKitElement(string type, string name, string e);
             JsonKitElement(string type, string name, int e);
             void add_children(int index);
+            void set_element(string element);
+            void set_element(int element);
             string parseJsonStart();
             string parseJsonEnd();
             string parseJsonElement();
@@ -125,6 +127,7 @@ namespace HTMLParse
 
             HTMLKit::HtmlKitTree html_kit_tree;
             LexicalAnalysis::vLexicalToken *token_string_vector_p;
+            ProcessVisualization::mapVariableProcessEnumeration variable_enumeration_map;
 
             int depth_length;
             void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);

@@ -8,6 +8,8 @@
 namespace ProcessVisualization
 {
     class ProcessAnalysis;
+    class VariablePossession;
+    class VariablePossessionUnion;
     typedef std::vector<ProcessAnalysis> vProcessAnalysis;
     class ProcessAnalysisTimeline;
 
@@ -51,6 +53,7 @@ namespace ProcessVisualization
     {
         string type;
         string name;
+        int layer;
         int definition_node;
     };
 
@@ -61,21 +64,27 @@ namespace ProcessVisualization
         string message;      // 表示message
         int depth;
         int node_index;
+        mp_i_vint pointer_value_table;
 
+        VariablePossession *variable_possession;
         ProcessAnalysis(string process_type, string message, int depth, int node_index);
+        void setVariablePossession(VariablePossession &vp);
+                void setPointerValueTable(mp_i_vint pvt);
+
     };
 
     class ProcessAnalysisTimeline
     {
     private:
         vProcessAnalysis process_result;
+        VariablePossession *variable_possession;
+        VariablePossessionUnion *variable_possession_union;
 
     public:
-        ProcessAnalysisTimeline();
+        ProcessAnalysisTimeline(VariablePossessionUnion &vpu ,VariablePossession &vp);
         void pushProcessAnalysis(ProcessAnalysis pr);
         vProcessAnalysis getProcessResult();
     };
-    ;
 
     class ProcessScope
     {
@@ -162,14 +171,32 @@ namespace ProcessVisualization
         map<int, int> variable_int = {};
         map<int, string> variable_string = {};
         map<int, string> variable_type = {};
+        vint update_variable = {};
 
     public:
         VariablePossession();
+        void setVariablePossession(VariablePossession copy_vp){
+            this->variable_int = copy_vp.variable_int;
+            this->variable_string = copy_vp.variable_string;
+            this->variable_type = copy_vp.variable_type;
+            this->update_variable = copy_vp.update_variable;
+        };
+
         string getType(int layer);
         void add(int layer, int value);
         void get(int layer, int &data);
         void add(int layer, string value);
         void get(int layer, string &data);
+        string getString(int layer);
+        int getInt(int layer);
+
+        VariablePossession copy(){
+            return *this;
+        } 
+        map<int, string> getVariableType();
+        map<int, string> getVariableString();
+        map<int, int> getVariableInt();
+        VariablePossession getUpdateVariable();
     };
 
     class VariablePossessionUnion
@@ -177,6 +204,7 @@ namespace ProcessVisualization
     private:
         mp_i_s value_type_table;       // その変数がどんな型なのかを管理する
         mp_i_vint pointer_value_table; // ポインタとポインタ|変数の関係性を指し示す
+        vint update_pointer_value_table;
 
         VariablePossession *variable_possession;
         ProcessScope *variable_scope;
@@ -192,9 +220,16 @@ namespace ProcessVisualization
         string parseType(int element);
         bool isType(string type, int element);
 
+
     public:
-        VariablePossessionUnion();
+        VariablePossessionUnion(VariablePossession &vp);
         mapVariableProcessEnumeration getVariableProcessEnumeration();
+
+        void setPointerValueTable(int pointer, vint children_pointer);
+        void putPointerValueTable(int pointer, int child_pointer);
+        vint getUpdatePointerValueTable();
+        mp_i_vint getPointerValueTable();
+
         int searchDeep(string value_name);
         int getDepth();
         void deep();
@@ -231,7 +266,7 @@ namespace ProcessVisualization
             setValueTypeTable(current_layer, type);
             updateValue(current_layer, element);
 
-            struct VariableProcessEnumeration new_variable_enumeration = {type, name, definition_node};
+            struct VariableProcessEnumeration new_variable_enumeration = {type, name,current_layer , definition_node};
             variable_enumeration_map[current_layer] = new_variable_enumeration;
         }
     }

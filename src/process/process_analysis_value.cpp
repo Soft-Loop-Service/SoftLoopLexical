@@ -16,6 +16,7 @@ namespace ProcessVisualization
     {
         variable_int[layer] = value;
         variable_type[layer] = "int";
+        update_variable.push_back(layer);
         return;
     }
     void VariablePossession::get(int layer, int &data)
@@ -27,13 +28,43 @@ namespace ProcessVisualization
     {
         variable_string[layer] = value;
         variable_type[layer] = "string";
-
+        update_variable.push_back(layer);
         return;
     }
     void VariablePossession::get(int layer, string &data)
     {
         data = variable_string[layer];
     };
+    int VariablePossession::getInt(int layer)
+    {
+        int data = variable_int[layer];
+        return data;
+    }
+    string VariablePossession::getString(int layer)
+    {
+        string data = variable_string[layer];
+        return data;
+    }
+
+    VariablePossession VariablePossession::getUpdateVariable()
+    {
+        VariablePossession gvp;
+        for (int i = 0; i < update_variable.size(); i++)
+        {
+            string type = variable_type[update_variable[i]];
+
+            if (type == "string")
+            {
+                gvp.add(update_variable[i], this->getString(update_variable[i]));
+            }
+            if (type == "int")
+            {
+                gvp.add(update_variable[i], this->getInt(update_variable[i]));
+            }
+        }
+        update_variable = {};
+        return gvp;
+    }
 
     void VariablePossessionUnion::setValueTypeTable(int layer, string type)
     {
@@ -67,16 +98,38 @@ namespace ProcessVisualization
         return type == "int";
     }
 
-    VariablePossessionUnion::VariablePossessionUnion()
+    VariablePossessionUnion::VariablePossessionUnion(VariablePossession &vp)
     {
         this->value_type_table = {};
         this->pointer_value_table = {};
+        this->update_pointer_value_table = {};
         this->variable_enumeration_map = {};
-        variable_possession = new VariablePossession();
+        variable_possession = &vp;
         variable_scope = new ProcessScope();
 
         this->depth = 0;
     }
+
+    void VariablePossessionUnion::setPointerValueTable(int pointer, vint children_pointer)
+    {
+        pointer_value_table[pointer] = children_pointer;
+        update_pointer_value_table.push_back(pointer);
+    };
+    void VariablePossessionUnion::putPointerValueTable(int pointer, int child_pointer)
+    {
+        pointer_value_table[pointer].push_back(child_pointer);
+        update_pointer_value_table.push_back(pointer);
+    };
+    vint VariablePossessionUnion::getUpdatePointerValueTable()
+    {
+        vint r = update_pointer_value_table;
+        update_pointer_value_table = {};
+        return r;
+    };
+    mp_i_vint VariablePossessionUnion::getPointerValueTable()
+    {
+        return pointer_value_table;
+    };
 
     mapVariableProcessEnumeration VariablePossessionUnion::getVariableProcessEnumeration()
     {
@@ -160,7 +213,7 @@ namespace ProcessVisualization
             setValueTypeTable(current_layer, type);
             updateValue(current_layer, pointer);
 
-            struct VariableProcessEnumeration new_variable_enumeration = {type, name, definition_node};
+            struct VariableProcessEnumeration new_variable_enumeration = {type, name, current_layer, definition_node};
             variable_enumeration_map[current_layer] = new_variable_enumeration;
         }
     }
@@ -189,6 +242,5 @@ namespace ProcessVisualization
         int layer = variable_scope->search(name);
         return layer;
     }
-
 
 };

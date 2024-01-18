@@ -41,6 +41,9 @@ namespace HTMLParse
             string e_id = "token" + to_string(token_index);
             token_area.setEId(e_id);
             html_kit_tree.add_node(parent_index, token_area);
+
+            
+
         }
         SourceCodeView::SourceCodeView(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p)
         {

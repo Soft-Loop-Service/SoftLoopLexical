@@ -1,1 +1,13 @@
-int[] c = 4;
+
+int[] DATA = new int[2][2][2][2][2][2][2][2][2][2][2];
+
+k = 0;
+
+int i = 0;
+void test(){
+    if (i < 100){
+        test();
+        int c = i;
+        i = i + 1;
+    }
+}
