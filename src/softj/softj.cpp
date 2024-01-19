@@ -19,6 +19,8 @@ namespace LanguageSpecifications
             this->process_timeline = &process_timeline;
             this->vpu = &vpu;
             this->fpu = &fpu;
+            this->return_baton = {};
+            this->function_bation = {};
         }
 
         void Softj::calc()

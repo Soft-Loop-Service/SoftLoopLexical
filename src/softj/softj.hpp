@@ -19,9 +19,13 @@ namespace LanguageSpecifications
     {
         struct ValueEnumeration;
         struct FunctionMessagePassing;
+        class ReturnBaton;
+        struct FunctionBaton;
         typedef vector<ValueEnumeration> vValueEnumeration;
         typedef vector<FunctionMessagePassing> vFunctionMessagePassing;
         typedef map<int, FunctionMessagePassing> m_i_FunctionMessagePassing;
+        typedef vector<ReturnBaton> vReturnBaton;
+        typedef vector<FunctionBaton> vFunctionBaton;
 
         class Softj
         {
@@ -32,6 +36,8 @@ namespace LanguageSpecifications
             ProcessVisualization::VariablePossessionUnion *vpu;
             ProcessVisualization::FunctionPossessionUnion *fpu;
             m_i_FunctionMessagePassing function_message_passing_map;
+            vReturnBaton return_baton;
+            vFunctionBaton function_bation;
 
             bool is_action_return = false;
 
@@ -125,4 +131,40 @@ struct LanguageSpecifications::SoftjLanguage::FunctionMessagePassing
     vValueEnumeration argument;
 };
 
+class LanguageSpecifications::SoftjLanguage::ReturnBaton
+{
+private:
+    string return_type;
+    int return_value_int;
+    // int return_value_pointer;
+    string return_value_string;
+
+public:
+    string getType()
+    {
+        return return_type;
+    }
+    int getValueInt()
+    {
+        return return_value_int;
+    }
+    string getValueString()
+    {
+        return return_value_string;
+    }
+    void setValue(int val)
+    {
+        return_type = "int";
+        return_value_int = val;
+    }
+    void setValue(string val)
+    {
+        return_type = "string";
+        return_value_string = val;
+    }
+};
+struct LanguageSpecifications::SoftjLanguage::FunctionBaton
+{
+    string return_type;
+};
 #endif

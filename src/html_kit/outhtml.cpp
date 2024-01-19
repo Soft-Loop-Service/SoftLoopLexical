@@ -132,7 +132,5 @@ namespace HTMLParse
         writing_file << html_meta_end << endl;
 
         writing_file.close();
-
-        printf("%s\n", css_style.c_str());
     }
 }

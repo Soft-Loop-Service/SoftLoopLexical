@@ -17,10 +17,47 @@ namespace LanguageSpecifications
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
             string token = current_node.token;
 
-            printf("node_index %d\n",node_index);
+            printf("node_index %d\n", node_index);
 
-            if (is_action_return)
+            if (return_baton.size() > 0)
             {
+                return;
+            }
+
+            if (current_node.parent_token == "<return>")
+            {
+
+                return_baton.push_back({});
+                return;
+            }
+            if (current_node.token == "<return>")
+            {
+                int rv_index = current_node.children[1];
+                Syntactic::SyntacticTreeNode c_node = (*syntactic_analysis_tree)[rv_index];
+                printf("リターン解析(戻り値あり) %d : %d %d\n", node_index, rv_index, function_bation.size());
+                if (function_bation.size() > 0)
+                {
+                    string rv_type = function_bation[function_bation.size() - 1].return_type;
+
+                    if (rv_type == "string")
+                    {
+                        string rv_str = resolutionTreeCalcString(rv_index);
+                        ReturnBaton rb;
+                        rb.setValue(rv_str);
+                        return_baton.push_back({rb});
+                        return;
+                    }
+                    if (rv_type == "int")
+                    {
+                        int rv_int = resolutionTreeCalcInt(rv_index);
+                        ReturnBaton rb;
+                        rb.setValue(rv_int);
+                        return_baton.push_back({rb});
+                        return;
+                    }
+                }
+
+                return_baton.push_back({});
                 return;
             }
 
@@ -66,6 +103,10 @@ namespace LanguageSpecifications
             for (int i = 0; i < current_node.children.size(); i++)
             {
                 recursion(current_node.children[i]);
+                if (return_baton.size() > 0)
+                {
+                    return;
+                }
             }
             return;
         }

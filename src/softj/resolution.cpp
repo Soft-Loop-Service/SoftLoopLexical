@@ -12,7 +12,6 @@ namespace LanguageSpecifications
     namespace SoftjLanguage
     {
 
-
         string Softj::resolutionCalcString(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -45,6 +44,22 @@ namespace LanguageSpecifications
             {
                 string r = resolutionTreeCalcString(current_node.children[0]);
                 return r;
+            }
+
+            if (hasMapKey(function_message_passing_map, node_index))
+            {
+                resolutionCalcFunction(node_index);
+                string rv_val;
+                if (return_baton.size() > 0)
+                {
+                    ReturnBaton return_baton_unit = return_baton[return_baton.size() - 1];
+                    return_baton.pop_back();
+                    rv_val = return_baton_unit.getValueString();
+                }
+                function_bation.pop_back();
+                printf("関数解析 戻り値解析(string) %s\n", rv_val.c_str());
+
+                return rv_val;
             }
 
             if (current_node.parent_token == "<value_name>" || current_node.token_label == is_id_TerminalSymbol || current_node.token == "<array_name>")
@@ -99,6 +114,22 @@ namespace LanguageSpecifications
             {
                 int r = resolutionTreeCalcInt(current_node.children[0]);
                 return r;
+            }
+
+            if (hasMapKey(function_message_passing_map, node_index))
+            {
+                resolutionCalcFunction(node_index);
+                int rv_val;
+                if (return_baton.size() > 0)
+                {
+                    ReturnBaton return_baton_unit = return_baton[return_baton.size() - 1];
+                    return_baton.pop_back();
+                    rv_val = return_baton_unit.getValueInt();
+                }
+                function_bation.pop_back();
+                printf("関数解析 戻り値解析(int) %d\n", rv_val);
+
+                return rv_val;
             }
 
             if (current_node.parent_token == "<value_name>" || current_node.parent_token == "<number>" || current_node.token == "<array_name>")

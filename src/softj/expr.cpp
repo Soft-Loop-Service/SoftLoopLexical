@@ -113,7 +113,7 @@ namespace LanguageSpecifications
                 if (!(vpu->hasLayer(value_name)))
                 {
                     string message = "存在しない変数へのアクセス";
-                    ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, message, vpu->getDepth(),  left_index);
+                    ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, message, vpu->getDepth(), left_index);
                     process_timeline->pushProcessAnalysis(pr);
                     return;
                 }

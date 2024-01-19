@@ -1,5 +1,5 @@
-int i = 0;
-
-while ( i < 20){
-    i = i + 1;
+string a(){
+    return "hello";
+    int k = 0;
 }
+string d = a();

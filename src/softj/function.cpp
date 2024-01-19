@@ -42,6 +42,7 @@ namespace LanguageSpecifications
             return function_unit;
         }
 
+        // 戻り値変数レイヤーを返す
         void Softj::resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp)
         {
             ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
@@ -93,17 +94,18 @@ namespace LanguageSpecifications
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr);
 
-            is_action_return = false;
+            function_bation.push_back({return_type});
+
             recursion(recursion_node);
-            is_action_return = false;
 
             ProcessVisualization::ProcessAnalysis pr2(ProcessVisualization::is_id_process_type_logic, "関数終了", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr2);
 
             // vpu->shallow();
             vpu->shallow();
+            return;
         }
-
+        // 戻り値変数レイヤーを返す
         void Softj::resolutionCalcFunction(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -134,6 +136,7 @@ namespace LanguageSpecifications
 
             printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
             resolutionFunctionMessagePassing(function_unit, fmp);
+            return;
         }
     }
 };
