@@ -1,12 +1,4 @@
-
-int[] DATA = new int[2][2][2];
 int i = 0;
-void test(){
-    if (i < 100){
-        i = i + 1;
-        test();
-        
-    }
+while (i < 100){
+    i = i + 1;
 }
-
-test();

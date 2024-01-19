@@ -80,7 +80,8 @@
 }
 
 .message_order_text {
-  width: 24px;
+  min-width: 24px;
+  margin-right: 4px;
 }
 .message_text {
 }
