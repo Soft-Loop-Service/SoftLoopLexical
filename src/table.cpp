@@ -3,7 +3,7 @@
 #include "./process/process_analysis.hpp"
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
-#include "./BNF/BNF.hpp"
+#include "./BNF/bnf.hpp"
 
 int main(int argc, char *argv[])
 {

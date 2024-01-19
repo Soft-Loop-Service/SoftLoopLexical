@@ -107,7 +107,7 @@ namespace HTMLParse
             LexicalAnalysis::vLexicalToken *token_string_vector_p;
 
             void tokenConversion(int parent_index);
-            int codelineBlock(int parent_index);
+            int codelineBlock(int parent_index, LexicalAnalysis::LexicalToken current_token);
             void tokenBlock(int token_index, int parent_index, LexicalAnalysis::LexicalToken lexical_token);
 
         public:

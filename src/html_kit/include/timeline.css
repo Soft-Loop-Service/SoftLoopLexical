@@ -1,9 +1,7 @@
-
-
-.timeline{
+.timeline {
   display: flex;
   flex-direction: row;
-  overflow : scroll;
+  overflow: scroll;
 
   width: 100%;
   height: 100%;
@@ -11,22 +9,23 @@
   position: static;
 }
 
-.timeline_scroll{
+.timeline_scroll {
   /* width: 100%; */
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  
 }
 
-.timeline_left{
+.timeline_left {
+  width: 60%;
+  min-width: 200px;
 }
 
-.timeline_right{
+.timeline_right {
   flex-grow: 1;
 }
 
-.process_connection{
+.process_connection {
   height: 12px;
 }
 
@@ -36,46 +35,46 @@
   height: 24px;
 }
 .message {
-  width: 20%;
-  min-width: 200px;
+  width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding-left: 4px;
   padding-right: 4px;
+
+  overflow: hidden;
 }
 
-.source_code_position{
+.source_code_position {
   width: 24px;
-  
+
   display: flex;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
 }
 
 .layer {
-  
   display: flex;
   flex-direction: column;
 }
 
-.message_error{
+.message_error {
   background-color: rgb(200, 50, 10);
 }
 
-.message_warning{
+.message_warning {
   background-color: rgb(200, 50, 10);
 }
 
-.message_language_error{
+.message_language_error {
   background-color: rgb(200, 50, 10);
 }
 
 .message_text {
 }
 
-.layer_horizontal{
+.layer_horizontal {
   display: flex;
   height: 100%;
 }
@@ -87,14 +86,12 @@
   justify-content: center;
   align-items: center;
 }
-.layer_unit_station{
+.layer_unit_station {
   border-radius: 50%;
   height: 50%;
   aspect-ratio: 1;
   border: 4px solid;
 }
-
-
 
 .layer_unit_station_ouput {
   border-color: rgb(200, 200, 10);
@@ -102,21 +99,20 @@
 .layer_unit_station_input {
   border-color: rgb(200, 50, 10);
 }
-.layer_unit_station_logic{
+.layer_unit_station_logic {
   border-color: rgb(50, 200, 10);
 }
-.layer_unit_station_true{
+.layer_unit_station_true {
   border-color: rgb(50, 200, 10);
-
-}.layer_unit_station_false{
+}
+.layer_unit_station_false {
   border-color: rgb(200, 50, 10);
 }
 
-
-.timeline .timeline_hover{
-  background-color: rgba(0,0,0,0.2);
+.timeline .timeline_hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-.timeline .linking{
-  background-color: rgba(0,0,0,0.1);
+.timeline .linking {
+  background-color: rgba(0, 0, 0, 0.1);
 }

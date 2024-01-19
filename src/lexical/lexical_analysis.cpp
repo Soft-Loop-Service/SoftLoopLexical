@@ -116,4 +116,3 @@ namespace LexicalAnalysis
         // output_token_progression(token_string, token_progression, token_progression_endline);
     }
 }
-

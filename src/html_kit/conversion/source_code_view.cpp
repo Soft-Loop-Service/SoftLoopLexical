@@ -19,17 +19,26 @@ namespace HTMLParse
                 if (line < current_token.source_code_line)
                 {
                     line = current_token.source_code_line;
-                    line_index = codelineBlock(parent_index);
+                    line_index = codelineBlock(parent_index, current_token);
                 }
 
                 tokenBlock(i, line_index, current_token);
             }
         }
-        int SourceCodeView::codelineBlock(int parent_index)
+        int SourceCodeView::codelineBlock(int parent_index, LexicalAnalysis::LexicalToken current_token)
         {
+
             HTMLKit::HtmlKitElement codeline_area("div");
             codeline_area.addEClass("codeline");
             int codeline_index = html_kit_tree.add_node(parent_index, codeline_area);
+
+            for (int i = 0; i < current_token.indent_depth; i++)
+            {
+                HTMLKit::HtmlKitElement codeline_indent_area("div");
+                codeline_indent_area.addEClass("codeline_indent");
+                html_kit_tree.add_node(codeline_index, codeline_indent_area);
+            }
+
             return codeline_index;
         }
         void SourceCodeView::tokenBlock(int token_index, int parent_index, LexicalAnalysis::LexicalToken lexical_token)
@@ -41,9 +50,6 @@ namespace HTMLParse
             string e_id = "token" + to_string(token_index);
             token_area.setEId(e_id);
             html_kit_tree.add_node(parent_index, token_area);
-
-            
-
         }
         SourceCodeView::SourceCodeView(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p)
         {

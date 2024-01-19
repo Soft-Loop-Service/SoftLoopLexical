@@ -26,10 +26,7 @@ class State {
   setHtmlClass(name) {
     this.dom_name_list.push(name);
     this.dom_name_added_list.push(name);
-    const element =
-      this.state_type == "token"
-        ? getTokenElement(this.order)
-        : getProcessElement(this.order);
+    const element = this.state_type == "token" ? getTokenElement(this.order) : getProcessElement(this.order);
     element.classList.add(name);
   }
 
@@ -43,13 +40,8 @@ class State {
     if (!this.dom_name_added_list.includes(name)) {
       return;
     }
-    this.dom_name_added_list = this.dom_name_added_list.filter(
-      (n) => n != name
-    );
-    const element =
-      this.state_type == "token"
-        ? getTokenElement(this.order)
-        : getProcessElement(this.order);
+    this.dom_name_added_list = this.dom_name_added_list.filter((n) => n != name);
+    const element = this.state_type == "token" ? getTokenElement(this.order) : getProcessElement(this.order);
     element.classList.remove(name);
   }
 }

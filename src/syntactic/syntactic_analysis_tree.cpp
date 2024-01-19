@@ -14,7 +14,6 @@
 namespace Syntactic
 {
 
-
     /// @brief
     /// @param syntactic_analysis_tree
     /// @param syntactic_analysis_formula
