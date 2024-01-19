@@ -128,6 +128,7 @@ namespace HTMLParse
             HTMLKit::HtmlKitTree html_kit_tree;
             LexicalAnalysis::vLexicalToken *token_string_vector_p;
             ProcessVisualization::mapVariableProcessEnumeration variable_enumeration_map;
+            string source_code_file_name;
 
             int depth_length;
             void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
@@ -144,12 +145,12 @@ namespace HTMLParse
             void process(int process_index, int kit_index);
 
         public:
-            Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p);
+            Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p, string source_code_file_name);
             string getBody();
             string getJson();
         };
     }
-    void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector);
+    void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector, string source_code_file_name_value);
 
 };
 

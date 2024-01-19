@@ -1,0 +1,23 @@
+header {
+  width: 100vw;
+  height: 72px;
+  background-color: cornflowerblue;
+}
+.system_title {
+  color: white;
+  font-size: 24px;
+  margin: 0;
+  padding-top: 4px;
+  padding-left: 8px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 800;
+}
+.system_title_target_file {
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  padding-left: 12px;
+
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 600;
+}

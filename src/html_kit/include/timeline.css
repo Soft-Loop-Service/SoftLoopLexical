@@ -83,6 +83,17 @@
   min-width: 24px;
   margin-right: 4px;
 }
+
+.message_line_text {
+  min-width: 24px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+.message_column_text {
+  min-width: 24px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
 .message_text {
 }
 

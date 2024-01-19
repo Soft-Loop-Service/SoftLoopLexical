@@ -4,7 +4,8 @@ body {
 
 .system {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 72px);
+  min-width: 0;
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -24,21 +25,21 @@ body {
 
 .codeview_upper_side {
   /* height: 100%; */
-  height: 60vh;
+  height: 60%;
 }
 
 .codeview_bottom_side {
-  height: 40vh;
+  height: 40%;
 }
 
 .dli-chevron-left {
   display: inline-block;
   vertical-align: middle;
-  color: #333;
+  color: #ffffff;
   line-height: 1;
-  width: 1em;
-  height: 1em;
-  border: 0.1em solid currentColor;
+  width: 50%;
+  aspect-ratio: 1;
+  border: 0.2em solid currentColor;
   border-left: 0;
   border-bottom: 0;
   box-sizing: border-box;
@@ -48,11 +49,11 @@ body {
 .dli-chevron-right {
   display: inline-block;
   vertical-align: middle;
-  color: #333;
+  color: #ffffff;
   line-height: 1;
-  width: 1em;
-  height: 1em;
-  border: 0.1em solid currentColor;
+  width: 50%;
+  aspect-ratio: 1;
+  border: 0.2em solid currentColor;
   border-left: 0;
   border-bottom: 0;
   box-sizing: border-box;
@@ -62,5 +63,56 @@ body {
 .dividing_border {
   width: 4px;
   height: 100%;
-  background-color: aquamarine;
+  background-color: cornflowerblue;
+}
+.dli-chevron-up {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ffffff;
+  line-height: 1;
+  width: 50%;
+  aspect-ratio: 1;
+  border: 0.2em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateY(25%) rotate(-45deg);
+}
+.dli-chevron-down {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ffffff;
+  line-height: 1;
+  width: 50%;
+  aspect-ratio: 1;
+  border: 0.2em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateY(-25%) rotate(135deg);
+}
+
+.dli-close {
+  display: inline-block;
+  vertical-align: middle;
+  color: #ffffff;
+  line-height: 1;
+  width: 90%;
+  height: 0.17em;
+  background: currentColor;
+  border-radius: 0.1em;
+  position: relative;
+  transform: rotate(45deg);
+}
+
+.dli-close::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: inherit;
+  transform: rotate(90deg);
 }

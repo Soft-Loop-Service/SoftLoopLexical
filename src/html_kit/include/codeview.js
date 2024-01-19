@@ -124,3 +124,41 @@ const process_next = () => {
   messageClick(focus_process);
   choiceAction(focus_process);
 };
+const process_next_check = () => {
+  return focus_process + 2 <= meta_data.process_length;
+};
+let is_run = false;
+
+const process_run = () => {
+  is_run = !is_run;
+  process_run_icon();
+  sleep();
+};
+
+const process_run_icon = () => {
+  const button_run_check = document.getElementById("button_run_check");
+  const button_run_check_title = document.getElementById("button_run_check_title");
+  if (!is_run) {
+    button_run_check.className = "dli-chevron-right";
+    button_run_check_title.inert = "さいせい";
+  } else {
+    button_run_check.className = "dli-close";
+    button_run_check_title.inert = "とめる";
+  }
+  console.log("process_run_icon", button_run_check.className);
+};
+
+async function sleep() {
+  console.log("sleep機能の代替");
+
+  while (process_next_check() && is_run) {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    if (process_next_check()) {
+      process_next();
+    } else {
+      is_run = false;
+    }
+  }
+  is_run = false;
+  process_run_icon();
+}

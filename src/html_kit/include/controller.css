@@ -11,7 +11,7 @@
   bottom: 0;
 }
 .controller {
-  width: 100px;
+  width: 300px;
   height: 100%;
 
   display: flex;
@@ -19,10 +19,35 @@
   justify-content: space-around;
   align-items: center;
 }
-
-.controller .back,
-.controller .next {
+.chevron_out {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.chevron {
   width: 30px;
-  height: 30px;
-  /* background-color: black; */
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.controller .button_run,
+.controller .button_back,
+.controller .button_next {
+  width: 100px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none; /* 枠線をなくす */
+}
+.button_run_title,
+.button_back_title,
+.button_next_title {
+  color: white;
+  width: 60px;
+  font-size: 12px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 200;
+  margin: 0;
 }

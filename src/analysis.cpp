@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
     char *source_code = new char[source_code_size * sizeof(char)];
     loadText(source_code, argv[1], source_code_size);
 
+    string source_code_file_name = argv[1];
+
     char **token_string = new char *[token_string_arr_size * sizeof(char *)];
     int *token_progression = new int[token_progression_arr_size * sizeof(int)];
     LexicalAnalysis::vLexicalToken token_string_vector = LexicalAnalysis::lexSyntax(source_code);
@@ -39,11 +41,11 @@ int main(int argc, char *argv[])
     ProcessVisualization::VariablePossession variable_possession;
     ProcessVisualization::VariablePossessionUnion variable_possession_union(variable_possession);
 
-    ProcessVisualization::ProcessAnalysisTimeline process_timeline(variable_possession_union,variable_possession);
+    ProcessVisualization::ProcessAnalysisTimeline process_timeline(variable_possession_union, variable_possession);
     ProcessVisualization::FunctionPossessionUnion function_possession_union;
     LanguageSpecifications::SoftjLanguage::Softj softjtree(syntactic_parse_tree, process_timeline, variable_possession_union, function_possession_union);
     softjtree.calc();
     debugProcessResult(process_timeline);
-    HTMLParse::outputHtml(syntactic_parse_tree, process_timeline, variable_possession_union, token_string_vector);
+    HTMLParse::outputHtml(syntactic_parse_tree, process_timeline, variable_possession_union, token_string_vector, source_code_file_name);
     // ソースコードは用済み
 }

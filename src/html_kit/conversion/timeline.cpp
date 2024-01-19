@@ -61,6 +61,19 @@ namespace HTMLParse
             order_message_text_area.setElement(to_string(process_order));
             html_kit_tree.add_node(message_node_index, order_message_text_area);
 
+            int source_code_line = (*syntactic_analysis_tree_p)[process.node_index].source_code_line;
+            int source_code_column = (*syntactic_analysis_tree_p)[process.node_index].source_code_column;
+
+            HTMLKit::HtmlKitElement line_message_text_area("span");
+            line_message_text_area.addEClass("message_line_text");
+            line_message_text_area.setElement(to_string(source_code_line));
+            html_kit_tree.add_node(message_node_index, line_message_text_area);
+
+            HTMLKit::HtmlKitElement column_message_text_area("span");
+            column_message_text_area.addEClass("message_column_text");
+            column_message_text_area.setElement(to_string(source_code_column));
+            html_kit_tree.add_node(message_node_index, column_message_text_area);
+
             HTMLKit::HtmlKitElement message_text_area("span");
             message_text_area.addEClass("message_text");
             message_text_area.setElement(process.message);
@@ -150,6 +163,9 @@ namespace HTMLParse
 
             JsonKit::JsonKitElement token_length("value", "token_length", token_string_vector_p->size());
             json_kit_tree_meta.add_node(meta_data_index, token_length);
+
+            JsonKit::JsonKitElement source_code_file_name_value("value", "source_code_file_name", source_code_file_name);
+            json_kit_tree_meta.add_node(meta_data_index, source_code_file_name_value);
 
             JsonKit::JsonKitElement process_length("value", "process_length", process_result_p->size());
             json_kit_tree_meta.add_node(meta_data_index, process_length);
@@ -275,7 +291,7 @@ namespace HTMLParse
             }
         }
 
-        Timeline::Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p)
+        Timeline::Timeline(Syntactic::vSyntacticTree *syntactic_analysis_tree_p, ProcessVisualization::vProcessAnalysis *process_result_p, ProcessVisualization::VariablePossessionUnion *variable_possession_union_p, LexicalAnalysis::vLexicalToken *token_string_vector_p, string source_code_file_name)
         {
             this->syntactic_analysis_tree_p = syntactic_analysis_tree_p;
             this->process_result_p = process_result_p;
@@ -283,6 +299,7 @@ namespace HTMLParse
             this->json_kit_tree_process = JsonKit::JsonKitTree();
             this->html_kit_tree = HTMLKit::HtmlKitTree();
             this->token_string_vector_p = token_string_vector_p;
+            this->source_code_file_name = source_code_file_name;
 
             this->variable_enumeration_map = variable_possession_union_p->getVariableProcessEnumeration();
 

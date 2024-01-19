@@ -1,7 +1,5 @@
 const inside_view = (process_order) => {
-  const variable_enumeration_list_keys = Object.keys(
-    meta_data.variable_enumeration
-  );
+  const variable_enumeration_list_keys = Object.keys(meta_data.variable_enumeration);
 
   const inside_view_element = document.getElementById("inside_view_container");
   if (!inside_view_element) {
@@ -20,39 +18,21 @@ const inside_view = (process_order) => {
 
     const variable_inside = confirmVariable(process_order, layer);
     console.log("variable_inside" + variable_inside);
-    const element_insideview_block = buildInsideBlock(
-      process_order,
-      variable_enumeration_data
-    );
+    const element_insideview_block = buildInsideBlock(process_order, variable_enumeration_data);
     inside_view_element.appendChild(element_insideview_block);
 
     if (variable_enumeration_data.type == "int") {
-      buildInsideVariable(
-        element_insideview_block,
-        process_order,
-        variable_inside,
-        variable_enumeration_data
-      );
+      buildInsideVariable(element_insideview_block, process_order, variable_inside, variable_enumeration_data);
       continue;
     }
 
     if (variable_enumeration_data.type == "string") {
-      buildInsideVariable(
-        element_insideview_block,
-        process_order,
-        variable_inside,
-        variable_enumeration_data
-      );
+      buildInsideVariable(element_insideview_block, process_order, variable_inside, variable_enumeration_data);
       continue;
     }
 
     if (variable_enumeration_data.type == "pointer") {
-      buildInsideArray(
-        element_insideview_block,
-        process_order,
-        variable_inside,
-        variable_enumeration_data
-      );
+      buildInsideArray(element_insideview_block, process_order, variable_inside, variable_enumeration_data);
     }
   }
 };
@@ -99,12 +79,7 @@ const buildInsideBlock = (process_order, variable_enumeration_data) => {
 //variable_enumeration_data
 //variable_inside
 //variable_enumeration_data
-const buildInsideVariable = (
-  element_insideview_block,
-  process_order,
-  variable_inside,
-  variable_enumeration_data
-) => {
+const buildInsideVariable = (element_insideview_block, process_order, variable_inside, variable_enumeration_data) => {
   const element_insideview_variable_block = document.createElement("div");
   element_insideview_variable_block.className = "inside_view_block_value";
   element_insideview_block.appendChild(element_insideview_variable_block);
@@ -120,12 +95,7 @@ const buildInsideVariable = (
   element_insideview_variable_block.appendChild(inside_view_value_data);
 };
 
-const buildInsideArray = (
-  element_insideview_block,
-  process_order,
-  variable_inside,
-  variable_enumeration_data
-) => {
+const buildInsideArray = (element_insideview_block, process_order, variable_inside, variable_enumeration_data) => {
   const element_insideview_variable_block = document.createElement("div");
   element_insideview_variable_block.className = "inside_view_block_array";
   element_insideview_block.appendChild(element_insideview_variable_block);
@@ -139,61 +109,34 @@ const buildInsideArray = (
   inside_view_value_data.className = "inside_view_block_array_data";
   element_insideview_variable_block.appendChild(inside_view_value_data);
 
-  recursionBuildInsideArray(
-    inside_view_value_data,
-    process_order,
-    variable_inside,
-    variable_enumeration_data
-  );
+  recursionBuildInsideArray(inside_view_value_data, process_order, variable_inside, variable_enumeration_data);
 };
 
-const recursionBuildInsideArray = (
-  element_insideview_block,
-  process_order,
-  variable_inside,
-  variable_enumeration_data
-) => {
+const recursionBuildInsideArray = (element_insideview_block, process_order, variable_inside, variable_enumeration_data) => {
   const pointer_inside_array = confirmPointer(process_order, variable_inside); //これは配列
   if (pointer_inside_array == "value-undefined") {
-    buildInsideArrayBlock(
-      element_insideview_block,
-      process_order,
-      variable_inside,
-      variable_enumeration_data
-    );
+    buildInsideArrayBlock(element_insideview_block, process_order, variable_inside, variable_enumeration_data);
     return 0;
   }
 
   const inside_view_value_data = document.createElement("div");
-  inside_view_value_data.className =
-    "inside_view_block_array_data_line";
+  inside_view_value_data.className = "inside_view_block_array_data_line";
   element_insideview_block.appendChild(inside_view_value_data);
 
   let depth;
   for (let i = 0; i < pointer_inside_array.length; i++) {
     const pointer_inside = pointer_inside_array[i];
-    depth = recursionBuildInsideArray(
-      inside_view_value_data,
-      process_order,
-      pointer_inside,
-      variable_enumeration_data
-    );
+    depth = recursionBuildInsideArray(inside_view_value_data, process_order, pointer_inside, variable_enumeration_data);
   }
 
-  if (depth % 2 == 1){
-    inside_view_value_data.className =
-    "inside_view_block_array_data_column";
+  if (depth % 2 == 1) {
+    inside_view_value_data.className = "inside_view_block_array_data_column";
   }
 
   return depth + 1;
 };
 
-const buildInsideArrayBlock = (
-  element_insideview_block,
-  process_order,
-  pointer_inside,
-  variable_enumeration_data
-) => {
+const buildInsideArrayBlock = (element_insideview_block, process_order, pointer_inside, variable_enumeration_data) => {
   const inside_view_value_data = document.createElement("div");
   inside_view_value_data.className = "inside_view_block_array_data_block";
 
@@ -203,5 +146,3 @@ const buildInsideArrayBlock = (
 
   console.log(variable_inside);
 };
-
-inside_view(0);

@@ -4,12 +4,25 @@
 namespace HTMLParse
 {
 
-    void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector)
+    void outputHtml(Syntactic::vSyntacticTree syntactic_analysis_tree, ProcessVisualization::ProcessAnalysisTimeline process_timeline, ProcessVisualization::VariablePossessionUnion variable_possession_union, LexicalAnalysis::vLexicalToken token_string_vector, string source_code_file_name)
     {
         ProcessVisualization::vProcessAnalysis process_result = process_timeline.getProcessResult();
         std::ofstream writing_file;
         std::string filename = "test.html";
+
         writing_file.open(filename, std::ios::out);
+
+        std::ifstream html_header_stream("./src/html_kit/include/header.html");
+        std::string html_header_stream_string((std::istreambuf_iterator<char>(html_header_stream)), std::istreambuf_iterator<char>());
+        html_header_stream.close();
+
+        std::ifstream html_header_meta_stream("./src/html_kit/include/header_meta.html");
+        std::string html_header_meta_stream_string((std::istreambuf_iterator<char>(html_header_meta_stream)), std::istreambuf_iterator<char>());
+        html_header_meta_stream.close();
+
+        std::ifstream css_header_stream("./src/html_kit/include/header.css");
+        std::string css_header_stream_string((std::istreambuf_iterator<char>(css_header_stream)), std::istreambuf_iterator<char>());
+        css_header_stream.close();
 
         std::ifstream html_controller_stream("./src/html_kit/include/controller.html");
         std::string html_controller_stream_string((std::istreambuf_iterator<char>(html_controller_stream)), std::istreambuf_iterator<char>());
@@ -47,18 +60,23 @@ namespace HTMLParse
         std::string html_insideview_stream_string((std::istreambuf_iterator<char>(html_insideview_stream)), std::istreambuf_iterator<char>());
         html_insideview_stream.close();
 
-        Conversion::Timeline html_timeline(&syntactic_analysis_tree, &process_result, &variable_possession_union, &token_string_vector);
+        std::ifstream js_setup_stream("./src/html_kit/include/setup.js");
+        std::string js_setup_stream_string((std::istreambuf_iterator<char>(js_setup_stream)), std::istreambuf_iterator<char>());
+        js_setup_stream.close();
+
+        Conversion::Timeline html_timeline(&syntactic_analysis_tree, &process_result, &variable_possession_union, &token_string_vector, source_code_file_name);
         Conversion::SourceCodeView html_source_code_view(&syntactic_analysis_tree, &process_result, &variable_possession_union, &token_string_vector);
 
-        string css_style = "<style>" + css_main_stream_string + css_controller_stream_string + css_code_view_stream_string + css_timeline_stream_string + css_insideview_stream_string + "</style>";
+        string css_style = "<style>" + css_header_stream_string + css_main_stream_string + css_controller_stream_string + css_code_view_stream_string + css_timeline_stream_string + css_insideview_stream_string + "</style>";
 
         string javascript_element = "<script type=\"text/javascript\"> ";
         javascript_element += html_timeline.getJson();
         javascript_element += js_timeline_stream_string;
         javascript_element += js_insideview_stream_string;
+        javascript_element += js_setup_stream_string;
         javascript_element += " </script>";
 
-        string html_meta = "<!DOCTYPE html><html lang=\"ja\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>プログラムの可視化</title></head>";
+        string html_meta = "<!DOCTYPE html><html lang=\"ja\">";
 
         writing_file << html_meta << endl;
         writing_file << css_style << endl;
@@ -67,7 +85,7 @@ namespace HTMLParse
         string html_source_code_view_body = html_source_code_view.getBody();
         string html_timeline_body = html_timeline.getBody();
 
-        string body_str_sta = "<body>";
+        string body_str_sta = "<body onload=\"firstScript()\">";
         string body_str_end = "</body>";
 
         string codeview_upper_str_sta = "<div class=\"codeview_upper_side\">";
@@ -85,8 +103,10 @@ namespace HTMLParse
         string html_meta_end = "</html>";
 
         string dividing_border = "<div class=\"dividing_border\"></div>";
-
+        writing_file << html_header_meta_stream_string << endl;
+        writing_file << html_header_stream_string << endl;
         writing_file << body_str_sta << endl;
+
         writing_file << sys_str_sta << endl;
 
         writing_file << left_str_sta << endl;
@@ -102,8 +122,8 @@ namespace HTMLParse
 
         writing_file << dividing_border << endl;
         writing_file << right_str_sta << endl;
-        writing_file << html_timeline_body << endl;
         writing_file << html_controller_stream_string << endl;
+        writing_file << html_timeline_body << endl;
 
         writing_file << right_str_end << endl;
 
