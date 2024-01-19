@@ -133,9 +133,9 @@ namespace HTMLParse
             void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineRightArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             int timelineCommonArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineMessageArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineMessageArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
-            void timelineLayerArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineLayerArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineLayerInputArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
             int timelineLayerUnitArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, int unit_num);
             void timelineLayerUnitStationArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process, HTMLKit::HtmlKitElement layer_unit_station_area);
