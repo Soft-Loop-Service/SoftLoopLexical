@@ -175,11 +175,12 @@ namespace ProcessVisualization
     vint VariablePossessionUnion::newArray(int array_pointer, int len)
     {
         vint child_pointers = {};
-
+        update_pointer_value_table.push_back(array_pointer);
         for (int i = 0; i < len; i++)
         {
             int child_current_pointer = max_layer;
             child_pointers.push_back(child_current_pointer);
+            // update_pointer_value_table.push_back(child_current_pointer);
             max_layer++;
         }
         pointer_value_table[array_pointer] = child_pointers;

@@ -57,6 +57,7 @@ namespace LanguageSpecifications
 
         void Softj::resolutionCalcNewArray(int node_index, int pointer)
         {
+
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
             if (current_node.children.size() <= 2)
@@ -71,6 +72,9 @@ namespace LanguageSpecifications
             vint length_list;
             resolutionCalcArrayLength(array_len_node_index, length_list);
             resolutionCalcMakeArray(pointer, length_list, type, 0);
+
+            printf("resolutionCalcNewArray %d %d\n", node_index, pointer);
+
             return;
         }
 

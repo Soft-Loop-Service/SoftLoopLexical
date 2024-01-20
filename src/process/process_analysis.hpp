@@ -215,9 +215,9 @@ namespace ProcessVisualization
     class VariablePossessionUnion
     {
     private:
-        mp_i_s value_type_table;       // その変数がどんな型なのかを管理する
-        mp_i_vint pointer_value_table; // ポインタとポインタ|変数の関係性を指し示す
-        vint update_pointer_value_table;
+        mp_i_s value_type_table;         // その変数がどんな型なのかを管理する
+        mp_i_vint pointer_value_table;   // ポインタとポインタ|変数の関係性を指し示す
+        vint update_pointer_value_table; // 更新したポインタを登録する
 
         VariablePossession *variable_possession;
         ProcessScope *variable_scope;
