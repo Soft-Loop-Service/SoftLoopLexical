@@ -1,0 +1,26 @@
+int []num = new int[10];
+int size = 10;
+int n = 0 ;
+while (n < size){
+    num[n] = RANDOM(1,size);
+    n = n + 1;
+}
+
+int tmp = 0;
+int i = 0;
+int j = 0;
+
+while (i < size){
+    j = i + 1;
+    while (j < size){
+        if (num[i] > num[j])
+        {
+            tmp = num[i];
+            num[i] = num[j];
+            num[j] = tmp;
+        }
+        j = j + 1;
+    }
+    i = i + 1;
+    
+}

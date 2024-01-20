@@ -47,9 +47,6 @@ namespace LanguageSpecifications
         {
             ProcessVisualization::vArgument function_argument_vector = function_unit.getArgumentValue();
 
-            int depth = vpu->getDepth();
-
-            vpu->deep(); // 引数解決層
             for (int i = 0; i < fmp.argument.size(); i++)
             {
                 ValueEnumeration passing_argument = fmp.argument[i];
@@ -81,8 +78,12 @@ namespace LanguageSpecifications
                     value_ans = to_string(value_int);
                 }
             }
+        }
+        void Softj::resolutionFunctionExecution(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp)
+        {
 
             // vpu->deep(); // 関数実行層
+            int depth = vpu->getDepth();
 
             int recursion_node = function_unit.getFunctionNode();
             string return_type = function_unit.getReturnType();
@@ -94,18 +95,16 @@ namespace LanguageSpecifications
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr);
 
-            function_bation.push_back({return_type});
-
             recursion(recursion_node);
 
             ProcessVisualization::ProcessAnalysis pr2(ProcessVisualization::is_id_process_type_logic, "関数終了", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr2);
 
             // vpu->shallow();
-            vpu->shallow();
+
             return;
         }
-        // 戻り値変数レイヤーを返す
+
         void Softj::resolutionCalcFunction(int node_index)
         {
             Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
@@ -140,7 +139,22 @@ namespace LanguageSpecifications
             }
 
             printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
+
+            vpu->deep(); // 引数解決層
             resolutionFunctionMessagePassing(function_unit, fmp);
+            string return_type = function_unit.getReturnType();
+            function_bation.push_back({return_type});
+            if (function_unit.getBuiltInFunction() >= 0)
+            {
+                callBuildInFcuntion(function_unit, fmp);
+            }
+            else
+            {
+                resolutionFunctionExecution(function_unit, fmp);
+            }
+
+            vpu->shallow();
+            function_bation.pop_back();
             return;
         }
     }

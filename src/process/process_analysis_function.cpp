@@ -7,6 +7,12 @@ namespace ProcessVisualization
         argument_value = {{}};
         function_node = -1;
     }
+    FunctionUnit::FunctionUnit(string function_name, string return_type, vArgument argument_value)
+    {
+        this->function_name = function_name;
+        this->return_type = return_type;
+        this->argument_value = argument_value;
+    }
     FunctionUnit::FunctionUnit(string function_name, string return_type, vArgument argument_value, int function_node)
     {
         this->function_name = function_name;
@@ -22,6 +28,20 @@ namespace ProcessVisualization
         }
         printf("\n");
     }
+    void FunctionUnit::setBuiltInFunction(int function_id)
+    {
+        function_node = function_id;
+        is_built_in_function = true;
+    }
+    int FunctionUnit::getBuiltInFunction()
+    {
+        if (!is_built_in_function)
+        {
+            return -1;
+        }
+        return function_node;
+    }
+
     void FunctionUnit::addArgumentValue(string type, string name)
     {
         this->argument_value.push_back({type, name});

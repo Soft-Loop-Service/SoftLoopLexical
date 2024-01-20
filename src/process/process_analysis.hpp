@@ -135,14 +135,18 @@ namespace ProcessVisualization
         string return_type;
         vArgument argument_value;
         int function_node;
+        int is_built_in_function = false;
 
     public:
         FunctionUnit();
         FunctionUnit(string function_name, string return_type, vArgument argument_value, int function_node);
+        FunctionUnit(string function_name, string return_type, vArgument argument_value);
+        void setBuiltInFunction(int function_node);
         void addArgumentValue(string type, string name);
         int getFunctionNode();
         string getFunctionName();
         string getReturnType();
+        int getBuiltInFunction();
         vArgument getArgumentValue();
         bool isMatchType(vstring match_argument_value);
         vstring isMatchType(vArgument match_argument_value);

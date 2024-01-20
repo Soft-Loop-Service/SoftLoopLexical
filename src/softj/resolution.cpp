@@ -56,10 +56,14 @@ namespace LanguageSpecifications
                     return_baton.pop_back();
                     rv_val = return_baton_unit.getValueString();
                 }
-                function_bation.pop_back();
                 printf("関数解析 戻り値解析(string) %s\n", rv_val.c_str());
 
                 return rv_val;
+            }
+
+            if (current_node.token == "<function_message_passing>")
+            {
+                return resolutionTreeCalcString(current_node.children[0]);
             }
 
             if (current_node.parent_token == "<value_name>" || current_node.token_label == is_id_TerminalSymbol || current_node.token == "<array_name>")
@@ -119,6 +123,9 @@ namespace LanguageSpecifications
             if (hasMapKey(function_message_passing_map, node_index))
             {
                 resolutionCalcFunction(node_index);
+
+                printf("関数解析 戻り値解析開始(int) %d\n", return_baton.size());
+
                 int rv_val;
                 if (return_baton.size() > 0)
                 {
@@ -126,10 +133,15 @@ namespace LanguageSpecifications
                     return_baton.pop_back();
                     rv_val = return_baton_unit.getValueInt();
                 }
-                function_bation.pop_back();
+
                 printf("関数解析 戻り値解析(int) %d\n", rv_val);
 
                 return rv_val;
+            }
+
+            if (current_node.token == "<function_message_passing>")
+            {
+                return resolutionTreeCalcInt(current_node.children[0]);
             }
 
             if (current_node.parent_token == "<value_name>" || current_node.parent_token == "<number>" || current_node.token == "<array_name>")
@@ -188,6 +200,9 @@ namespace LanguageSpecifications
             if (token == "==")
             {
                 ans = equality(left, right, bulletin_node_index);
+            }
+            else
+            {
             }
             printf("calcSoftjTree %d : %d %s %d\n", ans, left, token.c_str(), right);
 

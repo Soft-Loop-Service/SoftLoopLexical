@@ -72,6 +72,7 @@ namespace LanguageSpecifications
             void preparationTree();
 
             void resolutionFunctionMessagePassing(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
+            void resolutionFunctionExecution(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
             void resolutionCalcFunction(int node_index);
             string resolutionCalcString(int node_index);
             int resolutionCalcInt(int node_index);
@@ -84,6 +85,10 @@ namespace LanguageSpecifications
             int resolutionTreeCalcArray(int node_index);
             void resolutionCalcArrayLength(int node_index, vint &length_list);
             void resolutionCalcMakeArray(int pointer, vint &length_list, string array_type, int depth);
+
+            void setupBuidInFunction();
+            void callBuildInFcuntion(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
+            void randomFunction(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
 
             template <typename T>
             bool resolutionCalcValue(int node_index, T &rv_value)

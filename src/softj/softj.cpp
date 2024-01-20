@@ -21,6 +21,7 @@ namespace LanguageSpecifications
             this->fpu = &fpu;
             this->return_baton = {};
             this->function_bation = {};
+            setupBuidInFunction();
         }
 
         void Softj::calc()
