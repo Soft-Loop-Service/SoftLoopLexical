@@ -30,6 +30,12 @@ namespace LanguageSpecifications
                 {
                     Syntactic::SyntacticTreeNode current_right_node = (*syntactic_analysis_tree)[right_index];
                     int pointer = resolutionTreeCalcArray(right_index);
+
+                    if (pointer < 0)
+                    {
+                        return;
+                    }
+
                     vpu->newPointerValue(value_name, pointer, left_index);
                 }
 
@@ -79,6 +85,11 @@ namespace LanguageSpecifications
             if (current_left_node.token == "<array_name>")
             {
                 int pointer = resolutionTreeCalcArray(left_index);
+                if (pointer < 0)
+                {
+                    return;
+                }
+
                 string value_type = vpu->getType(pointer);
                 string value_ans = "";
                 printf("array_name value_ans %d %s\n", pointer, value_type.c_str());

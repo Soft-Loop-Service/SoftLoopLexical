@@ -33,7 +33,7 @@ namespace ProcessVisualization
         this->pointer_value_table = pvt;
     }
 
-    ProcessAnalysisTimeline::ProcessAnalysisTimeline(VariablePossessionUnion &vpu,VariablePossession &vp)
+    ProcessAnalysisTimeline::ProcessAnalysisTimeline(VariablePossessionUnion &vpu, VariablePossession &vp)
     {
         variable_possession_union = &vpu;
         variable_possession = &vp;
@@ -43,20 +43,23 @@ namespace ProcessVisualization
     {
         VariablePossession vp;
         mp_i_vint pointer_value_table;
-        if (process_result.size() == 0){
+        if (process_result.size() == 0)
+        {
             vp = variable_possession->copy();
             pointer_value_table = variable_possession_union->getPointerValueTable();
         }
-        else{
+        else
+        {
             vp = variable_possession->getUpdateVariable();
-            vint update_pointer_value_table =  variable_possession_union->getUpdatePointerValueTable();
-            mp_i_vint all_pointer =  variable_possession_union->getPointerValueTable();
-            for (int i = 0 ; i < update_pointer_value_table.size() ;i++){
+            vint update_pointer_value_table = variable_possession_union->getUpdatePointerValueTable();
+            mp_i_vint all_pointer = variable_possession_union->getPointerValueTable();
+            for (int i = 0; i < update_pointer_value_table.size(); i++)
+            {
                 int up = update_pointer_value_table[i];
                 pointer_value_table[up] = all_pointer[up];
             }
         }
-        
+
         pr.setPointerValueTable(pointer_value_table);
         pr.setVariablePossession(vp);
         process_result.push_back(pr);
@@ -133,6 +136,30 @@ namespace ProcessVisualization
         return -1;
     }
 
+    vint ProcessScope::getLayerLast()
+    {
+        int size = layer_scope.size();
+        int last = size - 1;
+
+        vint layers = {};
+
+        for (int i = 0; i < last; i++)
+        {
+            vstring value_list = getMapKeyString(layer_scope[last]);
+            for (int j = 0; j < value_list.size(); j++)
+            {
+                vint scope_layers = layer_scope[i][value_list[j]];
+
+                for (int k = 0; k < scope_layers.size(); k++)
+                {
+                    layers.push_back(scope_layers[k]);
+                }
+            }
+        }
+
+        return layers;
+    }
+
     int ProcessScope::search(string value_name)
     {
         int size = layer_scope.size();
@@ -144,7 +171,9 @@ namespace ProcessVisualization
 
             if (has(li, value_name))
             {
-                int layer = layer_scope[li][value_name][layer_scope[li][value_name].size() - 1];
+                int v = layer_scope[li][value_name].size() - 1;
+                int layer = layer_scope[li][value_name][v];
+                printf("search layer : %d %d %s %d %d\n", layer, li, value_name.c_str(), v, layer_scope[li][value_name].size());
                 return layer;
             }
         }

@@ -91,14 +91,35 @@ namespace LanguageSpecifications
             resolutionCalcArrayLength(array_len_node_index, length_list);
 
             int array_pointer;
-            vpu->getValue(array_index_node.token, array_pointer);
-            printf("配列アドレスの解決 %d\n", array_pointer);
+            vpu->getPointer(array_index_node.token, array_pointer);
+            printf("配列アドレスの解決 %s %d\n", array_index_node.token.c_str(), array_pointer);
+
+            if (!(vpu->hasArrayPointer(array_pointer)))
+            {
+                printf("配列アドレスの解決(hasArrayPointer失敗)\n");
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義配列アクセス", vpu->getDepth(), node_index);
+                process_timeline->pushProcessAnalysis(pr);
+                pointer = -1;
+                return;
+            }
 
             for (int i = 0; i < length_list.size(); i++)
             {
                 vint pointers = vpu->getArrayPointers(array_pointer);
-                array_pointer = pointers[length_list[i]];
-                printf("配列アドレスの解決(次元) %d %d\n",length_list[i], array_pointer);
+
+                if (length_list[i] < pointers.size())
+                {
+                    array_pointer = pointers[length_list[i]];
+                    printf("配列アドレスの解決(次元) %d %d\n", length_list[i], array_pointer);
+                }
+                else
+                {
+                    printf("配列アドレスの解決(失敗)\n");
+                    ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "配列範囲外アクセス(要素)", vpu->getDepth(), node_index);
+                    process_timeline->pushProcessAnalysis(pr);
+                    pointer = -1;
+                    return;
+                }
             }
 
             pointer = array_pointer;

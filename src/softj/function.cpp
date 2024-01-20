@@ -113,8 +113,11 @@ namespace LanguageSpecifications
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(), node_index);
             process_timeline->pushProcessAnalysis(pr);
             printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
+
             if (!hasMapKey(function_message_passing_map, node_index))
             {
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義関数への呼び出し", vpu->getDepth(), node_index);
+                process_timeline->pushProcessAnalysis(pr);
                 return;
             }
 
@@ -124,6 +127,8 @@ namespace LanguageSpecifications
 
             if (function_unit.getFunctionNode() == -1)
             {
+                ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "オーバーロードの失敗", vpu->getDepth(), node_index);
+                process_timeline->pushProcessAnalysis(pr);
                 printf("存在しない関数\n");
                 return;
             }

@@ -44,6 +44,9 @@
   height: 24px;
 }
 .message {
+  font-size: 16px;
+}
+.message {
   width: 100%;
 
   display: flex;
@@ -66,7 +69,23 @@
 .layer {
   width: 100%;
 }
+.context_left_area,
+.context_right_area {
+  background-color: cornflowerblue;
+}
+.context_left_area span,
+.context_right_area span {
+  color: white;
 
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 200;
+}
+.context_left_area {
+  width: 100%;
+}
+.context_right_area {
+  width: 100%;
+}
 .message_error {
   background-color: rgba(200, 50, 10, 0.4);
 }

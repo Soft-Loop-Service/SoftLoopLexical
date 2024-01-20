@@ -69,8 +69,7 @@ namespace ProcessVisualization
         VariablePossession *variable_possession;
         ProcessAnalysis(string process_type, string message, int depth, int node_index);
         void setVariablePossession(VariablePossession &vp);
-                void setPointerValueTable(mp_i_vint pvt);
-
+        void setPointerValueTable(mp_i_vint pvt);
     };
 
     class ProcessAnalysisTimeline
@@ -81,7 +80,7 @@ namespace ProcessVisualization
         VariablePossessionUnion *variable_possession_union;
 
     public:
-        ProcessAnalysisTimeline(VariablePossessionUnion &vpu ,VariablePossession &vp);
+        ProcessAnalysisTimeline(VariablePossessionUnion &vpu, VariablePossession &vp);
         void pushProcessAnalysis(ProcessAnalysis pr);
         vProcessAnalysis getProcessResult();
     };
@@ -90,16 +89,28 @@ namespace ProcessVisualization
     {
     private:
         vmap_str_vint layer_scope;
+        // スコープ - 変数名 - {layer}
 
         bool has(int scope, string value_name);
 
     public:
         ProcessScope();
         void put(string value_name, int layer);
+
+        // 変数名からすべてのlayerを取得する
         vint searchAll(string value_name);
+
+        // layerがどの深さにいるか調べる
         int searchDeep(int search_layer);
+
+        // layerを調べる
         int search(string value_name);
+
+        // 最深layerにいるか調べる
         int searchLast(string value_name);
+
+        vint getLayerLast();
+
         void deep();
         void shallow();
     };
@@ -175,7 +186,8 @@ namespace ProcessVisualization
 
     public:
         VariablePossession();
-        void setVariablePossession(VariablePossession copy_vp){
+        void setVariablePossession(VariablePossession copy_vp)
+        {
             this->variable_int = copy_vp.variable_int;
             this->variable_string = copy_vp.variable_string;
             this->variable_type = copy_vp.variable_type;
@@ -190,9 +202,10 @@ namespace ProcessVisualization
         string getString(int layer);
         int getInt(int layer);
 
-        VariablePossession copy(){
+        VariablePossession copy()
+        {
             return *this;
-        } 
+        }
         map<int, string> getVariableType();
         map<int, string> getVariableString();
         map<int, int> getVariableInt();
@@ -220,7 +233,6 @@ namespace ProcessVisualization
         string parseType(int element);
         bool isType(string type, int element);
 
-
     public:
         VariablePossessionUnion(VariablePossession &vp);
         mapVariableProcessEnumeration getVariableProcessEnumeration();
@@ -237,39 +249,40 @@ namespace ProcessVisualization
         int newPointer();
         vint newArray(int array_pointer, int len);
         vint getArrayPointers(int array_pointer);
+        bool hasArrayPointer(int array_pointer);
         int getArrayPointer(string array_name);
         void newPointerValue(string name, int pointer, int definition_node);
 
-    template <typename T>
-    void newLinkPointerValue(int pointer, T element)
-    {
-
-        int current_layer = pointer;
-        string type = parseType(element);
-        setValueTypeTable(current_layer, type);
-        updateValue(current_layer, element);
-    }
-
-    template <typename T>
-    void newValue(string name, T element, int definition_node)
-    {
-        if (variable_scope->searchLast(name) == -1)
+        template <typename T>
+        void newLinkPointerValue(int pointer, T element)
         {
-            // 存在しないとき、新規追加
 
-            int current_layer = max_layer;
-            max_layer++;
-
-            this->variable_scope->put(name, current_layer);
-
+            int current_layer = pointer;
             string type = parseType(element);
             setValueTypeTable(current_layer, type);
             updateValue(current_layer, element);
-
-            struct VariableProcessEnumeration new_variable_enumeration = {type, name,current_layer , definition_node};
-            variable_enumeration_map[current_layer] = new_variable_enumeration;
         }
-    }
+
+        template <typename T>
+        void newValue(string name, T element, int definition_node)
+        {
+            if (variable_scope->searchLast(name) == -1)
+            {
+                // 存在しないとき、新規追加
+
+                int current_layer = max_layer;
+                max_layer++;
+
+                this->variable_scope->put(name, current_layer);
+
+                string type = parseType(element);
+                setValueTypeTable(current_layer, type);
+                updateValue(current_layer, element);
+
+                struct VariableProcessEnumeration new_variable_enumeration = {type, name, current_layer, definition_node};
+                variable_enumeration_map[current_layer] = new_variable_enumeration;
+            }
+        }
 
         bool hasLayer(string name);
         string getType(string name);
@@ -287,6 +300,7 @@ namespace ProcessVisualization
         {
             string type = getValueTypeTable(layer);
             variable_possession->add(layer, element);
+            printf("updateValueNoCheck\n");
         }
 
         template <typename T>
@@ -298,6 +312,25 @@ namespace ProcessVisualization
             }
         }
 
+        bool getPointer(string name, int &pointer)
+        {
+            int layer = variable_scope->search(name);
+
+            if (!hasValueTypeTable(layer))
+            {
+                return false;
+            }
+            string type = getValueTypeTable(layer);
+            if (type != "pointer")
+            {
+                return false;
+            }
+            int p;
+            variable_possession->get(layer, p);
+            pointer = p;
+            return true;
+        }
+
         template <typename T>
         void getValue(string name, T &element)
         {
@@ -305,6 +338,7 @@ namespace ProcessVisualization
             getValue(layer, element);
         }
         template <typename T>
+
         bool getValue(int layer, T &element)
         {
             if (!hasValueTypeTable(layer))
@@ -318,6 +352,8 @@ namespace ProcessVisualization
             }
 
             variable_possession->get(layer, element);
+
+            return true;
         };
     };
 

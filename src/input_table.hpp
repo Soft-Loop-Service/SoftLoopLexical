@@ -2,10 +2,8 @@
 #ifndef __INPUT_TABLE
 #define __INPUT_TABLE
 
-
 #include "definition.hpp"
 #include "./LR_table/LR_table.hpp"
-
 
 inline int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilayer)
 {

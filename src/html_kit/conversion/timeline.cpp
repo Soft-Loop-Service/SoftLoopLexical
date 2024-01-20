@@ -35,7 +35,28 @@ namespace HTMLParse
 
         //     return process_node_index;
         // }
+        void Timeline::timelineMessageContextArea(string process_order, string source_code_line, string source_code_column, string message, int message_node_index)
+        {
+            HTMLKit::HtmlKitElement order_message_text_area("span");
+            order_message_text_area.addEClass("message_order_text");
+            order_message_text_area.setElement(process_order);
+            html_kit_tree.add_node(message_node_index, order_message_text_area);
 
+            HTMLKit::HtmlKitElement line_message_text_area("span");
+            line_message_text_area.addEClass("message_line_text");
+            line_message_text_area.setElement(source_code_line);
+            html_kit_tree.add_node(message_node_index, line_message_text_area);
+
+            HTMLKit::HtmlKitElement column_message_text_area("span");
+            column_message_text_area.addEClass("message_column_text");
+            column_message_text_area.setElement(source_code_column);
+            html_kit_tree.add_node(message_node_index, column_message_text_area);
+
+            HTMLKit::HtmlKitElement message_text_area("span");
+            message_text_area.addEClass("message_text");
+            message_text_area.setElement(message);
+            html_kit_tree.add_node(message_node_index, message_text_area);
+        }
         void Timeline::timelineMessageArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process)
         {
             HTMLKit::HtmlKitElement message_area("div");
@@ -54,30 +75,12 @@ namespace HTMLParse
                 message_area.addEClass("message_language_error");
             }
 
-            int message_node_index = html_kit_tree.add_node(html_parent_node, message_area);
-
-            HTMLKit::HtmlKitElement order_message_text_area("span");
-            order_message_text_area.addEClass("message_order_text");
-            order_message_text_area.setElement(to_string(process_order));
-            html_kit_tree.add_node(message_node_index, order_message_text_area);
-
             int source_code_line = (*syntactic_analysis_tree_p)[process.node_index].source_code_line;
             int source_code_column = (*syntactic_analysis_tree_p)[process.node_index].source_code_column;
 
-            HTMLKit::HtmlKitElement line_message_text_area("span");
-            line_message_text_area.addEClass("message_line_text");
-            line_message_text_area.setElement(to_string(source_code_line));
-            html_kit_tree.add_node(message_node_index, line_message_text_area);
+            int message_node_index = html_kit_tree.add_node(html_parent_node, message_area);
 
-            HTMLKit::HtmlKitElement column_message_text_area("span");
-            column_message_text_area.addEClass("message_column_text");
-            column_message_text_area.setElement(to_string(source_code_column));
-            html_kit_tree.add_node(message_node_index, column_message_text_area);
-
-            HTMLKit::HtmlKitElement message_text_area("span");
-            message_text_area.addEClass("message_text");
-            message_text_area.setElement(process.message);
-            html_kit_tree.add_node(message_node_index, message_text_area);
+            timelineMessageContextArea(to_string(process_order), to_string(source_code_line), to_string(source_code_column), process.message, message_node_index);
         }
 
         void Timeline::timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process)
@@ -334,6 +337,20 @@ namespace HTMLParse
 
             int timeline_left_index = html_kit_tree.add_node(timeline_scroll_area_index, timeline_left_area);
             int timeline_right_index = html_kit_tree.add_node(timeline_scroll_area_index, timeline_right_area);
+
+            HTMLKit::HtmlKitElement context_left_area("div");
+            context_left_area.addEClass("context_left_area");
+            int context_left_area_index = html_kit_tree.add_node(timeline_left_index, context_left_area);
+            timelineMessageContextArea("進行", "行", "列", "実行", context_left_area_index);
+
+            HTMLKit::HtmlKitElement context_right_area("div");
+            context_right_area.addEClass("context_right_area");
+            int context_right_area_index = html_kit_tree.add_node(timeline_right_index, context_right_area);
+
+            HTMLKit::HtmlKitElement context_right_text_area("span");
+            context_right_text_area.addEClass("context_right_text");
+            context_right_text_area.setElement("スコープ状況");
+            html_kit_tree.add_node(context_right_area_index, context_right_text_area);
 
             HTMLKit::HtmlKitElement timeline_right_scroll_area("div");
             timeline_right_scroll_area.addEClass("timeline_right_scroll");

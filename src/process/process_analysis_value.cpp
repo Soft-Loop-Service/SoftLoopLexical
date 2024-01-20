@@ -192,6 +192,10 @@ namespace ProcessVisualization
     {
         return pointer_value_table[array_pointer];
     }
+    bool VariablePossessionUnion::hasArrayPointer(int array_pointer)
+    {
+        return hasMapKey(pointer_value_table, array_pointer);
+    }
 
     int VariablePossessionUnion::getArrayPointer(string array_name)
     {
@@ -211,6 +215,8 @@ namespace ProcessVisualization
 
             string type = "pointer";
             setValueTypeTable(current_layer, type);
+
+            printf("newPointerValue %d %d\n", current_layer, pointer);
             updateValue(current_layer, pointer);
 
             struct VariableProcessEnumeration new_variable_enumeration = {type, name, current_layer, definition_node};

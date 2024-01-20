@@ -115,18 +115,16 @@ const messageHoverOut = (process_order) => {
 };
 
 const process_back = () => {
-  focus_process = Math.max(focus_process - 1, 0);
+  focus_process = focus_process - 1 < 0 ? meta_data.process_length - 1 : focus_process - 1;
   messageClick(focus_process);
   choiceAction(focus_process);
 };
 const process_next = () => {
-  focus_process = Math.min(focus_process + 1, meta_data.process_length - 1);
+  focus_process = (focus_process + 1) % meta_data.process_length;
   messageClick(focus_process);
   choiceAction(focus_process);
 };
-const process_next_check = () => {
-  return focus_process + 2 <= meta_data.process_length;
-};
+
 let is_run = false;
 
 const process_run = () => {
@@ -140,10 +138,10 @@ const process_run_icon = () => {
   const button_run_check_title = document.getElementById("button_run_check_title");
   if (!is_run) {
     button_run_check.className = "dli-chevron-right";
-    button_run_check_title.inert = "さいせい";
+    button_run_check_title.innerText = "さいせい";
   } else {
     button_run_check.className = "dli-close";
-    button_run_check_title.inert = "とめる";
+    button_run_check_title.innerText = "とめる";
   }
   console.log("process_run_icon", button_run_check.className);
 };
@@ -151,13 +149,9 @@ const process_run_icon = () => {
 async function sleep() {
   console.log("sleep機能の代替");
 
-  while (process_next_check() && is_run) {
+  while (is_run) {
     await new Promise((resolve) => setTimeout(resolve, 400));
-    if (process_next_check()) {
-      process_next();
-    } else {
-      is_run = false;
-    }
+    process_next();
   }
   is_run = false;
   process_run_icon();

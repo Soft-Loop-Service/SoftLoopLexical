@@ -133,6 +133,7 @@ namespace HTMLParse
             int depth_length;
             void timelineLeftArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineRightArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
+            void timelineMessageContextArea(string process_order, string source_code_line, string source_code_column, string message, int message_node_index);
             int timelineCommonArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineMessageArea(int process_order, int html_parent_node, ProcessVisualization::ProcessAnalysis process);
             void timelineLineColumnArea(int html_parent_node, ProcessVisualization::ProcessAnalysis process);
