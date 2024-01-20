@@ -1,7 +1,5 @@
-
-int c = RANDOM(1,100);
-int d = (a()) + (a());
-
-int a(){
-    return 1004;
-}
+int [] array2 = new int[2][2];
+int [] array3 = new int[2][2][2];
+int [] array4 = new int[2][2][2][2];
+int [] array5 = new int[2][2][2][2][2];
+int [] array6 = new int[2][2][2][2][2][2];

@@ -201,6 +201,10 @@ namespace LanguageSpecifications
             {
                 ans = equality(left, right, bulletin_node_index);
             }
+            if (token == "%")
+            {
+                ans = remainder(left, right, bulletin_node_index);
+            }
             else
             {
             }

@@ -9,7 +9,7 @@
 <comparison> ::= <comparison> "<" <expr> | <comparison> "<=" <expr> | <comparison> ">" <expr> | <comparison> ">=" <expr> | <expr>
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>
-<term> ::= <term> "*" <factor> | <term> "/" <factor> | <factor>
+<term> ::= <term> "*" <factor> | <term> "/" <factor>  | <term> "%" <factor> |  <factor>
 <factor> ::= <number> | "(" <right> ")" | <value_name> | <array_name> | <text>
 
 <number> ::= NUM
