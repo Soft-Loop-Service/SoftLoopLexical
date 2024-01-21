@@ -14,7 +14,7 @@ namespace LanguageSpecifications
 
         void Softj::recursion(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             string token = current_node.token;
 
             printf("node_index %d\n", node_index);
@@ -33,7 +33,7 @@ namespace LanguageSpecifications
             if (current_node.token == "<return>")
             {
                 int rv_index = current_node.children[1];
-                Syntactic::SyntacticTreeNode c_node = (*syntactic_analysis_tree)[rv_index];
+                Syntactic::SyntacticTreeNode c_node = getTreeNode(rv_index);
                 printf("リターン解析(戻り値あり) %d : %d %d\n", node_index, rv_index, function_bation.size());
                 if (function_bation.size() > 0)
                 {

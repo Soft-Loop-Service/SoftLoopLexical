@@ -7,7 +7,6 @@
 #include <algorithm>
 #include "./softj.hpp"
 
-
 namespace LanguageSpecifications
 {
     namespace SoftjLanguage
@@ -15,11 +14,11 @@ namespace LanguageSpecifications
 
         int Softj::whileCalc(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             int child0_node_index = current_node.children[0];
-            Syntactic::SyntacticTreeNode child0 = (*syntactic_analysis_tree)[child0_node_index];
-            // Syntactic::SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
-            // Syntactic::SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
+            Syntactic::SyntacticTreeNode child0 = getTreeNode(child0_node_index);
+            // Syntactic::SyntacticTreeNode child1 = getTreeNode(current_node.children[1]];
+            // Syntactic::SyntacticTreeNode child2 = getTreeNode(current_node.children[2]];
 
             int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
             bool ifbool = getBool(calc_ans);
@@ -45,18 +44,18 @@ namespace LanguageSpecifications
         int Softj::ifCalc(int node_index)
         {
             printf("ifCalc\n");
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             int child0_node_index = current_node.children[0];
-            Syntactic::SyntacticTreeNode child0 = (*syntactic_analysis_tree)[child0_node_index];
-            // Syntactic::SyntacticTreeNode child1 = (*syntactic_analysis_tree)[current_node.children[1]];
-            // Syntactic::SyntacticTreeNode child2 = (*syntactic_analysis_tree)[current_node.children[2]];
+            Syntactic::SyntacticTreeNode child0 = getTreeNode(child0_node_index);
+            // Syntactic::SyntacticTreeNode child1 = getTreeNode(current_node.children[1]];
+            // Syntactic::SyntacticTreeNode child2 = getTreeNode(current_node.children[2]];
+            printf("ifCalc 条件解析\n");
             int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
-
+            printf("ifCalc 条件解析結果  : %d\n", calc_ans);
             bool ifbool = getBool(calc_ans);
 
             if (ifbool)
             {
-
                 if (current_node.children.size() >= 3)
                 {
                     string message = "if 条件分岐";

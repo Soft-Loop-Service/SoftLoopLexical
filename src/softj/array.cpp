@@ -38,7 +38,7 @@ namespace LanguageSpecifications
 
         void Softj::resolutionCalcArrayLength(int node_index, vint &length_list)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.token == "<array_length>")
             {
@@ -58,7 +58,7 @@ namespace LanguageSpecifications
         void Softj::resolutionCalcNewArray(int node_index, int pointer)
         {
 
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.children.size() <= 2)
             {
@@ -67,7 +67,7 @@ namespace LanguageSpecifications
 
             int array_type_index = current_node.children[1];
             int array_len_node_index = current_node.children[2];
-            string type = (*syntactic_analysis_tree)[array_type_index].token;
+            string type = getTreeNode(array_type_index).token;
 
             vint length_list;
             resolutionCalcArrayLength(array_len_node_index, length_list);
@@ -80,7 +80,7 @@ namespace LanguageSpecifications
 
         void Softj::resolutionCalcArray(int node_index, int &pointer)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.children.size() < 2)
             {
@@ -89,7 +89,7 @@ namespace LanguageSpecifications
 
             int array_name_index = current_node.children[0];
             int array_len_node_index = current_node.children[1];
-            Syntactic::SyntacticTreeNode array_index_node = (*syntactic_analysis_tree)[array_name_index];
+            Syntactic::SyntacticTreeNode array_index_node = getTreeNode(array_name_index);
 
             vint length_list;
             resolutionCalcArrayLength(array_len_node_index, length_list);
@@ -132,7 +132,7 @@ namespace LanguageSpecifications
 
         int Softj::resolutionTreeCalcArray(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.token == "<new_array>")
             {

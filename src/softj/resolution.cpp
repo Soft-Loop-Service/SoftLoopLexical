@@ -14,7 +14,7 @@ namespace LanguageSpecifications
 
         string Softj::resolutionCalcString(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.token == "<array_name>")
             {
@@ -39,7 +39,7 @@ namespace LanguageSpecifications
 
         string Softj::resolutionTreeCalcString(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             if (current_node.children.size() == 1)
             {
                 string r = resolutionTreeCalcString(current_node.children[0]);
@@ -88,7 +88,7 @@ namespace LanguageSpecifications
         }
         int Softj::resolutionCalcInt(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             if (current_node.token == "<array_name>")
             {
@@ -113,7 +113,7 @@ namespace LanguageSpecifications
         int Softj::resolutionTreeCalcInt(int node_index)
         {
 
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             if (current_node.children.size() == 1)
             {
                 int r = resolutionTreeCalcInt(current_node.children[0]);
@@ -146,13 +146,14 @@ namespace LanguageSpecifications
 
             if (current_node.parent_token == "<value_name>" || current_node.parent_token == "<number>" || current_node.token == "<array_name>")
             {
+                printf("変数解析要求 %s %d\n", current_node.parent_token.c_str(), node_index);
                 return resolutionCalcInt(node_index);
             }
 
             printf("calc %d -> %d %d\n", node_index, current_node.children[0], current_node.children[1]);
 
-            Syntactic::SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_node.children[0]];
-            Syntactic::SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_node.children[1]];
+            Syntactic::SyntacticTreeNode child_left = getTreeNode(current_node.children[0]);
+            Syntactic::SyntacticTreeNode child_right = getTreeNode(current_node.children[1]);
 
             int left;
             int right;

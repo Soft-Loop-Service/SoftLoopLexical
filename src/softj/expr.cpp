@@ -16,19 +16,19 @@ namespace LanguageSpecifications
         void Softj::assExpr(int left_index, int right_index)
         {
 
-            Syntactic::SyntacticTreeNode current_left_node = (*syntactic_analysis_tree)[left_index];
+            Syntactic::SyntacticTreeNode current_left_node = getTreeNode(left_index);
 
             if (current_left_node.token == "<array_definition>")
             {
-                Syntactic::SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_left_node.children[0]];
-                Syntactic::SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_left_node.children[1]];
+                Syntactic::SyntacticTreeNode child_left = getTreeNode(current_left_node.children[0]);
+                Syntactic::SyntacticTreeNode child_right = getTreeNode(current_left_node.children[1]);
 
                 string value_type = child_left.token;
                 string value_name = child_right.token;
 
                 if (right_index >= 0)
                 {
-                    Syntactic::SyntacticTreeNode current_right_node = (*syntactic_analysis_tree)[right_index];
+                    Syntactic::SyntacticTreeNode current_right_node = getTreeNode(right_index);
                     int pointer = resolutionTreeCalcArray(right_index);
 
                     if (pointer < 0)
@@ -48,8 +48,8 @@ namespace LanguageSpecifications
             {
                 printf("assExpr %d %d %d %s\n", left_index, current_left_node.children[0], current_left_node.children[1], current_left_node.token.c_str());
 
-                Syntactic::SyntacticTreeNode child_left = (*syntactic_analysis_tree)[current_left_node.children[0]];
-                Syntactic::SyntacticTreeNode child_right = (*syntactic_analysis_tree)[current_left_node.children[1]];
+                Syntactic::SyntacticTreeNode child_left = getTreeNode(current_left_node.children[0]);
+                Syntactic::SyntacticTreeNode child_right = getTreeNode(current_left_node.children[1]);
 
                 string value_type = child_left.token;
                 string value_name = child_right.token;

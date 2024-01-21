@@ -16,7 +16,7 @@ namespace LanguageSpecifications
         ProcessVisualization::FunctionUnit Softj::searchFunctionMessagePassing(int node_index)
         {
 
-            FunctionMessagePassing fmp = function_message_passing_map[node_index];
+            FunctionMessagePassing fmp = getFunctionMessagePassingMap(node_index);
             vValueEnumeration vve = fmp.argument;
 
             vstring types = {};
@@ -89,7 +89,7 @@ namespace LanguageSpecifications
             string return_type = function_unit.getReturnType();
 
             int function_node_index = function_unit.getFunctionNode();
-            Syntactic::SyntacticTreeNode function_node = (*syntactic_analysis_tree)[function_node_index];
+            Syntactic::SyntacticTreeNode function_node = getTreeNode(function_node_index);
             int function_name_node_index = function_node.children[0];
 
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index);
@@ -107,7 +107,7 @@ namespace LanguageSpecifications
 
         void Softj::resolutionCalcFunction(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(), node_index);
             process_timeline->pushProcessAnalysis(pr);
@@ -121,7 +121,7 @@ namespace LanguageSpecifications
             }
 
             printf("関数呼び出し要求 %d\n", node_index);
-            FunctionMessagePassing fmp = function_message_passing_map[node_index];
+            FunctionMessagePassing fmp = getFunctionMessagePassingMap(node_index);
             ProcessVisualization::FunctionUnit function_unit = searchFunctionMessagePassing(node_index);
 
             if (function_unit.getFunctionNode() == -1)

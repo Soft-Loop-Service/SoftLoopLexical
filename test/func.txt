@@ -1,0 +1,11 @@
+
+int i = 0;
+
+int function(int a){
+    if (i < 3){
+          i = i + 1;
+          function(i);
+    }
+}
+
+function(1);

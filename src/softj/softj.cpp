@@ -24,6 +24,26 @@ namespace LanguageSpecifications
             setupBuidInFunction();
         }
 
+        FunctionMessagePassing Softj::getFunctionMessagePassingMap(int index)
+        {
+            if (function_message_passing_map.find(index) == function_message_passing_map.end())
+            {
+                throw "関数オーバーロード失敗";
+            }
+            return function_message_passing_map[index];
+        }
+
+        Syntactic::SyntacticTreeNode Softj::getTreeNode(int node_index)
+        {
+            if (node_index < 0 || syntactic_analysis_tree->size() <= node_index)
+            {
+                throw "木構造解析エラー";
+            }
+
+            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            return current_node;
+        }
+
         void Softj::calc()
         {
             try

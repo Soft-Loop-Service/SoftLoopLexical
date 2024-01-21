@@ -47,6 +47,8 @@ namespace LanguageSpecifications
             }
 
         public:
+            FunctionMessagePassing getFunctionMessagePassingMap(int index);
+            Syntactic::SyntacticTreeNode getTreeNode(int node_index);
             int equal(int node_index);
             string text_join(string left, string right, int node_index);
             int addition(int left, int right, int node_index);

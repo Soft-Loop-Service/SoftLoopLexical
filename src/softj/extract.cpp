@@ -15,9 +15,9 @@ namespace LanguageSpecifications
 
         ProcessVisualization::Argument Softj::extractValueDefinition(int node_index)
         {
-            Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
-            Syntactic::SyntacticTreeNode node_left = (*syntactic_analysis_tree)[node.children[0]];
-            Syntactic::SyntacticTreeNode node_right = (*syntactic_analysis_tree)[node.children[1]];
+            Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
+            Syntactic::SyntacticTreeNode node_left = getTreeNode(node.children[0]);
+            Syntactic::SyntacticTreeNode node_right = getTreeNode(node.children[1]);
             printf("extractValueDefinition %s %s %d\n", node_left.token.c_str(), node_right.token.c_str(), node_index);
 
             struct ProcessVisualization::Argument rvarg = {node_left.token, node_right.token};
@@ -27,7 +27,7 @@ namespace LanguageSpecifications
 
         void Softj::extractArgument(int node_index, ProcessVisualization::vArgument &extract_args)
         {
-            Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
 
             if (node.token == "<value_definition>")
             {
@@ -39,7 +39,7 @@ namespace LanguageSpecifications
             for (int i = 0; i < node.children.size(); i++)
             {
                 int child_node_index = node.children[i];
-                Syntactic::SyntacticTreeNode child_node = (*syntactic_analysis_tree)[child_node_index];
+                Syntactic::SyntacticTreeNode child_node = getTreeNode(child_node_index);
 
                 if (child_node.token_label == is_id_NonterminalSymbol)
                 {

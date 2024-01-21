@@ -9,6 +9,10 @@ namespace ProcessVisualization
 
     string VariablePossession::getType(int layer)
     {
+        if (variable_type.find(layer) == variable_type.end())
+        {
+            throw "変数取得失敗";
+        }
         return variable_type[layer];
     }
 
@@ -21,6 +25,10 @@ namespace ProcessVisualization
     }
     void VariablePossession::get(int layer, int &data)
     {
+        if (variable_int.find(layer) == variable_int.end())
+        {
+            throw "変数取得失敗";
+        }
         data = variable_int[layer];
     }
 
@@ -33,15 +41,28 @@ namespace ProcessVisualization
     }
     void VariablePossession::get(int layer, string &data)
     {
+        if (variable_string.find(layer) == variable_string.end())
+        {
+            throw "変数取得失敗";
+        }
+
         data = variable_string[layer];
     };
     int VariablePossession::getInt(int layer)
     {
+        if (variable_int.find(layer) == variable_int.end())
+        {
+            throw "変数取得失敗";
+        }
         int data = variable_int[layer];
         return data;
     }
     string VariablePossession::getString(int layer)
     {
+        if (variable_string.find(layer) == variable_string.end())
+        {
+            throw "変数取得失敗";
+        }
         string data = variable_string[layer];
         return data;
     }
@@ -72,6 +93,10 @@ namespace ProcessVisualization
     }
     string VariablePossessionUnion::getValueTypeTable(int layer)
     {
+        if (value_type_table.find(layer) == value_type_table.end())
+        {
+            throw "変数取得失敗";
+        }
         return this->value_type_table[layer];
     }
     bool VariablePossessionUnion::hasValueTypeTable(int layer)

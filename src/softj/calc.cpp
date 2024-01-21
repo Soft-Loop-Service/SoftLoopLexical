@@ -15,10 +15,16 @@ namespace LanguageSpecifications
 
         int Softj::equal(int node_index)
         {
-            Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
             int left = current_node.children[0];
             int right = current_node.children.size() >= 2 ? current_node.children[1] : -1;
+
+            if (right < 0)
+            {
+                throw "代入解析異常";
+            }
+
             assExpr(left, right);
         }
         string Softj::text_join(string left, string right, int node_index)

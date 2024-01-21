@@ -1,0 +1,12 @@
+int fibonacci(int n){
+    int b = n == 0;
+    if (b){
+         return 0;
+    }
+    int a = n - 1;
+    int f = fibonacci(a);
+    int rv = n + f;
+    return rv;
+}
+
+int ans = fibonacci(100);

@@ -15,7 +15,7 @@ namespace LanguageSpecifications
 
         void Softj::preparationValueEnumeration(int node_index, vValueEnumeration &args_type)
         {
-            Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
 
             if (node.parent_token == "<value_name>")
             {
@@ -45,7 +45,7 @@ namespace LanguageSpecifications
             for (int i = 0; i < node.children.size(); i++)
             {
                 int child_node_index = node.children[i];
-                Syntactic::SyntacticTreeNode child_node = (*syntactic_analysis_tree)[child_node_index];
+                Syntactic::SyntacticTreeNode child_node = getTreeNode(child_node_index);
 
                 preparationValueEnumeration(child_node_index, args_type);
             }
@@ -53,10 +53,10 @@ namespace LanguageSpecifications
 
         void Softj::preparationFunctionMessagePassing(int node_index)
         {
-            Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
             int child_node_left_index = node.children[0];
 
-            Syntactic::SyntacticTreeNode node_left = (*syntactic_analysis_tree)[child_node_left_index];
+            Syntactic::SyntacticTreeNode node_left = getTreeNode(child_node_left_index);
 
             vValueEnumeration args_type = {};
 
@@ -77,7 +77,7 @@ namespace LanguageSpecifications
         // 関数定義について、予め軽く解析しておく
         void Softj::preparationFunction(int node_index)
         {
-            Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[node_index];
+            Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
             ProcessVisualization::vArgument extract_args = {};
 
             // 変数の名前と戻り地の定義
@@ -90,7 +90,7 @@ namespace LanguageSpecifications
 
             if (node.children.size() == 2)
             {
-                if ((*syntactic_analysis_tree)[node.children[1]].token == "<value_definition>")
+                if (getTreeNode(node.children[1]).token == "<value_definition>")
                 {
                     extractArgument(node.children[1], extract_args);
                     ProcessVisualization::FunctionUnit function_unit(function_definition.name, function_definition.type, extract_args, -2);
@@ -119,7 +119,7 @@ namespace LanguageSpecifications
         {
             for (int i = 0; i < syntactic_analysis_tree->size(); i++)
             {
-                Syntactic::SyntacticTreeNode node = (*syntactic_analysis_tree)[i];
+                Syntactic::SyntacticTreeNode node = getTreeNode(i);
 
                 if (node.token == "<function>")
                 {

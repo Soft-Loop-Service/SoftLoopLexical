@@ -297,6 +297,11 @@ namespace ProcessVisualization
         void updateValue(string name, T element)
         {
             int layer = variable_scope->search(name);
+            if (layer < 0)
+            {
+                throw "変数取得異常";
+            }
+
             updateValue(layer, element);
         }
         template <typename T>
@@ -310,6 +315,11 @@ namespace ProcessVisualization
         template <typename T>
         void updateValue(int layer, T element)
         {
+            if (layer < 0)
+            {
+                throw "変数取得異常";
+            }
+
             if (hasValueTypeTable(layer))
             {
                 updateValueNoCheck(layer, element);
@@ -319,6 +329,11 @@ namespace ProcessVisualization
         bool getPointer(string name, int &pointer)
         {
             int layer = variable_scope->search(name);
+
+            if (layer < 0)
+            {
+                throw "変数取得異常";
+            }
 
             if (!hasValueTypeTable(layer))
             {
@@ -339,12 +354,23 @@ namespace ProcessVisualization
         void getValue(string name, T &element)
         {
             int layer = variable_scope->search(name);
+
+            if (layer < 0)
+            {
+                throw "変数取得異常";
+            }
+
             getValue(layer, element);
         }
         template <typename T>
 
         bool getValue(int layer, T &element)
         {
+            if (layer < 0)
+            {
+                throw "変数取得異常";
+            }
+
             if (!hasValueTypeTable(layer))
             {
                 return false;

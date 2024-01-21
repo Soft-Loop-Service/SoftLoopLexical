@@ -1,5 +1,2 @@
-int [] array2 = new int[2][2];
-int [] array3 = new int[2][2][2];
-int [] array4 = new int[2][2][2][2];
-int [] array5 = new int[2][2][2][2][2];
-int [] array6 = new int[2][2][2][2][2][2];
+int [] array = new int[10];
+int a = array[11];
