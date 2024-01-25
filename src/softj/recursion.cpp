@@ -67,7 +67,7 @@ namespace LanguageSpecifications
                 return;
             }
 
-            if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==" || token == "%")
+            if (token == "+" || token == "-" || token == "*" || token == "/" || token == "<" || token == "<=" || token == ">" || token == ">=" || token == "==" || token == "!=" || token == "%")
             {
                 resolutionTreeCalcInt(node_index);
                 return;

@@ -115,6 +115,13 @@ namespace LanguageSpecifications
             process_timeline->pushProcessAnalysis(pr);
             return left == right;
         }
+        int Softj::inequality(int left, int right, int node_index)
+        {
+            string message = "比較";
+            ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_input, message, vpu->getDepth(), node_index);
+            process_timeline->pushProcessAnalysis(pr);
+            return left != right;
+        }
 
     }
 };

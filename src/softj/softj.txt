@@ -5,7 +5,7 @@
 <left> ::= <value_definition> | <array_definition> | <value_name> | <array_name>
 <right> ::= <comparison_equal> | <function_message_passing> | <new_array>
 
-<comparison_equal> ::= <comparison_equal> "==" <comparison> | <comparison>
+<comparison_equal> ::= <comparison_equal> "==" <comparison> | <comparison_equal> "!=" <comparison> | <comparison>
 <comparison> ::= <comparison> "<" <expr> | <comparison> "<=" <expr> | <comparison> ">" <expr> | <comparison> ">=" <expr> | <expr>
 
 <expr> ::= <expr> "+" <term> | <expr> "-" <term> | <term>

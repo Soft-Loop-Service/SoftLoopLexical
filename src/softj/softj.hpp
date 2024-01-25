@@ -62,6 +62,7 @@ namespace LanguageSpecifications
             int equality(int left, int right, int node_index);
             int equality(string left, string right, int node_index);
             int remainder(int left, int right, int node_index);
+            int inequality(int left, int right, int node_index);
             void assExpr(int left_index, int right_index);
             ProcessVisualization::Argument extractValueDefinition(int node_index);
             void extractArgument(int node_index, ProcessVisualization::vArgument &extract_args);

@@ -24,7 +24,7 @@ namespace Syntactic
     bool isTokenExpr(string token_str)
     {
 
-        if (token_str == "<=" || token_str == ">=" || token_str == "<" || token_str == ">")
+        if (token_str == "<=" || token_str == ">=" || token_str == "<" || token_str == ">" || token_str == "!=" || token_str == "==")
         {
             return true;
         }
