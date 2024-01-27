@@ -90,6 +90,8 @@ namespace LanguageSpecifications
         {
             Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
 
+            printf("resolutionCalcInt %d\n", node_index);
+
             if (current_node.token == "<array_name>")
             {
                 int pointer = resolutionTreeCalcArray(node_index);
@@ -113,12 +115,15 @@ namespace LanguageSpecifications
         int Softj::resolutionTreeCalcInt(int node_index)
         {
 
+            printf("resolutionTreeCalcInt a %d\n", node_index);
+
             Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             if (current_node.children.size() == 1)
             {
                 int r = resolutionTreeCalcInt(current_node.children[0]);
                 return r;
             }
+            printf("resolutionTreeCalcInt b %d\n", node_index);
 
             if (hasMapKey(function_message_passing_map, node_index))
             {
@@ -138,11 +143,13 @@ namespace LanguageSpecifications
 
                 return rv_val;
             }
+            printf("resolutionTreeCalcInt c %d\n", node_index);
 
             if (current_node.token == "<function_message_passing>")
             {
                 return resolutionTreeCalcInt(current_node.children[0]);
             }
+            printf("resolutionTreeCalcInt d %d\n", node_index);
 
             if (current_node.parent_token == "<value_name>" || current_node.parent_token == "<number>" || current_node.token == "<array_name>")
             {
@@ -154,12 +161,14 @@ namespace LanguageSpecifications
 
             Syntactic::SyntacticTreeNode child_left = getTreeNode(current_node.children[0]);
             Syntactic::SyntacticTreeNode child_right = getTreeNode(current_node.children[1]);
-
+            printf("resolutionTreeCalcInt e %d\n", node_index);
             int left;
             int right;
 
             left = resolutionTreeCalcInt(current_node.children[0]);
+            printf("resolutionTreeCalcInt f %d\n", node_index);
             right = resolutionTreeCalcInt(current_node.children[1]);
+            printf("resolutionTreeCalcInt g %d\n", node_index);
             string token = current_node.token;
 
             int ans;

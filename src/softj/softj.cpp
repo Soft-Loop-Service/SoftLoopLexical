@@ -21,7 +21,21 @@ namespace LanguageSpecifications
             this->fpu = &fpu;
             this->return_baton = {};
             this->function_bation = {};
+            this->recursion_processing_depth = 0;
             setupBuidInFunction();
+        }
+
+        int Softj::getRecursionDeep()
+        {
+            return recursion_processing_depth;
+        }
+        void Softj::recursionDeep()
+        {
+            recursion_processing_depth++;
+        }
+        void Softj::recursionShallow()
+        {
+            recursion_processing_depth--;
         }
 
         FunctionMessagePassing Softj::getFunctionMessagePassingMap(int index)

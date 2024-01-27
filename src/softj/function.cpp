@@ -94,8 +94,17 @@ namespace LanguageSpecifications
 
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_logic, "関数実行", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr);
+            recursionDeep();
+
+            if (getRecursionDeep() > 1000)
+            {
+                throw "再帰関数エラー";
+                return;
+            }
 
             recursion(recursion_node);
+
+            recursionShallow();
 
             ProcessVisualization::ProcessAnalysis pr2(ProcessVisualization::is_id_process_type_logic, "関数終了", depth, function_name_node_index);
             process_timeline->pushProcessAnalysis(pr2);

@@ -1,8 +1,10 @@
-int a = 0;
-int b = 1;
+int i = 0;
 
-while (b < 100){
-    int temp = b;
-    b = a + b;
-    a = temp;
+int a (){
+    if (i < 25){
+        a();
+        i = i + 1;
+    }
 }
+
+a();

@@ -39,6 +39,8 @@ namespace LanguageSpecifications
             vReturnBaton return_baton;
             vFunctionBaton function_bation;
 
+            int recursion_processing_depth = 0;
+
             bool is_action_return = false;
 
             bool getBool(int val)
@@ -93,6 +95,10 @@ namespace LanguageSpecifications
             void setupBuidInFunction();
             void callBuildInFcuntion(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
             void randomFunction(ProcessVisualization::FunctionUnit function_unit, FunctionMessagePassing fmp);
+
+            void recursionDeep();
+            void recursionShallow();
+            int getRecursionDeep();
 
             template <typename T>
             bool resolutionCalcValue(int node_index, T &rv_value)
