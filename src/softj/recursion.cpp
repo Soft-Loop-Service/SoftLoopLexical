@@ -87,6 +87,14 @@ namespace LanguageSpecifications
                 resolutionTreeCalcArray(node_index);
                 return;
             }
+
+            if (current_node.token == "<function_message_passing>")
+            {
+                int left_node_index = current_node.children[0];
+                resolutionCalcFunction(left_node_index);
+                return;
+            }
+
             // 単独でvalue_nameが存在する場合は、関数呼び出し等である
             if (current_node.parent_token == "<value_name>")
             {

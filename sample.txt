@@ -1,10 +1,10 @@
 int i = 0;
 
-int a (){
-    if (i < 25){
-        a();
-        i = i + 1;
+int a (int k){
+    if (k < 3){
+        k = k + 1;
+        a(k);
     }
 }
 
-a();
+a(0);
