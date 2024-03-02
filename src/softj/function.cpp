@@ -28,7 +28,7 @@ namespace LanguageSpecifications
                 if (ve.type == "unsettled")
                 {
                     string new_type = vpu->getType(ve.token);
-                    printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
+                    //printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
                     types.push_back(new_type);
                     continue;
                 }
@@ -37,7 +37,7 @@ namespace LanguageSpecifications
             }
             ProcessVisualization::FunctionUnit function_unit = fpu->getFunction(fmp.function_name, types);
 
-            printf("対象関数の特定 %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode());
+            //printf("対象関数の特定 %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode());
 
             return function_unit;
         }
@@ -52,14 +52,14 @@ namespace LanguageSpecifications
                 ValueEnumeration passing_argument = fmp.argument[i];
                 ProcessVisualization::Argument function_argument = function_argument_vector[i];
 
-                printf("オーバーライドの解決 %s : %s %s\n", passing_argument.type.c_str(), function_argument.type.c_str(), function_argument.name.c_str());
+                //printf("オーバーライドの解決 %s : %s %s\n", passing_argument.type.c_str(), function_argument.type.c_str(), function_argument.name.c_str());
 
                 string value_type = passing_argument.type;
 
                 if (passing_argument.type == "unsettled")
                 {
                     string new_type = vpu->getType(passing_argument.token);
-                    printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
+                    //printf("引数型の書き換え unsettled -> %s\n", new_type.c_str());
                     value_type = new_type;
                 }
 
@@ -120,7 +120,7 @@ namespace LanguageSpecifications
 
             ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_true, "関数呼び出し", vpu->getDepth(), node_index);
             process_timeline->pushProcessAnalysis(pr);
-            printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
+            //printf("変数の解決(引数) %s %d\n", current_node.token.c_str(), node_index);
 
             if (!hasMapKey(function_message_passing_map, node_index))
             {
@@ -129,7 +129,7 @@ namespace LanguageSpecifications
                 return;
             }
 
-            printf("関数呼び出し要求 %d\n", node_index);
+            //printf("関数呼び出し要求 %d\n", node_index);
             FunctionMessagePassing fmp = getFunctionMessagePassingMap(node_index);
             ProcessVisualization::FunctionUnit function_unit = searchFunctionMessagePassing(node_index);
 
@@ -137,17 +137,17 @@ namespace LanguageSpecifications
             {
                 ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "オーバーロードの失敗", vpu->getDepth(), node_index);
                 process_timeline->pushProcessAnalysis(pr);
-                printf("存在しない関数\n");
+                //printf("存在しない関数\n");
                 return;
             }
 
             if (function_unit.getFunctionNode() == -2)
             {
-                printf("空関数\n");
+                //printf("空関数\n");
                 return;
             }
 
-            printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
+            //printf("関数取得 %s %d %s %d\n", function_unit.getFunctionName().c_str(), function_unit.getFunctionNode(), fmp.function_name.c_str(), fmp.argument.size());
 
             vpu->deep(); // 引数解決層
             resolutionFunctionMessagePassing(function_unit, fmp);

@@ -16,7 +16,7 @@ namespace LanguageSpecifications
         {
             if (length_list.size() <= depth)
             {
-                printf("配列末端 %d %s\n", pointer, array_type.c_str());
+                //printf("配列末端 %d %s\n", pointer, array_type.c_str());
 
                 if (array_type == "string")
                 {
@@ -51,7 +51,7 @@ namespace LanguageSpecifications
 
             int length = resolutionTreeCalcInt(node_index);
             length_list.push_back(length);
-            printf("length %d\n", length);
+            //printf("length %d\n", length);
             return;
         }
 
@@ -73,7 +73,7 @@ namespace LanguageSpecifications
             resolutionCalcArrayLength(array_len_node_index, length_list);
             resolutionCalcMakeArray(pointer, length_list, type, 0);
 
-            printf("resolutionCalcNewArray %d %d\n", node_index, pointer);
+            //printf("resolutionCalcNewArray %d %d\n", node_index, pointer);
 
             return;
         }
@@ -96,11 +96,11 @@ namespace LanguageSpecifications
 
             int array_pointer;
             vpu->getPointer(array_index_node.token, array_pointer);
-            printf("配列アドレスの解決 %s %d\n", array_index_node.token.c_str(), array_pointer);
+            //printf("配列アドレスの解決 %s %d\n", array_index_node.token.c_str(), array_pointer);
 
             if (!(vpu->hasArrayPointer(array_pointer)))
             {
-                printf("配列アドレスの解決(hasArrayPointer失敗)\n");
+                //printf("配列アドレスの解決(hasArrayPointer失敗)\n");
                 ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "未定義配列アクセス", vpu->getDepth(), node_index);
                 process_timeline->pushProcessAnalysis(pr);
                 pointer = -1;
@@ -114,11 +114,11 @@ namespace LanguageSpecifications
                 if (length_list[i] < pointers.size())
                 {
                     array_pointer = pointers[length_list[i]];
-                    printf("配列アドレスの解決(次元) %d %d\n", length_list[i], array_pointer);
+                    //printf("配列アドレスの解決(次元) %d %d\n", length_list[i], array_pointer);
                 }
                 else
                 {
-                    printf("配列アドレスの解決(失敗)\n");
+                    //printf("配列アドレスの解決(失敗)\n");
                     ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_error, "配列範囲外アクセス(要素)", vpu->getDepth(), node_index);
                     process_timeline->pushProcessAnalysis(pr);
                     pointer = -1;

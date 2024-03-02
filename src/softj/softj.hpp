@@ -105,10 +105,10 @@ namespace LanguageSpecifications
             {
                 Syntactic::SyntacticTreeNode current_node = (*syntactic_analysis_tree)[node_index];
 
-                printf("変数の解決 %s %d\n", current_node.token.c_str(), node_index);
+                //printf("変数の解決 %s %d\n", current_node.token.c_str(), node_index);
 
                 string value_name = current_node.token;
-                printf("cal get %s\n", value_name.c_str());
+                //printf("cal get %s\n", value_name.c_str());
                 T val;
                 vpu->getValue(value_name, val);
 

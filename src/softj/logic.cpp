@@ -43,15 +43,15 @@ namespace LanguageSpecifications
 
         int Softj::ifCalc(int node_index)
         {
-            printf("ifCalc\n");
+            //printf("ifCalc\n");
             Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             int child0_node_index = current_node.children[0];
             Syntactic::SyntacticTreeNode child0 = getTreeNode(child0_node_index);
             // Syntactic::SyntacticTreeNode child1 = getTreeNode(current_node.children[1]];
             // Syntactic::SyntacticTreeNode child2 = getTreeNode(current_node.children[2]];
-            printf("ifCalc 条件解析\n");
+            //printf("ifCalc 条件解析\n");
             int calc_ans = resolutionTreeCalcInt(current_node.children[1]);
-            printf("ifCalc 条件解析結果  : %d\n", calc_ans);
+            //printf("ifCalc 条件解析結果  : %d\n", calc_ans);
             bool ifbool = getBool(calc_ans);
 
             if (ifbool)

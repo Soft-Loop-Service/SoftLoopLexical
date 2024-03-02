@@ -20,13 +20,13 @@ namespace ProcessVisualization
         this->argument_value = argument_value;
         this->function_node = function_node;
 
-        printf("FunctionUnit  %s %s %d arg :", function_name.c_str(), return_type.c_str(), function_node);
+        //print("FunctionUnit  %s %s %d arg :", function_name.c_str(), return_type.c_str(), function_node);
 
         for (int i = 0; i < argument_value.size(); i++)
         {
-            printf("%s %s ,", argument_value[i].name.c_str(), argument_value[i].type.c_str());
+            //print("%s %s ,", argument_value[i].name.c_str(), argument_value[i].type.c_str());
         }
-        printf("\n");
+        //print("\n");
     }
     void FunctionUnit::setBuiltInFunction(int function_id)
     {

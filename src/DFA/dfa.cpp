@@ -279,9 +279,9 @@ namespace DFAParse
 
         recursionDFA(deployment_syntax, dfa_node_graph, 0);
 
-        outputDFA(dfa_node_graph);
+        //outputDFA(dfa_node_graph);
 
-        printf("処理終了\n");
+        //printf("処理終了\n");
 
         return dfa_node_graph;
     }

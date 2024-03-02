@@ -21,7 +21,7 @@ namespace LanguageSpecifications
             {
                 struct ValueEnumeration ve = {"unsettled", node_index, node.token};
                 args_type.push_back(ve);
-                printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
+                //printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                 return;
             }
 
@@ -30,7 +30,7 @@ namespace LanguageSpecifications
                 struct ValueEnumeration ve = {"int", node_index, node.token};
 
                 args_type.push_back(ve);
-                printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
+                //printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace LanguageSpecifications
             {
                 struct ValueEnumeration ve = {"string", node_index, node.token};
                 args_type.push_back(ve);
-                printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
+                //printf("preparationValueEnumeration %s %d\n", ve.type.c_str(), node_index);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace LanguageSpecifications
 
             struct FunctionMessagePassing fmp = {node_left.token, child_node_left_index, args_type};
 
-            printf("preparationFunctionMessagePassing %d %d %s %d\n", child_node_left_index, child_node_right_index, node_left.token.c_str(), args_type.size());
+            //printf("preparationFunctionMessagePassing %d %d %s %d\n", child_node_left_index, child_node_right_index, node_left.token.c_str(), args_type.size());
 
             function_message_passing_map[child_node_left_index] = fmp;
         }
@@ -109,7 +109,7 @@ namespace LanguageSpecifications
 
             // 引数一覧
             extractArgument(arg_node, extract_args);
-            printf("preparationFunction %s %s %d\n", function_definition.name.c_str(), function_definition.type.c_str(), node_index);
+            //printf("preparationFunction %s %s %d\n", function_definition.name.c_str(), function_definition.type.c_str(), node_index);
             ProcessVisualization::FunctionUnit function_unit(function_definition.name, function_definition.type, extract_args, block_node);
             fpu->addFunction(function_unit);
         }

@@ -40,14 +40,14 @@ namespace LanguageSpecifications
             int max;
             vpu->getValue("min", min);
             vpu->getValue("max", max);
-            printf("min max %d %d %d\n", min, max);
+            //printf("min max %d %d %d\n", min, max);
 
             std::random_device rd;
             std::default_random_engine eng(rd());
             std::uniform_int_distribution<int> distr(min, max);
 
             int rn_int = distr(eng);
-            printf("min max rn_int %d %d %d\n", min, max, rn_int);
+            //printf("min max rn_int %d %d %d\n", min, max, rn_int);
 
             ReturnBaton rb;
             rb.setValue(rn_int);

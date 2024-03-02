@@ -63,7 +63,7 @@ namespace LanguageSpecifications
             try
             {
                 preparationTree();
-                printf("recursion start\n");
+                //printf("recursion start\n");
                 recursion(0);
             }
             catch (...)
@@ -71,6 +71,8 @@ namespace LanguageSpecifications
                 ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_language_error, "言語処理系異常検出", vpu->getDepth(), 0);
                 process_timeline->pushProcessAnalysis(pr);
                 cout << "catch exception" << endl;
+
+                printf("（例外）：言語処理");
             }
         };
     }

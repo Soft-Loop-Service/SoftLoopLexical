@@ -17,7 +17,7 @@ namespace LanguageSpecifications
             Syntactic::SyntacticTreeNode current_node = getTreeNode(node_index);
             string token = current_node.token;
 
-            printf("node_index %d\n", node_index);
+            //printf("node_index %d\n", node_index);
 
             if (return_baton.size() > 0)
             {
@@ -34,7 +34,7 @@ namespace LanguageSpecifications
             {
                 int rv_index = current_node.children[1];
                 Syntactic::SyntacticTreeNode c_node = getTreeNode(rv_index);
-                printf("リターン解析(戻り値あり) %d : %d %d\n", node_index, rv_index, function_bation.size());
+                //printf("リターン解析(戻り値あり) %d : %d %d\n", node_index, rv_index, function_bation.size());
                 if (function_bation.size() > 0)
                 {
                     string rv_type = function_bation[function_bation.size() - 1].return_type;

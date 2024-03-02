@@ -309,7 +309,7 @@ namespace ProcessVisualization
         {
             string type = getValueTypeTable(layer);
             variable_possession->add(layer, element);
-            printf("updateValueNoCheck\n");
+            //printf("updateValueNoCheck\n");
         }
 
         template <typename T>

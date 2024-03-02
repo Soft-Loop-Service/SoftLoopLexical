@@ -1,6 +1,6 @@
 int size = 100;
-int []data = new int [size];
-int []resultData = new int[2][size];
+int [] data = new int [size];
+int [] resultData = new int[2][size];
 
 int i = 0;
 i  = 0;

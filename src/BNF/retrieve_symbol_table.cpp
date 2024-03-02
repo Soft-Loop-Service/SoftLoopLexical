@@ -12,7 +12,7 @@ namespace BNFParse
 
             if (strncmp(old, current, bnf_token_len) == 0)
             {
-                printf("重複検知 %s\n", current);
+                //printf("重複検知 %s\n", current);
                 return true;
             }
         }

@@ -1,0 +1,9 @@
+void A(int a){
+    int c = a;
+    return;
+    int b = 3;
+
+    c = b + a;
+}
+
+A(4);

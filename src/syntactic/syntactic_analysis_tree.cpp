@@ -24,7 +24,7 @@ namespace Syntactic
     void recursionSyntacticAnalysisTreeDFS(vSyntacticTree &syntactic_analysis_tree, LRTable::vReduceFormula &syntactic_analysis_formula, LexicalAnalysis::vLexicalToken token_string_vector, int &search_first_index, int parent_node_index, int depth)
     {
 
-        printf("探索 現在:%d 親:%d\n", search_first_index, parent_node_index);
+        //printf("探索 現在:%d 親:%d\n", search_first_index, parent_node_index);
 
         LRTable::ReduceFormula current_reduce_formula = syntactic_analysis_formula[search_first_index];
 
@@ -44,7 +44,7 @@ namespace Syntactic
             syntactic_analysis_tree[parent_node_index].children.insert(it_0, new_current_index);
             syntactic_analysis_tree[new_current_index].parent_token = syntactic_analysis_tree[parent_node_index].token;
 
-            printf("接続 %d - %d\n", parent_node_index, new_current_index);
+            //printf("接続 %d - %d\n", parent_node_index, new_current_index);
         }
 
         // 親ノードがnumberであるならば、末端記号ノードも数字である。
@@ -55,7 +55,7 @@ namespace Syntactic
 
             if (bnf.label == is_id_TerminalSymbol)
             {
-                printf("node_type : %s\n", current_reduce_formula.token_left.c_str());
+                //printf("node_type : %s\n", current_reduce_formula.token_left.c_str());
 
                 struct SyntacticTreeNode new_node_terminal = {bnf.token_str, is_id_TerminalSymbol, {}, current_reduce_formula.token_left};
                 syntactic_analysis_tree.push_back(new_node_terminal);
@@ -77,18 +77,18 @@ namespace Syntactic
         {
             SyntacticTreeNode node = syntactic_analysis_tree[i];
 
-            printf("node %d * * * * \n", i);
-            printf("token %s\n", node.token.c_str());
-            printf("token label %d\n", node.token_label);
-            printf("parent token %s\n", node.parent_token.c_str());
+            //printf("node %d * * * * \n", i);
+            //printf("token %s\n", node.token.c_str());
+            //printf("token label %d\n", node.token_label);
+            //printf("parent token %s\n", node.parent_token.c_str());
 
-            printf("children ");
+            //printf("children ");
             for (int j = 0; j < node.children.size(); j++)
             {
-                printf("%d ", node.children[j]);
+                //printf("%d ", node.children[j]);
             }
 
-            printf("\n\n");
+            //printf("\n\n");
         }
     }
 
@@ -136,6 +136,6 @@ namespace Syntactic
         recursionSyntacticAnalysisTreeDFS(syntactic_analysis_tree, syntactic_analysis_formula, token_string_vector, last, -1, 0);
         syntacticAnalysisTreeSubstitution(syntactic_analysis_formula, syntactic_analysis_tree, token_string_vector);
 
-        debugSyntacticAnalysisTree(syntactic_analysis_tree);
+        // debugSyntacticAnalysisTree(syntactic_analysis_tree);
     }
 };

@@ -173,7 +173,7 @@ namespace ProcessVisualization
             {
                 int v = layer_scope[li][value_name].size() - 1;
                 int layer = layer_scope[li][value_name][v];
-                printf("search layer : %d %d %s %d %d\n", layer, li, value_name.c_str(), v, layer_scope[li][value_name].size());
+                //printf("search layer : %d %d %s %d %d\n", layer, li, value_name.c_str(), v, layer_scope[li][value_name].size());
                 return layer;
             }
         }
@@ -212,8 +212,8 @@ namespace ProcessVisualization
         {
             ProcessAnalysis current = process_result[i];
 
-            printf("%d : %2s %s : ", i, current.process_type.c_str(), current.message.c_str());
-            printf("\n");
+            //print("%d : %2s %s : ", i, current.process_type.c_str(), current.message.c_str());
+            //print("\n");
         }
     }
 

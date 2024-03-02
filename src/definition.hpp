@@ -63,7 +63,7 @@ inline bool hasKeyMap(vector<T> keys, T key)
     {
         if (keys[i] == key)
         {
-            // printf("hasKeyMap %s %s\n", keys[i].c_str(), key.c_str());
+            // //printf("hasKeyMap %s %s\n", keys[i].c_str(), key.c_str());
             return true;
         }
         /* code */
@@ -132,9 +132,9 @@ inline int resizeArray(int *data, int len)
     int *newdata = (int *)calloc(len, sizeof(int));
     memcpy(newdata, data, size);
     data = newdata;
-    printf("resizeArray %d\n", data[0]);
+    //printf("resizeArray %d\n", data[0]);
 
-    printf("resize int array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
+    //printf("resize int array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(int));
     return size;
 }
 
@@ -146,13 +146,13 @@ inline int resizeArray(char **str, int len)
 
     if (newstr == NULL)
     {
-        printf("resize char array error : 再配置できません 再配置要求 %d -> %d\n", len, size);
+        //printf("resize char array error : 再配置できません 再配置要求 %d -> %d\n", len, size);
         return len;
     }
 
     str = newstr;
 
-    printf("resize char array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
+    //printf("resize char array ok : resize %d -> %d sizeof %ld\n", len, size, sizeof(char **));
 
     return size;
 }
@@ -162,7 +162,7 @@ inline void loadText(char *text, const char *file_name, int size)
 {
     FILE *fp = fopen(file_name, "rb");
     int read_size = fread(text, 1, size - 1, fp);
-    printf("read_size : %s %d\n", file_name, read_size);
+    //printf("read_size : %s %d\n", file_name, read_size);
 
     fclose(fp);
     text[read_size] = '\0'; // 終端マーク 別に配列終端でなくてよい

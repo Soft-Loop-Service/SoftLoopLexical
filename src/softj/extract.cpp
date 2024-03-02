@@ -18,7 +18,7 @@ namespace LanguageSpecifications
             Syntactic::SyntacticTreeNode node = getTreeNode(node_index);
             Syntactic::SyntacticTreeNode node_left = getTreeNode(node.children[0]);
             Syntactic::SyntacticTreeNode node_right = getTreeNode(node.children[1]);
-            printf("extractValueDefinition %s %s %d\n", node_left.token.c_str(), node_right.token.c_str(), node_index);
+            //printf("extractValueDefinition %s %s %d\n", node_left.token.c_str(), node_right.token.c_str(), node_index);
 
             struct ProcessVisualization::Argument rvarg = {node_left.token, node_right.token};
 

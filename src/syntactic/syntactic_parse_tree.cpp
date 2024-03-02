@@ -32,7 +32,7 @@ namespace Syntactic
 
         if (strchr("=+-/*%", token[0]) != 0)
         {
-            printf("isTokenExpr\n");
+            //printf("isTokenExpr\n");
             return true;
         }
 
@@ -83,7 +83,7 @@ namespace Syntactic
         SyntacticTreeNode new_node = syntactic_parse_tree[is_cut];
         new_node.children = current_node.children;
 
-        printf("二分木構築 %d -> %d %ld %ld\n", current_node_index, is_cut, syntactic_parse_tree.size(), new_node.children.size());
+        //printf("二分木構築 %d -> %d %ld %ld\n", current_node_index, is_cut, syntactic_parse_tree.size(), new_node.children.size());
         auto it = new_node.children.begin();
         it += 1;
         new_node.children.erase(it);
@@ -130,7 +130,7 @@ namespace Syntactic
     // CSTに埋め込まれている、token-typeを入力された構文に戻す関数
     void recursionSyntacticParseTree(vSyntacticTree &syntactic_parse_tree, int current_node_index)
     {
-        printf("recursionSyntacticParseTree %d\n", current_node_index);
+        //printf("recursionSyntacticParseTree %d\n", current_node_index);
 
         SyntacticTreeNode current_node = syntactic_parse_tree[current_node_index];
 
@@ -140,7 +140,7 @@ namespace Syntactic
             int child = syntactic_parse_tree[current_node_index].children[i];
             int new_child = recursionCutSyntacticParseTree(syntactic_parse_tree, child);
 
-            printf("node %d %d child change %d -> %d\n", current_node_index, i, child, new_child);
+            //printf("node %d %d child change %d -> %d\n", current_node_index, i, child, new_child);
 
             if (new_child == -1)
             {
@@ -165,6 +165,6 @@ namespace Syntactic
     {
         recursionSyntacticParseTree(syntactic_parse_tree, 0);
         recursionCutExpr(syntactic_parse_tree, 0);
-        debugSyntacticAnalysisTree(syntactic_parse_tree);
+        // debugSyntacticAnalysisTree(syntactic_parse_tree);
     }
 }

@@ -46,7 +46,7 @@ namespace LanguageSpecifications
 
             if (current_left_node.token == "<value_definition>")
             {
-                printf("assExpr %d %d %d %s\n", left_index, current_left_node.children[0], current_left_node.children[1], current_left_node.token.c_str());
+                //printf("assExpr %d %d %d %s\n", left_index, current_left_node.children[0], current_left_node.children[1], current_left_node.token.c_str());
 
                 Syntactic::SyntacticTreeNode child_left = getTreeNode(current_left_node.children[0]);
                 Syntactic::SyntacticTreeNode child_right = getTreeNode(current_left_node.children[1]);
@@ -73,7 +73,7 @@ namespace LanguageSpecifications
                     int value_int = resolutionTreeCalcInt(right_index);
                     vpu->newValue(value_name, value_int, left_index);
                     value_ans = to_string(value_int);
-                    printf("value_ans %d\n", value_int);
+                    //printf("value_ans %d\n", value_int);
                 }
 
                 ProcessVisualization::ProcessAnalysis pr(ProcessVisualization::is_id_process_type_ouput, "変数定義", vpu->getDepth(), left_index);
@@ -92,7 +92,7 @@ namespace LanguageSpecifications
 
                 string value_type = vpu->getType(pointer);
                 string value_ans = "";
-                printf("array_name value_ans %d %s\n", pointer, value_type.c_str());
+                //printf("array_name value_ans %d %s\n", pointer, value_type.c_str());
 
                 if (value_type == "string")
                 {

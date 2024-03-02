@@ -8,7 +8,7 @@
 inline int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_multilayer)
 {
     std::ifstream ifs(table_file);
-    printf("inputTable\n");
+    //printf("inputTable\n");
 
     string table_accept_string;
     string table_goto_string;
@@ -21,16 +21,16 @@ inline int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_mu
     }
     getline(ifs, table_accept_string);
 
-    printf("%s\n", table_accept_string.c_str());
+    //printf("%s\n", table_accept_string.c_str());
 
     getline(ifs, table_goto_string);
-    printf("%s\n", table_goto_string.c_str());
+    //printf("%s\n", table_goto_string.c_str());
 
     getline(ifs, table_reduce_string);
-    printf("%s\n", table_reduce_string.c_str());
+    //printf("%s\n", table_reduce_string.c_str());
 
     getline(ifs, table_shift_string);
-    printf("%s\n", table_shift_string.c_str());
+    //printf("%s\n", table_shift_string.c_str());
 
     LR_table_multilayer = LRTable::LRTableMultilayer{
         LRTable::LRTableMakeGoto<LRTable::LRTableGotoCell>(table_goto_string),
@@ -43,7 +43,7 @@ inline int inputTable(string table_file, LRTable::LRTableMultilayer &LR_table_mu
     LR_table_multilayer.LR_table_reduce.debug();
     LR_table_multilayer.LR_table_accept.debug();
 
-    printf("inputTable end\n");
+    //printf("inputTable end\n");
 }
 
 #endif

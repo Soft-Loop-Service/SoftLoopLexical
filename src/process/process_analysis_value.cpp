@@ -209,7 +209,7 @@ namespace ProcessVisualization
             max_layer++;
         }
         pointer_value_table[array_pointer] = child_pointers;
-        printf("newArray %d %d\n", array_pointer, child_pointers.size());
+        //printf("newArray %d %d\n", array_pointer, child_pointers.size());
 
         return child_pointers;
     }
@@ -242,7 +242,7 @@ namespace ProcessVisualization
             string type = "pointer";
             setValueTypeTable(current_layer, type);
 
-            printf("newPointerValue %d %d\n", current_layer, pointer);
+            // printf("newPointerValue %d %d\n", current_layer, pointer);
             updateValue(current_layer, pointer);
 
             struct VariableProcessEnumeration new_variable_enumeration = {type, name, current_layer, definition_node};

@@ -368,10 +368,10 @@ namespace HTMLParse
                 timelineRightArea(i, timeline_right_scroll_index, pr);
             }
 
-            printf("タイムライン木構造変換\n");
+            //printf("タイムライン木構造変換\n");
 
             string html_txt = html_kit_tree.parseHtml();
-            printf("timeline area %s\n", html_txt.c_str());
+            //printf("timeline area %s\n", html_txt.c_str());
             return html_txt;
             // return html_txt;
         }
