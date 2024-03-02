@@ -71,6 +71,11 @@ namespace Syntactic
     }
     // syntactic_analysis_formula
 
+
+    bool checkLrTableSize(LRTable::LRTableMultilayer LR_table_multilayer, int x , int y){
+
+    }
+
     /// @param LR_table_multilayer
     /// @param token_string_vector
     /// @param syntactic_analysis_formula // 構文解析表出力。出力ストリーム
@@ -88,7 +93,6 @@ namespace Syntactic
             string current_token_type = token_string_vector[i].token_type;
 
             int top = stack_analysis.top();
-            //printf("CurrentToken %s %s %d\n", current_token.c_str(), current_token_type.c_str(), top);
 
             string inquiry_token_accept = LR_table_multilayer.LR_table_accept.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
             string inquiry_token_shift = LR_table_multilayer.LR_table_shift.LR_table_column_map.count(current_token) != 0 ? current_token : current_token_type;
@@ -96,9 +100,6 @@ namespace Syntactic
 
             if (LR_table_multilayer.LR_table_accept.LR_table_column_map[inquiry_token_accept][top].getValid())
             {
-                //printf("acc \n");
-                output_stack("構文解析 終了", stack_analysis);
-                output_vReduceFormula("構文解析 終了", syntactic_analysis_formula);
                 return;
             }
 
@@ -106,8 +107,6 @@ namespace Syntactic
             {
                 //printf("shift \n");
                 syntacticAnalysisProcessShift(LR_table_multilayer, inquiry_token_shift, stack_analysis);
-                output_stack("構文解析", stack_analysis);
-                output_vReduceFormula("構文解析", syntactic_analysis_formula);
 
                 //printf("\n");
                 i++;
@@ -119,8 +118,6 @@ namespace Syntactic
                 //printf("reduce \n");
 
                 syntacticAnalysisProcessReduce(LR_table_multilayer, inquiry_token_reduce, stack_analysis, syntactic_analysis_formula);
-                output_stack("構文解析", stack_analysis);
-                output_vReduceFormula("構文解析", syntactic_analysis_formula);
 
                 //printf("\n");
                 continue;
@@ -129,6 +126,7 @@ namespace Syntactic
             exit(1);
             return;
         }
+
 
         return;
     }
