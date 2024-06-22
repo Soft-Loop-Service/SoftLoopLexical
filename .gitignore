@@ -2,8 +2,9 @@
 ./.DS_Store
 ./output.txt
 ./test.html
-./table.txt
+
 
 output.txt
 test.html
-table.txt
+table.out
+./table.out
